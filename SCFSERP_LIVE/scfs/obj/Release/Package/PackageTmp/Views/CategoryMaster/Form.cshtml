@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewBag.Title = "Category Master";
+}
+
+<div class="col-lg-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>  Category Master  <a class="pull-right"> </a><div class="clearfix"> </div></div>
+        </div>
+
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-body">
+                    <form id="itemmaster">
+                        <div class="panel-body fusion_frm">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <input type="text" id="primary" class="hidden" value="@ViewBag.primary" />
+                                                <div class="panel with-nav-tabs panel-success">
+                                                    <div class="panel-heading" style="margin-bottom:0;padding-bottom:0; background-color:#3a3838;" id="mytab">
+                                                        <ul class="nav nav-tabs" style="border-bottom:none">
+                                                            <li><a href="#BasicDetails" class="tab1" data-toggle="tab" data-tab-url="@Url.Action("Form", "CategoryBasicDetails")/@ViewBag.primary">Basic Details</a></li>
+                                                            <li><a href="#CategoryAddressDetails" class="tab8" data-toggle="tab" data-tab-url="@Url.Action("Form", "CategoryAddressDetails")/@ViewBag.primary">Address Details</a></li>
+                                                            
+                                                        </ul>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane fade in active" id="BasicDetails">Basic Details</div>
+                                                            <div class="tab-pane fade" id="CategoryAddressDetails">Address Details</div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+@section scripts{
+
+    <script>
+        $(window).bind("load", function () {
+
+            $(".panel-heading ul li a.tab1").click();
+            var url = location.href;
+            if ($("#primary").val() == "") {
+                $("#mytab ul li").addClass("disabled");
+            }
+
+            if (url.indexOf('-c') != -1) {
+                $("#mytab ul li").addClass("disabled");
+
+
+            }
+        });
+
+
+        $('.nav-tabs li a').click(function (e) {
+
+            var url = location.href;
+
+            if ($(".nav-tabs li").hasClass('disabled')) {
+
+                return false;
+            }
+
+            $('.tab-content #BasicDetails').html("");
+            $('.tab-content #CategoryAddressDetails').html("");
+            
+
+            e.preventDefault();
+
+            var url = $(this).attr("data-tab-url");
+            var href = this.hash;
+            var pane = $(this);
+
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+
+            if (activeTab) {
+                $('#myTab a[href="' + activeTab + '"]').tab('show');
+            }
+
+
+            //alert(url);
+            //alert(href);
+            //alert(activeTab);
+            // alert(href + ".." + url);
+            // ajax load from data-url
+
+
+            $(href).load(url, function (result) {
+                //alert(pane);
+                pane.tab('show');
+            });
+
+            //$('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            //    localStorage.setItem('activeTab', $(e.target).attr('href'));
+            //});
+            //var activeTab1 = localStorage.getItem('activeTab');
+
+            //$(activeTab1).load(url, function (result) {
+            //    //alert(pane);
+            //    pane.tab('show');
+            //});
+
+            //if (activeTab) {
+            //    $('#myTab a[href="' + activeTab + '"]').tab('show');
+            //}
+
+
+
+
+        });
+
+            //   $(".nav nav-tabs li").attr("href");
+    </script>
+}

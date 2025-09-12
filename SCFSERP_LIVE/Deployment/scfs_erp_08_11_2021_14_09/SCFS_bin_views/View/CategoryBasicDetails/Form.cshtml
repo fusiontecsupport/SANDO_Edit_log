@@ -1,0 +1,670 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.CategoryMaster
+
+@{
+    ViewBag.Title = "Category - Basic Detail";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Category Master</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/CategoryBasicDetails/savedata")" method="post" accept-charset="utf-8" id="CategoryBasicDetails" data-ng-controller="myController" name="CategoryBasicDetails">
+                    @*@Html.ValidationSummary(true)*@
+                    <fieldset id="CategoryMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.CATEID, new { @class = "form-control  CATEID", @id = "CATEID" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Category Type <span class="required-field"></span> </label>
+                                        @Html.DropDownList("CATETID", null, "Please Select An Option", new { @class = "form-control", @required = "required", tabIndex = "0" })
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Name<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.CATENAME, new { @class = "form-control  CATENAME", @id = "CATENAME", tabIndex = "2" })
+                                        <input type="text" value="@Model.CATENAME" name="i_CATENAME" hidden>
+                                        @*@Html.ValidationMessageFor(model => model.CATENAME)*@
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Printable Name  </label>
+                                        @Html.TextBoxFor(model => Model.CATEDNAME, new { @class = "form-control  CATEDNAME", @id = "CATEDNAME", tabIndex = "3" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.CATECODE, new { @class = "form-control  CATECODE", @id = "CATECODE", tabIndex = "1" })
+                                        <input type="text" value="@Model.CATECODE" name="i_CATECODE" hidden>
+                                        @*@Html.ValidationMessageFor(model => model.CATECODE)*@
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group hide">
+                                        <label>Branch Name  </label>
+                                        @Html.TextBoxFor(model => Model.CATEBNAME, new { @class = "form-control  CATEBNAME", @id = "CATEBNAME", tabIndex = "6" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*</div>*@
+
+                        <fieldset style="width:100%">
+
+                            <legend style="font-size:large">Contact Details</legend>
+
+
+                            <div class="col-lg-12">
+                                <div class="col-md-4 hide">
+                                    <div class="form-group">
+                                        <label>Address </label>
+                                        @Html.TextBoxFor(model => Model.CATEADDR, new { @class = "form-control  CATEADDR", @id = "CATEADDR", tabIndex = "4" })
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4 hide">
+                                    <div class="form-group">
+                                        <label>Pin Code</label>
+                                        @Html.TextBoxFor(model => Model.CATEPHNID, new { @class = "form-control  CATEPHNID", @id = "CATEPHNID", @maxLength = "4", tabIndex = "5" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div id="frmBranch" class="hide">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Branch Address</label>
+                                            @Html.TextBoxFor(model => Model.CATEBADDR, new { @class = "form-control  CATEBADDR", @id = "CATEBADDR", tabIndex = "7" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Branch State Name </label>
+                                            @Html.TextBoxFor(model => Model.CATEBSTATENAME, new { @class = "form-control  CATEBSTATENAME", @id = "CATEBSTATENAME", tabIndex = "8" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Branch Code </label>
+                                            @Html.TextBoxFor(model => Model.CATEBRNCHCODE, new { @class = "form-control  CATEBRNCHCODE", @id = "CATEBRNCHCODE", tabIndex = "8" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Branch Account Type </label>
+                                            @Html.TextBoxFor(model => Model.CATEBACCTYPE, new { @class = "form-control  CATEBACCTYPE", @id = "CATEBACCTYPE", tabIndex = "9" })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Contact Person </label>
+                                        @Html.TextBoxFor(model => Model.CATECPRSN, new { @class = "form-control  CATECPRSN", @id = "CATECPRSN", tabIndex = "9" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>CHA License No.  </label>
+                                        @Html.TextBoxFor(model => Model.CATELICNO, new { @class = "form-control  CATELICNO", @id = "CATELICNO", tabIndex = "10" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Bill No </label>
+                                        @Html.DropDownList("CATEBILLTYPE", null, new { @class = "form-control CATEBILLTYPE", @id = "CATEBILLTYPE", tabIndex = "11" })
+                                        @*@Html.ValidationMessageFor(model => model.DISPSTATUS)*@
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS", tabIndex = "-1" })
+                                        @*@Html.ValidationMessageFor(model => model.DISPSTATUS)*@
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Mobile 1</label>
+                                        @Html.TextBoxFor(model => Model.CATEPHN3, new { @class = "form-control  CATEPHN3", @id = "CATEPHN3", @maxlength = "15", tabIndex = "12" })
+                                        @*@Html.ValidationMessageFor(model => Model.CATEPHN3)*@
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Mobile 2</label>
+                                        @Html.TextBoxFor(model => Model.CATEPHN4, new { @class = "form-control  CATEPHN4", @id = "CATEPHN4", @maxlength = "15", tabIndex = "13" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Landline 1</label>
+                                        @Html.TextBoxFor(model => Model.CATEPHN1, new { @class = "form-control  CATEPHN1", @id = "CATEPHN1", tabIndex = "14" })
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Landline 2 </label>
+                                        @Html.TextBoxFor(model => Model.CATEPHN2, new { @class = "form-control  CATEPHN2", @id = "CATEPHN2", tabIndex = "15" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>E-Mail 1</label>
+                                        @Html.TextBoxFor(model => Model.CATEMAIL, new { @class = "form-control CATEMAIL", @id = "CATEMAIL", tabIndex = "16" })
+                                        @*@Html.ValidationMessageFor(model => Model.CATEMAIL)*@
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>E-Mail 2 </label>
+                                        @Html.TextBoxFor(model => Model.CATEMAIL2, new { @class = "form-control  CATEMAIL2", @id = "CATEMAIL2", tabIndex = "17" })
+                                        @*@Html.ValidationMessageFor(model => Model.CATEMAIL2)*@
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>E-Mail 3</label>
+                                        @Html.TextBoxFor(model => Model.CATEMAIL3, new { @class = "form-control CATEMAIL3", @id = "CATEMAIL3", tabIndex = "18" })
+                                        @*@Html.ValidationMessageFor(model => Model.CATEMAIL3)*@
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>E-Mail 4 </label>
+                                        @Html.TextBoxFor(model => Model.CATEMAIL4, new { @class = "form-control  CATEMAIL4", @id = "CATEMAIL4", tabIndex = "19" })
+                                        @*@Html.ValidationMessageFor(model => Model.CATEMAIL4)*@
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>E-Mail 5 </label>
+                                        @Html.TextBoxFor(model => Model.CATEMAIL5, new { @class = "form-control CATEMAIL5", @id = "CATEMAIL5", tabIndex = "20" })
+                                        @*@Html.ValidationMessageFor(model => Model.CATEMAIL5)*@
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>E-Mail 6 </label>
+                                        @Html.TextBoxFor(model => Model.CATEMAIL6, new { @class = "form-control  CATEMAIL6", @id = "CATEMAIL6", tabIndex = "21" })
+                                        @*@Html.ValidationMessageFor(model => Model.CATEMAIL6)*@
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>E-Mail 7 </label>
+                                        @Html.TextBoxFor(model => Model.CATEMAIL7, new { @class = "form-control CATEMAIL7", @id = "CATEMAIL7", tabIndex = "22" })
+                                        @*@Html.ValidationMessageFor(model => Model.CATEMAIL7)*@
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>E-Mail 8 </label>
+                                        @Html.TextBoxFor(model => Model.CATEMAIL8, new { @class = "form-control  CATEMAIL8", @id = "CATEMAIL8", tabIndex = "23" })
+                                        @*@Html.ValidationMessageFor(model => Model.CATEMAIL8)*@
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>E-Mail 9 </label>
+                                        @Html.TextBoxFor(model => Model.CATEMAIL9, new { @class = "form-control CATEMAIL9", @id = "CATEMAIL9", tabIndex = "24" })
+                                        @*@Html.ValidationMessageFor(model => Model.CATEMAIL9)*@
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>E-Mail 10 </label>
+                                        @Html.TextBoxFor(model => Model.CATEMAIL10, new { @class = "form-control  CATEMAIL10", @id = "CATEMAIL10", tabIndex = "25" })
+                                        @*@Html.ValidationMessageFor(model => Model.CATEMAIL10)*@
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </fieldset>
+
+                            <fieldset style="width:100%">
+
+                                <legend style="font-size:large">Other Details</legend>
+                                <div class="col-md-12">
+
+
+
+                                    <div class="col-md-4 hide">
+                                        <div class="form-group">
+                                            <label>Accounted head<span class="required-field"></span> </label>
+                                            @*@Html.DropDownList("ACHEADID", null, "Please Select An Option", new { @class = "form-control", @required = "required", tabIndex = "25" })*@
+                                            @Html.DropDownList("ACHEADID", null, new { @class = "form-control", @required = "required", tabIndex = "25" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 hide">
+                                        <div class="form-group">
+                                            <label>Tariff<span class="required-field"></span> </label>
+                                            @*@Html.DropDownList("TARIFFMID", null, "Please Select An Option", new { @class = "form-control", @required = "required", tabIndex = "26" })*@
+                                            @Html.DropDownList("TARIFFMID", null,  new { @class = "form-control", @required = "required", tabIndex = "26" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 hide">
+                                        <div class="form-group">
+                                            <label>HSN Code<span class="required-field"></span> </label>
+                                            @*@Html.DropDownList("HSNID", null, "Please Select An Option", new { @class = "form-control", tabIndex = "30" })*@
+                                            @Html.DropDownList("HSNID", null,  new { @class = "form-control", tabIndex = "30" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>TDS </label>
+                                            @Html.TextBoxFor(model => Model.CATETDSEXPRN, new { @class = "form-control  CATETDSEXPRN", @id = "CATETDSEXPRN", @onkepress = "return isNumberCommaDot(event)", tabIndex = "27" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Bill Type </label>
+                                            @Html.DropDownList("CATEBTYPE", null, new { @class = "form-control", tabIndex = "28" })
+
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Free Days </label>
+                                            @Html.TextBoxFor(model => Model.CATEFNOD, null, new { @class = "form-control CATEFNOD", @id = "CATEFNOD", tabIndex = "28" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Storage Calc Type.</label>
+                                            @Html.DropDownList("CATESTRCALCTYPE", null, new { @class = "form-control CATESTRCALCTYPE", @id = "CATESTRCALCTYPE", tabIndex = "29" })
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </fieldset>
+
+                            <fieldset style="width:100%" id="gstid" class="hidden">
+                                <legend style="font-size:large"> GST Details </legend>
+                                <div class="col-md-12">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>State<span class="required-field"></span> </label>
+                                            @Html.DropDownList("STATEID", null, "Please Select An Option", new { @class = "form-control", tabIndex = "31" })
+
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>GST No.  </label>
+                                            @Html.TextBoxFor(model => Model.CATEBGSTNO, new { @class = "form-control  CATEBGSTNO", @id = "CATEBGSTNO", tabIndex = "32" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>PAN No.   </label>
+                                            @Html.TextBoxFor(model => Model.CATEBPANNO, new { @class = "form-control  CATEBPANNO", @id = "CATEBPANNO", tabIndex = "33" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Account No.  </label>
+                                            @Html.TextBoxFor(model => Model.CATEBACCTNO, new { @class = "form-control  CATEBACCTNO", @id = "CATEBACCTNO", tabIndex = "34" })
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>RTGS Code.  </label>
+                                            @Html.TextBoxFor(model => Model.CATEBRTGSCODE, new { @class = "form-control  CATEBRTGSCODE", @id = "CATEBRTGSCODE", tabIndex = "35" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>NEFT Code.</label>
+                                            @Html.TextBoxFor(model => Model.CATEBNEFTCODE, new { @class = "form-control  CATEBNEFTCODE", @id = "CATEBNEFTCODE", tabIndex = "36" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>DS Code.</label>
+                                            @Html.TextBoxFor(model => Model.CATETDSCODE, new { @class = "form-control  CATETDSCODE", @id = "CATETDSCODE", tabIndex = "37" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>From.</label>
+                                            @Html.TextBoxFor(model => Model.CATEBFROM, new { @class = "form-control  CATEBFROM", @id = "CATEBFROM", tabIndex = "38" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>To.</label>
+                                            @Html.TextBoxFor(model => Model.CATEBTO, new { @class = "form-control  CATEBTO", @id = "CATEBTO", tabIndex = "39" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Rate.</label>
+                                            @Html.TextBoxFor(model => Model.CATETDSRATE, new { @class = "form-control  CATETDSRATE", @id = "CATETDSRATE", tabIndex = "40" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Vat No.</label>
+                                            @Html.TextBoxFor(model => Model.CATEBVATNO, new { @class = "form-control  CATEBVATNO", @id = "CATEBVATNO", tabIndex = "34" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Vat No.</label>
+                                            @Html.TextBoxFor(model => Model.CATEBVATNO, new { @class = "form-control  CATEBVATNO", @id = "CATEBVATNO", tabIndex = "34" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Cst No.</label>
+                                            @Html.TextBoxFor(model => Model.CATEBCSTNO, new { @class = "form-control  CATEBCSTNO", @id = "CATEBCSTNO", tabIndex = "34" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Cargo No.</label>
+                                            @Html.TextBoxFor(model => Model.CATEBCARGO, new { @class = "form-control  CATEBCARGO", @id = "CATEBCARGO", tabIndex = "34" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Tax No.</label>
+                                            @Html.TextBoxFor(model => Model.CATEBSTAXNO, new { @class = "form-control  CATEBSTAXNO", @id = "CATEBSTAXNO", tabIndex = "34" })
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Tan No.</label>
+                                            @Html.TextBoxFor(model => Model.CATEBTANNO, new { @class = "form-control  CATEBTANNO", @id = "CATEBTANNO", tabIndex = "34" })
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </fieldset>
+
+                            @*<fieldset style="width:100%">
+
+                                <legend style="font-size:large">
+                                    Transport Charges
+                                </legend>
+                                <div class="col-md-12">
+                                    
+                                </div>
+                            </fieldset>*@
+                            <div class="row">
+                                <div class="col-md-12 box-footer">
+
+                                    @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />
+                                        <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />*@
+
+                                    <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden" hidden />
+                                    <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs hide" id="btnssave" />
+                                    <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                                    <a href="@Url.Action("Index", "CategoryMaster")" class="btn btn-primary pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')" tabindex="4012">Go Back</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+        $(".CATENAME").keyup(function () {
+            $(".CATEDNAME").val($(".CATENAME").val());
+            $(".CATECODE").val($(".CATENAME").val().substring(0,3));
+        });
+
+        $(document).ready(function () {
+            var grpname = '@Session["Group"]';
+            // alert(grpname);
+            if (grpname == "SuperAdmin" || grpname == "Admin") {
+                document.getElementById("gstid").style.display = "block";
+            }
+            else {
+                document.getElementById("gstid").style.display = "none";
+            }
+
+            $('#HSNID').val(1);
+            $('#TARIFFMID').val(2);
+        });
+
+        $('#btnsave').click(function () {
+
+
+
+            if ($('#CATETID').val() == "") {
+                alert('Please Select Category Type !!');
+                $('#CATETID').focus();
+                return false;
+            }
+            if ($('#CATENAME').val() == "") {
+                alert('Please Enter Name !!');
+                $('#CATENAME').focus();
+                return false;
+            }
+            if ($('#CATECODE').val() == "") {
+                alert('Please Enter Code !!');
+                $('#CATECODE').focus();
+                return false;
+            }
+
+
+
+            var pdate = new Date();
+
+            if ($('#CATEID').val() == "") { $('#CATEID').val(0); }
+
+            if ($('#TARIFFMID').val() == "") { $('#TARIFFMID').val(2); }
+
+            if ($('#ACHEADID').val() == "") { $('#ACHEADID').val(143); }
+
+            if ($('#STATEID').val() == "") { $('#STATEID').val(1); }
+
+            if ($('#HSNID').val() == "") { $('#HSNID').val(1); }
+
+            if ($('#CATETDSEXPRN').val() == "") { $('#CATETDSEXPRN').val('0.00'); }
+
+            if ($('#CATEBTYPE').val() == "") { $('#CATEBTYPE').val(0); }
+
+            if ($('#CATEPHNID').val() == "") { $('#CATEPHNID').val('0000'); }
+
+            if ($('#CATEFNOD').val() == "") { $('#CATEFNOD').val('0.00'); }
+
+            if ($('#CATESTRCALCTYPE').val() == "") { $('#CATESTRCALCTYPE').val('0'); }
+
+            if ($('#CATEADDR').val() == "") { $('#CATEADDR').val('-'); }
+
+            var tab = {
+                CATEID: $('#CATEID').val(),
+                CATECODE: $('#CATECODE').val(),
+                CATENAME: $('#CATENAME').val(),
+                CATEDNAME: $('#CATEDNAME').val(),
+                CATEBILLTYPE: $('#CATEBILLTYPE').val(),
+                //Address
+                CATEADDR: $('#CATEADDR').val(),
+                CATEPHNID: $('#CATEPHNID').val(),
+                CATEBNAME: $('#CATEBNAME').val(),
+                CATEBADDR: $('#CATEBADDR').val(),
+                CATEBSTATENAME: $('#CATEBSTATENAME').val(),
+                CATEBRNCHCODE: $('#CATEBRNCHCODE').val(),
+                CATEBACCTYPE: $('#CATEBACCTYPE').val(),
+                CATEBACCTNO: $('#CATEBACCTNO').val(),
+                CATECPRSN: $('#CATECPRSN').val(),
+
+                //Phone
+                CATEPHN1: $('#CATEPHN1').val(),
+                CATEPHN2: $('#CATEPHN2').val(),
+                CATEPHN3: $('#CATEPHN3').val(),
+                CATEPHN4: $('#CATEPHN4').val(),
+
+                //Emaail
+                CATEMAIL: $('#CATEMAIL').val(),
+                CATEMAIL2: $('#CATEMAIL2').val(),
+                CATEMAIL3: $('#CATEMAIL3').val(),
+                CATEMAIL4: $('#CATEMAIL4').val(),
+                CATEMAIL5: $('#CATEMAIL5').val(),
+                CATEMAIL6: $('#CATEMAIL6').val(),
+                CATEMAIL7: $('#CATEMAIL7').val(),
+                CATEMAIL8: $('#CATEMAIL8').val(),
+                CATEMAIL9: $('#CATEMAIL9').val(),
+                CATEMAIL10: $('#CATEMAIL10').val(),
+
+                //others
+                CATETID: $('#CATETID').val(),
+                ACHEADID: $('#ACHEADID').val(),
+                TARIFFMID: $('#TARIFFMID').val(),
+                CATEBTYPE: $('#CATEBTYPE').val(),
+                CATETDSEXPRN: $('#CATETDSEXPRN').val(),
+                DISPSTATUS: $('#DISPSTATUS').val(),
+
+                //Gst
+                STATEID: $('#STATEID').val(),
+                HSNID: $('#HSNID').val(),
+                CATEGSTNO: $('#CATEGSTNO').val(),
+                CATEBNEFTCODE: $('#CATEBNEFTCODE').val(),
+                CATEBRTGSCODE: $('#CATEBRTGSCODE').val(),
+                CATETDSCODE: $('#CATETDSCODE').val(),
+                CATETDSRATE: $('#CATETDSRATE').val(),
+                CATEBFROM: $('#CATEBFROM').val(),
+                CATEBTO: $('#CATEBTO').val(),
+                CATEBVATNO: $('#CATEBVATNO').val(),
+                CATEBCSTNO: $('#CATEBCSTNO').val(),
+                CATEBCARGO: $('#CATEBCARGO').val(),
+                CATEBPANNO: $('#CATEBPANNO').val(),
+                CATEBSTAXNO: $('#CATEBSTAXNO').val(),
+                CATELICNO: $('#CATELICNO').val(),
+                CATEFNOD: $('#CATEFNOD').val(),
+                CATEBGSTNO: $('#CATEBGSTNO').val(),
+                CATEBTANNO: $('#CATEBTANNO').val(),
+                CATESTRCALCTYPE: $('#CATESTRCALCTYPE').val(),
+                CUSRID: "",
+                LMUSRID: 1,
+                PRCSDATE: pdate
+            };
+            $.ajax({
+                //url: "/CategoryBasicDetails/savedata",
+                url: "@Url.Action("savedata", "CategoryBasicDetails")",
+                data: JSON.stringify(tab),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == "Update") {
+
+                        alert('Category Master Details Updated Successfully !! ');
+
+                        var returnurl = '@Url.Action("Index", "CategoryMaster")';
+                        window.location.href = returnurl;
+                    }
+                    else if (status == "Success") {
+                        alert('Category Master Details Inserted Successfully !! ');
+                        var returnurl = "@Url.Action("Index", "CategoryMaster")";
+                        window.location.href = returnurl;
+                    }
+                    else if (status == "Existing") {
+                        alert('Category Master Details Already Inserted !! ');
+                        $('#CATECODE').val("");
+                        $('#CATENAME').val("");
+                        var returnurl = "@Url.Action("Form", "CategoryBasicDetails")";
+                        window.location.href = returnurl;
+                    }
+                },
+                error: function (ex) {
+                    alert('Failed to save data' + ex);
+                }
+            });
+
+
+        });
+
+</script>
+}
+
+

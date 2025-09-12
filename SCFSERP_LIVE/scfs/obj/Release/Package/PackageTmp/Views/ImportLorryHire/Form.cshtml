@@ -1,0 +1,505 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.GateInLorryHireDetail
+@{
+    ViewBag.Title = "Lorry Hire Bill Detail";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-import"></i>@ViewBag.Title
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ImportLorryHire/savedata")" method="post" accept-charset="utf-8" id="ImportLorryHireform" data-ng-controller="myController" name="ImportLorryHireform" onsubmit="return Validate()">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="GateOutDetailform_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4 hide">
+                                            <div class="form-group">
+                                                <label>Primary  </label>
+                                                @Html.TextBoxFor(model => model.GILDID, new { @class = "form-control  GILDID", @id = "GILDID" })
+                                                @Html.TextBoxFor(model => model.GILDNO, new { @class = "form-control  GILDNO", @id = "GILDNO" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>No </label>
+                                                @Html.TextBoxFor(model => Model.GILNO, new { @class = "form-control GILNO ", @id = "GILNO", @data_val = false, @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Date<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.GILDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker GILDATE ", @id = "GILDATE", @data_val = false, @required = "required", tabindex = "1" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Time<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.GILTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker GILTIME ", @id = "GILTIME", @data_Val = false, @required= "required", tabindex = "1" })
+                                                <input type="text" value="@Session["GILTIME"]" id="txtdt" class=" form-control txtdt hide" name="txtdt" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        @*<div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Time </label>
+                                                @Html.TextBoxFor(model => Model.GILTIME, new { @class = "form-control datetime GILTIME ", @id = "GILTIME", @data_val = false, tabindex = "2" })
+                                                
+                                            </div>
+                                        </div>*@
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Container No<span class="required-field"></span></label>
+                                                @{
+                                                    if (Model.GILDID != 0)
+                                                    {
+                                                        <input type="text" value="@ViewBag.CONTNRNO" id="CONTNRNO" class=" form-control CONTNRNO" name="CONTNRNO" readonly="readonly" required />
+                                                        @Html.TextBoxFor(model => Model.GIDID, new { @class = "hide form-control  GIDID ", @id = "GIDID", @data_val = false })
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="CONTNRNO" class=" form-control CONTNRNO" name="CONTNRNO" data-autocomplete-url="@Url.Action("AutoContnrno","ImportLorryHire")" placeholder="Enter Container no." required />
+                                                        @Html.TextBoxFor(model => Model.GIDID, new { @class = "hide form-control  GIDID ", @id = "GIDID", @data_val = false })
+                                                        @*@Html.DropDownList("GIDID", null, "<---Select Container No--->", new { @class = "form-control GIDID", @id = "GIDID", @data_val = "true", @data_val_required = "required", tabindex = "4", @onchange = "GetDetail()" })*@
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Size</label>
+                                                <input type="text" value="" id="SIZE" class=" form-control SIZE" name="SIZE" readonly />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>In Date </label>
+                                                <input type="text" value="" id="INDATE" class=" form-control INDATE" name="INDATE" readonly />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>IGM No</label>
+                                                <input type="text" value="" id="FIGMNO" class=" form-control FIGMNO" name="FIGMNO" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Line No</label>
+                                                <input type="text" value="" id="FLNO" class=" form-control FLNO" name="FLNO" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Cargo</label>
+                                                <input type="text" value="" id="VTDESC" class=" form-control VTDESC" name="VTDESC" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Vessel</label>
+                                                <input type="text" value="" id="FVSLNAME" class=" form-control FVSLNAME" name="FVSLNAME" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Voyage No</label>
+                                                <input type="text" value="" id="FVOYNO" class=" form-control FVOYNO" name="FVOYNO" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Importer</label>
+                                                <input type="text" value="" id="IMPRTNAME" class=" form-control IMPRTNAME" name="IMPRTNAME" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Streamer</label>
+                                                <input type="text" value="" id="STMRNAME" class=" form-control STMRNAME" name="STMRNAME" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Transporter</label>
+                                                <input type="text" value="" id="TRNSPRTNAME" class=" form-control TRNSPRTNAME" name="TRNSPRTNAME" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bill No<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.GILBILLNO, new { @class = "form-control GILBILLNO", @id = "GILBILLNO", @required = "required", tabindex = "8" })
+                                                <input type="text" value="@Session["GILBILLNO"]" id="txtgbn" class=" form-control txtgbn hide" name="txtgbn" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Bill Date</label>
+                                                @Html.TextBoxFor(model => model.GILBILLDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker GILBILLDATE", @id = "GILBILLDATE", tabindex = "10", @required = "required" })
+                                                <input type="text" value="@Session["GILBILLDATE"]" id="txtgbd" class=" form-control txtgbd hide" name="txtgbd" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <label>Narration</label>
+                                                @Html.TextAreaFor(model => model.GILNARTN, new { @class = "form-control GILNARTN", @id = "GILNARTN", tabindex = "17", @required = "required" })
+                                                <input type="text" value="@Session["GILNARTN"]" id="txtglnt" class=" form-control txtglnt hide" name="txtglnt" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 box-footer">
+                                            <a href="@Url.Action("Index", "ImportLorryHire")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')" tabindex="43">Go Back</a>
+
+                                            <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" tabindex="200" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+
+    <script>
+        function GetDetail() {
+            alert("CALL");
+            //   var GIDID = $(".GIDID option:selected").val();
+            var GIDID = $(".GIDID").val();
+            var url = "/ImportLorryHire/GetContDetails/" + GIDID;
+
+            $.ajax({
+
+                type: 'get',
+                url: url, // we are calling json method
+
+                dataType: 'json',
+
+                success: function (data) {
+                    $("#SIZE").val(data[0].CONTNRSDESC);
+                    $("#INDATE").val(GetFormattedDate(data[0].GIDATE));
+                    $("#VTDESC").val(data[0].PRDTDESC);
+                    $("#TRNSPRTNAME").val(data[0].TRNSPRTNAME);
+                    $("#GIDID").val(data[0].GIDID);
+                    $("#CHAID").val(data[0].CHAID);
+                    $("#FIGMNO").val(data[0].IGMNO);
+                    $("#FLNO").val(data[0].GPLNO);
+                    $("#FVSLNAME").val(data[0].VSLNAME);
+                    $("#FVOYNO").val(data[0].VOYNO);
+                    $("#IMPRTNAME").val(data[0].IMPRTNAME);
+                    $("#STMRNAME").val(data[0].STMRNAME);
+
+                }
+            });
+        }
+
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getDate() +
+                "/" +
+                eval(value1.getMonth() + 1) +
+                "/" +
+                value1.getFullYear();
+            return dat;
+        }
+
+        function split(val) {
+            return val.split(/,\s*/)
+        }
+        function extractLast(term) {
+            return split(term).pop()
+        }
+        function add_autocomplete($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break;
+                                        case 6:
+                                            jsonArg.xparam4 = data;
+                                            break;
+                                        case 7:
+                                            jsonArg.xparam5 = data;
+                                            break;
+                                        case 8:
+                                            jsonArg.xparam6 = data;
+                                            break;
+                                        case 9:
+                                            jsonArg.xparam7 = data;
+                                            break;
+                                        case 10:
+                                            jsonArg.xparam8 = data;
+                                        case 11:
+                                            jsonArg.xparam9 = data;
+                                            break;
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1: //alert("CASE1-"+ui.item.id);
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2: //alert("CASE2-" + ui.item.xparam1);
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3: //alert("CASE3-" + ui.item.xparam1);
+                                $("#" + value).val(GetFormattedDate(ui.item.xparam1));
+                                break;
+                            case 4: //alert("CASE4-" + ui.item.xparam2);
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5: //alert("CASE5-" + ui.item.xparam3);
+                                $("#" + value).val(ui.item.xparam3);
+                                break;
+                            case 6: //alert("CASE6-" + ui.item.xparam4);
+                                $("#" + value).val(ui.item.xparam4);
+                                break;
+                            case 7: //alert("CASE7-" + ui.item.xparam5);
+                                $("#" + value).val(ui.item.xparam5);
+                                break;
+                            case 8:
+                                $("#" + value).val(ui.item.xparam6);
+                                break;
+                            case 9:
+                                $("#" + value).val(ui.item.xparam7);
+                                break;
+                            case 10:
+                                $("#" + value).val(ui.item.xparam8);
+                                break;
+                            case 11:
+                                $("#" + value).val(ui.item.xparam9);
+                                break;
+                        }
+                        count++
+                    });
+
+
+                    return false
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        $(function () {
+
+            $('input[id$=GILDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                autoclose: true,
+                endDate: "today",
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#GILDATE").focus();
+                }
+            });
+            $('.GILDATE').removeClass('hasDatepicker');
+
+            var gltime = $('.txtdt').val();
+            var gbn = $('.txtgbn').val();
+            var gbd = $('.txtgbd').val();
+            var glntn = $('.txtglnt').val();
+
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', maxDate: new Date() });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+
+            //$('.datetime').datetimepicker({
+            //    dateFormat: 'dd/mm/yy',
+            //    timeFormat: 'hh:mm',
+            //});
+
+            if ($('.GILDID').val() == "0" || $('.GILDID').val() == "" || $('.GILDID').val() == null) {
+                $('.GILDID').val("0");
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = (dt.getMonth() + 1).toString();
+                var day = dt.getDate().toString();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                //var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                console.log(hours + ':' + minutes + ':' + seconds);
+
+                var time = hours + ':' + minutes + ':' + seconds;
+                var datetme = date + " " + time;
+
+                //$(".datetime").val(datetme);
+                $(".GILDATE").val(date);
+                $(".GILTIME").val(time);
+
+
+                if ((gltime == null || gltime == "") && (gbd == null || gbd == "")) {
+
+                    
+                }
+                else {
+                    $('.datetime').val(gltime); $(".GILBILLDATE").val(gbd);
+                }
+                $('.GILBILLNO').val(gbn); $('.GILNARTN').val(glntn);
+            }
+
+
+
+            //$('.time').timepicker();
+            add_autocomplete($("#CONTNRNO"), "CONTNRNO,GIDID,SIZE,INDATE,VTDESC,TRNSPRTNAME,FIGMNO,FLNO,FVSLNAME,FVOYNO,IMPRTNAME,STMRNAME");
+
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+
+            //------------------Block Type function----------
+
+            if ($(".GILDID").val() != 0) {
+                var GIDID = $(".GIDID").val();
+
+                var url = "/ImportLorryHire/GetContDetails_Mod/" + GIDID;
+
+                $.ajax({
+
+                    type: 'get',
+                    url: url, // we are calling json method
+
+                    dataType: 'json',
+
+                    success: function (data) {
+                        $("#SIZE").val(data[0].CONTNRSDESC);
+                        $("#INDATE").val(GetFormattedDate(data[0].GIDATE));
+                        $("#VTDESC").val(data[0].PRDTDESC);
+                        $("#TRNSPRTNAME").val(data[0].TRNSPRTNAME);
+                        // $("#GIDID").val(data[0].GIDID);
+                        $("#CHAID").val(data[0].CHAID);
+                        $("#FIGMNO").val(data[0].IGMNO);
+                        $("#FLNO").val(data[0].GPLNO);
+                        $("#FVSLNAME").val(data[0].VSLNAME);
+                        $("#FVOYNO").val(data[0].VOYNO);
+                        $("#IMPRTNAME").val(data[0].IMPRTNAME);
+                        $("#STMRNAME").val(data[0].STMRNAME);
+                    }
+                });
+            }
+        });
+
+    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

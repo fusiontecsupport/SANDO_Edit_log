@@ -1,0 +1,295 @@
+﻿
+@{
+    ViewBag.Title = "Export Stuffed Container List";
+}
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+                        </div>
+                        <div class="box-icons">
+                            <button onclick="parent.location = '@Url.Action("GSTForm","StuffingBill")'; return false;" class=" btn-success hide"> Create New </button>
+                        </div>
+                        <div class="no-move"></div>
+                    </div>
+
+                    <div class="box-content no-padding">
+                        <br />
+                        <div class="row">
+                            <div class="col-xs-3"> </div>
+                            <div class="col-xs-12">
+                                <form action="#" method="post" accept-charset="utf-8" id="StuffingBillform" data-ng-controller="myController" name="StuffingBillform">
+                                    <div class="col">
+
+                                    </div>
+                                    <table class="table  table-striped text-center" id="tbldate" @*style="margin-left:50px"*@><tr><td><span style="margin-left:5px">From</span></td><td><input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]" style="margin-left:5px"></td><td><span style="margin-left:5px">To</span></td><td><input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]" style="margin-left:5px"></td><td><input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left:15px" /></td></tr></table>
+
+                                </form>
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>SB Bill No.</th>
+                                    <th>SB Bill Date</th>
+                                    <th>Stuffing No.</th>
+                                    <th>Stuffing Date</th>
+                                    <th>CHA Name</th>
+                                    <th>Container No</th>
+                                    <th>Size</th>
+                                    <th>Status</th>
+                                    <th>STFMID</th>
+                                    <th>STFDID</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('hidden.bs.modal', function (e) {
+                var target = $(e.target);
+                target.removeData('bs.modal')
+                    .find(".modal-content").html('');
+            });
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "StuffedList")",
+                "bProcessing": true,
+                "bStateSave": true,
+
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-4" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1 hide" },
+                    { "sName": "", "sClass": "col-lg-1 hide" },
+                    { "sName": "", "sClass": "col-lg-1 hide" },
+
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            //alert(oObj.aData[10]);
+                            if (oObj.aData[11] > 0) {
+                                return '<a   class="btn btn-success btn-xs"   href="@Url.Action("SForm", "StuffedList")/' + oObj.aData[10] + '-' + oObj.aData[11] + '\"  data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">Json<i class="glyphicon glyphicon-magnet hide"></i></a>  &nbsp;&nbsp;<a   class="btn btn-warning btn-xs" target="_blank"  href="@Url.Action("PrintView", "StuffingBill")/' +
+                                    oObj.aData[10] + '\"  ><i class="glyphicon glyphicon-print"></i></a>';
+
+                            }
+                            else {
+                                return '<a   class="btn btn-primary btn-xs"   href="@Url.Action("SForm", "StuffedList")/' + oObj.aData[10] + '-' + oObj.aData[11] + '\"  data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">Json<i class="glyphicon glyphicon-magnet hide"></i></a>  &nbsp;&nbsp;<a   class="btn btn-warning btn-xs" target="_blank"  href="@Url.Action("PrintView", "StuffingBill")/' +
+                                    oObj.aData[10] + '\"  ><i class="glyphicon glyphicon-print"></i></a>';
+                            }
+
+                                                  @*if (oObj.aData[7] > 0)
+                                                  {
+                                                      //alert(oObj.aData[7]);
+
+                                                  }
+                                                  else
+                                                  {
+                                                      //alert(oObj.aData[7]);
+                                                      return '<a   class="btn btn-primary btn-xs EInvoice  @ViewBag.aaa"   href="#" id="' + oObj.aData[8] + '" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-magnet"></i></a>  &nbsp;&nbsp;<a   class="btn btn-warning btn-xs" target="_blank"   href="@Url.Action("PrintView", "StuffingBill")/' +
+                                                        oObj.aData[8] + '\"  ><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs hide" href="#" id="' + oObj.aData[8] + '" "><i class="glyphicon glyphicon-trash"></i> </a>';
+
+                                                  }*@
+                        }
+                    }
+
+                ]
+            });
+
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+            //------------Delete Record-------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/StuffingBill/Del",
+                        {
+                            id: idx, fld: ""
+                        },
+                        function (data, status) {
+                            if (data == "") {
+                                alert("You are not Authorized to Delete....!");
+                            }
+                            else if (data != "Deleted successfully...") {
+                                alert(data);
+                            }
+                            else {
+                                alert(data);
+                                location.replace(base + "/StuffingBill");
+                            }
+                        });
+                }
+                return false;
+            });//End
+
+            //------------Swal Delete Record-------------//
+
+            @*$(document).on("click", "a.EInvoice", function () {
+                var idx = $(this).attr('id');
+                base = window.location.origin;
+
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure to Upload this Invoice ?",
+                    type: "warning",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true,
+                    cancelButtonText: "No",
+                    showCloseButton: true
+                })
+                    .then((result) => {
+                        if (result.value) {
+                            //
+                            $.ajax({
+
+                                type: 'post',
+                                url: '@Url.Action("CInvoice", "StuffingBill")/' + idx, // we are calling json method
+                                success: function (jdata) {
+                                    alert(jdata);
+                                    //if (data == "Item Saved") {
+                                    //} else {
+                                    //    //alert(window.location.origin + data);
+                                    //    location.replace(base + "/StuffingBill");
+                                    //}
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "https://www.fusiontec.com/ebill2/upload.php?ids=" + idx,
+                                            dataType: 'json',
+                                            data: { json: JSON.stringify(jdata) },
+                                            success: function (data) {
+                                                //alert(data);
+                                            },
+                                            error: function (ex) {
+                                                //alert(ex.responseJSON);
+                                                //alert('Failed to data ' + ex);
+                                            }
+                                            //alert(data);
+                                        });
+
+                                        $.ajax({
+                                            type: "post",
+                                            url: '@Url.Action("UInvoice", "StuffingBill")/' + idx, // we are calling json method
+                                            success: function (data) {
+                                                //alert(data);
+                                                //location.replace(base + "/StuffingBill");
+                                                if (data == "Uploaded Succesfully")
+                                                {
+                                                    swal({
+                                                        title: "Saved",
+                                                        text: "Export Invoice Uploaded Successfully !!",
+                                                        type: "success",
+                                                        timer: 10000
+                                                    }).then(function () {
+                                                        location.replace(base + "/StuffingBill");
+                                                    }
+                                                    );
+                                                }
+                                                else {
+                                                    swal({
+                                                        title: "Error",
+                                                        text: data,
+                                                        type: "warning",
+                                                        //timer: 10000
+                                                    }).then(function () {
+                                                        location.replace(base + "/StuffingBill");
+                                                    }
+                                                    );
+                                                }
+
+                                            },
+                                            error: function (ex) {
+                                                //alert(ex.responseJSON);
+                                                //alert('Failed to data ' + ex);
+                                            }
+                                            //alert(data);
+                                        });
+
+                                        //swal({
+                                        //    title: "Saved",
+                                        //    text: "Import Invoice Uploaded Successfully !!",
+                                        //    type: "success"
+                                        //}
+                                        //    //, function () {
+                                        //    //    window.location = "index.php";
+                                        //    //}
+                                        //);
+                                },
+                                error: function (ex) {
+                                    alert('Failed to save data ' + ex);
+                                }
+                            });
+
+
+                        } else if (result.dismiss === 'cancel') {
+
+                            //
+                            location.replace(base + "/StuffingBill");
+                            return false;
+                            //
+                        }
+                    })
+
+
+
+            });//End*@
+
+        });
+    </script>
+}
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:auto;">
+    <div class="modal-dialog" style="width:1200px;">
+        <div class="modal-content">
+
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

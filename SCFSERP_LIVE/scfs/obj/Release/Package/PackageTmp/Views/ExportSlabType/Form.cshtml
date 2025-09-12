@@ -1,0 +1,197 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.ExportSlabTypeMaster
+
+@{
+    ViewBag.Title = "Export Slabtype Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Export Slab Type</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/ExportSlabType/savedata")" method="post" accept-charset="utf-8" id="exportslabtypemasterform" data-ng-controller="myController" name="exportslabtypemasterform">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="SlabtypeMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.SLABTID, new { @class = "form-control  SLABTID", @id = "SLABTID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span>  </label>
+                                        @Html.TextBoxFor(model => Model.SLABTCODE, new { @class = "form-control SLABTCODE", @id = "SLABTCODE" })
+                                        <input type="text" value="@Model.SLABTCODE" name="i_SLABTCODE" class="hide">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span>  </label>
+                                        @Html.TextBoxFor(model => Model.SLABTDESC, new { @class = "form-control  SLABTDESC", @id = "SLABTDESC" })
+                                        <input type="text" value="@Model.SLABTDESC" name="i_SLABTDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>By<span class="required-field"></span></label>
+                                        @Html.DropDownList("SLABSTYPE", null, new { @class = "form-control SLABSTYPE", @id = "SLABSTYPE" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Display Order<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.DISPORDER, new { @class = "form-control DISPORDER", @id = "DISPORDER" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>SAC Code </label>
+                                        @Html.DropDownList("HSNID", null, "Please Select An Option", new { @class = "form-control", @required = "required" })
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DISPSTATUS)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />
+                                    <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />*@
+
+                                <a href="@Url.Action("Index", "ExportSlabType")" class="btn btn-primary btn-xs pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+    $('#btnsave').click(function () {
+        if ($('#SLABTCODE').val() == "") {
+            alert('Please Enter Code !!');
+            $('#SLABTCODE').focus();
+            return false;
+        }
+        if ($('#SLABTDESC').val() == "") {
+            alert('Please Enter Description !!');
+            $('#SLABTDESC').focus();
+            return false;
+        }
+        if ($('#SLABSTYPE').val() == "") {
+            alert('Please Select By !!');
+            $('#SLABTDESC').focus();
+            return false;
+        }
+        if ($('#DISPORDER').val() == "") {
+            alert('Please Select Display Order !!');
+            $('#DISPORDER').focus();
+            return false;
+        }
+        if ($('#HSNID').val() == "") {
+            alert('Please Select SAC Code !!');
+            $('#HSNID').focus();
+            return false;
+        }
+
+        var pdate = new Date();
+
+        if ($('#SLABTID').val() == "") { $('#SLABTID').val(0); }
+
+        if ($('#DISPORDER').val() == "") { $('#DISPORDER').val(0); }
+
+        if ($('#HSNID').val() == "") { $('#HSNID').val(0); }
+
+        if ($('#SLABSTYPE').val() == "") { $('#SLABSTYPE').val(0); }
+
+        var tab = {
+            SLABTID: $('#SLABTID').val(),
+            SLABTCODE: $('#SLABTCODE').val(),
+            SLABTDESC: $('#SLABTDESC').val(),
+            SLABSTYPE: $('#SLABSTYPE').val(),
+            DISPORDER: $('#DISPORDER').val(),
+            HSNID: $('#HSNID').val(),
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: "",
+            PRCSDATE: pdate
+        };
+
+        $.ajax({
+            //url: "/ExportSlabType/savedata",
+            url:"@Url.Action("savedata", "ExportSlabType")",
+            data: JSON.stringify(tab),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('Export SlabType Master Details Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "ExportSlabType")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('Export SlabType Master Details Inserted Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "ExportSlabType")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('Export SlabType Master Details Already Inserted !! ');
+                    $('#SLABTCODE').val("");
+                    $('#SLABTDESC').val("");
+                    var returnurl = "@Url.Action("Form", "ExportSlabType")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Error") {
+                    alert(Message);
+                    var returnurl = "@Url.Action("Index", "ExportSlabType")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+    });
+    </script>
+}
+

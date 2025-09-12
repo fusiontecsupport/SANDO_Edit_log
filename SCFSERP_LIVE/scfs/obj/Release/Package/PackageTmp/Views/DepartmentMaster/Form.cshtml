@@ -1,0 +1,79 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.DepartmentMaster
+
+@{
+    ViewBag.Title = "Department Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Department</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/DepartmentMaster/savedata")" method="post" accept-charset="utf-8" id="departmentmasterform" data-ng-controller="myController" name="departmentmasterform">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="DepartmentMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.DEPTID, new { @class = "form-control  DEPTID", @id = "DEPTID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.DEPTCODE, new { @class = "form-control DEPTCODE", @id = "DEPTCODE" })
+                                        <input type="text" value="@Model.DEPTCODE" name="i_DEPTCODE" hidden>
+                                        @Html.ValidationMessageFor(model => model.DEPTCODE, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description <span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => Model.DEPTDESC, new { @class = "form-control  DEPTDESC", @id = "DEPTDESC" })
+                                        <input type="text" value="@Model.DEPTDESC" name="i_DEPTDESC" hidden>
+                                        @Html.ValidationMessageFor(model => model.DEPTDESC, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                <a href="@Url.Action("Index", "DepartmentMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

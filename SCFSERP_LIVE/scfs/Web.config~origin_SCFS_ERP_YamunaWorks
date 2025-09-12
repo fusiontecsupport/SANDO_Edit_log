@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  For more information on how to configure your ASP.NET application, please visit
+  http://go.microsoft.com/fwlink/?LinkId=301880
+  -->
+<configuration>
+  <configSections>
+    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+  </configSections>
+  <connectionStrings>
+    <!--<add name="DefaultConnection" connectionString="Data Source=ftec009;Initial Catalog=SCFS_ERP;User ID=ftec;Password=ftec;MultipleActiveResultSets=True;Application Name=EntityFramework" providerName="System.Data.SqlClient" />
+    <add name="FusionContext" connectionString="Data Source=ftec009;Initial Catalog=SCFS_ERP;User ID=ftec;Password=ftec" providerName="System.Data.SqlClient" />
+    -->
+    <add name="SCFSERP" connectionString="Data Source=server;Initial Catalog=SCFS_ERP;User ID=ftec;Password=ftec;MultipleActiveResultSets=True;Application Name=EntityFramework" providerName="System.Data.SqlClient" />
+    <add name="SCFSERPContext" connectionString="Data Source=server;Initial Catalog=SCFS_ERP;User ID=ftec;Password=ftec" providerName="System.Data.SqlClient" />
+    <add name="SCFSERPEntities" connectionString="metadata=res://*/Data.SCFS.csdl|res://*/Data.SCFS.ssdl|res://*/Data.SCFS.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=server;Initial Catalog=SCFS_ERP;user id=ftec;password=ftec;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+    <add name="CFSExportEntities" connectionString="metadata=res://*/Data.ExportEntities.csdl|res://*/Data.ExportEntities.ssdl|res://*/Data.ExportEntities.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=server;initial catalog=SCFS_ERP;user id=ftec;password=ftec;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+    <add name="CFSImportEntities" connectionString="metadata=res://*/Data.ImportEntities.csdl|res://*/Data.ImportEntities.ssdl|res://*/Data.ImportEntities.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=server;Initial Catalog=SCFS_ERP;user id=ftec;password=ftec;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+    
+    <!--<add name="SCFSERP" connectionString="Data Source=45.35.169.110,1092;Initial Catalog=SCFS_ERP;User ID=ftec;Password=ftec;MultipleActiveResultSets=True;Application Name=EntityFramework" providerName="System.Data.SqlClient" />
+    <add name="SCFSERPContext" connectionString="Data Source=45.35.169.110,1092;Initial Catalog=SCFS_ERP;User ID=ftec;Password=ftec" providerName="System.Data.SqlClient" />
+    <add name="SCFSERPEntities" connectionString="metadata=res://*/Data.SCFS.csdl|res://*/Data.SCFS.ssdl|res://*/Data.SCFS.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=45.35.169.110,1092;Initial Catalog=SCFS_ERP;user id=ftec;password=ftec;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" />-->
+    
+  </connectionStrings>
+  <appSettings>
+    <!--<add key="owin:AutomaticAppStartup" value="False" />-->
+    <add key="webpages:Version" value="3.0.0.0" />
+    <add key="webpages:Enabled" value="false" />
+    <add key="ClientValidationEnabled" value="true" />
+    <add key="UnobtrusiveJavaScriptEnabled" value="true" />
+    <add key="Reporturl" value="D:\\Reports\\SCFSReports\\" />
+    <add key="pdfurl" value="D:\\SCFS" />
+    <!-- Mail Configuration -->
+    <add key="SMTPHost" value="smtp.gmail.com" />
+    <add key="SMTPPort" value="587" />
+    <add key="SMTPEnableSsl" value="true" />
+    <add key="SMTPCredentialsUser" value="support@fusiontec.com" />
+    <add key="SMTPCredentialsPassword" value="$ftec2711$" />
+    <add key="FromMailIDs" value="support@fusiontec.com" />
+    <add key="FromMailDisplays" value="Support Team - FTEC" />
+    <add key="BCCMailIDs" value="" />
+    <add key="BCCMailDisplays" value="" />
+    <add key="QRCodeURL" value="http://ftec009:90/scfs/line.php" />
+    <add key="BaseURL" value="http://localhost:1104" />
+  </appSettings>
+  <system.web>
+    <authentication mode="None" />
+    <compilation debug="true" targetFramework="4.5" />
+    <httpRuntime targetFramework="4.5" />
+    <sessionState timeout="30"></sessionState>
+  </system.web>
+  <system.webServer>
+    <modules>
+      <remove name="FormsAuthenticationModule" />
+    </modules>
+    <!--<directoryBrowse enabled="true" />-->
+  </system.webServer>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Helpers" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="1.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Mvc" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="1.0.0.0-5.0.0.0" newVersion="5.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.WebPages" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="1.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="WebGrease" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="0.0.0.0-1.5.2.14234" newVersion="1.5.2.14234" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+  <entityFramework>
+    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.LocalDbConnectionFactory, EntityFramework">
+      <parameters>
+        <parameter value="v11.0" />
+      </parameters>
+    </defaultConnectionFactory>
+    <providers>
+      <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
+    </providers>
+  </entityFramework>
+</configuration>

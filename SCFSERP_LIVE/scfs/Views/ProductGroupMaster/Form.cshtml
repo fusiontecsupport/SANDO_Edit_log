@@ -1,0 +1,140 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.ProductGroupMaster
+
+@{
+    ViewBag.Title = "Product Group Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Product Group</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                @*<form action="@Url.Content("~/ProductGroupMaster/savedata")" method="post" accept-charset="utf-8" id="productgroupmasterform" data-ng-controller="myController" name="productgroupmasterform">*@
+                <form>
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ProductGroupMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.PRDTGID, new { @class = "form-control  PRDTGID", @id = "PRDTGID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => Model.PRDTGCODE, new { @class = "form-control PRDTGCODE", @id = "PRDTGCODE" })@Html.ValidationMessageFor(model => model.PRDTGCODE)
+                                        <input type="text" value="@Model.PRDTGCODE" name="i_PRDTGCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => Model.PRDTGDESC, new { @class = "form-control  PRDTGDESC", @id = "PRDTGDESC" })@Html.ValidationMessageFor(model => model.PRDTGDESC)
+                                        <input type="text" value="@Model.PRDTGDESC" name="i_PRDTGDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DISPSTATUS)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 box-footer">
+                            @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+                              <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden " hidden />
+                              <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />*@
+                            
+                            <a href="@Url.Action("Index", "ProductGroupMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                            <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $('#btnsave').click(function () {
+        if ($('#PRDTGCODE').val() == "") {
+            alert('Please Enter Code !!');
+            $('#PRDTGCODE').focus();
+            return false;
+        }
+        if ($('#PRDTGDESC').val() == "") {
+            alert('Please Enter Description !!');
+            $('#PRDTGDESC').focus();
+            return false;
+        }
+        
+        var pdate = new Date();
+
+        if ($('#PRDTGID').val() == "") { $('#PRDTGID').val(0); }
+
+        var tab = {
+            PRDTGID: $('#PRDTGID').val(),
+            PRDTGCODE: $('#PRDTGCODE').val(),
+            PRDTGDESC: $('#PRDTGDESC').val(),           
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: 1,
+            PRCSDATE: pdate
+        };
+        $.ajax({
+            url: "/ProductGroupMaster/savedata",
+            data: JSON.stringify(tab),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('Product Group Master Details Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "ProductGroupMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('Product Group Master Details Inserted Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "ProductGroupMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('Product Group Master Details Already Inserted !! ');
+                    $('#PRDTGCODE').val("");
+                    $('#PRDTGDESC').val("");
+                    var returnurl = "@Url.Action("Form", "ProductGroupMaster")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+    });
+</script>
+}

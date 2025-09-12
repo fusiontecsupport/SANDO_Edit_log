@@ -1,0 +1,194 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.ChargeMaster
+
+@{
+    ViewBag.Title = "Charge Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Charge Master form</strong>
+                </div>
+            </div>
+
+            <div class="box-content" data-ng-app="myModule">
+                @*<form action="@Url.Content("~/ChargeMaster/savedata")" method="post" accept-charset="utf-8" id="chargemasterform" data-ng-controller="myController" name="chargemasterform">*@
+                <form>
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ChargeMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary </label>
+                                        @Html.TextBoxFor(model => Model.CHRGID, new { @class = "form-control  CHRGID", @id = "CHRGID" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.CHRGCODE, new { @class = "form-control CHRGCODE", @id = "CHRGCODE" })
+                                        <input type="text" value="@Model.CHRGCODE" name="i_CHRGCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => Model.CHRGDESC, new { @class = "form-control  CHRGDESC", @id = "CHRGDESC" })
+                                        <input type="text" value="@Model.CHRGDESC" name="i_CHRGDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Department<span class="required-field"></span> </label>
+                                        @Html.DropDownList("SDPTID", null, "Please select an option", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Size<span class="required-field"></span> </label>
+                                        @Html.DropDownList("CONTNRSID", null, "Please select an option", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Amount<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.CHRGAMT, new { @class = "form-control CHRGAMT", @id = "CHRGAMT" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                <a href="@Url.Action("Index", "ChargeMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                @*<input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />*@
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+    $('#btnsave').click(function () {
+        if ($('#CHRGCODE').val() == "") {
+            alert('Please Enter Code !!');
+            $('#CHRGCODE').focus();
+            return false;
+        }
+        if ($('#CHRGDESC').val() == "") {
+            alert('Please Enter Description !!');
+            $('#CHRGDESC').focus();
+            return false;
+        }
+        if ($('#SDPTID').val() == "") {
+            alert('Please Select Department !!');
+            $('#SDPTID').focus();
+            return false;
+        }
+        if ($('#CONTNRSID').val() == "") {
+            alert('Please Select Size !!');
+            $('#CONTNRSID').focus();
+            return false;
+        }
+        if ($('#CHRGAMT').val() == "" || $('#CHRGAMT').val() == "0") {
+            alert('Please Enter Amount !!');
+            $('#CHRGAMT').focus();
+            return false;
+        }
+
+        var CHRGID = $('#CHRGID').val();
+        var CHRGCODE = $('#CHRGCODE').val();
+        var CHRGDESC = $('#CHRGDESC').val();
+        var DISPSTATUS = $('#DISPSTATUS').val();
+        var CUSRID = "";
+        var LMUSRID = "";
+        var pdate = new Date();
+        var PRCSDATE = pdate;
+
+        if ($('#CHRGID').val() == "") { $('#CONTNRSID').val(0); }
+
+        var tab = {
+            CHRGID: $('#CHRGID').val(),
+            CHRGCODE: $('#CHRGCODE').val(),
+            CHRGDESC: $('#CHRGDESC').val(),
+            SDPTID: $('#SDPTID').val(),
+            CONTNRSID: $('#CONTNRSID').val(),
+            CHRGAMT: $('#CHRGAMT').val(),
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: 1,
+            PRCSDATE: PRCSDATE
+        };
+        $.ajax({
+            url: "/ChargeMaster/savedata",
+            data: JSON.stringify(tab),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('Charge Master Details Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "ChargeMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('Charge Master Details Inserted Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "ChargeMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('Charge Master Details Already Inserted !! ');
+                    $('#CHRGCODE').val("");
+                    $('#CHRGDESC').val("");
+                    $('#SDPTID').val("");
+                    $('#CONTNRSID').val("");
+                    $('#CHRGAMT').val("");
+                    var returnurl = "@Url.Action("Form", "ChargeMaster")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+
+    });
+    </script>
+
+
+}
+

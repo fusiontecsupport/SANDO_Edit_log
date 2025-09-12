@@ -1,0 +1,1117 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.VehicleTicketGateOut
+
+@{
+    ViewBag.Title = "Stuffing Vehicle Ticket Details";
+}
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<section id="main-content">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-export"></i>
+                            <strong>Stuffing Vehicle Ticket</strong>
+                        </div>
+                    </div>
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ExportVehicleTicket/savedata")" method="post" accept-charset="utf-8" id="Stuffevtform" data-ng-controller="myController" name="Stuffevtform" onsubmit="return Form_validate()">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="ExportCartingOrder_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2 hidden">
+                                            <div class="form-group">
+                                                <label>Primary </label>
+                                                @Html.TextBoxFor(model => model.vtdetail.VTDID, new { @class = "form-control  VTDID", @id = "VTDID" })
+                                                @Html.TextBoxFor(model => model.vtdetail.VTNO, new { @class = "form-control  VTNO", @id = "VTNO", @data_val = false })
+                                                @Html.TextBoxFor(model => model.vtdetail.ASLDID, new { @class = "form-control  ASLDID", @id = "ASLDID", @data_val = false })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Date <span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.vtdetail.VTDATE, "{0:dd/MM/yyyy}", new { @class = "form-control VTDATE", @id = "VTDATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+                                                @*@Html.TextBoxFor(model => model.vtdetail.VTDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker VTDATE ", @id = "VTDATE", @data_val = false, tabindex = "1" })*@
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Time<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => model.vtdetail.VTTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker VTTIME ", @id = "VTTIME", @data_Val = false, tabindex = "2" })
+                                                @*@Html.TextBoxFor(model => model.vtdetail.VTTIME, new { @class = "form-control datetime VTTIME ", @id = "VTTIME", @data_val = false, tabindex = "2" })*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 hide">
+                                            <div class="form-group">
+                                                <label>No<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => model.vtdetail.VTDNO, new { @class = "form-control VTDNO ", @id = "VTDNO", @data_val = false, @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Container No<span class="required-field"></span></label>
+
+                                                @if (Model.vtdetail != null)
+                                                {
+                                                    <input type="text" value="@ViewBag.CONTNRNO" id="CONTNRNO" class=" form-control CONTNRNO" name="CONTNRNO" style="width:200px" readonly="readonly" />
+
+                                                    <input type="text" class="GIDID" name="GIDID" value="@Model.vtdetail.GIDID" hidden />
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" value="" id="CONTNRNO" class="form-control CONTNRNO" name="CONTNRNO" maxlength="15" data-autocomplete-url="@Url.Action("AutoContainer", "ExportVehicleTicket")/" tabindex="5" placeholder="--Please Select Container No-" />
+                                                    <input type="text" value="0" id="GIDID" class="hide form-control GIDID" name="GIDID" />
+                                                    @*@Html.DropDownList("GIDID", null, "--Select Container No--", new { @class = "form-control GIDID", @id = "GIDID", @required = "required", @tabindex = "3" })*@
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Size</label>
+                                                <input type="text" value="" id="SIZE" class=" form-control SIZE" name="SIZE" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>In Date </label>
+                                                <input type="text" value="" id="INDATE" class=" form-control INDATE" name="INDATE" readonly="readonly" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Cargo</label>
+                                                @Html.TextBoxFor(model => model.vtdetail.VTDESC, new { @class = "form-control VTDESC", @id = "VTDESC", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Shipping Bill No </label>
+                                                @Html.TextBoxFor(model => model.vtdetail.VTSSEALNO, new { @class = "form-control VTSSEALNO", @id = "VTSSEALNO", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2 ">
+                                            <div class="form-group">
+                                                <label>Stuffing No</label>
+                                                @Html.TextBoxFor(model => model.vtdetail.STFDID, new { @class = "form-control hide STFDID", @id = "STFDID", @readonly = "readonly" })
+                                                <input type="text" value="" id="STFBNO" class=" form-control STFBNO" name="STFBNO" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Exporter</label>
+                                                <input type="text" value="" id="EXPRT" class=" form-control EXPRT" name="EXPRT" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>CHA</label>
+                                                @Html.TextBoxFor(model => model.godetail.CHASNAME, new { @class = "form-control CHASNAME", @id = "CHASNAME", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Custom Seal</label>
+                                                @Html.TextBoxFor(model => model.godetail.SSEALNO, new { @class = "form-control SSEALNO", @id = "SSEALNO", @required = "required", @tabindex = "-1", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Agent Seal</label>
+                                                @Html.TextBoxFor(model => model.godetail.LSEALNO, new { @class = "form-control LSEALNO", @id = "LSEALNO", @required = "required", @tabindex = "-1", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Driver Name<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.vtdetail.DRVNAME, new { @class = "form-control DRVNAME", @id = "DRVNAME", @tabindex = "4" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Transpoter Name<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => model.vtdetail.TRNSPRTNAME, new { @class = "form-control TRNSPRTNAME", @id = "TRNSPRTNAME", @required = "required", tabindex = "4", data_autocomplete_url = Url.Action("AutoTransporter", "ExportVehicleTicket"), @placeholder = "---Please Select----" })
+                                                @Html.TextBoxFor(model => model.vtdetail.TRNSPRTID, new { @class = "hide form-control TRNSPRTID", @id = "TRNSPRTID" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3" id="othertransdiv">
+                                            <div class="form-group">
+                                                <label>Other Transpoter Name<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.vtdetail.GTRNSPRTNAME, new { @class = "form-control GTRNSPRTNAME", @id = "GTRNSPRTNAME", @required = "required", tabindex = "4", @maxLength = "100" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Vehicle No<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.vtdetail.VHLNO, new { @class = "form-control VHLNO", @id = "VHLNO", @required = "required", data_autocomplete_url = Url.Action("AutoVehicleNo", "ExportVehicleTicket"), @tabindex = "5" })
+                                                @Html.TextBoxFor(model => model.vtdetail.VHLMID, new { @class = "form-control  VHLMID hide", @id = "VHLMID", tabindex = "-1" })
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>NOP<span class="required-field"></span></label>
+
+                                                @Html.TextBoxFor(model => model.vtdetail.VTQTY, new { @class = "form-control VTQTY", @id = "VTQTY", @tabindex = "5", @onkeypress = "return isNumberCommaDot(event)" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Port<span class="required-field"></span></label>
+                                                @Html.DropDownListFor(model => Model.vtdetail.VTTYPE, new SelectList(ViewBag.VTTYPE, "value", "text"), new { @class = "form-control VTTYPE", @id = "VTTYPE", @tabindex = "6" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Loading Date<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.vtdetail.EVLDATE, new { @class = "form-control EVLDATE", @id = "EVLDATE", @data_val = false, @tabindex = "7", @placeholder = "Please Select Date" })
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Sailing Date<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.vtdetail.EVSDATE, new { @class = "form-control EVSDATE", @id = "EVSDATE", @data_val = false, @tabindex = "8", @placeholder = "Please Select Date" })
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Leo Received Date<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.vtdetail.ELRDATE, new { @class = "form-control ELRDATE", @id = "ELRDATE", @data_val = false, @tabindex = "9", @placeholder = "Please Select Date" })
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Remarks</label>
+                                                @Html.TextAreaFor(model => model.vtdetail.VTREMRKS, new { @class = "form-control VTREMRKS", @id = "VTREMRKS", @tabindex = "10" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Slip Date</label>
+
+                                                @Html.TextBox("ASMDATE", "{0:dd/MM/yyyy}", new { @class = "form-control ASMDATE", @readonly = "readonly", @id = "ASMDATE", @name = "ASMDATE" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 box-footer">
+                                    <div class="col-md-12 box-footer">
+                                        <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" tabindex="12" />
+                                        <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden" hidden="hidden" />
+                                        <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="11" />
+                                    </div>
+
+                                </div>
+
+                            </fieldset>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    <script>
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getDate() +
+                "/" +
+                eval(value1.getMonth() + 1) +
+                "/" +
+                value1.getFullYear();
+            return dat;
+        }
+
+        function GetDriverLicenseDetails() {
+            var GIDID = $(".GIDID option:selected").val();
+            $(".DRVNAME").val("");
+            $.ajax({
+                url: "@Url.Action("GetDriverLicenseDetails", "ExportVehicleTicket")/" + GIDID,
+                async: false,
+                datatype: "json",
+                success: function (data) {
+                    if (data != "") {
+                        $(".DRVNAME").val(data[0].DRVNAME);
+                    }
+                }
+            });
+        }
+
+        function add_autocomplete_transport($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                    });
+                    //$("#VHLNO").empty();
+                    id = $("#TRNSPRTID").val();
+                    vid = $("#VHLNO").val();
+                    // alert(id);
+                    if (id == "19739" || id == "19740") {
+                        //  alert(id);
+                        @* $.ajax({
+                            type: 'get',
+                            url: '@Url.Action("GetVehicle", "EVTkt")?id=' + id, //.....calling json method
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data != "") {
+                                    $(".VHL_DIV").html("<select class='form-control VHLNO' name='VHLNO' id='VHLNO' tabindex = '9'></select>")
+                                    $.each(data, function (i, dataval) {
+                                        $("#VHLNO").append('<option value="' + dataval.VHLMDESC + '">' + dataval.VHLMDESC + '</option>');
+                                    });
+                                    // $("#VHLNO").append('');
+                                }
+                            },
+                            error: function (ex) {
+                                alert('Failed to data ' + ex);
+                            }
+                        });*@
+
+                            }
+                    return false
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_Containerno($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                    });
+                    var GIDID = $(".GIDID").val();
+                    var url = "/ExportVehicleTicket/Detail/" + GIDID;
+
+                    $(".LSEALNO").val("");
+                    $(".SSEALNO").val("");
+                    $("#SIZE").val("");
+                    $("#INDATE").val("");
+                    $("#VTDESC").val("");
+                    $("#VTSSEALNO").val("");
+                    $("#STFDID").val("");
+                    $("#STFBNO").val("");
+                    $("#EXPRT").val("");
+                    $("#CHASNAME").val("");
+                    $("#ASLDID").val("");
+
+                    $.getJSON(url, function (data) {
+                        $.each(data, function (key, val) {
+                            var MyDate_String_Value = val.GIDATE;
+                            var f_value = new Date
+                                (
+                                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                                );
+                            var month = parseInt(f_value.getMonth()) + 1;
+                            var dat = f_value.getDate() +
+                                "/" + month +
+                                "/" +
+                                f_value.getFullYear();
+                            var SIZE = val.CONTNRSDESC;
+                            var CARGO = val.PRDTDESC;
+                            var SHBNO = val.SBILLNO;
+                            var STFBNO = val.SBMDNO;
+                            var EXPRT = val.EXPRTNAME;
+                            var CHA = val.CHANAME;
+                            var GOOTYPE = val.EOPTID;
+                            CHA = CHA.slice(0, 50)
+                            var GIDID = val.GIDID;
+                            var STFDID = val.STFDID;
+                            var LSEALNO = val.ASEALNO;
+                            var SSEALNO = val.CSEALNO;
+                            var ASLDID = val.ASLDID;
+
+                            $(".LSEALNO").val(LSEALNO);
+                            $(".SSEALNO").val(SSEALNO);
+                            $("#SIZE").val(SIZE);
+                            $("#INDATE").val(dat);
+                            $("#VTDESC").val(CARGO);
+                            $("#VTSSEALNO").val(SHBNO);
+                            $("#STFDID").val(STFDID);
+                            $("#STFBNO").val(STFBNO);
+                            $("#EXPRT").val(EXPRT);
+                            $("#CHASNAME").val(CHA);
+                            $("#ASLDID").val(ASLDID);
+                            $("#GOOTYPE").val(GOOTYPE);
+                            $("#GIDID").val(GIDID);
+
+                            var slid = $("#ASLDID").val();
+
+                            var murl = "/ExportVehicleTicket/SlipMaxDate/?id=" + slid;
+
+                            $.ajax({
+
+                                type: 'get',
+                                url: murl, // we are calling json method
+
+                                dataType: 'json',
+
+                                success: function (data) {
+                                    var msdate = data[0].ASLMDATE;
+
+                                    if (msdate != "") {
+
+                                        var inDate = data[0].ASLMDATE; //Wed Feb 09 2011 15:41:41 GMT+0530 (India Standard Time)
+                                        var JavaScriptDate = new Date(parseInt(inDate.substr(6))); //to js format
+                                        var dt = new Date(JavaScriptDate); //Date object
+
+                                        var year = dt.getFullYear();
+                                        var month = dt.getMonth() + 1;
+                                        var day = dt.getDate();
+
+                                        if (month < 10) month = "0" + month;
+                                        if (day < 10) day = "0" + day;
+
+                                        $(".ASMDATE").val(day + "/" + month + "/" + year);
+                                    }
+                                }
+                            });
+                        });
+                    });
+                    return false
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_vehicle($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                    });
+
+
+
+
+                    return false
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        $(window).bind("load", function () {
+
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+            if ($("#VTDID").val() == "") {
+                $("#VTDID").val("0");
+                $("#GODID").val("0");
+            }
+
+            $('input[id$=VTDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#VTDATE").focus();
+                }
+            });
+            $('.VTDATE').removeClass('hasDatepicker');
+
+            $('input[id$=EVSDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#EVSDATE").focus();
+                }
+            });
+            $('.EVSDATE').removeClass('hasDatepicker');
+
+            $('input[id$=EVLDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#EVLDATE").focus();
+                }
+            });
+            $('.EVLDATE').removeClass('hasDatepicker');
+
+            $('input[id$=ELRDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#ELRDATE").focus();
+                }
+            });
+            $('.ELRDATE').removeClass('hasDatepicker');
+
+
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', maxDate: new Date() });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+
+            if ($("#VTDID").val() == "0") {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                //console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                var datetme = hours + ':' + minutes + ':' + seconds;
+
+                $(".EVSDATE").val(date);
+                $(".EVLDATE").val(date);
+                $(".ELRDATE").val(date);
+                $(".VTDATE").val(date);
+                $(".VTTIME").val(datetme);
+
+
+            }
+            else {
+
+                var GIDID = $(".GIDID").val();
+                var url = "/ExportVehicleTicket/Detail/" + GIDID;
+
+                $(".LSEALNO").val("");
+                $(".SSEALNO").val("");
+                $("#SIZE").val("");
+                $("#INDATE").val("");
+                $("#VTDESC").val("");
+                $("#VTSSEALNO").val("");
+                $("#STFDID").val("");
+                $("#STFBNO").val("");
+                $("#EXPRT").val("");
+                $("#CHASNAME").val("");
+                $("#ASLDID").val("");
+
+                $.getJSON(url, function (data) {
+                    $.each(data, function (key, val) {
+                        var MyDate_String_Value = val.GIDATE;
+                        var f_value = new Date
+                            (
+                                parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                            );
+                        var month = parseInt(f_value.getMonth()) + 1;
+                        var dat = f_value.getDate() +
+                            "/" + month +
+                            "/" +
+                            f_value.getFullYear();
+
+                        var SIZE = val.CONTNRSDESC;
+                        var CARGO = val.PRDTDESC;
+                        var SHBNO = val.SBILLNO;
+                        var STFBNO = val.SBMDNO;
+                        var EXPRT = val.EXPRTNAME;
+                        var CHA = val.CHANAME;
+                        var GIDID = val.GIDID;
+                        var STFDID = val.STFDID;
+                        var LSEALNO = val.ASEALNO;
+                        var SSEALNO = val.CSEALNO;
+                        var ASLDID = val.ASLDID;
+                        $(".LSEALNO").val(LSEALNO);
+                        $(".SSEALNO").val(SSEALNO);
+                        $("#SIZE").val(SIZE);
+                        $("#INDATE").val(dat);
+                        $("#VTDESC").val(CARGO);
+                        $("#VTSSEALNO").val(SHBNO);
+                        $("#STFDID").val(STFDID);
+                        $("#STFBNO").val(STFBNO);
+                        $("#EXPRT").val(EXPRT);
+                        $("#CHASNAME").val(CHA);
+                        $("#ASLDID").val(ASLDID);
+                        $("#GIDID").val(GIDID);
+                    });
+                });               
+
+            }
+        });
+
+        $(document).ready(function () {
+
+            $("#TRNSPRTNAME").on("change", function () {
+                var TRNSPRTNAME = $("#TRNSPRTNAME").val();
+                var TRNSPRTID = $("#TRNSPRTID").val();
+                //if (TRNSPRTID == "67554") {
+                if (TRNSPRTID == "68812") {
+
+                    $("#VHLNO").val("");
+                    //$("#GPNRNO").val("-");
+                    $("#VHLMID").val("0");
+                    $("#GTRNSPRTNAME").val("");
+                    $("#GOTRNSPRTNAME").val("");
+                    $("#othertransdiv").show();
+                    $("#GTRNSPRTNAME").focus()
+                }
+                else if (TRNSPRTID == "19739") {
+                    $("#VHLNO").val("");
+                    //$("#GPNRNO").val("-");
+                    $("#VHLMID").val("0");
+                    $("#GTRNSPRTNAME").val(TRNSPRTNAME);
+                    $("#GOTRNSPRTNAME").val(TRNSPRTNAME);
+
+                    //alert($("#GTRNSPRTNAME").val());
+                    $("#othertransdiv").hide();
+                }
+
+                else {
+                    //alert("y")
+                    $("#GTRNSPRTNAME").val(TRNSPRTNAME);
+                    $("#GOTRNSPRTNAME").val(TRNSPRTNAME);
+                    $("#othertransdiv").hide();
+                    //alert($("#GTRNSPRTNAME").val());
+                }
+
+            });
+
+            $(".VHLNO").on("blur", function () {
+                var VHLMID = $(".VHLMID").val();
+                if (VHLMID == "" || VHLMID == "0") {
+                    VHLMID = 0;
+                }
+                var TRNSPRTNAME = $("#TRNSPRTNAME").val();
+                var TRNSPRTID = $("#TRNSPRTID").val();
+                if (TRNSPRTID == "19739") {
+                    if (TRNSPRTID > 0) {
+                        var url = "/ExportVehicleTicket/GetVehicle/" + TRNSPRTID + "-" + VHLMID;
+                        //var url = "/NonPnrGateIn/GetVehicle/" + TRNSPRTID;
+                        $.ajax({
+                            url: url,
+                            dataType: 'json',
+                            async: false,
+                            success: function (data) {
+                                //console.log(data);
+                                if (data.length > 0) {
+                                    //alert(data[0].VHLPNRNO);
+                                    $("#VHLMID").val(data[0].VHLMID);
+                                    //$("#GPNRNO").val(data[0].VHLPNRNO);
+                                }
+                                else {
+                                    $("#VHLMID").val("0");
+                                    //$("#GPNRNO").val("-");
+                                }
+                            }
+                        });
+                    }
+
+                }
+                else {
+                    $("#VHLMID").val("0");
+                    //$("#GPNRNO").val("-");
+                }
+
+                //----End of function
+            });
+
+            add_autocomplete_transport($("#TRNSPRTNAME"), "TRNSPRTNAME,TRNSPRTID");
+            add_autocomplete_vehicle($("#VHLNO"), "VHLMDESC,VHLMID");
+            add_autocomplete_Containerno($("#CONTNRNO"), "CONTNRNO,GIDID");
+            $("#othertransdiv").hide();
+
+            if ($("#VTDID").val() != "0") {
+                var slpid = $(".ASLDID").val();
+                //alert(slpid);
+                if (slpid != "" && slpid != null) {
+                    var murl = "/ExportVehicleTicket/SlipMaxDate/?id=" + $(".ASLDID").val();
+
+                    $.ajax({
+                        type: 'get',
+                        url: murl,
+                        dataType: 'json',
+                        success: function (data) {
+                            var msdate = data[0].ASLMDATE;
+
+                            if (msdate != "") {
+
+                                var inDate = data[0].ASLMDATE; //Wed Feb 09 2011 15:41:41 GMT+0530 (India Standard Time)
+                                var JavaScriptDate = new Date(parseInt(inDate.substr(6))); //to js format
+                                var dt = new Date(JavaScriptDate); //Date object
+
+                                var year = dt.getFullYear();
+                                var month = dt.getMonth() + 1;
+                                var day = dt.getDate();
+
+                                if (month < 10) month = "0" + month;
+                                if (day < 10) day = "0" + day;
+
+                                $(".ASMDATE").val(day + "/" + month + "/" + year);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+      
+
+        $("#GIDID").change(function () {
+            var GIDID = $(".GIDID option:selected").val();
+            var url = "/ExportVehicleTicket/Detail/" + GIDID;
+
+            $(".LSEALNO").val("");
+            $(".SSEALNO").val("");
+            $("#SIZE").val("");
+            $("#INDATE").val("");
+            $("#VTDESC").val("");
+            $("#VTSSEALNO").val("");
+            $("#STFDID").val("");
+            $("#STFBNO").val("");
+            $("#EXPRT").val("");
+            $("#CHASNAME").val("");
+            $("#ASLDID").val("");
+
+            $.getJSON(url, function (data) {
+                $.each(data, function (key, val) {
+                    var MyDate_String_Value = val.GIDATE;
+                    var f_value = new Date
+                        (
+                            parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                        );
+                    var month = parseInt(f_value.getMonth()) + 1;
+                    var dat = f_value.getDate() +
+                        "/" + month +
+                        "/" +
+                        f_value.getFullYear();
+                    var SIZE = val.CONTNRSDESC;
+                    var CARGO = val.PRDTDESC;
+                    var SHBNO = val.SBILLNO;
+                    var STFBNO = val.SBMDNO;
+                    var EXPRT = val.EXPRTNAME;
+                    var CHA = val.CHANAME;
+                    var GOOTYPE = val.EOPTID;
+                    CHA = CHA.slice(0, 50)
+                    var GIDID = val.GIDID;
+                    var STFDID = val.STFDID;
+                    var LSEALNO = val.ASEALNO;
+                    var SSEALNO = val.CSEALNO;
+                    var ASLDID = val.ASLDID;
+
+                    $(".LSEALNO").val(LSEALNO);
+                    $(".SSEALNO").val(SSEALNO);
+                    $("#SIZE").val(SIZE);
+                    $("#INDATE").val(dat);
+                    $("#VTDESC").val(CARGO);
+                    $("#VTSSEALNO").val(SHBNO);
+                    $("#STFDID").val(STFDID);
+                    $("#STFBNO").val(STFBNO);
+                    $("#EXPRT").val(EXPRT);
+                    $("#CHASNAME").val(CHA);
+                    $("#ASLDID").val(ASLDID);
+                    $("#GOOTYPE").val(GOOTYPE);
+                    $("#GIDID").val(GIDID);
+                });
+            });
+        })
+
+        function Form_validate() {
+
+            if ($("#VTDATE").val() == "") {
+                alert("Please enter Date !!");
+                $(".VTDATE").focus();
+                return false;
+            }
+            else if ($("#VTTIME").val() == "") {
+                alert("Please enter Time !!");
+                $(".VTTIME").focus();
+                return false;
+            }
+            else if ($("#GIDID").val() == "") {
+                alert("Please select container No !!");
+                $(".GIDID").focus();
+                return false;
+            }
+            else if ($("#DRVNAME").val() == "") {
+                alert("Please enter driver name !!");
+                $(".DRVNAME").focus();
+                return false;
+            }
+            else if ($("#TRNSPRTNAME").val() == "") {
+                alert("Please enter transporter name !!");
+                $("#TRNSPRTNAME").focus();
+                return false;
+            }
+            else if ($("#TRNSPRTID").val() == "" || $("#TRNSPRTID").val() == "0") {
+                alert("Please enter transporter name !!");
+                $("#TRNSPRTNAME").focus();
+                return false;
+            }
+            else if ($("#VHLNO").val() == "") {
+                alert("Please enter Vehicle No !!");
+                $("#VHLNO").focus();
+                return false;
+            }
+            else if ($("#VTQTY").val() == "") {
+                alert("Please enter NOP !!");
+                $("#VTQTY").focus();
+                return false;
+            }
+            else if ($("#EVLDATE").val() == "") {
+                alert("Please enter loading date !!");
+                $("#EVLDATE").focus();
+                return false;
+            }
+            else if ($("#EVSDATE").val() == "") {
+                alert("Please enter sailing  date !!");
+                $("#EVSDATE").focus();
+                return false;
+            }
+            else if ($("#ELRDATE").val() == "") {
+                alert("Please enter leo received date !!");
+                $("#ELRDATE").focus();
+                return false;
+            }
+            else if ((!(isAlphaNumeric($("#VHLNO").val())))) {
+                alert('Please Enter Valid Vehicle No !!');
+                flag = false;
+                $("#VHLNO").focus();
+                return false;
+            }
+            else if ($('#VHLMID').val() == "0" && $('.TRNSPRTID').val() == "19739") {
+                alert('Please Select Vehicle No From the Master List !!');
+                flag = false;
+                $('#VHLNO').focus();
+                return false;
+            }
+            else if (($('#VTDATE').val() != "" && $('#VTDATE').val() != null) && ($('#ASMDATE').val() != "" && $('#ASMDATE').val() != null)) {
+                var dsdate = Splitthedate($('#VTDATE').val());
+                var osdate = Splitthedate($('#ASMDATE').val());
+                
+                if ((dsdate < osdate)) {
+                    alert("VT Date Grater Than Slip Date !! ");
+                    $("#VTDATE").focus();
+                    return false;
+                }
+
+            }            
+        }
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

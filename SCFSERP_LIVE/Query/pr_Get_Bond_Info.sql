@@ -1,0 +1,84 @@
+/*
+EXEC pr_Get_Bond_Info 31, 1
+go
+ SELECT * FROM BONDMASTER where bndid = 1003
+ */
+alter PROC pr_Get_Bond_Info
+@compyid int,
+@bondid int
+as
+begin
+	declare @tbl table 
+	(BNDID INT,
+	 BNDDNO VARCHAR(50),
+	 BNDDATE varchar(12),
+	 IMPRTID int,
+	 CHAID int,
+	 BNDBENO varchar(50),
+	 BNDBLNO varchar(50),
+	 BNDIGMNO varchar(50),
+	 BNDLINENO varchar(50),
+	 BND20 int,
+	 BND40 int,
+	 BNDGWGHT numeric(18,2),
+	 PRDTGID int,
+	 PRDTDESC varchar(100),
+	 PRDTTID int,
+	 BNDNOP int,
+	 BNDSPC numeric(18,2),
+	 BNDBEDATE varchar(12),
+	 BNDBLDATE varchar(12),
+	 BNDTYPE varchar(10),
+	 BND20BAL INT,
+	 BND40BAL INT,	 
+	 CHANAME VARCHAR(100),
+	 IMPRTRNAME VARCHAR(100),
+	 BNDTYPEDESC VARCHAR(100),
+	 BNDCIFAMT numeric(18,2),
+	 BNDDTYAMT numeric(18,2),
+	 BNDINSAMT numeric(18,2),
+	 BNDSDate varchar(12),
+	 BNDCDate varchar(12),
+	 BNDISDate varchar(12),
+	 BNDICDate varchar(12),
+	 BBNDNOP numeric(18,2),
+	 BBNDSPC numeric(18,2),
+	 BBNDCIFAMT numeric(18,2),
+	 BBNDDTYAMT numeric(18,2),
+	 BBNDINSAMT numeric(18,2)
+	 )
+
+	 INSERT INTO @tbl
+	 select A.BNDID ,  BNDDNO ,  convert(varchar,BNDDATE,103) , A.IMPRTID, A.CHAID, BNDBENO, BNDBLNO, BNDIGMNO,isnull(BNDLINENO,''), isnull(BND20,0),isnull(BND40,0),BNDGWGHT,
+	 A.PRDTGID, A.PRDTDESC,PRDTTID,BNDNOP,BNDSPC, convert(varchar,BNDBEDATE,103) , convert(varchar,BNDBLDATE,103) ,BNDTYPE,
+	 isnull(BND20,0) - ISNULL(SUM(CASE WHEN D.CONTNRSID =3 THEN 1 ELSE 0 END),0), 
+	 isnull(BND40,0)-ISNULL(SUM(CASE WHEN D.CONTNRSID >3 THEN 1 ELSE 0 END),0),B.CATENAME, C.CATENAME, 
+	 CASE WHEN BNDTYPE = 1 THEN 'FCL' ELSE 'LCL' END,
+	 BNDCIFAMT,BNDDTYAMT, BNDINSAMT, 
+	 convert(varchar,min(GIDATE),103) 'BNDSDATE', convert(varchar,DATEADD(wk,4,min(GIDATE)),103) 'BNDCDATE',
+	 convert(varchar,BNDDATE,103) , convert(varchar,DATEADD(wk,4,min(BNDDATE)),103),
+	 BBNDNOP, BBNDSPC , BBNDCIFAMT , BBNDDTYAMT , BBNDINSAMT
+	 from BONDMASTER a (nolock) 
+		LEFT JOIN CATEGORYMASTER B(NOLOCK) ON A.CHAID = B.CATEID AND B.CATETID = 4
+		LEFT JOIN CATEGORYMASTER C(NOLOCK) ON A.IMPRTID = C.CATEID AND C.CATETID = 1
+		LEFT JOIN BONDGATEINDETAIL D(NOLOCK) ON A.BNDID = D.BNDID
+		join [VW_EXBOND_BOND_BALANCE_DETAIL_ASSGN] e (nolock) on a.BNDID = e.bndid
+	where a.COMPYID = @compyid
+	and a.BNDID = @bondid
+	GROUP BY A.BNDID ,  BNDDNO ,  BNDDATE , A.IMPRTID, A.CHAID, BNDBENO, BNDBLNO, BNDIGMNO,BNDLINENO, BND20,BND40,BNDGWGHT,
+	 A.PRDTGID, A.PRDTDESC,PRDTTID,BNDNOP,BNDSPC,BNDBEDATE, BNDBLDATE,BNDTYPE,B.CATENAME, C.CATENAME, 
+	 CASE WHEN BNDTYPE = 1 THEN 'FCL' ELSE 'LCL' END,BNDCIFAMT,BNDDTYAMT,BNDINSAMT, BNDDATE, BNDTDATE,
+	 BBNDNOP, BBNDSPC , BBNDCIFAMT , BBNDDTYAMT , BBNDINSAMT
+
+	 update @tbl
+	 set BNDSDate ='' 
+	 where BNDSDate is null
+
+	update @tbl
+	 set BNDCDate ='' 
+	 where BNDCDate is null
+
+	 SELECT * FROM @tbl
+end
+
+

@@ -1,0 +1,298 @@
+﻿@model IEnumerable<scfs_erp.Models.TransactionMaster>
+
+@{
+    ViewBag.Title = "Bond E-Invoice";
+}
+
+<div class="box">
+    <div class="box-header">
+        <div class="box-name">
+            <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+        </div>
+        
+        <div class="no-move"></div>
+    </div>
+    <div class="box-content no-padding">
+        <br />
+        <div class="row">
+            <div class="col-xs-3"> </div>
+            <div class="col-xs-12">
+                <form action="#" method="post" accept-charset="utf-8" id="Invoiceform" data-ng-controller="myController" name="Invoiceform">
+                    <table align="center">
+                    <tr>
+                        <td><span style="margin-left:5px">From</span></td>
+                        <td><input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]" style="margin-left:5px"></td>
+                        <td><span style="margin-left:5px">To</span></td>
+                        <td><input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]" style="margin-left:5px"></td>
+                        <td><input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left:15px" /><input type="text" id="txtgroup" name="txtgroup" class="form-control txtgroup hide" value="@System.Web.HttpContext.Current.Session["Group"]" /></td>
+                        </tr>
+                    </table>
+
+                </form>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+            <thead>
+                <tr>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        No
+                    </th>
+
+                    <th>
+                        CHA Name
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th>Ack No.</th>
+                    <th>
+                        S
+                    </th>
+                    <th class="hidden">
+                        gst
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade">
+
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('hidden.bs.modal', function (e) {
+                var target = $(e.target);
+                target.removeData('bs.modal')
+                      .find(".modal-content").html('');
+            });
+
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "BondEInvoice")",
+                "bProcessing": true,
+                "bStateSave": true,
+
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-2" },
+                    //{ "sName": "" },
+                    { "sName": "" },
+                    { "sName": " ", "sClass": "col-lg-3" },
+                    {
+                        "sName": "", "sClass": "col-lg-1",
+
+                    },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "", "sClass": "col-lg-2 hide" },
+
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+
+                            if ((oObj.aData[6] != null || oObj.aData[6] > 0) && ($('.txtgroup').val() == "Billing")) {
+                                return '<a   class="btn btn-warning btn-xs " target="_blank"  href="@Url.Action("PrintView", "BondEInvoice")/' +
+                                    oObj.aData[7] + '\"  ><i class="glyphicon glyphicon-print"></i></a>  ';
+                            }
+                            else if ((oObj.aData[6] != null || oObj.aData[6] > 0)) {
+                                return '<a   class="btn btn-success btn-xs EInvoice @ViewBag.aaa"  href="#" id="' + oObj.aData[8] + '" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-magnet"></i></a>  &nbsp;&nbsp;<a   class="btn btn-warning btn-xs ImportEInvoicePrint" target="_blank"  href="@Url.Action("PrintView", "BondEInvoice")/' +
+                                    oObj.aData[7] + '\"  ><i class="glyphicon glyphicon-print"></i></a> ';
+
+                            }
+                            else if ((oObj.aData[6] == null || oObj.aData[6] == 0) && ($('.txtgroup').val() == "Billing")) {
+                                return '<a   class="btn btn-warning btn-xs BondEInvoicePrint" target="_blank"  href="@Url.Action("PrintView", "BondEInvoice")/' +
+                                    oObj.aData[7] + '\"  ><i class="glyphicon glyphicon-print"></i></a> ';
+
+                            }
+                            else {
+                                return '<a   class="btn btn-primary btn-xs EInvoice @ViewBag.aaa"  href="#" id="' + oObj.aData[7] + '" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-magnet"></i></a>  &nbsp;&nbsp;<a   class="btn btn-warning btn-xs ImportEInvoicePrint" target="_blank"  href="@Url.Action("PrintView", "BondEInvoice")/' +
+                                    oObj.aData[7] + '\"  ><i class="glyphicon glyphicon-print"></i></a>  ';
+                            }
+
+
+                        }
+                    }
+
+                ]
+            });
+
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+            //------------Delete Record-------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/BondEInvoice/Del",
+                           {
+                               id: idx, fld: ""
+                           },
+                         function (data, status) {
+                             if (data == "") {
+                                 alert("You are not Authorized to Delete....!");
+                             }
+                             else if (data != "Deleted successfully...") {
+                                 alert(data);
+                             }
+                             else {
+                                 alert(data);
+                                 location.replace(base + "/BondEInvoice");
+                             }
+                         });
+                }
+                return false;
+            });//End
+
+            //------------Delete Record-------------//
+
+            //------------Swal Delete Record-------------//
+
+            $(document).on("click", "a.EInvoice", function () {
+                var idx = $(this).attr('id');
+                base = window.location.origin;
+
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure to Upload this Invoice ?",
+                    type: "warning",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true,
+                    cancelButtonText: "No",
+                    showCloseButton: true
+                })
+                    .then((result) => {
+                        if (result.value) {
+                            //
+                            $.ajax({
+
+                                type: 'post',
+                                url: '@Url.Action("CInvoice", "BondEInvoice")/' + idx, // we are calling json method
+                                success: function (jdata) {
+                                    alert(jdata);
+                                    //if (data == "Item Saved") {
+                                    //} else {
+                                    //    //alert(window.location.origin + data);
+                                    //    location.replace(base + "/Invoice");
+                                    //}
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "https://www.fusiontec.com/ebill2/upload.php?ids=" + idx,
+                                            dataType: 'json',
+                                            data: { json: JSON.stringify(jdata) },
+                                            success: function (data) {
+                                                //alert(data);
+                                            },
+                                            error: function (ex) {
+                                                //alert(ex.responseJSON);
+                                                //alert('Failed to data ' + ex);
+                                            }
+                                            //alert(data);
+                                        });
+
+                                        $.ajax({
+                                            type: "post",
+                                            url: '@Url.Action("UInvoice", "BondEInvoice")/' + idx, // we are calling json method
+                                            success: function (data) {
+                                                //alert(data);
+                                                //location.replace(base + "/Invoice");
+                                                if (data == "Uploaded Succesfully")
+                                                {
+                                                    swal({
+                                                        title: "Saved",
+                                                        text: "Bond Invoice Uploaded Successfully !!",
+                                                        type: "success",
+                                                        timer: 10000
+                                                    }).then(function () {
+                                                        location.replace(base + "/BondEInvoice");
+                                                    }
+                                                    );
+                                                }
+                                                else {
+                                                    swal({
+                                                        title: "Error",
+                                                        text: data,
+                                                        type: "warning",
+                                                        //timer: 10000
+                                                    }).then(function () {
+                                                        location.replace(base + "/BondEInvoice");
+                                                    }
+                                                    );
+                                                }
+
+                                            },
+                                            error: function (ex) {
+                                                //alert(ex.responseJSON);
+                                                //alert('Failed to data ' + ex);
+                                            }
+                                            //alert(data);
+                                        });
+
+                                        //swal({
+                                        //    title: "Saved",
+                                        //    text: "Import Invoice Uploaded Successfully !!",
+                                        //    type: "success"
+                                        //}
+                                        //    //, function () {
+                                        //    //    window.location = "index.php";
+                                        //    //}
+                                        //);
+                                },
+                                error: function (ex) {
+                                    alert('Failed to save data ' + ex);
+                                }
+                            });
+
+
+                        } else if (result.dismiss === 'cancel') {
+
+                            //
+                            location.replace(base + "/BondEInvoice");
+                            return false;
+                            //
+                        }
+                    })
+
+
+
+            });//End
+
+
+
+
+        });
+    </script>
+}
+

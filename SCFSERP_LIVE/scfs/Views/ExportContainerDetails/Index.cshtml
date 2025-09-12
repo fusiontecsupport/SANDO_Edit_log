@@ -1,0 +1,347 @@
+﻿@using scfs_erp.Models;
+
+@{
+    ViewBag.Title = "Export-Container Detail Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #TDETAIL {
+    }
+
+
+    .small {
+        border: 0;
+        width: 30px;
+        max-width: 25%;
+        background: none;
+    }
+
+    .stk {
+        background: #0f367d;
+        color: #fff;
+    }
+
+    .sm-1 {
+        max-width: 50px;
+    }
+
+    .TRANGAMT, .TRANNAMT, .TRANROAMT {
+        max-width: 150px;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Export Container Details</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/ContainerCalc/showrpt")" method="post" accept-charset="utf-8" id="frm" data-ng-controller="myController" name="frm" onsubmit="return Validate()" target="_blank">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ExportCartingOrder_info">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-md-2 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+
+                                        @*<input class="GIDID" name="GIDID" id="GIDID" type="text" />*@
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Container No</label>
+                                        <input type="text" id="CONTNRNO" class="form-control CONTNRNO" name="CONTNRNO" data-autocomplete-url="@Url.Action("GetContnrno", "ContainerCalc")" />
+                                        @*@Html.TextBoxFor(model => Model.masterdata[0].TRANNO, new { @class = "form-control  TRANNO", @id = "TRANNO"})*@
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <br />
+                                        <input type="button" id="search" name="search" value="Search" onclick="GetContnrDtl()" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Container No </label>
+                                        @*<input type="text" class="CONTNRNODESC form-control" name="CONTNRNODESC" id="CONTNRNODESC" readonly tabindex="6" />*@
+                                        @Html.DropDownList("GIDID", null, "Type Container No", new { @onchange = "GetDetails()", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <label>Size </label>
+                                        <input type="text" class="CONTNRSDESC form-control" name="CONTNRSDESC" id="CONTNRSDESC" readonly tabindex="6" />
+                                        <input type="text" class="CONTNRSID hidden form-control" name="CONTNRSID" id="CONTNRSID" tabindex="6" />
+                                        <input type="text" class="TRANGAMT hidden form-control" name="TRANGAMT" id="TRANGAMT" tabindex="6" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>In Date</label>
+                                        <input type="text" class="GIDATE form-control" name="GIDATE" id="GIDATE" readonly tabindex="6" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>In Time</label>
+                                        <input type="text" class="GITIME form-control" name="GITIME" id="GITIME" tabindex="6" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>CHA  </label>
+                                        <input type="text" class="CHANAME form-control" name="CHANAME" id="CHANAME" readonly tabindex="6" />
+                                        <input type="text" class="CHAID form-control hide" name="CHAID" id="CHAID" readonly tabindex="6" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Out Date  </label>
+                                        <input type="text" class="GODATE form-control" name="GODATE" id="GODATE" readonly tabindex="6" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Out Time  </label>
+                                        <input type="text" class="GOTIME form-control" name="GOTIME" id="GOTIME" readonly tabindex="6" />
+                                    </div>
+                                </div>
+                                <br />
+
+                                <div class="col-lg-12">
+                                    <h5><strong> Stuffing and ShippingBill Details</strong></h5>
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered">
+                                            <thead style="background-color:#a8dbeb">
+                                                <tr>
+
+                                                    <th>S.No</th>
+                                                    <th>ST.No</th>
+                                                    <th>SB.No</th>
+                                                    <th>SB Date</th>
+                                                    <th>COrd.No</th>
+                                                    <th>Product</th>
+                                                    <th>Stf. Nop</th>
+                                                    <th>Stf. Qty</th>
+                                                    <th>Org. SB.No.</th>
+                                                    <th>Org. SB.Dt.</th>
+                                                    <th>Org. SB. Nop.</th>
+                                                    <th>Truck No</th>
+                                                    <th>Load Slip No</th>
+                                                    <th>Load Slip Date</th>
+                                                    <th>VT No</th>
+                                                    <th>VT Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="STUFFDIV"></tbody>
+                                        </table>
+
+                                    </div>
+
+
+                                </div>
+                                <div class="col-lg-12">
+                                    <h5><strong> Bill Details</strong></h5>
+                                    <table class="table table-bordered">
+                                        <thead style="background-color:#a8dbeb">
+                                            <tr>
+
+                                                <th>S.No</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Bill No</th>
+                                                <th>Name</th>
+                                                <th>Cheque No</th>
+                                                <th>Cheque Date</th>
+                                                <th>Amount</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="SBILLDIV"></tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12 center-block box-footer">
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs center-block" onclick="JavaScript:history.back()" />
+
+                                @*<input type="submit" name="submit" value="Print" class="btn btn-success btn-xs  " id="save" tabindex="5010" />*@
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            //-----date controls-------------
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', });
+            $('.datetime').datetimepicker({
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+            });
+            //$('.time').timepicker();
+
+
+            // if ($("#TRANMID").val() == 0) {
+            var dt = new Date();
+            var month = dt.getMonth() + 1;
+            var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+            var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+            var datetme = time;
+            $(".GIDATE,.TRANEDATE").val(date + " " + datetme);
+
+            //  }
+            //...End of date contrl..
+
+        });
+
+        //...............Window bind..........................//
+
+        function GetContnrDtl() {
+            //   alert("call");
+            url = "/ExportContainerDetails/GetContnrno/" + $(".CONTNRNO").val();
+            $("#GIDID").empty();
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    console.log(data.length);
+                    var ucount = data.length;
+                    //alert(ucount);
+                    if (ucount > 0) {
+                        //  alert(data);
+
+                        $.each(data, function (key, value) {
+                            if ((data != "" && data.length > 0)) {
+                                $("#GIDID").append("<option value=" + value.GIDID + ">" + value.IGMNO + "</option>")
+                            }
+                            else {
+                                $("#GIDID").append("<option value='0'>Type Container No</option>")
+                            }
+                        })
+                        GetDetails();
+                    }
+                    else {
+                        $("#GIDID").append("<option value='0'>Type Container No</option>")
+                        $("#STUFFDIV").html(""); $("#SBILLDIV").html(""); $('input[type="text"]').val('');
+                        //$("#GIDID").empty();
+                    }
+                }
+            });
+        }
+
+        //........get detail row.....................//
+        function GetDetails() {
+
+            url = "/ExportContainerDetails/GetDetail/" + $("#GIDID").val();
+            $(".CONTNRSDESC").val(""); $(".GIDATE").val(""); $(".GITIME").val("");
+            $(".GODATE").val(""); $(".GOTIME").val(""); $(".CHAID").val("0");
+            $(".CHANAME").val(""); $(".CONTNRNODESC").val("");
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $(".CONTNRSDESC").val(data[0].CONTNRSDESC);
+
+                        $(".GIDATE").val(GetFormattedDate(data[0].GIDATE));
+
+                        if (data[0].GODATE != null) $(".GODATE").val(GetFormattedDate(data[0].GODATE));
+                        if (data[0].GOTIME != null) $(".GOTIME").val(GetFormattedDateTime(data[0].GOTIME));
+                        $(".GITIME").val(GetFormattedDateTime(data[0].GITIME));
+
+                        $(".CHAID").val(data[0].CHAID);
+                        $(".CHANAME").val(data[0].CHANAME);
+
+                        $(".CONTNRNODESC").val(data[0].CONTNRNO);
+
+                        url2 = "/ExportContainerDetails/GetShippingDet/" + $("#GIDID option:selected").val() + ";" + $(".CHAID").val();
+                        $("#STUFFDIV").html("");
+                        //alert(url2);
+                        $.ajax({
+                            url: url2,
+                            success: function (data) {
+                                if (data.length > 0) {
+                                    //  alert(data);
+                                    $("#STUFFDIV").html(data);
+                                }
+                                else {
+                                    $("#STUFFDIV").html("");
+                                }
+                            }
+                        });
+
+                        url3 = "/ExportContainerDetails/GetBillDet/" + $("#GIDID option:selected").val() + ";" + $(".CHAID").val();
+                        $("#SBILLDIV").html("");
+                        $.ajax({
+                            url: url3,
+                            success: function (data) {
+                                if (data.length > 0) {
+                                    $("#SBILLDIV").html(data);
+                                }
+                                else {
+                                    $("#SBILLDIV").html("");
+                                }
+                            }
+
+                        });
+                    }
+                    else {
+                        $(".CONTNRSDESC").val(""); $(".GIDATE").val(""); $(".GITIME").val("");
+                        $(".GODATE").val(""); $(".GOTIME").val(""); $(".CHAID").val("0");
+                        $(".CHANAME").val(""); $(".CONTNRNODESC").val("");
+                    }
+
+                }
+
+            });//---End of Post--------
+
+        }
+
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getDate() +
+                "-" +
+                eval(value1.getMonth() + 1) +
+                "-" +
+                value1.getFullYear();
+            return dat;
+        }
+
+        function GetFormattedDateTime(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getHours() + ":" + value1.getMinutes();
+            return dat;
+        }
+    </script>
+}

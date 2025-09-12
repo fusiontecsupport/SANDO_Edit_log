@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BondModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BONDSPACEDETAIL">
+    <Key>
+      <PropertyRef Name="SPCID" />
+    </Key>
+    <Property Name="SPCID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="COMPYID" Type="int" Nullable="false" />
+    <Property Name="SDPTID" Type="int" Nullable="false" />
+    <Property Name="SPCDATE" Type="smalldatetime" Nullable="false" />
+    <Property Name="SPCTIME" Type="datetime" />
+    <Property Name="SPCNO" Type="int" />
+    <Property Name="SPCDNO" Type="varchar" MaxLength="50" />
+    <Property Name="SPCBENO" Type="varchar" MaxLength="50" />
+    <Property Name="SPCBEDATE" Type="smalldatetime" />
+    <Property Name="SPCBLNO" Type="varchar" MaxLength="50" />
+    <Property Name="SPCBLDATE" Type="smalldatetime" />
+    <Property Name="IMPRTID" Type="int" />
+    <Property Name="PRDTID" Type="int" />
+    <Property Name="TYPEID" Type="int" />
+    <Property Name="QTY" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="GWGHT" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="DQTY" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="WGHT" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="MTRS" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="AAMT" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="DAMT" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="SPCDESC" Type="varchar" MaxLength="100" />
+    <Property Name="SPCEDATE" Type="smalldatetime" />
+    <Property Name="SPCSFDATE" Type="smalldatetime" />
+    <Property Name="SPCSTDATE" Type="smalldatetime" />
+    <Property Name="CUSRID" Type="varchar" MaxLength="100" />
+    <Property Name="LMUSRID" Type="varchar" MaxLength="100" />
+    <Property Name="DISPSTATUS" Type="smallint" />
+    <Property Name="PRCSDATE" Type="smalldatetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_BOND_RATECARDMASTER_FLX_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_BOND_RATECARDMASTER_FLX_ASSGN">
+    <Key>
+      <PropertyRef Name="TARIFFMID" />
+      <PropertyRef Name="SLABTID" />
+      <PropertyRef Name="CHRGETYPE" />
+      <PropertyRef Name="CHAID" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="SLABMID" />
+      <PropertyRef Name="COMPYID" />
+      <PropertyRef Name="YRDTYPE" />
+      <PropertyRef Name="SDTYPE" />
+      <PropertyRef Name="HTYPE" />
+      <PropertyRef Name="WTYPE" />
+      <PropertyRef Name="SLABMIN" />
+      <PropertyRef Name="SLABMAX" />
+      <PropertyRef Name="SLABAMT" />
+      <PropertyRef Name="SLABMDATE" />
+      <PropertyRef Name="SDPTTYPEID" />
+      <PropertyRef Name="PRDTGID" />
+    </Key>
+    <Property Name="TARIFFMID" Type="int" Nullable="false" />
+    <Property Name="SLABTID" Type="int" Nullable="false" />
+    <Property Name="CHRGETYPE" Type="smallint" Nullable="false" />
+    <Property Name="CHAID" Type="int" Nullable="false" />
+    <Property Name="CONTNRSID" Type="int" Nullable="false" />
+    <Property Name="SLABMID" Type="int" Nullable="false" />
+    <Property Name="COMPYID" Type="int" Nullable="false" />
+    <Property Name="CATEDNAME" Type="varchar" MaxLength="100" />
+    <Property Name="CONTNRSCODE" Type="varchar" MaxLength="15" />
+    <Property Name="YRDTYPE" Type="smallint" Nullable="false" />
+    <Property Name="SDTYPE" Type="smallint" Nullable="false" />
+    <Property Name="HTYPE" Type="smallint" Nullable="false" />
+    <Property Name="WTYPE" Type="smallint" Nullable="false" />
+    <Property Name="PERIODTID" Type="int" />
+    <Property Name="SLABMIN" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="SLABMAX" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="SLABAMT" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="SLABMDATE" Type="smalldatetime" Nullable="false" />
+    <Property Name="SDPTTYPEID" Type="int" Nullable="false" />
+    <Property Name="PRDTGID" Type="int" Nullable="false" />
+    <Property Name="HANDTYPE" Type="smallint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN">
+    <Key>
+      <PropertyRef Name="SLABTID" />
+      <PropertyRef Name="HSNCODE" />
+      <PropertyRef Name="CGSTEXPRN" />
+      <PropertyRef Name="SGSTEXPRN" />
+      <PropertyRef Name="IGSTEXPRN" />
+      <PropertyRef Name="ACGSTEXPRN" />
+      <PropertyRef Name="ASGSTEXPRN" />
+      <PropertyRef Name="AIGSTEXPRN" />
+    </Key>
+    <Property Name="SLABTID" Type="int" Nullable="false" />
+    <Property Name="HSNCODE" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CGSTEXPRN" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="SGSTEXPRN" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IGSTEXPRN" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="ACGSTEXPRN" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="ASGSTEXPRN" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="AIGSTEXPRN" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+  </EntityType>
+  <Function Name="pr_Bond_Invoice_BondNO_Grid_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="varchar" Mode="In" />
+    <Parameter Name="PBNDID" Type="int" Mode="In" />
+    <Parameter Name="PTRANMID" Type="int" Mode="In" />
+    <Parameter Name="PSDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PBCHAID" Type="int" Mode="In" />
+    <Parameter Name="PBCATEAID" Type="int" Mode="In" />
+    <Parameter Name="PTARIFFMID" Type="int" Mode="In" />
+    <Parameter Name="PSLABTID" Type="int" Mode="In" />
+    <Parameter Name="PCHRGTYPE" Type="int" Mode="In" />
+    <Parameter Name="PRDTID" Type="int" Mode="In" />
+    <Parameter Name="PYRDID" Type="int" Mode="In" />
+    <Parameter Name="POPRID" Type="int" Mode="In" />
+    <Parameter Name="PHNDTID" Type="int" Mode="In" />
+    <Parameter Name="PCNTSID" Type="int" Mode="In" />
+    <Parameter Name="PQTY" Type="numeric" Mode="In" />
+    <Parameter Name="PNOP" Type="numeric" Mode="In" />
+    <Parameter Name="PRATE" Type="numeric" Mode="In" />
+    <Parameter Name="PAMT" Type="numeric" Mode="In" />
+    <Parameter Name="PTAXTYPE" Type="smallint" Mode="In" />
+  </Function>
+  <Function Name="pr_Bond_Manual_Invoice_BondNO_Grid_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="varchar" Mode="In" />
+    <Parameter Name="PBNDID" Type="int" Mode="In" />
+    <Parameter Name="PTRANMID" Type="int" Mode="In" />
+    <Parameter Name="PSDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PBCHAID" Type="int" Mode="In" />
+    <Parameter Name="PBCATEAID" Type="int" Mode="In" />
+    <Parameter Name="PTARIFFMID" Type="int" Mode="In" />
+    <Parameter Name="PSLABTID" Type="int" Mode="In" />
+    <Parameter Name="PCHRGTYPE" Type="int" Mode="In" />
+    <Parameter Name="PRDTID" Type="int" Mode="In" />
+    <Parameter Name="PYRDID" Type="int" Mode="In" />
+    <Parameter Name="POPRID" Type="int" Mode="In" />
+    <Parameter Name="PHNDTID" Type="int" Mode="In" />
+    <Parameter Name="PCNTSID" Type="int" Mode="In" />
+    <Parameter Name="PQTY" Type="numeric" Mode="In" />
+    <Parameter Name="PNOP" Type="numeric" Mode="In" />
+    <Parameter Name="PRATE" Type="numeric" Mode="In" />
+    <Parameter Name="PAMT" Type="numeric" Mode="In" />
+    <Parameter Name="PTAXTYPE" Type="smallint" Mode="In" />
+    <Parameter Name="PBILLDESC" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="pr_BondPerforma_Invoice_BondNO_Grid_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="varchar" Mode="In" />
+    <Parameter Name="PBNDID" Type="int" Mode="In" />
+    <Parameter Name="PTRANMID" Type="int" Mode="In" />
+    <Parameter Name="PSDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PBCHAID" Type="int" Mode="In" />
+    <Parameter Name="PBCATEAID" Type="int" Mode="In" />
+    <Parameter Name="PTARIFFMID" Type="int" Mode="In" />
+    <Parameter Name="PSLABTID" Type="int" Mode="In" />
+    <Parameter Name="PCHRGTYPE" Type="int" Mode="In" />
+    <Parameter Name="PRDTID" Type="int" Mode="In" />
+    <Parameter Name="PYRDID" Type="int" Mode="In" />
+    <Parameter Name="POPRID" Type="int" Mode="In" />
+    <Parameter Name="PHNDTID" Type="int" Mode="In" />
+    <Parameter Name="PCNTSID" Type="int" Mode="In" />
+    <Parameter Name="PQTY" Type="numeric" Mode="In" />
+    <Parameter Name="PNOP" Type="numeric" Mode="In" />
+    <Parameter Name="PRATE" Type="numeric" Mode="In" />
+    <Parameter Name="PAMT" Type="numeric" Mode="In" />
+    <Parameter Name="PTAXTYPE" Type="smallint" Mode="In" />
+  </Function>
+  <Function Name="pr_Ex_Bond_VT_Invoice_BondNO_Grid_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="varchar" Mode="In" />
+    <Parameter Name="PVTDID" Type="int" Mode="In" />
+    <Parameter Name="PEBNDID" Type="int" Mode="In" />
+    <Parameter Name="PBNDID" Type="int" Mode="In" />
+    <Parameter Name="PTRANMID" Type="int" Mode="In" />
+    <Parameter Name="PSDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PBCHAID" Type="int" Mode="In" />
+    <Parameter Name="PBCATEAID" Type="int" Mode="In" />
+    <Parameter Name="PTARIFFMID" Type="int" Mode="In" />
+    <Parameter Name="PSLABTID" Type="int" Mode="In" />
+    <Parameter Name="PCHRGTYPE" Type="int" Mode="In" />
+    <Parameter Name="PRDTID" Type="int" Mode="In" />
+    <Parameter Name="PYRDID" Type="int" Mode="In" />
+    <Parameter Name="POPRID" Type="int" Mode="In" />
+    <Parameter Name="PHNDTID" Type="int" Mode="In" />
+    <Parameter Name="PCNTSID" Type="int" Mode="In" />
+    <Parameter Name="PQTY" Type="numeric" Mode="In" />
+    <Parameter Name="PNOP" Type="numeric" Mode="In" />
+    <Parameter Name="PRATE" Type="numeric" Mode="In" />
+    <Parameter Name="PAMT" Type="numeric" Mode="In" />
+    <Parameter Name="PHTYPE" Type="int" Mode="In" />
+    <Parameter Name="PTAXTYPE" Type="smallint" Mode="In" />
+    <Parameter Name="PVTSPC" Type="numeric" Mode="In" />
+  </Function>
+  <Function Name="pr_Ex_Bond_VT_Proforma_Invoice_BondNO_Grid_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="varchar" Mode="In" />
+    <Parameter Name="PVTDID" Type="int" Mode="In" />
+    <Parameter Name="PEBNDID" Type="int" Mode="In" />
+    <Parameter Name="PBNDID" Type="int" Mode="In" />
+    <Parameter Name="PTRANMID" Type="int" Mode="In" />
+    <Parameter Name="PSDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PBCHAID" Type="int" Mode="In" />
+    <Parameter Name="PBCATEAID" Type="int" Mode="In" />
+    <Parameter Name="PTARIFFMID" Type="int" Mode="In" />
+    <Parameter Name="PSLABTID" Type="int" Mode="In" />
+    <Parameter Name="PCHRGTYPE" Type="int" Mode="In" />
+    <Parameter Name="PRDTID" Type="int" Mode="In" />
+    <Parameter Name="PYRDID" Type="int" Mode="In" />
+    <Parameter Name="POPRID" Type="int" Mode="In" />
+    <Parameter Name="PHNDTID" Type="int" Mode="In" />
+    <Parameter Name="PCNTSID" Type="int" Mode="In" />
+    <Parameter Name="PQTY" Type="numeric" Mode="In" />
+    <Parameter Name="PNOP" Type="numeric" Mode="In" />
+    <Parameter Name="PRATE" Type="numeric" Mode="In" />
+    <Parameter Name="PAMT" Type="numeric" Mode="In" />
+    <Parameter Name="PHTYPE" Type="int" Mode="In" />
+    <Parameter Name="PTAXTYPE" Type="smallint" Mode="In" />
+    <Parameter Name="PVTSPC" Type="numeric" Mode="In" />
+  </Function>
+  <Function Name="pr_Get_Bond_Contnr_Recev_Frm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="pr_get_Bond_Details_for_Invoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="term" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="pr_get_Bond_Entry_Types" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="pr_get_Bond_Godown_Types" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="pr_get_Bond_Godowns" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="gwtid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Get_Bond_Info" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="compyid" Type="int" Mode="In" />
+    <Parameter Name="bondid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_get_Bond_Operation_Types" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="pr_Get_Bond_Tariff_Period_Types" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="tariffmid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_get_Bond_Types" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="pr_get_BondMaster_Status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="pr_Get_ExBond_Info" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="compyid" Type="int" Mode="In" />
+    <Parameter Name="exbondid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Get_ExBond_VT_Info" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="compyid" Type="int" Mode="In" />
+    <Parameter Name="VTDID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Bond_GateIn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCompyid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Bond_GateOut" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Bond_Information" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCompyid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Bond_TariffMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="pr_Search_Bond_Vehicle_Ticket" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_BondExBond_EInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+    <Parameter Name="PREGSTRID" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_BondGodownMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="pr_Search_BondInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+    <Parameter Name="PREGSTRID" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PTAXTYPE" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_BondManualInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+    <Parameter Name="PREGSTRID" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PTAXTYPE" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_BondPerformaInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+    <Parameter Name="PREGSTRID" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PTAXTYPE" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_BondSlabMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PTARIFFMID" Type="int" Mode="In" />
+    <Parameter Name="PCHRGETYPE" Type="int" Mode="In" />
+    <Parameter Name="PSLABTID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_BondSlabTypeMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="pr_Search_ExBond_Information" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCompyid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_ExBondVTInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+    <Parameter Name="PREGSTRID" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PTAXTYPE" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_ExBondVTProformaInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+    <Parameter Name="PREGSTRID" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PTAXTYPE" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_SearchBondProductGroup" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+  </Function>
+  <EntityContainer Name="BondModelStoreContainer">
+    <EntitySet Name="BONDSPACEDETAIL" EntityType="Self.BONDSPACEDETAIL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VW_BOND_RATECARDMASTER_FLX_ASSGN" EntityType="Self.VW_BOND_RATECARDMASTER_FLX_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[TARIFFMID] AS [TARIFFMID], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[SLABTID] AS [SLABTID], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[CHRGETYPE] AS [CHRGETYPE], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[CHAID] AS [CHAID], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[CONTNRSID] AS [CONTNRSID], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[SLABMID] AS [SLABMID], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[COMPYID] AS [COMPYID], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[CATEDNAME] AS [CATEDNAME], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[CONTNRSCODE] AS [CONTNRSCODE], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[YRDTYPE] AS [YRDTYPE], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[SDTYPE] AS [SDTYPE], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[HTYPE] AS [HTYPE], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[WTYPE] AS [WTYPE], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[PERIODTID] AS [PERIODTID], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[SLABMIN] AS [SLABMIN], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[SLABMAX] AS [SLABMAX], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[SLABAMT] AS [SLABAMT], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[SLABMDATE] AS [SLABMDATE], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[SDPTTYPEID] AS [SDPTTYPEID], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[PRDTGID] AS [PRDTGID], 
+    [VW_BOND_RATECARDMASTER_FLX_ASSGN].[HANDTYPE] AS [HANDTYPE]
+    FROM [dbo].[VW_BOND_RATECARDMASTER_FLX_ASSGN] AS [VW_BOND_RATECARDMASTER_FLX_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN" EntityType="Self.VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN].[SLABTID] AS [SLABTID], 
+    [VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN].[HSNCODE] AS [HSNCODE], 
+    [VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN].[CGSTEXPRN] AS [CGSTEXPRN], 
+    [VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN].[SGSTEXPRN] AS [SGSTEXPRN], 
+    [VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN].[IGSTEXPRN] AS [IGSTEXPRN], 
+    [VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN].[ACGSTEXPRN] AS [ACGSTEXPRN], 
+    [VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN].[ASGSTEXPRN] AS [ASGSTEXPRN], 
+    [VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN].[AIGSTEXPRN] AS [AIGSTEXPRN]
+    FROM [dbo].[VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN] AS [VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

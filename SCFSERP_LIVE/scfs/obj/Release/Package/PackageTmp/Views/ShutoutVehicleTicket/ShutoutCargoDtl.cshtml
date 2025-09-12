@@ -1,0 +1,97 @@
+﻿@using scfs_erp.Models;
+@using scfs.Data;
+@model scfs_erp.Models.ShutoutVehicleTicketDetail
+
+<div class="col-lg-12">
+    <div class="panel-heading navbar-inverse" style="color:white">Shutout Cargo Details</div>
+    <input type="text" id="TDETAIL_IDX" value="0" name="TDETAIL_IDX[]" class="TDETAIL_IDX" style="display:none" />
+    <table class="table table-striped  table-bordered bootstrap-datatable"
+           id="TDETAIL">
+        <thead>
+
+
+            <tr>
+                <th>C.Order No</th>
+
+                <th>Org. S.B. No/Date</th>
+
+                <th>Product</th>
+
+                <th>Dmy. S.B. No/Date</th>
+
+               
+                @*<th>Container No</th>*@
+
+                <th>Nop</th>
+                <th>Weight</th>                
+            </tr>
+        </thead>
+        <tbody id="TBLDTL" class="TBLDTL">
+            @if (Model.shutoutdetail != null)
+            {
+                foreach (PR_SHUTOUT_CARGO_FLX_ASSGN_Result item in Model.shutoutdetail)
+                {
+                    var st = ""; var bt = "";
+
+                    if (item.STFDID != 0) { st = "checked"; bt = "true"; }
+                    else { bt = "false"; }
+                    <tr class="item-row">
+                        <td class="hide">
+                            <input class="hide STFDID" id="STFDID" name="STFDID" type="text" value="@item.STFDID">
+                            <input class="hide STFPID" id="STFPID" name="STFPID" type="text" value="@item.STFPID">
+                        </td>
+                        <td>
+
+                            <input class="form-control STFCORDNO" id="STFCORDNO" name="STFCORDNO" type="text" value="@item.SBMDNO" readonly="readonly" tabindex="9">
+                            <input class="hide form-control STFCORDID" id="STFCORDID" name="STFCORDID" type="text" value="@item.SBMID">
+                            <div class="stk">
+                                C.O.Date:<input class="STFDSBDDATE medium" id="STFDSBDDATE" name="STFDSBDDATE" readonly="readonly" type="text" value="@item.SBMDATE.ToString("dd/MM/yyyy")">
+                            </div>
+                        </td>
+
+
+
+                        <td>
+                            @*@Html.DropDownList("SBDID", null, "Select C.O", new { @class = "form-control SBDID", @id = "SBDID", @onchange = "GetRefDetails(this)" })*@
+                            <input class="form-control STFDSBDNO" id="STFDSBDNO" name="STFDSBDNO" type="text" value="@item.SBDDNO" tabindex="10">
+                            <input class="hide form-control SBDID" id="SBDID" name="SBDID" type="text" value="@item.SBDID">
+                            <input class="hide ESBDID form-control" id="ESBDID" name="ESBDID" readonly="readonly" type="text" value="@item.ESBDID">
+                            <input class="hide ESBD_SBILLDATE form-control datepicker" id="ESBD_SBILLDATE" name="ESBD_SBILLDATE" readonly="readonly" type="text" value="@item.ESBD_SBILLDATE">
+                            <input class="hide ESBD_SBILLNO form-control" id="ESBD_SBILLNO" name="ESBD_SBILLNO" readonly="readonly" type="text" value="@item.ESBD_SBILLNO">
+
+                            <div class="stk">
+                                R.Date:<input class="STFDSBDATE medium" id="STFDSBDATE" name="STFDSBDATE" readonly="readonly" type="text" value="@item.SBDDATE.ToString("dd/MM/yyyy")">
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <input class="form-control PRDTDESC" id="PRDTDESC" name="PRDTDESC" readonly="readonly" type="text" value="@item.PRDTDESC" tabindex="10" />
+
+                            <div class="stk">
+                                Qty : <input class="QTY small" id="QTY" name="QTY" readonly="readonly" type="text" style="width:30px" value="@item.SBDNOP">
+                                <div class="hide">Bal : <input class="BQTY small" id="BQTY" name="BQTY" readonly="readonly" type="text" value="@(item.BNOP+item.STFDNOP)"></div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <input class="STFDSBNO form-control" id="STFDSBNO" name="STFDSBNO" readonly="readonly" type="text" value="@item.ESBMDNO" tabindex="11">
+                            <div class="stk">
+                                SB.DT:  <input class="SBDDATE medium" id="SBDDATE" name="SBDDATE" readonly="readonly" type="text" value="@item.ESBMDATE.Value.ToString("dd/MM/yyyy")">
+                            </div>
+                        </td>
+
+                        
+                        <td><input class="form-control number STFDNOP" id="STFDNOP" name="STFDNOP" onchange="Check(this);" style="width:80px" type="text" value="@item.STFDNOP" tabindex="14"></td>
+
+                        <td><input class="form-control wgtnumber STFDQTY" id="STFDQTY" name="STFDQTY" style="width:80px" type="text" value="@item.STFDQTY" tabindex="15"></td>
+                        
+                    </tr>
+
+                }
+
+            }
+        </tbody>
+
+    </table>
+</div>

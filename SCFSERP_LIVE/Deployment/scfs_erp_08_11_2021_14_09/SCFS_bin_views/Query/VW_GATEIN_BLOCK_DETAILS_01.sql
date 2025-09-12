@@ -1,0 +1,13 @@
+ALTER  VIEW [dbo].[VW_GATEIN_BLOCK_DETAILS_01]
+AS
+SELECT     GBDID, GIDID, GBTYPE, GBSTYPE  ,
+ ISnull(Convert(varchar(10),GBDATE,103),'')  as BLOCKEDDATE,
+ ISnull(Convert(varchar(10),GBUDATE,103),'')  as UNBLOCKEDDATE
+
+  FROM dbo.GATEIN_BLOCK_DETAILS
+
+
+
+
+
+

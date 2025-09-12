@@ -1,0 +1,93 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.TransactionMaster
+
+@{
+    ViewBag.Title = "HSN Code Wise Invoice Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box" style="z-index:0">
+            <div class="box-header">
+                <div class="box-name">
+
+                    <i class="fa fa-search"></i>
+                    <strong>HSN Code Wise Invoice Details</strong>
+
+                </div>
+            </div>
+            <form action="@Url.Action("showrpt","InvoiceHSNDetails")" method="post" accept-charset="utf-8" id="exportgateinform" data-ng-controller="myController" name="exportgateinform" target="_blank" @*onsubmit="return Validate()"*@>
+                <div class="box-content" data-ng-app="myModule" style="min-height:500px">
+
+
+                    <div class="row">
+                        <div class="col-xs-3"> </div>
+                        <div class="col-xs-6" style="text-align:center">
+                            <label for="from">From</label>
+                            <input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                            <label for="to">to</label>
+                            <input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                            <input type="hidden" name="rpttype" id="rpttype" class="rpttype" value="1" />
+                        </div>
+                    </div>
+                    <br /><br />
+
+                          <div class="col-lg-12" style="text-align:center">
+                              <div><label>Select</label> <input type="radio" value="0" name="etype" checked />  Import &nbsp;&nbsp;<input type="radio" value="1" name="etype" />   Export &nbsp;&nbsp;<input type="radio" value="2" name="etype" />   Bond</div>
+                          </div>
+                    <div class="tab-content">
+                        <div id="tab1" class="tab-pane fade in active">
+                            <br />
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="clearfix"> </div>
+                    <br />
+                    <div class="row center-block centered" style="text-align:center">
+                        <input type="submit" name="submit" value="Show Report" class="btn btn-primary" />
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+
+
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script>
+        $(window).bind("load", function () {
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+
+        });
+
+    </script>
+}
+

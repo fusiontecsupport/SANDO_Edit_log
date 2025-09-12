@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SPBWModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <Function Name="pr_Search_Bond_Invoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+    <Parameter Name="PREGSTRID" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="Z_pr_ExBond_NOP_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PBNDID" Type="int" Mode="In" />
+    <Parameter Name="PEBNDEDATE" Type="smalldatetime" Mode="In" />
+  </Function>
+  <EntityContainer Name="SPBWModelStoreContainer" />
+</Schema>

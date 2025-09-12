@@ -1,0 +1,828 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.VehicleTicketDetail
+
+@{
+    ViewBag.Title = "Direct Vehicle Ticket Details";
+}
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Direct Vehicle Ticket</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/ExportVehicleTicket/dsavedata")" method="post" accept-charset="utf-8" id="Directvtform" data-ng-controller="myController" name="Directvtform" onsubmit="return  Form_validate()">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ExportDirectVT_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => model.VTDID, new { @class = "form-control  VTDID", @id = "VTDID" })
+                                        @Html.TextBoxFor(model => model.VTNO, new { @class = "form-control  VTNO", @id = "VTNO", @data_val = false })
+                                        @Html.TextBoxFor(model => model.ASLDID, new { @class = "form-control  ASLDID", @id = "ASLDID", @data_val = false })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Date<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => model.VTDATE, new { @class = "form-control VTDATE", @id = "VTDATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+                                        @*@Html.TextBoxFor(model => model.vtdetail.VTDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker VTDATE ", @id = "VTDATE", @data_val = false, tabindex = "1" })*@
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Time<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.VTTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker VTTIME ", @id = "VTTIME", @data_Val = false, tabindex = "2" })
+                                        @*@Html.TextBoxFor(model => model.vtdetail.VTTIME, new { @class = "form-control datetime VTTIME ", @id = "VTTIME", @data_val = false, tabindex = "2" })*@
+                                    </div>
+                                </div>
+                                <div class="col-md-2 hide">
+                                    <div class="form-group">
+                                        <label>No </label>
+                                        @Html.TextBoxFor(model => model.VTDNO, new { @class = "form-control VTDNO ", @id = "VTDNO", @data_val = false, @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Container No<span class="required-field"></span></label>
+
+                                        @if ((Model.VTDID == 0))
+                                        {
+
+                                            @Html.DropDownList("GIDID", null, "--Select Container No--", new { @class = "form-control GIDID", @id = "GIDID", @required = "required", @tabindex = "3" })
+
+                                        }
+                                        else
+                                        {
+                                            <input type = "text" value = "@ViewBag.CONTNRNO" id = "CONTNRNO" class=" form-control CONTNRNO" name="CONTNRNO" style="width:200px" readonly="readonly" />
+
+                                            <input type="text" class="GIDID" name="GIDID" value="@Model.GIDID" hidden />
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label>Size</label>
+                                        <input type="text" value="" id="SIZE" class=" form-control SIZE" name="SIZE" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>In Date </label>
+                                        <input type="text" value="" id="INDATE" class=" form-control INDATE" name="INDATE" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Cargo</label>
+                                        @Html.TextBoxFor(model => model.VTDESC, new { @class = "form-control VTDESC", @id = "VTDESC", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Shipping Bill No </label>
+                                        @Html.TextBoxFor(model => model.VTSSEALNO, new { @class = "form-control VTSSEALNO", @id = "VTSSEALNO", @readonly = "readonly" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 ">
+                                    <div class="form-group">
+                                        <label>Stuffing No</label>
+                                        @Html.TextBoxFor(model => model.STFDID, new { @class = "form-control hide STFDID", @id = "STFDID", @readonly = "readonly" })
+                                        <input type="text" value="" id="STFBNO" class=" form-control STFBNO" name="STFBNO" readonly="readonly" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Exporter</label>
+                                        <input type="text" value="" id="EXPRT" class=" form-control EXPRT" name="EXPRT" readonly="readonly" />
+                                    </div>
+                                </div>
+
+                               
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Driver Name<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.DRVNAME, new { @class = "form-control DRVNAME", @id = "DRVNAME", @tabindex = "4" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>NOP<span class="required-field"></span></label>
+
+                                        @Html.TextBoxFor(model => model.VTQTY, new { @class = "form-control VTQTY", @id = "VTQTY", @required = "required", @tabindex = "4", @onkeypress = "return isNumberCommaDot(event)" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Custom Seal</label>
+                                        <input type="text" value="" id="CSEALNO" class=" form-control CSEALNO" name="CSEALNO" readonly="readonly" />
+                                      
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Agent Seal</label>
+                                        <input type="text" value="" id="ASEALNO" class=" form-control ASEALNO" name="ASEALNO" readonly="readonly" />
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Transpoter Name<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => model.TRNSPRTNAME, new { @class = "form-control TRNSPRTNAME", @id = "TRNSPRTNAME", @required = "required", tabindex = "8", data_autocomplete_url = Url.Action("AutoTransporter", "ExportVehicleTicket"), @placeholder = "---Please Select----" })
+                                        @Html.TextBoxFor(model => model.TRNSPRTID, new { @class = "hide form-control TRNSPRTID", @id = "TRNSPRTID" })
+                                    </div>
+                                </div>
+                               
+                                <div class="col-md-3" id="othertransdiv">
+                                    <div class="form-group">
+                                        <label>Other Transpoter Name<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.GTRNSPRTNAME, new { @class = "form-control GTRNSPRTNAME", @id = "GTRNSPRTNAME", @required = "required", tabindex = "9", @maxLength = "100" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Vehicle No<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.VHLNO, new { @class = "form-control VHLNO", @id = "VHLNO", @required = "required", data_autocomplete_url = Url.Action("AutoVehicleNo", "ExportVehicleTicket"), @tabindex = "8" })
+                                        @Html.TextBoxFor(model => model.VHLMID, new { @class = "form-control  VHLMID hide", @id = "VHLMID", tabindex = "-1" })
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Port<span class="required-field"></span></label>
+                                        @Html.DropDownListFor(model => Model.VTTYPE, new SelectList(ViewBag.VTTYPE, "value", "text"), new { @class = "form-control VTTYPE", @id = "VTTYPE", @tabindex = "10" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Loading Date<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.EVLDATE, new { @class = "form-control EVLDATE", @id = "EVLDATE", @data_val = false, @tabindex = "11", @placeholder = "Please Select Date" })
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Sailing Date<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.EVSDATE, new { @class = "form-control EVSDATE", @id = "EVSDATE", @data_val = false, @tabindex = "12", @placeholder = "Please Select Date" })
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Leo Received Date<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.ELRDATE, new { @class = "form-control ELRDATE", @id = "ELRDATE", @data_val = false, @tabindex = "12", @placeholder = "Please Select Date" })
+                                       
+                                    </div>
+                                </div>
+                                                                
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        @Html.TextAreaFor(model => model.VTREMRKS, new { @class = "form-control VTREMRKS", @id = "VTREMRKS", @tabindex = "16" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 box-footer">
+                            <div class="col-md-12 box-footer">
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" tabindex="18" />
+                                <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden " hidden />
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="17" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getDate() +
+                "/" +
+                eval(value1.getMonth() + 1) +
+                "/" +
+                value1.getFullYear();
+            return dat;
+        }
+
+        function GetDriver() {
+            var GIDID = $(".GIDID option:selected").val();
+            $(".DRVNAME").val("");
+            $.ajax({
+                url: "@Url.Action("GetDriver", "ExportVehicleTicket")/" + GIDID,
+                async: false,
+                datatype: "json",
+                success: function (data) {
+                    if (data != "") {
+                        $(".DRVNAME").val(data[0].DRVNAME);
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            add_autocomplete_transport($("#TRNSPRTNAME"), "TRNSPRTNAME,TRNSPRTID");
+            add_autocomplete_vehicle($("#VHLNO"), "VHLMDESC,VHLMID");
+            $("#othertransdiv").hide();
+
+            $("#TRNSPRTNAME").on("change", function () {
+                var TRNSPRTNAME = $("#TRNSPRTNAME").val();
+                var TRNSPRTID = $("#TRNSPRTID").val();
+                //if (TRNSPRTID == "67554") {
+                if (TRNSPRTID == "68812") {
+
+                    $("#VHLNO").val("");
+                    //$("#GPNRNO").val("-");
+                    $("#VHLMID").val("0");
+                    $("#GTRNSPRTNAME").val("");
+                    $("#GOTRNSPRTNAME").val("");
+                    $("#othertransdiv").show();
+                    $("#GTRNSPRTNAME").focus()
+                }
+                else if (TRNSPRTID == "19739") {
+                    $("#VHLNO").val("");
+                    //$("#GPNRNO").val("-");
+                    $("#VHLMID").val("0");
+                    $("#GTRNSPRTNAME").val(TRNSPRTNAME);
+                    $("#GOTRNSPRTNAME").val(TRNSPRTNAME);
+
+                    //alert($("#GTRNSPRTNAME").val());
+                    $("#othertransdiv").hide();
+                }
+
+                else {
+                    //alert("y")
+                    $("#GTRNSPRTNAME").val(TRNSPRTNAME);
+                    $("#GOTRNSPRTNAME").val(TRNSPRTNAME);
+                    $("#othertransdiv").hide();
+                    //alert($("#GTRNSPRTNAME").val());
+                }
+
+            });
+
+            $(".VHLNO").on("blur", function () {
+                var VHLMID = $(".VHLMID").val();
+                if (VHLMID == "" || VHLMID == "0") {
+                    VHLMID = 0;
+                }
+                var TRNSPRTNAME = $("#TRNSPRTNAME").val();
+                var TRNSPRTID = $("#TRNSPRTID").val();
+                if (TRNSPRTID == "19739") {
+                    if (TRNSPRTID > 0) {
+                        var url = "/ExportVehicleTicket/GetVehicle/" + TRNSPRTID + "-" + VHLMID;
+                        //var url = "/NonPnrGateIn/GetVehicle/" + TRNSPRTID;
+                        $.ajax({
+                            url: url,
+                            dataType: 'json',
+                            async: false,
+                            success: function (data) {
+                                //console.log(data);
+                                if (data.length > 0) {
+                                    //alert(data[0].VHLPNRNO);
+                                    $("#VHLMID").val(data[0].VHLMID);
+                                    //$("#GPNRNO").val(data[0].VHLPNRNO);
+                                }
+                                else {
+                                    $("#VHLMID").val("0");
+                                    //$("#GPNRNO").val("-");
+                                }
+                            }
+                        });
+                    }
+
+                }
+                else {
+                    $("#VHLMID").val("0");
+                    //$("#GPNRNO").val("-");
+                }
+
+                //----End of function
+            });
+
+        });
+        
+        $(window).bind("load", function () {
+            if ($(".VTDID").val() == "") {
+                $(".VTDID").val("0");
+            }
+
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+
+            if ($("#VTDID").val() == "") {
+                $("#VTDID").val("0");              
+            }
+
+            $('input[id$=VTDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#VTDATE").focus();
+                }
+            });
+
+            $('input[id$=EVSDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#EVSDATE").focus();
+                }
+            });
+
+            $('input[id$=EVLDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#EVLDATE").focus();
+                }
+            });
+
+            $('input[id$=ELRDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#ELRDATE").focus();
+                }
+            });
+
+            $(".datepicker").removeAttr('VTDATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+
+            if ($("#VTDID").val() == 0) {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                //console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                var datetme = hours + ':' + minutes + ':' + seconds;
+
+                $(".VTDATE").val(date);
+                $(".EVSDATE").val(date);
+                $(".EVLDATE").val(date);
+                $(".ELRDATE").val(date);
+                $(".VTTIME").val(datetme);
+            }
+            else {
+                if ($(".VTDID").val() != 0) {
+                    var GIDID = $(".GIDID").val();
+                    var url = "/ExportVehicleTicket/directDetail/" + GIDID;
+                    $.getJSON(url, function (data) {
+                        $.each(data, function (key, val) {
+                            var MyDate_String_Value = val.GIDATE;
+                            var f_value = new Date
+                                (
+                                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                                );
+                            var month = parseInt(f_value.getMonth()) + 1;
+                            var dat = f_value.getDate() +
+                                "/" + month +
+                                "/" +
+                                f_value.getFullYear();
+                            var SIZE = val.CONTNRSDESC;
+                            var CARGO = val.PRDTDESC;
+                            var SHBNO = val.SBILLNO;
+                            var STFBNO = val.SBMDNO;
+                            var EXPRT = val.EXPRTNAME;
+                            var CHA = val.CHANAME;
+                            var GIDID = val.GIDID;
+                            var STFDID = val.STFDID;
+                            var ASLDID = val.ASLDID;
+                            var CSEALNO = val.CSEALNO;
+                            var ASEALNO = val.ASEALNO;
+
+                            $("#SIZE").val(SIZE);
+                            $("#INDATE").val(dat);
+                            $("#VTDESC").val(CARGO);
+                            $("#VTSSEALNO").val(SHBNO);
+                            $("#STFDID").val(STFDID);
+                            $("#STFBNO").val(STFBNO);
+                            $("#EXPRT").val(EXPRT);
+                            $("#CHASNAME").val(CHA);
+                            $("#ASLDID").val(ASLDID);
+                            $("#CSEALNO").val(CSEALNO);
+                            $("#ASEALNO").val(ASEALNO);
+                            $("#GIDID").val(GIDID);
+                        });
+                    });
+                }
+            }
+        });
+
+        function add_autocomplete_transport($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                    });
+                    //$("#VHLNO").empty();
+                    id = $("#TRNSPRTID").val();
+                    vid = $("#VHLNO").val();
+                    // alert(id);
+                    if (id == "19739" || id == "19740") {
+                        //  alert(id);
+                        @* $.ajax({
+                            type: 'get',
+                            url: '@Url.Action("GetVehicle", "EVTkt")?id=' + id, //.....calling json method
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data != "") {
+                                    $(".VHL_DIV").html("<select class='form-control VHLNO' name='VHLNO' id='VHLNO' tabindex = '9'></select>")
+                                    $.each(data, function (i, dataval) {
+                                        $("#VHLNO").append('<option value="' + dataval.VHLMDESC + '">' + dataval.VHLMDESC + '</option>');
+                                    });
+                                    // $("#VHLNO").append('');
+                                }
+                            },
+                            error: function (ex) {
+                                alert('Failed to data ' + ex);
+                            }
+                        });*@
+
+                            }
+                    return false
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_vehicle($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                    });
+
+
+
+
+                    return false
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+              
+
+        $("#GIDID").change(function () {
+            var GIDID = $(".GIDID option:selected").val();
+            var url = "/ExportVehicleTicket/directDetail/" + GIDID;
+            $.getJSON(url, function (data) {
+                $.each(data, function (key, val) {
+                    var MyDate_String_Value = val.GIDATE;
+                    var f_value = new Date
+                        (
+                            parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                        );
+                    var month = parseInt(f_value.getMonth()) + 1;
+                    var dat = f_value.getDate() +
+                        "/" + month +
+                        "/" +
+                        f_value.getFullYear();
+                    var SIZE = val.CONTNRSDESC;
+
+                    var CARGO = val.PRDTDESC;
+                    var SHBNO = val.SBILLNO;
+                    var STFBNO = val.SBMDNO;
+                    var EXPRT = val.EXPRTNAME;
+                    var CHA = val.CHANAME;
+                    var GIDID = val.GIDID;
+                    var STFDID = val.STFDID;
+                    var ASLDID = val.ASLDID;
+                    var CSEALNO = val.CSEALNO;
+                    var ASEALNO = val.ASEALNO;
+
+                    $("#SIZE").val(SIZE);
+                    $("#INDATE").val(dat);
+                    $("#VTDESC").val(CARGO);
+                    $("#VTSSEALNO").val(SHBNO);
+                    $("#STFDID").val(STFDID);
+                    $("#STFBNO").val(STFBNO);
+                    $("#EXPRT").val(EXPRT);
+                    $("#CHASNAME").val(CHA);
+                    $("#ASLDID").val(ASLDID);
+                    $("#CSEALNO").val(CSEALNO);
+                    $("#ASEALNO").val(ASEALNO);
+                    $("#GIDID").val(GIDID);
+                });
+            });
+        })
+
+        function Form_validate() {
+            if ($("#VTDATE").val() == "") {
+                alert("Please enter Date !!");
+                $(".VTDATE").focus();
+                return false;
+            }
+            else if ($("#VTTIME").val() == "") {
+                alert("Please enter Time !!");
+                $(".VTTIME").focus();
+                return false;
+            }
+            else if ($("#GIDID").val() == "") {
+                alert("Please select container No !!");
+                $(".GIDID").focus();
+                return false;
+            }
+            else if ($("#DRVNAME").val() == "") {
+                alert("Please enter driver name !!");
+                $(".DRVNAME").focus();
+                return false;
+            }
+            var temp3 = $("#VTQTY").val();
+            if (temp3 == "") {
+                alert("Please enter NOP !!");
+                $(".VTQTY").focus();
+                return false;
+            }
+            var temp4 = $("#LSEALNO").val();
+            if (temp4 == "") {
+                alert("Please enter custom seal !!");
+                $("#LSEALNO").focus();
+                return false;
+            }
+            var temp5 = $("#SSEALNO").val();
+            if (temp5 == "") {
+                alert("Please enter agent seal !!");
+                $("#SSEALNO").focus();
+                return false;
+            }
+            var temp6 = $("#GOTRNSPRTNAME").val();
+            if (temp6 == "") {
+                alert("Please enter transporter name !!");
+                $("#GOTRNSPRTNAME").focus();
+                return false;
+            }
+            var temp7 = $("#GOOTYPE").val();
+            if (temp7 == "") {
+                alert("Please enter operation by !!");
+                $("#GOOTYPE").focus();
+                return false;
+            }
+            var temp8 = $("#VHLNO").val();
+            if (temp8 == "") {
+                alert("Please enter vehicle no !!");
+                $("#VHLNO").focus();
+                return false;
+            }
+            var temp9 = $("#EVLDATE").val();
+            if (temp9 == "") {
+                alert("Please enter loading date !!");
+                $("#EVLDATE").focus();
+                return false;
+            }
+            var temp10 = $("#EVSDATE").val();
+            if (temp10 == "") {
+                alert("Please enter sailing  date !!");
+                $("#EVSDATE").focus();
+                return false;
+            }
+            var temp11 = $("#ELRDATE").val();
+            if (temp11 == "") {
+                alert("Please enter leo received date !!");
+                $("#ELRDATE").focus();
+                return false;
+            }
+        }
+              
+
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

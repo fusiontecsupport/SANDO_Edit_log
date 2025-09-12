@@ -1,0 +1,843 @@
+﻿@using scfs_erp.Models;
+@using scfs.Data;
+@model scfs_erp.Models.AuthorizationSlipMD
+@{
+    ViewBag.Title = "Load Slip";
+}
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>Import Load Slip</strong>
+                        </div>
+                    </div>@Html.Raw(ViewBag.msg)
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ImportLoadSlip/savedata")" method="post" accept-charset="utf-8" id="LoadAuthorizationSlipform" data-ng-controller="myController" name="LoadAuthorizationSlipform" onsubmit="return Form_validate()">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="LoadAuthorizationSlipform_info">
+                                <div class="row">
+                                    <div class="col-md-4 hidden">
+                                        <div class="form-group">
+                                            <label>Primary  </label>
+                                            @Html.TextBoxFor(model => model.masterdata[0].ASLMID, new { @class = "form-control  ASLMID", @id = "ASLMID" })
+                                            <input type="text" id="UsrAdmGrpChk" name="UsrAdmGrpChk" class="form-control UsrAdmGrpChk hide" value="@System.Web.HttpContext.Current.Session["AdminGrp"]">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Date<span class="required-field"></span> </label>
+                                            @Html.TextBoxFor(model => Model.masterdata[0].ASLMDATE, "{0:dd/MM/yyyy}", new { @class = "form-control ASLMDATE", @id = "ASLMDATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+                                            @*@Html.TextBoxFor(model => Model.masterdata[0].ASLMDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker ASLMDATE", @id = "ASLMDATE", @data_val = false, tabindex = "1" })*@
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>Time<span class="required-field"></span> </label>
+                                            @Html.TextBoxFor(model => Model.masterdata[0].ASLMTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker ASLMTIME", @id = "ASLMTIME", @data_val = false, tabindex = "1" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>No  </label>
+                                            @Html.TextBoxFor(model => model.masterdata[0].ASLMDNO, new { @class = "form-control  ASLMDNO", @id = "ASLMDNO", @readonly = true })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+
+                                        <div class="form-group">
+                                            <label>Driver Name<span class="required-field"></span> </label>
+                                            @Html.TextBoxFor(model => model.detaildata[0].DRVNAME, new { @class = "form-control  DRVNAME", @id = "DRVNAME", tabindex = "2" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Trailor No </label>
+                                            @Html.TextBoxFor(model => model.detaildata[0].VHLNO, new { @class = "form-control  VHLNO", @id = "VHLNO", tabindex = "3" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Status </label>
+                                            @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control  DISPSTATUS", @id = "DISPSTATUS", tabindex = "5" })
+
+                                        </div>
+                                    </div>
+                                    @if (Model.masterdata != null)
+                                    {
+
+                                        <div class="col-md-2">
+
+                                            <div class="form-group">
+                                                <label>IGM No<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].IGMNO)*@
+                                                <input type="text" class="IGMNO form-control" name="IGMNO" id="IGMNO" value="@ViewBag.IGMNO" readonly />
+                                                @*<input type="text" class="IGMNO form-control" name="IGMNO" id="IGMNO" value="" readonly />*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                            <div class="form-group">
+                                                <label>Line No<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMLNO)*@
+                                                <input type="text" class="GPLNO form-control" name="GPLNO" id="GPLNO" value="@ViewBag.GPLNO" readonly />
+                                                @*<input type="text" class="GPLNO form-control" name="GPLNO" id="GPLNO" value="" readonly />*@
+
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-3">
+
+                                            <div class="form-group">
+                                                <label>IGM No<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMIGMNO)*@
+                                                <input type="text" class="IGMNO form-control" name="IGMNO" id="IGMNO" placeholder="---Please Type IGMNO----" tabindex="6" />
+                                                @*@Html.TextBox("IGMNO", new { @class = "form-control  IGMNO", @id = "IGMNO", @placeholder = "---Please Type IGMNO----", tabindex = "48", @required = "required" })*@
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+
+                                            <div class="form-group">
+                                                <label>Line No<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMLNO)*@
+                                                <input type="text" class="GPLNO form-control" name="GPLNO" id="GPLNO" placeholder="---Please Type GPLNO----" tabindex="7" />
+                                                @*@Html.TextBox("GPLNO", new { @class = "form-control  GPLNO", @id = "GPLNO", @required = "required", tabindex = "50", @placeholder = "---Please Type Line No----" })*@
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                            <div class="form-group">
+                                                <br />
+                                                <input type="button" name="search" value="search" class="btn btn-success btn-xs" id="btnsearch" onclick="GetDetail()" tabindex="8" />
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Last Open Sheet Date</label>
+                                            @*<input type="text" id="OSMLDATE" class="form-control OSMLDATE" readonly name="OSMLDATE" />*@
+                                            @Html.TextBox("OSMLDATE", "{0:dd/MM/yyyy}", new { @class = "form-control OSMLDATE", @readonly = "readonly", @id = "OSMLDATE", @name = "OSMLDATE" })
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-2">
+                                        <div class="form-group">
+                                            <label>OOC Date</label>
+                                            <input type="text" id="OOCDATE" value="@ViewBag.OOCDATE" class="form-control OOCDATE" readonly name="OOCDATE" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                                @if (Model.masterdata != null)
+                                {<div class="Del_check hidden">@scfs_erp.Helper.Delete_fun.delete_check1("IMPORTAUTHSLIP", @Model.masterdata[0].ASLMID.ToString())</div>}
+                                <div class="table_grid" id="table_grid">
+                                    @if (Model.detaildata != null)
+                                    {
+
+                                        <div class='panel-heading navbar-inverse' style='color:white'>Container Details</div>
+                                        <table id='mytabl' class='table table-striped table-bordered bootstrap-datatable'>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Container No</th>
+                                                    <th>Size</th>
+                                                    <th>In Date</th>
+                                                    <th>OpenSheet No</th>
+                                                    <th>VT No</th>
+                                                    <th>BOE No</th>
+                                                    <th>BOE Date</th>
+                                                    <th>DODate</th>
+                                                    <th>Liner Seal No</th>
+                                                    <th>SANCO Seal No</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="TDETAIL_BODY">
+                                                @foreach (PR_IMPORT_AUTHORIZATION_DETAIL_CTRL_ASSGN_Result det in Model.destuffdata)
+                                                {
+
+                                                    <tr>
+                                                        <td>
+
+                                                            <input type='checkbox' name='CHKBX' class='CHKBX' id='CHKBX' checked="checked" onchange='SelectedCont(this)' />
+                                                            <input type=text name='booltype' class='booltype hidden' value="true" />
+                                                            <input type="text" id="GIDID" class="GIDID hide" name="GIDID" value="@det.GIDID" />
+                                                            <input type="text" id="IGMNO" class="IGMNO hide" name="IGMNO" value="@det.IGMNO" />
+                                                            <input type="text" id="GPLNO" class="GPLNO hide" name="GPLNO" value="@det.GPLNO" />
+                                                            <input type="text" id="OSDID" class="OSDID hide" name="OSDID" value="@det.OSDID" />
+                                                            <input type="text" id="OSMIGMNO" class="OSMIGMNO hide" name="OSMIGMNO" value="@det.OSMIGMNO" />
+                                                            <input type="text" id="OSMLNO" class="OSMLNO hide" name="OSMLNO" value="@det.OSMLNO" />
+                                                            <input type="text" id="ASLDID" value="@det.ASLDID" class="ASLDID hide" name="ASLDID" />
+                                                            <input type="text" id="STMRNAME" value="@det.STMRNAME" class="STMRNAME hide" name="STMRNAME" />
+                                                            <input type="text" id="IMPRTNAME" value="@det.IMPRTNAME" class="IMPRTNAME hide" name="IMPRTNAME" />
+                                                            <input type="text" id="VOYNO" value="@det.VOYNO" class="VOYNO hide" name="VOYNO" />
+                                                            <input type="text" id="VSLNAME" value="@det.VSLNAME" class="VSLNAME hide" name="VSLNAME" />
+                                                        </td>
+
+                                                        <td class='col-lg-3'><input type='text' id=CONTNRNO value="@det.CONTNRNO" class='form-control CONTNRNO' name=CONTNRNO readonly></td>
+                                                        <td class='col-lg-1'><input type='text' value="@det.CONTNRSDESC" id=CONTNRSDESC class='CONTNRSDESC form-control' name=CONTNRSDESC readonly></td>
+                                                        <td class='col-lg-2'><input type='text' id='GIDATE' value='@det.GIDATE.Value.ToString("dd/MM/yyyy")' class='GIDATE form-control' name=GIDATE readonly></td>
+                                                        <td class='col-lg-2'><input type='text' id='OSMNO' class='form-control OSMNO' name='OSMNO' value='@det.OSMDNO' readonly></td>
+                                                        <td class='col-lg-1'><input type='text' id='VTDNO' class='form-control VTDNO' name='VTDNO' value='@det.VTDNO' readonly></td>
+                                                        <td class='col-lg-1'><input type='text' id='BOENO' class='form-control BOENO' name='BOENO' value='@det.BOENO' readonly></td>
+
+                                                        <td class='col-lg-2'><input type='text' id='BOEDATE' class='form-control BOEDATE' name='BOEDATE' value='@det.BOEDATE.ToString("dd/MM/yyyy")' readonly></td>
+                                                        <td class='col-lg-2'><input type='text' id='DODATE' class='form-control DODATE' name='DODATE' readonly style=width:89px value='@det.DODATE.Value.ToString("dd/MM/yyyy")'></td>
+                                                        <td class='col-lg-2'>
+                                                            <input type=text value='@det.LSEALNO' id='LSEALNO' class='form-control LSEALNO' name='LSEALNO' readonly style=width:65px>
+                                                        </td>
+                                                        <td class='col-lg-2'>
+                                                            <input type=text value='@det.SSEALNO' id='SSEALNO' class='form-control SSEALNO' name='SSEALNO' readonly style=width:65px>
+                                                        </td>
+                                                        <td>
+                                                            @if (@det.VTDNO == "" || @det.VTDNO == null)
+                                                            {
+                                                                <a class="del_detail" id="del_detail" data-id="@det.ASLDID"> <i class="glyphicon glyphicon-trash del_detail" style="color:#ff0000;font-size:large"></i></a>
+                                                            }
+                                                        </td>
+
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+                                    }
+                                </div>
+                                <div class="col-md-12 box-footer">
+
+                                    <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />
+
+                                    <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="5000" />
+
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    <script>
+        var base = window.location.origin;
+
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            //var value1 = new Date
+            //    (
+            //        parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+            //    );
+
+            var value1 = new Date(MyDate_String_Value);
+
+            var year = value1.getFullYear();
+            var month = value1.getMonth() + 1;
+            var day = value1.getDate();
+
+            if (month < 10) month = "0" + month;
+            if (day < 10) day = "0" + day;
+
+            var dat = day +
+                "/" +
+                month +
+                "/" +
+                year;
+            return dat;
+        }
+
+        function GetFormattedTime(obj) {
+            var MyDate_String_Value = obj;
+
+            //var dt = new Date
+            //    (
+            //        parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+            //    );
+
+            var dt = new Date(MyDate_String_Value);
+
+            var Hours = dt.getHours();
+            var Minutes = dt.getMinutes();
+            var Seconds = dt.getSeconds();
+
+            if (Hours < 10) Hours = "0" + Hours;
+            if (Minutes < 10) Minutes = "0" + Minutes;
+            if (Seconds < 10) Seconds = "0" + Seconds;
+
+            var dat = Hours + ':' + Minutes + ':' + Seconds;
+
+            return dat;
+        }
+
+        function GetFormattedDateTime(obj) {
+            var MyDate_String_Value = obj;
+            //var value1 = new Date
+            //    (
+            //        parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+            //    );
+
+            var value1 = new Date(MyDate_String_Value);
+
+            var year = value1.getFullYear();
+            var month = value1.getMonth() + 1;
+            var day = value1.getDate();
+
+            if (month < 10) month = "0" + month;
+            if (day < 10) day = "0" + day;
+
+            var Hours = value1.getHours();
+            var Minutes = value1.getMinutes();
+            var Seconds = value1.getSeconds();
+
+            if (Hours < 10) Hours = "0" + Hours;
+            if (Minutes < 10) Minutes = "0" + Minutes;
+            if (Seconds < 10) Seconds = "0" + Seconds;
+
+            var dat = day +
+                "/" +
+                month +
+                "/" +
+                year + " " + Hours + ":" + Minutes + ":" + Seconds;
+
+            return dat;
+        }
+
+        function GetOperation() {
+            ASLDTYPE = $("#ASLDTYPE option:selected").val();
+            if (ASLDTYPE == 1) {
+                $("#LBR_LBL").html("Operation");
+                $("#LBR_DIV").html("<select class='form-control ASLOTYPE' id='ASLOTYPE' name='detaildata[0].ASLOTYPE'></select>");
+                
+                url = base + "/ImportLoadSlip/GetOperation/";
+                $.ajax({
+                    type: 'get', url: url,
+                    success: function (data, status) {
+                        // alert(data);
+                        $.each(data, function (key, value) {
+                            //s alert(value.OPRTYPE);
+                            $("#ASLOTYPE").append("<option value=" + value.OPRTYPE + ">" + value.OPRTYPEDESC + "</option>");
+                        })
+                    }
+                });
+            }
+            else {
+                $("#LBR_LBL").html("Labour Type");
+                $("#LBR_DIV").html("<select class='form-control ASLLTYPE' id='ASLLTYPE' name='detaildata[0].ASLLTYPE'><option value=0>SANCO</option><option value=1>CHA</option></select>");
+            }
+        }
+
+        function GetDetail() {
+            if ($('#IGMNO').val() == "") {
+                alert('Please Enter IGM No');
+                $('#IGMNO').focus();
+                return false;
+            } else if ($('#GPLNO').val() == "") {
+                alert('Please Enter Line No');
+                $('#GPLNO').focus();
+                return false;
+            }
+            $("#table_grid").html("");
+            var IGM_No = $("#IGMNO").val();
+            var Line_No = $("#GPLNO").val();
+
+            url = base + "/ImportLoadSlip/Detail/" + IGM_No + ";" + Line_No;
+
+            $.ajax({
+                type: 'get',
+                url: url,
+                data: { id: IGM_No + ";" + Line_No },
+                success: function (data, status) {
+                    $("#table_grid").html(data);
+                    if ($("#mytabl tbody tr").length == 0) { $("#table_grid").html("<p style='color:red'>There is no Gate In / Already Existed Record for Given IGMNO & LineNo</p>"); }
+                    else {
+
+                        $("#table_grid").html(data);
+                    }
+                    $('#OOCDATE').val($('.oocdt').val())
+                }
+            });//-----End of post
+            //return false;
+
+            var murl = base + "/ImportDeStuff/OSMaxDate/" + IGM_No + ";" + Line_No;
+            $.ajax({
+                type: 'get',
+                url: murl,
+                @*url: '@Url.Action("OSMaxDate", "ImportDeStuff")/',
+                data: { igmno: IGM_No, gplno: Line_No },*@
+                success: function (result) {
+                    //alert(result[0].OSMDATE);
+                    var osdate = result[0].OSMDATE;
+
+                    if (osdate != "") {
+                        var osmdate = new Date(osdate);
+                        var inDate = result[0].OSMDATE; //Wed Feb 09 2011 15:41:41 GMT+0530 (India Standard Time)
+                        var JavaScriptDate = new Date(parseInt(inDate.substr(6))); //to js format
+                        var dt = new Date(JavaScriptDate); //Date object
+
+                        var year = dt.getFullYear();
+                        var month = dt.getMonth() + 1;
+                        var day = dt.getDate();
+
+                        if (month < 10) month = "0" + month;
+                        if (day < 10) day = "0" + day;
+
+                        $(".OSMLDATE").val(day + "/" + month + "/" + year);
+                    }
+
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+            //------Autocomplete Function-----------------
+            //add_autocomplete($("#IGMNO"), "IGMNO");
+
+            //---End
+
+            $('input[id$=ASLMDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                autoclose: true,
+                endDate: "today",
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#ASLMDATE").focus();
+                }
+            });
+            $('.ASLMDATE').removeClass('hasDatepicker');
+
+            $('input[id$=OSMLDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                autoclose: true,
+                endDate: "today",
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#OSMLDATE").focus();
+                }
+            });
+            $('.OSMLDATE').removeClass('hasDatepicker');
+
+            //-----------DATE CONTROLS----------------//
+            $(".datepicker").removeAttr('ASLMDATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', maxDate: new Date() });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+            //$('.time').timepicker();
+            //  GetDetail();
+
+            if ($(".ASLMID").val() == "") {
+                $(".ASLMID").val("0");
+            }
+
+            if ($(".ASLMID").val() == "0") {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                //console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                var time = hours + ':' + minutes + ':' + seconds;
+
+                $(".ASLMDATE").val(date);
+                $(".ASLMTIME").val(time);
+
+
+                //$('#DODATE').on("change", function () {
+                //    var odt = $(".OSMDATE").val();
+                //    var ss = $(".DODATE").val();
+                //    var start = new Date(odt);
+
+                //    var end = new Date(ss);
+                //    alert(start.getDate());
+                //    var days = (end.getDate() - start.getDate()) / 1000 / 60 / 60 / 24;
+                //    alert(days);
+                //});
+
+            }
+            else {
+                if ($(".Del_check").html() != "PROCEED") {
+                    //alert($(".Del_check").html()); //$("#add_detail,#del_detail").addClass("hide");
+                    $("#LoadAuthorizationSlipform input:submit").removeAttr("disabled", "disabled");
+                } else { $("#add_detail,#del_detail").removeClass("hide"); $("#LoadAuthorizationSlipform input:submit").removeAttr("disabled", "disabled"); }
+
+                $("#OSMIGMNO").val($("#IGMNO").val());
+                $("#OSMLNO").val($("#GPLNO").val());
+
+                var IGM_No = $("#OSMIGMNO").val();
+                var Line_No = $("#OSMLNO").val();
+
+                var murl = base + "/ImportDeStuff/OSMaxDate/" + IGM_No + ";" + Line_No;
+
+                $.ajax({
+                    type: 'get',
+                    url: murl,
+                    @*url: '@Url.Action("OSMaxDate", "ImportDeStuff")/',
+                    data: { igmno: IGM_No, gplno: Line_No },*@
+                    success: function (result) {
+                        //alert(result[0].OSMDATE);
+                        var inDate = result[0].OSMDATE; //Wed Feb 09 2011 15:41:41 GMT+0530 (India Standard Time)
+                        var JavaScriptDate = new Date(parseInt(inDate.substr(6))); //to js format
+                        var dt = new Date(JavaScriptDate); //Date object
+
+                        var year = dt.getFullYear();
+                        var month = dt.getMonth() + 1;
+                        var day = dt.getDate();
+
+                        if (month < 10) month = "0" + month;
+                        if (day < 10) day = "0" + day;
+
+                        $(".OSMLDATE").val(day + "/" + month + "/" + year);
+                    }
+                });
+
+                ASLDTYPE = $("#ASLDTYPE option:selected").val();
+                if (ASLDTYPE == 1) {
+                    var selval = "";
+                    $("#LBR_LBL").html("Operation");
+                    $("#LBR_DIV").html("<select class='form-control ASLOTYPE' id='ASLOTYPE' name='detaildata[0].ASLOTYPE'></select>");
+
+                    url = base + "/ImportLoadSlip/GetOperation/";
+                    $.ajax({
+                        type: 'get', url: url,
+                        success: function (data, status) {
+                            // alert(data);
+                            $.each(data, function (key, value) {
+                                // alert($("#F_OTYPE").val() + ";;;;" + value.OPRTYPE);
+                                if ($("#F_OTYPE").val() == value.OPRTYPE) selval = "selected";
+                                else selval = "";
+                                $("#ASLOTYPE").append("<option value=" + value.OPRTYPE + " " + selval + ">" + value.OPRTYPEDESC + "</option>");
+                            })
+                        }
+                    });
+                }
+                //else {
+                //    var selval = ""; if ($("#F_LTYPE").val() == "1") selval = "selected"; else selval = "";
+                //    $("#LBR_LBL").html("Labour Type");
+                //    $("#LBR_DIV").html("<select class='form-control' id='ASLLTYPE'><option value=0>SANCO</option><option value=1 "+selval+">CHA</option></select>");
+                //}
+
+
+            }
+            //--------------END OF DATE CONTROLS----------//
+
+            //-------------------Duplicate check ---------------------------------
+            $("#BOENO").blur(function () {
+                var boe = $("#BOENO").val();
+
+                $.post(base + "/ImportLoadSlip/BOEDetail",
+                    {
+                        BoeNo: boe
+                    },
+                    function (data, status) {
+                        if (data == "") { return false; }
+                        else {
+                            //alert(data);
+
+                            $('<div></div>').dialog({
+                                modal: true,
+                                title: "Information",
+                                open: function () {
+                                    var markup = '<b>' + data + '<b>';
+                                    $(this).html(markup);
+                                },
+                                buttons: {
+                                    Ok: function () {
+                                        $(this).dialog("close");
+                                    }
+                                }
+                            }); //end confirm dialog
+                            $("#BOENO").val(""); $("#BOENO").focus();
+                        }
+                    })
+            });//------End of Duplicate Check
+
+
+            //-------------Labour Name----------------------------
+            $("#LCATEID").change(function () {
+                var osmcatelId = $('#LCATEID option:selected').text();
+                //$("#OSMLCATENAME").val(osmcatelId);
+            })//---End of Labour Name
+
+
+
+            //-------------CHA Licence Name-------------------
+            //$('#OSMNAME').blur(function () {
+
+            //    var selectedvalue = $('#OSMNAME').val();
+
+            //    $('#OSMLNAME').val(selectedvalue);
+            //});//-----End of CHA
+
+            $(document).on("click", "#del_detail", function () {
+
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var $tableBody = $('#mytabl').find("tbody")
+
+                    $trCur = $tableBody.find("tr:eq(0)");
+
+                    var idx = $('#mytabl tbody tr').length;
+                    var row = $(this).closest("tr");
+                    //var det_id = $trCur.find("#ASLDID").val();
+                    //alert(idx);
+                    var det_id = row.find("#ASLDID").val();
+                    //alert(det_id);
+                    if (idx > 1) {
+                        if (det_id != 0) {
+
+
+                            $.post('@Url.Action("Del_det", "ImportLoadSlip")',
+                                {
+                                    id: det_id, fld: "IMPORTDETAILSAUTHSLIP"
+                                },
+                                function (data, status) {
+                                    if (data != "PROCEED") {
+                                        //$trCur.find("#add_detail,#del_detail").addClass("hide");
+                                        row.find(".del_detail").hide();
+                                        $("#LoadAuthorizationSlipform input:submit").attr("disabled", "disabled");
+
+                                        //var returnurl = "/ImportLoadSlip/Edit?id=" + $('#ASLMID').val();
+                                        //window.location.href = returnurl;
+
+                                    }
+                                    else {
+                                        alert("Record deleted Successfully");
+                                        row.find(".del_detail").show();
+
+                                        var returnurl = "/ImportLoadSlip/Index";
+                                        window.location.href = returnurl;
+
+                                    }
+
+
+                                });//---End of post
+
+
+                        }
+
+                    }
+
+                    else {
+                        idx = $("#TDETAIL_IDX").val();
+                        if (idx == 1) {
+                            $("#TDETAIL_BODY").hide();
+                            var returnurl = '@Url.Action("Edit", "LoadAuthorizationSlipform")/?id=' + $('#ASLMID').val();
+                            window.location.href = returnurl;
+                            //ExecTMP();
+                        }
+                        else {
+                            $("#TDETAIL_BODY").show();
+                            var row = this.parentNode.parentNode;
+                            $(this).parents('.item-row').remove();
+                            var $tableBody = $('#mytabl').find("tbody")
+                            idx = idx - 1;
+                            var returnurl = '@Url.Action("Form", "LoadAuthorizationSlipform")/' + $('#ASLMID').val();
+                            window.location.href = returnurl;
+
+                        }
+
+                    }
+
+                }
+            });
+            AdminGrpChk();
+        });//---End of Document Ready Event------------------
+
+        $(window).bind("load", function () {
+            if ($(".ASLMID").val() == "") {
+                $(".ASLMID").val("0");
+            }
+        });
+
+        function SelectedCont(obj) {
+            var i = 0;
+            $(".CHKBX").each(function () {
+                if ($(this).is(':Checked') == true) {
+                    $(".booltype")[i].value = "true";
+
+                }
+                else {
+                    $(".booltype")[i].value = "false";
+                }
+                i++;
+            })
+        }
+
+        function Form_validate() {
+            var i = 0;
+
+            var oocdate = $("#OOCDATE").val();
+            var aslmdate = $("#ASLMDATE").val();
+
+            var res = CompareDates(aslmdate, oocdate );
+
+            if ($('#ASLMDATE').val() == "") {
+                alert('Please Enter Date !!');
+                $('#ASLMDATE').focus();
+                return false;
+            }
+            else if ($('#OOCDATE').val() == "") {
+                alert("Please Update OOC Date in OpenSheet !!");
+                $('#ASLMDATE').css('border-color', 'red');
+                $('#ASLMDATE').focus();
+                return false;
+            }
+            else if (res == 2) {
+                alert('Load Slip Date Should be greater than or equal to OOC Date!!');
+                $("#ASLMDATE").focus();                
+                return false;
+
+            }
+            if ($('#ASLMTIME').val() == "") {
+                alert('Please Enter Time !!');
+                $('#ASLMTIME').focus();
+                return false;
+            }
+            if ($('#DRVNAME').val() == "") {
+                alert('Please Enter Driver Name !!');
+                $('#DRVNAME').focus();
+                return false;
+            }
+            if ($('#ASLMID').val() == 0 && $('#IGMNO').val() == "") {
+                alert('Please Enter IGM No !!');
+                $('#IGMNO').focus();
+                return false;
+            }
+            if ($('#ASLMID').val() == 0 && $("#GPLNO").val() == "") {
+                alert('Please Enter Line No !!');
+                $("#GPLNO").focus();
+                return false;
+            }
+
+            var badi = 0;
+            $(".CHKBX").each(function () {
+                if ($(this).is(':Checked') == true) {
+                    flag = true;
+                    badi++;
+                }
+                else {
+                    flag = false;
+                }
+            });
+            flag = true;
+            if (badi == 0) {
+                alert("Please check the Container Details !!");
+                $(".CHKBX").focus();
+                flag = false;
+                return false;
+            }
+            else if (badi > 1) {
+                alert("Please select Only ONE Container Details !!");
+                $(".CHKBX").focus();
+                flag = false;
+                return false;
+            }
+            else {
+
+                var dsd = $("#ASLMDATE").val();
+                var osd = $("#OSMLDATE").val();
+                var dsdate = ""; var osdate = "";
+
+                if (dsd != "" && osd != "") {
+                    var dsdate = Splitthedate(dsd);
+                    var osdate = Splitthedate(osd);
+                    //var dsdate = GetFormattedDate1(dsd);
+                    //var osdate = GetFormattedDate1(osd);
+                    //alert(dsdate);
+                    //alert(osdate);
+                    if ((dsdate < osdate)) {
+                        alert("Load Slip Date Grater Than Open Sheet Date !! ");
+                        $("#ASLMDATE").focus();
+                        return false;
+                    }
+                }
+
+                var r = confirm("Do you want to submit this record ?");
+
+                if (r == true) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+
+            }
+
+
+            //if ($(".CHKBX").is(':Checked') == false) {
+
+            //    alert("Please check the Container Details !!");
+            //    $(".CHKBX").focus();
+            //    //flag = false;
+            //    return false;
+            //}
+
+
+
+            //temp2 = $("#IGMNO").val();
+            //if (temp2 == "") {
+            //    alert("Please Select IGM No....!");
+            //    $(".IGMNO").focus();
+            //    return false;
+            //}
+        }
+        function AdminGrpChk() {
+            admgrpchk = $("#UsrAdmGrpChk").val();
+            if (admgrpchk == "N") {
+                $("#ASLMDATE").datepicker("option", "disabled", true);
+                $("#ASLMTIME").datepicker("option", "disabled", true);
+
+                $("#ASLMDATE").attr('readonly', true);
+                $("#ASLMTIME").attr('readonly', true);
+                $("#OSMIGMNO").focus();
+            }
+        }
+    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}
+

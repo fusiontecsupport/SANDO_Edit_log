@@ -1,0 +1,148 @@
+﻿
+@model IEnumerable<scfs_erp.Models.TransactionMaster>
+
+@{
+    ViewBag.Title = "Import Advance";
+}
+
+<div class="col-md-12">
+    <div class="panel panel-primary" style="background: #323C55;">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <i class="fa fa-bar-chart-o fa-fw"></i>Import Advance
+                <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("IAForm", "ImportAdvance")"><i class="fa fa-plus-square "></i> Add New </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-3"> </div>
+                    <div class="col-xs-6">
+                        <form action="#" method="post" accept-charset="utf-8" id="remotegateinform" data-ng-controller="myController" name="remotegateinform">
+
+                            <label for="from">From</label>
+                            <input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                            <label for="to">to</label>
+                            <input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                            <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>Time</th>
+                                <th>
+                                    No
+                                </th>
+
+                                <th>
+                                    CHA Name
+                                </th>
+                                @*<th>Cheque No</th>
+                                    <th>Cheque Date</th>*@
+                                <th>
+                                    Amount
+                                </th>
+
+                                <th>
+                                    S
+                                </th>
+
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ImportAdvance")",
+                "bProcessing": true,
+                "bStateSave": true,
+
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "" },
+                    { "sName": " ", "sClass": "col-lg-3" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "" },
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "ImportAdvance")/' +
+                                oObj.aData[6] + '\"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("PrintView", "ImportAdvance")/' +
+                                oObj.aData[6] + '\"  target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[6] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+            //------------Delete Record-------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ImportAdvance/Del",
+                           {
+                               id: idx, fld: ""
+                           },
+                         function (data, status) {
+                             if (data == "") {
+                                 alert("You are not Authorized to Delete....!");
+                             }
+                             else if (data != "Deleted successfully...") {
+                                 alert(data);
+                             }
+                             else {
+                                 alert(data);
+                                 location.replace(base + "/ImportAdvance");
+                             }
+                         });
+                }
+                return false;
+            });//End
+        });
+    </script>
+}

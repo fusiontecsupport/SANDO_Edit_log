@@ -1,0 +1,26 @@
+USE [SCFS_ERP]
+GO
+
+/****** Object:  Table [dbo].[TMP_STUFFING_SBDID]    Script Date: 02/08/2021 11:06:36 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[TMP_STUFFING_SBDID](
+	[KUSRID] [varchar](100) NOT NULL,
+	[SBMID] [int] NOT NULL,
+	[SBDID] [int] NOT NULL,
+	[NOP] [numeric](18, 2) NOT NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+

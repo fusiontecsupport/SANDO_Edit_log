@@ -1,0 +1,187 @@
+﻿@using scfs_erp.Models;
+
+@{
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Form";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+<style>
+    #ajaxSpinnerContainer {
+        height: 1px;
+    }
+
+    #ajaxSpinnerImage {
+        display: none;
+    }
+
+    #fade {
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: #ababab;
+        z-index: 1001;
+        -moz-opacity: 0.8;
+        opacity: .70;
+        filter: alpha(opacity=80);
+    }
+
+    #modal {
+        display: none;
+        position: absolute;
+        top: 45%;
+        left: 45%;
+        width: 84px;
+        height: 84px;
+        padding: 30px 15px 0px;
+        border: 3px solid #ababab;
+        box-shadow: 1px 1px 10px #ababab;
+        border-radius: 20px;
+        background-color: white;
+        z-index: 1002;
+        text-align: center;
+        overflow: auto;
+    }
+</style>
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div id="fade"></div>
+        <div id="modal">
+            <img src="~/Content/themes/base/images/loading.gif" />
+            @*<img src="~/Content/themes/base/images/jQuery-Ajax-Loading-Overlay-with-Loading-Text-Spinner-Plugin.jpg" />*@
+        </div>
+        <form id="ImpInvoiceMail" method="post" action="@Url.Action("PrintView","StuffingBill")">
+            <div class="msg" hidden style="margin-left:0;margin-right:0"> </div>
+            <div class="msg_error" hidden style="margin-left:0;margin-right:0"> </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Invoice-Mail(BS)</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="FTRANMID" class="FTRANMID hide form-control" name="FTRANMID" value="@ViewBag.id">
+
+
+
+                <div class="form-group col-lg-12">
+                    <label>Mail To</label>
+                    <input type="text" id="CATEMAIL" class="CATEMAIL  form-control" name="CATEMAIL" value="@ViewBag.CATEMAIL">
+                </div>
+
+                <div class="form-group col-lg-12">
+                    <label>CC:</label>
+                    <input type="text" id="CATEMAILCC" class="CATEMAILCC  form-control" name="CATEMAILCC" value="@ViewBag.CATEMAILCC">
+                </div>
+
+                @*<div class="form-group col-lg-12">
+                        <label>BCC:</label>
+                        <input type="text" id="CATEMAILBCC" class="CATEMAILBCC  form-control" name="CATEMAILBCC" value="@ViewBag.CATEMAILBCC">
+                    </div>*@
+
+                <div class="form-group col-lg-12">
+                    <label>Subject</label>
+                    <input type="text" id="TMPSUB" class="TMPSUB  form-control" name="TMPSUB" value="@ViewBag.SUB">
+                </div>
+
+                @*<div class="form-group col-lg-12">
+                        <label>Message</label>
+
+                        <textarea  id="TMPMSG" class="TMPMSG  form-control" name="TMPMSG" rows="9">@Html.Raw(ViewBag.MSG)</textarea>
+                    </div>*@
+
+
+                <div class="form-group col-lg-12">
+                    <label>Select Type</label>
+                    <input type="radio" name="rpttype" value="0" onchange="GetVal()" checked>Detail&nbsp;&nbsp;&nbsp;<input type="radio" name="rpttype" value="1" onchange="GetgrpVal()">Group
+                    <input type="text" id="rpttype_f" class="rpttype_f  form-control hidden" name="rpttype_f" value="0">
+                </div>
+
+                <div class="clearfix"> </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="Print">Mail</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    $(window).bind("load", function () {
+        $(document).ajaxStart(function () {
+
+            openModal();
+        })
+  .ajaxStop(function () {
+
+      closeModal();
+  });
+    })
+    function openModal() {
+        document.getElementById('modal').style.display = 'block';
+        document.getElementById('fade').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('fade').style.display = 'none';
+    }
+    $(document).ready(function () {
+        url = '@Url.Action("APrintView", "BSInvoice")/' + $(".FTRANMID").val()+ ";"  + $(".rpttype_f").val();
+
+        $.ajax({
+            type: 'post',
+            url: url, // we are calling json method
+
+            success: function (data) {
+            }
+        })
+    })
+
+    $("#Print").click(function () {
+
+        url = '@Url.Action("Contact", "BSInvoice")'
+       // alert($("#ImpInvoiceMail").serialize());
+        $.ajax({
+            type: 'post',
+            url: url, // we are calling json method
+            data: $("#ImpInvoiceMail").serialize(),
+            beforeRequest: openModal(),
+            success: function (data) {
+
+                if (data == "Success") {
+                    closeModal();
+                    //   alert("Mail has been Successfully Sent...");
+                    $(".msg").html("Mail has been Successfully Sent...");
+                    $('.msg').show();
+                    $('.msg').delay(1200).fadeOut(1000);
+                    $('#myModal').modal('hide');
+                }
+                else {
+                    closeModal();
+                    $(".msg_error").html(data);
+                    $('.msg_error').show();
+                    $('.msg_error').delay(1200).fadeOut(1000);
+                 //   alert(data);
+                }
+            //},
+            //error:function(data){
+            //    alert(data);
+            }
+            })
+});
+
+</script>
+

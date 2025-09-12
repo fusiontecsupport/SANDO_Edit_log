@@ -1,0 +1,378 @@
+﻿
+@model IEnumerable<scfs_erp.Models.GateInDetail>
+
+
+@{
+    ViewBag.Title = "Import Gate In";
+}
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+</style>
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-import"></i>Import Gate In
+                                <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("Form", "ImportGateIn")"><i class="fa fa-plus-square "></i> Add New </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-1"> </div>
+                        <div class="col-xs-10">
+                            <form action="#" method="post" accept-charset="utf-8" id="remotegateinform" data-ng-controller="myController" name="remotegateinform">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="col-md-2">
+                                            <label for="from">From</label>
+                                            <div class="form-group">
+                                                <input type="text" id="from" name="from" class="form-control" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="from">To</label>
+                                            <div class="form-group">
+                                                <input type="text" id="to" name="to" class="form-control" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <label for="from"></label>
+                                            <div class="form-group">
+                                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="from" style="font-weight:bold;color:black">Total 20</label>
+                                            <div class="form-group">
+                                                <input type="text" id="txtgi20" name="txtgi20" style="border-width: 0px;background-color:#c4e5fb;font-weight:bold;color:black"  class="form-control txtgi20" value="@System.Web.HttpContext.Current.Session["GI20"]" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="from" style="font-weight:bold;color:black">Total 40</label>
+                                            <div class="form-group">
+                                                <input type="text" id="txtgi40" name="txtgi40" style="border-width: 0px;background-color:#cbcbed;font-weight:bold;color:black" class="form-control txtgi40" value="@System.Web.HttpContext.Current.Session["GI40"]" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <label for="from" style="font-weight:bold;color:black">Total 45</label>
+                                            <div class="form-group">
+                                                <input type="text" id="txtgi45"  name="txtgi45" style="border-width: 0px;background-color:#f7eddc;font-weight:bold;color:black" class="form-control txtgi45" value="@System.Web.HttpContext.Current.Session["GI45"]" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="from" style="font-weight:bold;color:black">TUES</label>
+                                            <div class="form-group">
+                                                <input type="text" id="txtgitu" name="txtgitu" style="border-width: 0px;background-color:#efd8d1;font-weight:bold;color:black"  class="form-control txtgitu" value="@System.Web.HttpContext.Current.Session["GITU"]" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                                       
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                           
+                            <tr>
+
+                                <th style="width:auto;">
+                                    Date
+                                </th>
+                                <th style="width:auto;">
+                                    No
+                                </th>
+                                <th style="width:auto;">
+                                    Container&nbsp;No
+                                </th>
+                                <th style="width:auto;">
+                                    Size
+                                </th>
+                                <th style="width:auto;">
+                                    IGM&nbsp;No
+                                </th>
+                                <th style="width:auto;">
+                                Line No
+                                </th>
+                                <th style="width:auto;">
+                                    Importer&nbsp;Name
+                                </th>
+                                <th style="width:auto;">
+                                    Steamer&nbsp;Name
+                                </th>
+                                <th style="width:auto;">
+                                    Vissel&nbsp;Name
+                                </th>
+                                <th style="width:auto;">
+                                    BL&nbsp;No
+                                </th>
+                                <th style="width:auto;">Product</th>
+                                <th style="width:auto;">S</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                @*<th colspan="7" style="text-align:right" id="tot"></th>
+
+                    <th  style="text-align:right" id="tot1"></th><th></th>
+
+                    <th colspan="1" style="text-align:right" id="tot2"></th>*@
+                                <th colspan="13" style="text-align:center"></th>
+                            </tr>
+
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            //s alert(1);
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ImportGateIn")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aLengthMenu": [10, 25, 50, 100, 200, 300, 500],
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-md-1" },
+                    { "sName": "", "sClass": "col-md-1"},
+                    { "sName": "", "sClass": "col-md-1" },
+                    { "sName": "", "sClass": "col-md-0" },
+                    { "sName": "", "sClass": "col-md-1"},
+                    { "sName": "", "sClass": "col-md-1"},
+                    { "sName": "", "sClass": "col-md-2" },
+                    { "sName": "", "sClass": "col-md-2" },
+                    { "sName": "", "sClass": "col-md-2" },
+                    { "sName": "", "sClass": "col-md-2" },
+                    { "sName": " ", "sClass": "col-md-2" },
+                    { "sName": "", "sClass": "col-md-0" },
+                    {
+                        "sClass": "col-md-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            // if (oObj.aData[4] == 20) TNOS++;
+                            return ' <a  class="btn btn-primary btn-xs"  href="@Url.Action("Edit", "ImportGateIn")/?id=' +
+                                oObj.aData[12] + '\"  "><i class="glyphicon glyphicon-edit" style="font-size:small"></i></a>  &nbsp;&nbsp;  <a   class="btn btn-default btn-xs"   href="@Url.Action("PrintView", "ImportGateIn")/' +
+                                oObj.aData[12] + '\"  " title="Gate In Print" target="_blank"><i class="glyphicon glyphicon-print"></i></a> &nbsp;&nbsp;  <a   class="btn btn-info btn-xs"   href="@Url.Action("TPrintView", "ImportGateIn")/' +
+                                oObj.aData[12] + '\"  " title="Truck In Print" target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' +
+                                oObj.aData[12] + '\" ><i class="glyphicon glyphicon-trash" style="font-size:small "></i> </a> ';
+
+
+                        }
+                    }
+
+                ],
+                "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+                    //alert(2);
+                    var TNOS = 0; var FNOS = 0; var TUES = 0; var FNOSS = 0; var Total = 0;
+
+                    /*
+                     * Calculate the total market share for all browsers in this table (ie inc. outside
+                     * the pagination)
+                     */
+
+                    //alert(aiDisplay.length + "//" + nRow);
+                    for (var i = 0; i < aaData.length; i++) {
+                        // alert(aaData[4]);
+
+                    }
+
+                    /* Calculate the market share for browsers on this page */
+
+                    for (var i = 0; i < aaData.length; i++) {
+                        //alert("2" + aaData[aiDisplay[i]][3]);
+                        if (aaData[aiDisplay[i]][3] == 20) TNOS++;
+                        if (aaData[aiDisplay[i]][3] == 40) FNOS++;
+                        if (aaData[aiDisplay[i]][3] == 45) FNOSS++;
+                        TUES = eval(TNOS) + eval(2 * FNOS) + eval(2 * FNOSS);
+                        Total = eval(TNOS) + eval(FNOS) + FNOSS;
+
+                    }
+
+                    var nCells = nRow.getElementsByTagName('th'); nCells[0].innerHTML = '<span style="color:red">20":</span>' + eval(TNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">40":</span>' + eval(FNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">45":</span>' + eval(FNOSS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red">TOTAL: </span>' + eval(Total) + '&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red">TUES:</span>' + eval(TUES)
+                    //  nCells[1].innerHTML = eval(TNOS); nCells[1].innerHTML = '<span style="color:red">20":</span>' + nCells[1].innerHTML + '<th></th><th></th><th></th><th></th><th></th>'
+                    //  nCells[3].innerHTML = '<span style="color:red">40":</span>' + eval(FNOS);
+                    // //nCells[2].innerHTML = nCells[2].innerHTML + '<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>'
+                    //  nCells[5].innerHTML = '<span style="color:red">TUES:</span>' + eval(TUES);
+                    // //nCells[3].innerHTML = '<th></th><th></th><th></th><th></th><th></th><th></th><th></th>' + nCells[3].innerHTML + '<th></th><th></th>'
+
+                },
+               
+                //,
+                //"fnHeaderCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+                //    //alert(2);
+                //    var Total20 = 0; var Total40 = 0; var Total45 = 0; var Totalcnt = 0;
+
+
+                //    Total20 = aData[11];
+                //    Total40 = aData[12];
+                //    Total45 = aData[13];
+                //    Totalcnt = aData[14];
+
+
+                //    var nCells = nRow.getElementsByTagName('th'); nCells[0].innerHTML = '<span style="color:red">Total 20":</span>' + eval(Total20) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">Total 40":</span>' + eval(Total40) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">Total 45":</span>' + eval(Total45) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">Total:</span>' + eval(Totalcnt)
+
+                //}
+
+            });
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+
+
+            GetContainerDetails();
+
+            //--------------print------------------------//
+
+            $(".print-invoice").on("click", function () {
+                var idx = $(this).attr('id');
+
+                turl = "http://216.172.100.137:8080/cfsrpt/print.php?id" + idx;
+                cpurl = "http://216.172.100.137:8080/cfsrpt/igatein.pdf";
+
+                var pdf = $.post(turl, function () {
+                    alert("success");
+                })
+                    .success(function () { })
+                    .complete(function () { });
+
+                pdf.complete(function () { window.open(cpurl, "_blank"); });
+
+                return false;
+
+            });
+
+            //end
+
+
+            //--------Delete record----------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ImportGateIn/Del",
+                        {
+                            id: idx, fld: "GATEINDETAIL"
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted Successfully ...")
+                                location.replace(base + "/ImportGateIn");
+                        });
+                }
+                return false;
+            });//End
+        });
+
+         function GetContainerDetails() {
+             var fromdate = $("#from").val();
+             var todate = $("#to").val(); var sdptid = 1;
+
+            if (fromdate == "") {
+                alert('Please Enter From Date !!')
+                $("#from").focus();
+                return false;
+            }
+
+            if (todate == "") {
+                alert('Please Enter To Date !!')
+                $("#to").focus();
+                return false;
+            }
+
+            url = '@Url.Action("TotalContainerDetails", "ImportGateIn")';
+
+            $.ajax({
+                type: 'post',
+                url: url, // we are calling json method
+                data: { fromdate: fromdate, todate: todate, sdptid: sdptid },
+                dataType:'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.length != 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            //alert(data[i].Sno);
+                            if ((data[i].Sno == 1) && (data[i].Descriptn == "IMPORT - GATEIN")) {
+
+                                var gi20 = data[i].c_20;
+                                //alert(gi20);
+
+                                $('.txtgi20').val(gi20);
+                                $('.txtgi40').val(data[i].c_40);
+                                $('.txtgi45').val(data[i].c_45);
+                                $('.txtgitu').val(data[i].c_tues);
+
+
+                            }                           
+
+                        }
+
+                    }
+
+                },
+
+            });
+
+
+        }
+
+    </script>
+}

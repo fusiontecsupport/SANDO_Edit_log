@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+  <Alias Key="Model" Value="AuditEntities" />
+  <Alias Key="Target" Value="AuditEntities.Store" />
+  <EntityContainerMapping CdmEntityContainer="AuditEntitiesContainer" StorageEntityContainer="AuditEntitiesStoreContainer">
+    <FunctionImportMapping FunctionImportName="pr_Aud_Import_Invoice_IGMNO_Grid_Assgn" FunctionName="AuditEntities.Store.pr_Aud_Import_Invoice_IGMNO_Grid_Assgn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AuditEntities.pr_Aud_Import_Invoice_IGMNO_Grid_Assgn_Result">
+          <ScalarProperty Name="TRANREFID" ColumnName="TRANREFID" />
+          <ScalarProperty Name="TRANREFNAME" ColumnName="TRANREFNAME" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="BILLEMID" ColumnName="BILLEMID" />
+          <ScalarProperty Name="BILLEDID" ColumnName="BILLEDID" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="STMRID" ColumnName="STMRID" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="STRGDATE" ColumnName="STRGDATE" />
+          <ScalarProperty Name="GODATE" ColumnName="GODATE" />
+          <ScalarProperty Name="GOTIME" ColumnName="GOTIME" />
+          <ScalarProperty Name="DODATE" ColumnName="DODATE" />
+          <ScalarProperty Name="NOD" ColumnName="NOD" />
+          <ScalarProperty Name="WGHT" ColumnName="WGHT" />
+          <ScalarProperty Name="PRDTGID" ColumnName="PRDTGID" />
+          <ScalarProperty Name="TRANDID" ColumnName="TRANDID" />
+          <ScalarProperty Name="TRANDOTYPE" ColumnName="TRANDOTYPE" />
+          <ScalarProperty Name="TARIFFMID" ColumnName="TARIFFMID" />
+          <ScalarProperty Name="DPAIDNO" ColumnName="DPAIDNO" />
+          <ScalarProperty Name="DPAIDAMT" ColumnName="DPAIDAMT" />
+          <ScalarProperty Name="GPEAMT" ColumnName="GPEAMT" />
+          <ScalarProperty Name="GPCSAMT" ColumnName="GPCSAMT" />
+          <ScalarProperty Name="GPLBAMT" ColumnName="GPLBAMT" />
+          <ScalarProperty Name="GPAAMT" ColumnName="GPAAMT" />
+          <ScalarProperty Name="TRANDSAMT" ColumnName="TRANDSAMT" />
+          <ScalarProperty Name="TRANDHAMT" ColumnName="TRANDHAMT" />
+          <ScalarProperty Name="TRANDEAMT" ColumnName="TRANDEAMT" />
+          <ScalarProperty Name="TRANDFAMT" ColumnName="TRANDFAMT" />
+          <ScalarProperty Name="TRANDAAMT" ColumnName="TRANDAAMT" />
+          <ScalarProperty Name="TRANDNAMT" ColumnName="TRANDNAMT" />
+          <ScalarProperty Name="RCOL1" ColumnName="RCOL1" />
+          <ScalarProperty Name="RCOL2" ColumnName="RCOL2" />
+          <ScalarProperty Name="RCOL3" ColumnName="RCOL3" />
+          <ScalarProperty Name="RCOL4" ColumnName="RCOL4" />
+          <ScalarProperty Name="RCOL5" ColumnName="RCOL5" />
+          <ScalarProperty Name="RCOL6" ColumnName="RCOL6" />
+          <ScalarProperty Name="RCOL7" ColumnName="RCOL7" />
+          <ScalarProperty Name="RAMT1" ColumnName="RAMT1" />
+          <ScalarProperty Name="RAMT2" ColumnName="RAMT2" />
+          <ScalarProperty Name="RAMT3" ColumnName="RAMT3" />
+          <ScalarProperty Name="RAMT4" ColumnName="RAMT4" />
+          <ScalarProperty Name="RAMT5" ColumnName="RAMT5" />
+          <ScalarProperty Name="RAMT6" ColumnName="RAMT6" />
+          <ScalarProperty Name="RAMT7" ColumnName="RAMT7" />
+          <ScalarProperty Name="RCAMT1" ColumnName="RCAMT1" />
+          <ScalarProperty Name="RCAMT2" ColumnName="RCAMT2" />
+          <ScalarProperty Name="RCAMT3" ColumnName="RCAMT3" />
+          <ScalarProperty Name="RCAMT4" ColumnName="RCAMT4" />
+          <ScalarProperty Name="RCAMT5" ColumnName="RCAMT5" />
+          <ScalarProperty Name="RCAMT6" ColumnName="RCAMT6" />
+          <ScalarProperty Name="RCAMT7" ColumnName="RCAMT7" />
+          <ScalarProperty Name="GPETYPE" ColumnName="GPETYPE" />
+          <ScalarProperty Name="GPCSTYPE" ColumnName="GPCSTYPE" />
+          <ScalarProperty Name="GPLBTYPE" ColumnName="GPLBTYPE" />
+          <ScalarProperty Name="GPSTYPE" ColumnName="GPSTYPE" />
+          <ScalarProperty Name="GPWTYPE" ColumnName="GPWTYPE" />
+          <ScalarProperty Name="GPSCNTYPE" ColumnName="GPSCNTYPE" />
+          <ScalarProperty Name="TRANDRATE" ColumnName="TRANDRATE" />
+          <ScalarProperty Name="STATETYPE" ColumnName="STATETYPE" />
+          <ScalarProperty Name="STRG_HSN_CODE" ColumnName="STRG_HSN_CODE" />
+          <ScalarProperty Name="HANDL_HSN_CODE" ColumnName="HANDL_HSN_CODE" />
+          <ScalarProperty Name="STRG_TAXABLE_AMT" ColumnName="STRG_TAXABLE_AMT" />
+          <ScalarProperty Name="HANDL_TAXABLE_AMT" ColumnName="HANDL_TAXABLE_AMT" />
+          <ScalarProperty Name="STRG_CGST_EXPRN" ColumnName="STRG_CGST_EXPRN" />
+          <ScalarProperty Name="STRG_SGST_EXPRN" ColumnName="STRG_SGST_EXPRN" />
+          <ScalarProperty Name="STRG_IGST_EXPRN" ColumnName="STRG_IGST_EXPRN" />
+          <ScalarProperty Name="STRG_CGST_AMT" ColumnName="STRG_CGST_AMT" />
+          <ScalarProperty Name="STRG_SGST_AMT" ColumnName="STRG_SGST_AMT" />
+          <ScalarProperty Name="STRG_IGST_AMT" ColumnName="STRG_IGST_AMT" />
+          <ScalarProperty Name="HANDL_CGST_EXPRN" ColumnName="HANDL_CGST_EXPRN" />
+          <ScalarProperty Name="HANDL_SGST_EXPRN" ColumnName="HANDL_SGST_EXPRN" />
+          <ScalarProperty Name="HANDL_IGST_EXPRN" ColumnName="HANDL_IGST_EXPRN" />
+          <ScalarProperty Name="HANDL_CGST_AMT" ColumnName="HANDL_CGST_AMT" />
+          <ScalarProperty Name="HANDL_SGST_AMT" ColumnName="HANDL_SGST_AMT" />
+          <ScalarProperty Name="HANDL_IGST_AMT" ColumnName="HANDL_IGST_AMT" />
+          <ScalarProperty Name="TRANCGSTAMT" ColumnName="TRANCGSTAMT" />
+          <ScalarProperty Name="TRANSGSTAMT" ColumnName="TRANSGSTAMT" />
+          <ScalarProperty Name="TRANIGSTAMT" ColumnName="TRANIGSTAMT" />
+          <ScalarProperty Name="TRAND_COVID_DISC_AMT" ColumnName="TRAND_COVID_DISC_AMT" />
+          <ScalarProperty Name="TRANBTYPE" ColumnName="TRANBTYPE" />
+          <ScalarProperty Name="TRANDADONAMT" ColumnName="TRANDADONAMT" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="PR_AUD_IMPORT_tbl_audit_AUTHORIZATION_DETAIL_CTRL_ASSGN" FunctionName="AuditEntities.Store.PR_AUD_IMPORT_tbl_audit_AUTHORIZATION_DETAIL_CTRL_ASSGN">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AuditEntities.PR_AUD_IMPORT_tbl_audit_AUTHORIZATION_DETAIL_CTRL_ASSGN_Result">
+          <ScalarProperty Name="ASLMID" ColumnName="ASLMID" />
+          <ScalarProperty Name="ASLDID" ColumnName="ASLDID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="OSMDNO" ColumnName="OSMDNO" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="BOEDATE" ColumnName="BOEDATE" />
+          <ScalarProperty Name="DODATE" ColumnName="DODATE" />
+          <ScalarProperty Name="LSEALNO" ColumnName="LSEALNO" />
+          <ScalarProperty Name="SSEALNO" ColumnName="SSEALNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="OSMIGMNO" ColumnName="OSMIGMNO" />
+          <ScalarProperty Name="OSMLNO" ColumnName="OSMLNO" />
+          <ScalarProperty Name="OSDID" ColumnName="OSDID" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="VTDNO" ColumnName="VTDNO" />
+          <ScalarProperty Name="VerNo" ColumnName="VerNo" />
+          <ScalarProperty Name="AUDID" ColumnName="AUDID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

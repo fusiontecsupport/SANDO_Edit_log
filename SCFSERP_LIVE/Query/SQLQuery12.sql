@@ -1,0 +1,3 @@
+select *from VEHICLETICKETDETAIL
+
+delete from  VEHICLETICKETDETAIL where VTDID=25861

@@ -1,0 +1,92 @@
+﻿@model IEnumerable<scfs_erp.Models.CategoryTypeMaster>
+@{
+    ViewBag.Title = "Category Type Master";
+}
+
+<div class="col-lg-12">
+    <div class="panel panel-primary" style="background: #323C55;">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <i class="fa fa-bar-chart-o fa-fw"></i>Category Master
+                <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("Form", "CategoryTypeMaster")"><i class="fa fa-plus-square "></i> Add New </a><div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel-body">
+
+                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                    <thead>
+                        <tr>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.CATETCODE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CATETDESC)
+                            </th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "CategoryTypeMaster")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "" },
+                    { "sName": " ", "sClass": "action" },
+                    { "sName": "" },
+                    {
+                        "sClass": "col-lg-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-primary btn-xs"   href="/CategoryTypeMaster/Edit/' +
+                                oObj.aData[3] + '\" title="Modify"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger btn-xs del" href="#" id="' +
+                                oObj.aData[3] + '\" > <i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+            //-----------------Delete Record-----------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/CategoryTypeMaster/Del",
+                        {
+                            id: idx, fld: ""
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted Successfully ...")
+                                location.replace(base + "/CategoryTypeMaster");
+                        });
+                }
+                return false;
+            });//End
+        });
+    </script>
+}

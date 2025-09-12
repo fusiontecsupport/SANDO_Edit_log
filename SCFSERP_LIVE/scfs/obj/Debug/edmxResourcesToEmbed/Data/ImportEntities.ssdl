@@ -1,0 +1,1596 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ImportEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_ACCOUNTHEADER_HSNCODE_DETAIL' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_ACCOUNTHEADER_HSNCODE_DETAIL">
+    <Key>
+      <PropertyRef Name="AIGSTEXPRN" />
+      <PropertyRef Name="HSNCODE" />
+      <PropertyRef Name="ACHEADID" />
+      <PropertyRef Name="HSNID" />
+      <PropertyRef Name="ACHEADDESC" />
+    </Key>
+    <Property Name="AIGSTEXPRN" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="HSNCODE" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="ACHEADID" Type="int" Nullable="false" />
+    <Property Name="HSNID" Type="int" Nullable="false" />
+    <Property Name="ACHEADDESC" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="SDPTID" />
+      <PropertyRef Name="GINO" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="GIDATE" />
+    </Key>
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="SDPTID" Type="int" Nullable="false" />
+    <Property Name="GINO" Type="int" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="GIDNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="IGMNO" Type="varchar" MaxLength="15" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" />
+    <Property Name="BOENO" Type="varchar" MaxLength="50" />
+    <Property Name="BOEDATE" Type="datetime" />
+    <Property Name="LPSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="CSEALNO" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="GINO" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="IGMNO" />
+      <PropertyRef Name="GPLNO" />
+      <PropertyRef Name="CONTNRSDESC" />
+      <PropertyRef Name="BOENO" />
+      <PropertyRef Name="BOEDATE" />
+      <PropertyRef Name="LPSEALNO" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="SDPTID" />
+      <PropertyRef Name="OSDID" />
+      <PropertyRef Name="ASLDID" />
+    </Key>
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="GIDNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="GINO" Type="int" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="IGMNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="BOENO" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="BOEDATE" Type="datetime" Nullable="false" />
+    <Property Name="LPSEALNO" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CSEALNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="SDPTID" Type="int" Nullable="false" />
+    <Property Name="OSDID" Type="int" Nullable="false" />
+    <Property Name="ASLDID" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN">
+    <Key>
+      <PropertyRef Name="CONTNRSDESC" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VTDATE" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="PRDTGDESC" />
+      <PropertyRef Name="PRDTDESC" />
+    </Key>
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CGIDID" Type="int" />
+    <Property Name="GIDNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="VTDATE" Type="smalldatetime" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" />
+    <Property Name="VHLNO" Type="varchar" MaxLength="15" />
+    <Property Name="PRDTGDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="GPWGHT" Type="numeric" Precision="18" Scale="4" />
+    <Property Name="BGOQTY" Type="numeric" Precision="19" Scale="4" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN">
+    <Key>
+      <PropertyRef Name="CONTNRSDESC" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="GODID" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VTDATE" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="PRDTGDESC" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="GOQTY" />
+    </Key>
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="GODID" Type="int" Nullable="false" />
+    <Property Name="CGIDID" Type="int" />
+    <Property Name="GIDNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="VTDATE" Type="smalldatetime" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" />
+    <Property Name="VHLNO" Type="varchar" MaxLength="15" />
+    <Property Name="PRDTGDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="GPWGHT" Type="numeric" Precision="18" Scale="4" />
+    <Property Name="BGOQTY" Type="numeric" Precision="19" Scale="4" />
+    <Property Name="GOQTY" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN">
+    <Key>
+      <PropertyRef Name="DOMID" />
+      <PropertyRef Name="DODID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="BILLEDID" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="BILLEMID" />
+    </Key>
+    <Property Name="DOMID" Type="int" Nullable="false" />
+    <Property Name="DODID" Type="int" Nullable="false" />
+    <Property Name="DODREFNO" Type="varchar" MaxLength="15" />
+    <Property Name="IGMNO" Type="varchar" MaxLength="15" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" />
+    <Property Name="DOIDATE" Type="smalldatetime" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="GPWGHT" Type="numeric" Precision="18" Scale="4" />
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="BILLEDID" Type="int" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="DPAIDNO" Type="varchar" MaxLength="20" />
+    <Property Name="DPAIDAMT" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="BILLEMID" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="STMRID" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="IMPRTID" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="VHLNO" />
+    </Key>
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="GIDATE" Type="varchar" MaxLength="10" />
+    <Property Name="VHLNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="STMRID" Type="int" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IMPRTID" Type="int" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="VTNO" />
+      <PropertyRef Name="VTDNO" />
+      <PropertyRef Name="DRVNAME" />
+      <PropertyRef Name="ASLDID" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="ASEALNO" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="ASLMTYPE" />
+      <PropertyRef Name="GOTRNSPRTNAME" />
+      <PropertyRef Name="VHLNO" />
+    </Key>
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" />
+    <Property Name="CONTNRTCODE" Type="varchar" MaxLength="15" />
+    <Property Name="VTNO" Type="int" Nullable="false" />
+    <Property Name="VTDNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="OSMNO" Type="int" />
+    <Property Name="CHANAME" Type="varchar" MaxLength="100" />
+    <Property Name="CHAID" Type="int" />
+    <Property Name="DRVNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="ASLDID" Type="int" Nullable="false" />
+    <Property Name="CSEALNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="ASEALNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="ASLMTYPE" Type="smallint" Nullable="false" />
+    <Property Name="GOTRNSPRTNAME" Type="varchar" MaxLength="120" Nullable="false" />
+    <Property Name="VHLNO" Type="varchar" MaxLength="15" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="VTDNO" />
+      <PropertyRef Name="VTNO" />
+      <PropertyRef Name="COMPYID" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="CHAID" />
+      <PropertyRef Name="CFSNAME" />
+      <PropertyRef Name="GPLNO" />
+      <PropertyRef Name="VHLNO" />
+      <PropertyRef Name="DRVNAME" />
+      <PropertyRef Name="LPSEALNO" />
+      <PropertyRef Name="VTSSEALNO" />
+      <PropertyRef Name="GODID" />
+    </Key>
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="VTDNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="VTNO" Type="int" Nullable="false" />
+    <Property Name="COMPYID" Type="int" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" />
+    <Property Name="GIDATE" Type="varchar" MaxLength="10" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CHANAME" Type="varchar" MaxLength="100" />
+    <Property Name="CHAID" Type="int" Nullable="false" />
+    <Property Name="CFSNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IGMNO" Type="varchar" MaxLength="15" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="VHLNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="DRVNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="LPSEALNO" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="VTSSEALNO" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="ASLMTYPE" Type="smallint" />
+    <Property Name="GODID" Type="int" Nullable="false" />
+    <Property Name="VTSTYPE" Type="int" />
+    <Property Name="OOCDATE" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="VTNO" />
+      <PropertyRef Name="VTDNO" />
+      <PropertyRef Name="COMPYID" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="GODID" />
+      <PropertyRef Name="LPSEALNO" />
+    </Key>
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="VTNO" Type="int" Nullable="false" />
+    <Property Name="VTDNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="COMPYID" Type="int" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" />
+    <Property Name="CHAID" Type="int" Nullable="false" />
+    <Property Name="CHANAME" Type="varchar" MaxLength="50" />
+    <Property Name="CFSNAME" Type="varchar" MaxLength="100" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IGMNO" Type="varchar" MaxLength="15" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" />
+    <Property Name="VHLNO" Type="varchar" MaxLength="15" />
+    <Property Name="DRVNAME" Type="varchar" MaxLength="100" />
+    <Property Name="VTSSEALNO" Type="varchar" MaxLength="25" />
+    <Property Name="ASLMTYPE" Type="smallint" />
+    <Property Name="GODID" Type="int" Nullable="false" />
+    <Property Name="VTSTYPE" Type="int" />
+    <Property Name="LPSEALNO" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="OOCDATE" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN">
+    <Key>
+      <PropertyRef Name="OSDID" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="CONTNRNO" />
+    </Key>
+    <Property Name="OSDID" Type="int" Nullable="false" />
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="IGMNO" Type="varchar" MaxLength="15" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" />
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" />
+    <Property Name="OSMDNO" Type="varchar" MaxLength="15" />
+    <Property Name="BOENO" Type="varchar" MaxLength="20" />
+    <Property Name="BOEDATE" Type="smalldatetime" />
+    <Property Name="DODATE" Type="smalldatetime" />
+    <Property Name="LSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="SSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="OOCDATE" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="TRNSPRTNAME" />
+      <PropertyRef Name="TRNSPRTID" />
+      <PropertyRef Name="CONTNRNO" />
+    </Key>
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="CONTNRNO" Type="nvarchar" MaxLength="4000" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IGMNO" Type="varchar" MaxLength="15" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" />
+    <Property Name="TRNSPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="TRNSPRTID" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="TRNSPRTNAME" />
+      <PropertyRef Name="TRNSPRTID" />
+    </Key>
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IGMNO" Type="varchar" MaxLength="15" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" />
+    <Property Name="TRNSPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="TRNSPRTID" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN">
+    <Key>
+      <PropertyRef Name="TRANMID" />
+      <PropertyRef Name="IMPRTNAME" />
+    </Key>
+    <Property Name="TRANMID" Type="int" Nullable="false" />
+    <Property Name="TRANCSNAME" Type="varchar" MaxLength="50" />
+    <Property Name="TRANIMPADDR1" Type="varchar" MaxLength="100" />
+    <Property Name="TRANIMPADDR2" Type="varchar" MaxLength="100" />
+    <Property Name="TRANIMPADDR3" Type="varchar" MaxLength="100" />
+    <Property Name="TRANIMPADDR4" Type="varchar" MaxLength="100" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IMPCATEADDR1" Type="varchar" MaxLength="100" />
+    <Property Name="IMPCATEADDR2" Type="varchar" MaxLength="100" />
+    <Property Name="IMPCATEADDR3" Type="varchar" MaxLength="100" />
+    <Property Name="IMPCATEADDR4" Type="varchar" MaxLength="100" />
+    <Property Name="CHACATEGSTNO" Type="varchar" MaxLength="50" />
+    <Property Name="IMPCATEGSTNO" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN">
+    <Key>
+      <PropertyRef Name="TRANMID" />
+      <PropertyRef Name="IMPRTNAME" />
+    </Key>
+    <Property Name="TRANMID" Type="int" Nullable="false" />
+    <Property Name="TRANCSNAME" Type="varchar" MaxLength="50" />
+    <Property Name="TRANIMPADDR1" Type="varchar" MaxLength="100" />
+    <Property Name="TRANIMPADDR2" Type="varchar" MaxLength="100" />
+    <Property Name="TRANIMPADDR3" Type="varchar" MaxLength="100" />
+    <Property Name="TRANIMPADDR4" Type="varchar" MaxLength="100" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IMPCATEADDR1" Type="varchar" MaxLength="100" />
+    <Property Name="IMPCATEADDR2" Type="varchar" MaxLength="100" />
+    <Property Name="IMPCATEADDR3" Type="varchar" MaxLength="100" />
+    <Property Name="IMPCATEADDR4" Type="varchar" MaxLength="100" />
+    <Property Name="CHACATEGSTNO" Type="varchar" MaxLength="50" />
+    <Property Name="IMPCATEGSTNO" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="OSDID" />
+      <PropertyRef Name="OSMID" />
+      <PropertyRef Name="BILLEDID" />
+      <PropertyRef Name="BILLEMID" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTGDESC" />
+      <PropertyRef Name="PRDTGID" />
+      <PropertyRef Name="PRDTGCODE" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="INSP_DES" />
+      <PropertyRef Name="Block" />
+      <PropertyRef Name="BILLEMDATE" />
+    </Key>
+    <Property Name="OSDID" Type="int" Nullable="false" />
+    <Property Name="OSMID" Type="int" Nullable="false" />
+    <Property Name="BILLEDID" Type="int" Nullable="false" />
+    <Property Name="BILLEMID" Type="int" Nullable="false" />
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="GIDATE" Type="smalldatetime" />
+    <Property Name="LSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="SSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="CSEALNO" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="INSPTYPE" Type="smallint" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="PRDTGDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="PRDTGID" Type="int" Nullable="false" />
+    <Property Name="PRDTGCODE" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRSID" Type="int" Nullable="false" />
+    <Property Name="OSMIGMNO" Type="varchar" MaxLength="10" />
+    <Property Name="OSMLNO" Type="varchar" MaxLength="15" />
+    <Property Name="INSP_DES" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="Block" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="BILLEMDATE" Type="varchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="GITIME" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="CONTNRSDESC" />
+      <PropertyRef Name="GPLNO" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="IGMNO" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="CHANAME" />
+      <PropertyRef Name="LPSEALNO" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="SLOTID" />
+      <PropertyRef Name="ASLMDNO" />
+      <PropertyRef Name="ASLDID" />
+      <PropertyRef Name="VHLNO" />
+      <PropertyRef Name="DRVNAME" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="ASLMTYPE" />
+      <PropertyRef Name="BOENO" />
+      <PropertyRef Name="BOEDATE" />
+      <PropertyRef Name="ASLMDATE" />
+      <PropertyRef Name="ASLMTIME" />
+      <PropertyRef Name="STMRID" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="CONTNRTID" />
+    </Key>
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="GITIME" Type="datetime" Nullable="false" />
+    <Property Name="GIDNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="IGMNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CHANAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="LPSEALNO" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CSEALNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="SLOTID" Type="int" Nullable="false" />
+    <Property Name="ASLMDNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="ASLDID" Type="int" Nullable="false" />
+    <Property Name="VHLNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="DRVNAME" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="ASLMTYPE" Type="smallint" Nullable="false" />
+    <Property Name="BOENO" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="BOEDATE" Type="datetime" Nullable="false" />
+    <Property Name="ASLMDATE" Type="smalldatetime" Nullable="false" />
+    <Property Name="ASLMTIME" Type="datetime" Nullable="false" />
+    <Property Name="STMRID" Type="int" Nullable="false" />
+    <Property Name="CONTNRSID" Type="int" Nullable="false" />
+    <Property Name="CONTNRTID" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_OPENSHEET_DETAIL_CTRL_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_OPENSHEET_DETAIL_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="OSDID" />
+      <PropertyRef Name="OSMID" />
+      <PropertyRef Name="BILLEDID" />
+      <PropertyRef Name="BILLEMID" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTGDESC" />
+      <PropertyRef Name="PRDTGID" />
+      <PropertyRef Name="PRDTGCODE" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="INSP_DES" />
+      <PropertyRef Name="Block" />
+      <PropertyRef Name="SealNos" />
+      <PropertyRef Name="GPSCNMTYPE" />
+    </Key>
+    <Property Name="OSDID" Type="int" Nullable="false" />
+    <Property Name="OSMID" Type="int" Nullable="false" />
+    <Property Name="BILLEDID" Type="int" Nullable="false" />
+    <Property Name="BILLEMID" Type="int" Nullable="false" />
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="GIDATE" Type="smalldatetime" />
+    <Property Name="LSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="SSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="CSEALNO" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="INSPTYPE" Type="smallint" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="PRDTGDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="PRDTGID" Type="int" Nullable="false" />
+    <Property Name="PRDTGCODE" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRSID" Type="int" Nullable="false" />
+    <Property Name="OSMIGMNO" Type="varchar" MaxLength="10" />
+    <Property Name="OSMLNO" Type="varchar" MaxLength="15" />
+    <Property Name="INSP_DES" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="Block" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="BILLEMDATE" Type="smalldatetime" />
+    <Property Name="SealNos" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="GPSCNMTYPE" Type="int" Nullable="false" />
+    <Property Name="GPSCNTYPE" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="OSDID" />
+      <PropertyRef Name="OSMID" />
+      <PropertyRef Name="BILLEDID" />
+      <PropertyRef Name="BILLEMID" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTGDESC" />
+      <PropertyRef Name="PRDTGID" />
+      <PropertyRef Name="PRDTGCODE" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="INSP_DES" />
+      <PropertyRef Name="Block" />
+      <PropertyRef Name="OSSID" />
+    </Key>
+    <Property Name="OSDID" Type="int" Nullable="false" />
+    <Property Name="OSMID" Type="int" Nullable="false" />
+    <Property Name="BILLEDID" Type="int" Nullable="false" />
+    <Property Name="BILLEMID" Type="int" Nullable="false" />
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="GIDATE" Type="smalldatetime" />
+    <Property Name="LSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="SSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="CSEALNO" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="INSPTYPE" Type="smallint" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="PRDTGDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="PRDTGID" Type="int" Nullable="false" />
+    <Property Name="PRDTGCODE" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRSID" Type="int" Nullable="false" />
+    <Property Name="OSMIGMNO" Type="varchar" MaxLength="10" />
+    <Property Name="OSMLNO" Type="varchar" MaxLength="15" />
+    <Property Name="INSP_DES" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="Block" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="BILLEMDATE" Type="smalldatetime" />
+    <Property Name="OSSID" Type="int" Nullable="false" />
+    <Property Name="SealNos" Type="varchar" MaxLength="25" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_TALLYCHANAME_UPDATE_VIEW_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_TALLYCHANAME_UPDATE_VIEW_ASSGN">
+    <Key>
+      <PropertyRef Name="OSMID" />
+    </Key>
+    <Property Name="OSMDATE" Type="smalldatetime" />
+    <Property Name="OSMID" Type="int" Nullable="false" />
+    <Property Name="CHAID" Type="int" />
+    <Property Name="OSMNAME" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN">
+    <Key>
+      <PropertyRef Name="ASLDID" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+    </Key>
+    <Property Name="ASLDID" Type="int" Nullable="false" />
+    <Property Name="SDPTID" Type="int" />
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="IGMNO" Type="varchar" MaxLength="15" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SCFS_ERP.dbo.VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="GITIME" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="ASLDID" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="DODID" />
+      <PropertyRef Name="STMRID" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="CONTNRTID" />
+      <PropertyRef Name="ASLOTYPE" />
+      <PropertyRef Name="OPRTYPEDESC" />
+      <PropertyRef Name="OSBILLREFID" />
+    </Key>
+    <Property Name="GIDID" Type="int" Nullable="false" />
+    <Property Name="GIDATE" Type="datetime" Nullable="false" />
+    <Property Name="GITIME" Type="datetime" Nullable="false" />
+    <Property Name="GIDNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRNO" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="varchar" MaxLength="50" />
+    <Property Name="GPLNO" Type="varchar" MaxLength="15" />
+    <Property Name="VSLNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VOYNO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="IGMNO" Type="varchar" MaxLength="15" />
+    <Property Name="IMPRTNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="STMRNAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="LPSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="CSEALNO" Type="varchar" MaxLength="15" />
+    <Property Name="SLOTID" Type="int" />
+    <Property Name="ASLMDNO" Type="varchar" MaxLength="15" />
+    <Property Name="ASLDID" Type="int" Nullable="false" />
+    <Property Name="VHLNO" Type="varchar" MaxLength="15" />
+    <Property Name="DRVNAME" Type="varchar" MaxLength="50" />
+    <Property Name="PRDTDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="ASLMTYPE" Type="smallint" />
+    <Property Name="OSMNAME" Type="varchar" MaxLength="100" />
+    <Property Name="BOENO" Type="varchar" MaxLength="20" />
+    <Property Name="BOEDATE" Type="smalldatetime" />
+    <Property Name="DOTYPE" Type="smallint" />
+    <Property Name="DODATE" Type="smalldatetime" />
+    <Property Name="LSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="SSEALNO" Type="varchar" MaxLength="50" />
+    <Property Name="ASLMDATE" Type="smalldatetime" />
+    <Property Name="ASLMTIME" Type="datetime" />
+    <Property Name="DODID" Type="int" Nullable="false" />
+    <Property Name="DOMDATE" Type="smalldatetime" />
+    <Property Name="DODNO" Type="varchar" MaxLength="50" />
+    <Property Name="STMRID" Type="int" Nullable="false" />
+    <Property Name="CONTNRSID" Type="int" Nullable="false" />
+    <Property Name="CONTNRTID" Type="int" Nullable="false" />
+    <Property Name="ASLOTYPE" Type="smallint" Nullable="false" />
+    <Property Name="OPRTYPEDESC" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="OSBILLREFNAME" Type="varchar" MaxLength="100" />
+    <Property Name="OSBILLREFID" Type="int" Nullable="false" />
+    <Property Name="CHAID" Type="int" />
+    <Property Name="OOCDATE" Type="varchar" MaxLength="30" />
+    <Property Name="DODATEChr" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <Function Name="pr_BL_Search_Container_No_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PBLNo" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="pr_BOE_Search_Container_No_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PBOENo" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="pr_BS_Import_Invoice_No_Wise_Grid_Pulses_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PSBILLNO" Type="varchar" Mode="In" />
+    <Parameter Name="PTRANMID" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+  </Function>
+  <Function Name="PR_DORDER_IGMNO_BILLENTRY_WISE_CONTAINER_FLX_ASSGN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PIGMNO" Type="varchar" Mode="In" />
+    <Parameter Name="PGPLNO" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="PR_DORDER_IGMNO_BOE_NO_CTRL_ASSGN_E001" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PIGMNO" Type="varchar" Mode="In" />
+    <Parameter Name="PGPLNO" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="PR_ES_GATEIN_CONTAINER_CHK_ASSGN_001" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PCONTNRNO" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="PR_IMPORT_AUTHORIZATION_DETAIL_CTRL_ASSGN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PASLMID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Import_Container_Stock_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PSDATE" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="pr_Import_DO_Invoice_IGMNO_Grid_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PDONO" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Import_EmptyGatein_Detail_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PCONTNRNO" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="pr_Import_Invoice_IGMNO_Grid_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PIGMNO" Type="varchar" Mode="In" />
+    <Parameter Name="PLNO" Type="varchar" Mode="In" />
+    <Parameter Name="PTRANMID" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+  </Function>
+  <Function Name="PR_IMPORT_LOADESTUFFTOTCONTAINER_DETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PFDT" Type="datetime" Mode="In" />
+    <Parameter Name="PTDT" Type="datetime" Mode="In" />
+    <Parameter Name="PSDPTID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Import_Manual_Invoice_Ctrl_Flx_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PTRANMID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Import_Performa_Invoice_IGMNO_Grid_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PIGMNO" Type="varchar" Mode="In" />
+    <Parameter Name="PLNO" Type="varchar" Mode="In" />
+    <Parameter Name="PTRANMID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="PR_IMPORT_REMOTEGATEINCONTAINER_DETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PFDT" Type="datetime" Mode="In" />
+    <Parameter Name="PTDT" Type="datetime" Mode="In" />
+    <Parameter Name="PSDPTID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Performa_Invoice_Print_Customer_Detail_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PTranMID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_DeliveryOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_CargoIn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCOMPYID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_CargoOut" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCOMPYID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_DeStuffSlip" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_GateInBlock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCompyid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_GateInGridAssgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCompyid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_GateOut" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCOMPYID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_Invoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+    <Parameter Name="PREGSTRID" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_LoadSlip" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_Performa_Invoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+    <Parameter Name="PREGSTRID" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_RemoteGateIn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_RemoteGateInTransfer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="pr_Search_Import_TruckIn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCOMPYID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_TruckOut" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCOMPYID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_Import_VehicleTicket" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PVTTYPE" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_Search_ImportManualBill" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PCompyId" Type="int" Mode="In" />
+    <Parameter Name="PREGSTRID" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="pr_SearchBillOfEntry" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCompyid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_SearchImportLorryHire" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDATE" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCOMPYID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_SearchManualOpenSheetGridAssgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCompyid" Type="int" Mode="In" />
+    <Parameter Name="fcltype" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_SearchOpenSheetGridAssgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortIndex" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="char" Mode="In" />
+    <Parameter Name="StartRowNum" Type="int" Mode="In" />
+    <Parameter Name="EndRowNum" Type="int" Mode="In" />
+    <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+    <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+    <Parameter Name="PCompyid" Type="int" Mode="In" />
+    <Parameter Name="PUsrname" Type="varchar" Mode="In" />
+    <Parameter Name="fcltype" Type="int" Mode="In" />
+  </Function>
+  <Function Name="pr_SSRCharge_Container_Detail_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PContnrNo" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="pr_UPDATAE_CONTAINERNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="pr_UPDATAE_SSRCHARGES_CONTAINERNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FilterTerm" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SP_MANUALOPENSHEET_CONTAINER_FLX_ASSGN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PIGMNO" Type="varchar" Mode="In" />
+    <Parameter Name="PGPLNO" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SP_OPENSHEET_CONTAINER_FLX_ASSGN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PIGMNO" Type="varchar" Mode="In" />
+    <Parameter Name="PGPLNO" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="ImportEntitiesStoreContainer">
+    <EntitySet Name="VW_ACCOUNTHEADER_HSNCODE_DETAIL" EntityType="Self.VW_ACCOUNTHEADER_HSNCODE_DETAIL" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_ACCOUNTHEADER_HSNCODE_DETAIL].[AIGSTEXPRN] AS [AIGSTEXPRN], 
+    [VW_ACCOUNTHEADER_HSNCODE_DETAIL].[HSNCODE] AS [HSNCODE], 
+    [VW_ACCOUNTHEADER_HSNCODE_DETAIL].[ACHEADID] AS [ACHEADID], 
+    [VW_ACCOUNTHEADER_HSNCODE_DETAIL].[HSNID] AS [HSNID], 
+    [VW_ACCOUNTHEADER_HSNCODE_DETAIL].[ACHEADDESC] AS [ACHEADDESC]
+    FROM [dbo].[VW_ACCOUNTHEADER_HSNCODE_DETAIL] AS [VW_ACCOUNTHEADER_HSNCODE_DETAIL]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01" EntityType="Self.VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[GIDID] AS [GIDID], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[SDPTID] AS [SDPTID], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[GINO] AS [GINO], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[VOYNO] AS [VOYNO], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[VSLNAME] AS [VSLNAME], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[STMRNAME] AS [STMRNAME], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[GIDNO] AS [GIDNO], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[CONTNRNO] AS [CONTNRNO], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[IGMNO] AS [IGMNO], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[GPLNO] AS [GPLNO], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[GIDATE] AS [GIDATE], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[BOENO] AS [BOENO], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[BOEDATE] AS [BOEDATE], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[LPSEALNO] AS [LPSEALNO], 
+    [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01].[CSEALNO] AS [CSEALNO]
+    FROM [dbo].[VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01] AS [VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01" EntityType="Self.VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[GIDID] AS [GIDID], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[GIDATE] AS [GIDATE], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[STMRNAME] AS [STMRNAME], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[VOYNO] AS [VOYNO], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[VSLNAME] AS [VSLNAME], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[GIDNO] AS [GIDNO], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[GINO] AS [GINO], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[CONTNRNO] AS [CONTNRNO], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[IGMNO] AS [IGMNO], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[GPLNO] AS [GPLNO], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[BOENO] AS [BOENO], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[BOEDATE] AS [BOEDATE], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[LPSEALNO] AS [LPSEALNO], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[CSEALNO] AS [CSEALNO], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[SDPTID] AS [SDPTID], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[OSDID] AS [OSDID], 
+    [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01].[ASLDID] AS [ASLDID]
+    FROM [dbo].[VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01] AS [VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN" EntityType="Self.VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[GIDID] AS [GIDID], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[CGIDID] AS [CGIDID], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[GIDNO] AS [GIDNO], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[VTDATE] AS [VTDATE], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[GPLNO] AS [GPLNO], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[VHLNO] AS [VHLNO], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[PRDTGDESC] AS [PRDTGDESC], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[PRDTDESC] AS [PRDTDESC], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[GPWGHT] AS [GPWGHT], 
+    [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN].[BGOQTY] AS [BGOQTY]
+    FROM [dbo].[VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN] AS [VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN" EntityType="Self.VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[GIDID] AS [GIDID], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[GODID] AS [GODID], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[CGIDID] AS [CGIDID], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[GIDNO] AS [GIDNO], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[VTDATE] AS [VTDATE], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[GPLNO] AS [GPLNO], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[VHLNO] AS [VHLNO], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[PRDTGDESC] AS [PRDTGDESC], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[PRDTDESC] AS [PRDTDESC], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[GPWGHT] AS [GPWGHT], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[BGOQTY] AS [BGOQTY], 
+    [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN].[GOQTY] AS [GOQTY]
+    FROM [dbo].[VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN] AS [VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN" EntityType="Self.VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[DOMID] AS [DOMID], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[DODID] AS [DODID], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[DODREFNO] AS [DODREFNO], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[IGMNO] AS [IGMNO], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[GPLNO] AS [GPLNO], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[DOIDATE] AS [DOIDATE], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[VSLNAME] AS [VSLNAME], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[VOYNO] AS [VOYNO], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[PRDTDESC] AS [PRDTDESC], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[GPWGHT] AS [GPWGHT], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[GIDID] AS [GIDID], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[BILLEDID] AS [BILLEDID], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[DPAIDNO] AS [DPAIDNO], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[DPAIDAMT] AS [DPAIDAMT], 
+    [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN].[BILLEMID] AS [BILLEMID]
+    FROM [dbo].[VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN] AS [VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN" EntityType="Self.VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN].[GIDID] AS [GIDID], 
+    [VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN].[VHLNO] AS [VHLNO], 
+    [VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN].[STMRID] AS [STMRID], 
+    [VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN].[IMPRTID] AS [IMPRTID], 
+    [VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN].[IMPRTNAME] AS [IMPRTNAME]
+    FROM [dbo].[VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN] AS [VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN" EntityType="Self.VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[GIDID] AS [GIDID], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[CONTNRTCODE] AS [CONTNRTCODE], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[VTNO] AS [VTNO], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[VTDNO] AS [VTDNO], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[OSMNO] AS [OSMNO], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[CHANAME] AS [CHANAME], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[CHAID] AS [CHAID], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[DRVNAME] AS [DRVNAME], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[ASLDID] AS [ASLDID], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[CSEALNO] AS [CSEALNO], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[ASEALNO] AS [ASEALNO], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[ASLMTYPE] AS [ASLMTYPE], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[GOTRNSPRTNAME] AS [GOTRNSPRTNAME], 
+    [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN].[VHLNO] AS [VHLNO]
+    FROM [dbo].[VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN] AS [VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN" EntityType="Self.VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[GIDID] AS [GIDID], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[VTDNO] AS [VTDNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[VTNO] AS [VTNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[COMPYID] AS [COMPYID], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[VSLNAME] AS [VSLNAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[VOYNO] AS [VOYNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[PRDTDESC] AS [PRDTDESC], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[CHANAME] AS [CHANAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[CHAID] AS [CHAID], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[CFSNAME] AS [CFSNAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[IGMNO] AS [IGMNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[GPLNO] AS [GPLNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[VHLNO] AS [VHLNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[DRVNAME] AS [DRVNAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[LPSEALNO] AS [LPSEALNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[VTSSEALNO] AS [VTSSEALNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[ASLMTYPE] AS [ASLMTYPE], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[GODID] AS [GODID], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[VTSTYPE] AS [VTSTYPE], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN].[OOCDATE] AS [OOCDATE]
+    FROM [dbo].[VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN] AS [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001" EntityType="Self.VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[GIDID] AS [GIDID], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[CONTNRNO] AS [CONTNRNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[VTNO] AS [VTNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[VTDNO] AS [VTDNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[COMPYID] AS [COMPYID], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[CHAID] AS [CHAID], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[CHANAME] AS [CHANAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[CFSNAME] AS [CFSNAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[GIDATE] AS [GIDATE], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[VSLNAME] AS [VSLNAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[VOYNO] AS [VOYNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[PRDTDESC] AS [PRDTDESC], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[STMRNAME] AS [STMRNAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[IGMNO] AS [IGMNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[GPLNO] AS [GPLNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[VHLNO] AS [VHLNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[DRVNAME] AS [DRVNAME], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[VTSSEALNO] AS [VTSSEALNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[ASLMTYPE] AS [ASLMTYPE], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[GODID] AS [GODID], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[VTSTYPE] AS [VTSTYPE], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[LPSEALNO] AS [LPSEALNO], 
+    [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001].[OOCDATE] AS [OOCDATE]
+    FROM [dbo].[VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001] AS [VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN" EntityType="Self.VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[OSDID] AS [OSDID], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[GIDID] AS [GIDID], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[IGMNO] AS [IGMNO], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[GPLNO] AS [GPLNO], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[OSMDNO] AS [OSMDNO], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[BOENO] AS [BOENO], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[BOEDATE] AS [BOEDATE], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[DODATE] AS [DODATE], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[LSEALNO] AS [LSEALNO], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[SSEALNO] AS [SSEALNO], 
+    [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN].[OOCDATE] AS [OOCDATE]
+    FROM [dbo].[VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN] AS [VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN" EntityType="Self.VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[GIDID] AS [GIDID], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[VSLNAME] AS [VSLNAME], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[VOYNO] AS [VOYNO], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[PRDTDESC] AS [PRDTDESC], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[IGMNO] AS [IGMNO], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[GPLNO] AS [GPLNO], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[TRNSPRTNAME] AS [TRNSPRTNAME], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN].[TRNSPRTID] AS [TRNSPRTID]
+    FROM [dbo].[VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN] AS [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN" EntityType="Self.VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[GIDID] AS [GIDID], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[VSLNAME] AS [VSLNAME], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[VOYNO] AS [VOYNO], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[PRDTDESC] AS [PRDTDESC], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[IGMNO] AS [IGMNO], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[GPLNO] AS [GPLNO], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[TRNSPRTNAME] AS [TRNSPRTNAME], 
+    [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN].[TRNSPRTID] AS [TRNSPRTID]
+    FROM [dbo].[VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN] AS [VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN" EntityType="Self.VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANMID] AS [TRANMID], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANCSNAME] AS [TRANCSNAME], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANIMPADDR1] AS [TRANIMPADDR1], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANIMPADDR2] AS [TRANIMPADDR2], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANIMPADDR3] AS [TRANIMPADDR3], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANIMPADDR4] AS [TRANIMPADDR4], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPCATEADDR1] AS [IMPCATEADDR1], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPCATEADDR2] AS [IMPCATEADDR2], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPCATEADDR3] AS [IMPCATEADDR3], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPCATEADDR4] AS [IMPCATEADDR4], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[CHACATEGSTNO] AS [CHACATEGSTNO], 
+    [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPCATEGSTNO] AS [IMPCATEGSTNO]
+    FROM [dbo].[VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN] AS [VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN" EntityType="Self.VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANMID] AS [TRANMID], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANCSNAME] AS [TRANCSNAME], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANIMPADDR1] AS [TRANIMPADDR1], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANIMPADDR2] AS [TRANIMPADDR2], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANIMPADDR3] AS [TRANIMPADDR3], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[TRANIMPADDR4] AS [TRANIMPADDR4], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPCATEADDR1] AS [IMPCATEADDR1], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPCATEADDR2] AS [IMPCATEADDR2], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPCATEADDR3] AS [IMPCATEADDR3], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPCATEADDR4] AS [IMPCATEADDR4], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[CHACATEGSTNO] AS [CHACATEGSTNO], 
+    [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN].[IMPCATEGSTNO] AS [IMPCATEGSTNO]
+    FROM [dbo].[VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN] AS [VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN" EntityType="Self.VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[OSDID] AS [OSDID], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[OSMID] AS [OSMID], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[BILLEDID] AS [BILLEDID], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[BILLEMID] AS [BILLEMID], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[GIDID] AS [GIDID], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[LSEALNO] AS [LSEALNO], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[SSEALNO] AS [SSEALNO], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[CSEALNO] AS [CSEALNO], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[INSPTYPE] AS [INSPTYPE], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[VSLNAME] AS [VSLNAME], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[VOYNO] AS [VOYNO], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[PRDTGDESC] AS [PRDTGDESC], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[PRDTGID] AS [PRDTGID], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[PRDTGCODE] AS [PRDTGCODE], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[PRDTDESC] AS [PRDTDESC], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[CONTNRSID] AS [CONTNRSID], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[OSMIGMNO] AS [OSMIGMNO], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[OSMLNO] AS [OSMLNO], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[INSP_DES] AS [INSP_DES], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[Block] AS [Block], 
+    [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN].[BILLEMDATE] AS [BILLEMDATE]
+    FROM [dbo].[VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN] AS [VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN" EntityType="Self.VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[GIDID] AS [GIDID], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[GITIME] AS [GITIME], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[GIDNO] AS [GIDNO], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[GPLNO] AS [GPLNO], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[VSLNAME] AS [VSLNAME], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[VOYNO] AS [VOYNO], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[IGMNO] AS [IGMNO], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[CHANAME] AS [CHANAME], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[LPSEALNO] AS [LPSEALNO], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[CSEALNO] AS [CSEALNO], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[SLOTID] AS [SLOTID], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[ASLMDNO] AS [ASLMDNO], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[ASLDID] AS [ASLDID], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[VHLNO] AS [VHLNO], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[DRVNAME] AS [DRVNAME], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[PRDTDESC] AS [PRDTDESC], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[ASLMTYPE] AS [ASLMTYPE], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[BOENO] AS [BOENO], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[BOEDATE] AS [BOEDATE], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[ASLMDATE] AS [ASLMDATE], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[ASLMTIME] AS [ASLMTIME], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[STMRID] AS [STMRID], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[CONTNRSID] AS [CONTNRSID], 
+    [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN].[CONTNRTID] AS [CONTNRTID]
+    FROM [dbo].[VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN] AS [VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_OPENSHEET_DETAIL_CTRL_ASSGN" EntityType="Self.VW_OPENSHEET_DETAIL_CTRL_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[OSDID] AS [OSDID], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[OSMID] AS [OSMID], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[BILLEDID] AS [BILLEDID], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[BILLEMID] AS [BILLEMID], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[GIDID] AS [GIDID], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[LSEALNO] AS [LSEALNO], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[SSEALNO] AS [SSEALNO], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[CSEALNO] AS [CSEALNO], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[INSPTYPE] AS [INSPTYPE], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[VSLNAME] AS [VSLNAME], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[VOYNO] AS [VOYNO], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[PRDTGDESC] AS [PRDTGDESC], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[PRDTGID] AS [PRDTGID], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[PRDTGCODE] AS [PRDTGCODE], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[PRDTDESC] AS [PRDTDESC], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[CONTNRSID] AS [CONTNRSID], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[OSMIGMNO] AS [OSMIGMNO], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[OSMLNO] AS [OSMLNO], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[INSP_DES] AS [INSP_DES], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[Block] AS [Block], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[BILLEMDATE] AS [BILLEMDATE], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[SealNos] AS [SealNos], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[GPSCNMTYPE] AS [GPSCNMTYPE], 
+    [VW_OPENSHEET_DETAIL_CTRL_ASSGN].[GPSCNTYPE] AS [GPSCNTYPE]
+    FROM [dbo].[VW_OPENSHEET_DETAIL_CTRL_ASSGN] AS [VW_OPENSHEET_DETAIL_CTRL_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN" EntityType="Self.VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[OSDID] AS [OSDID], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[OSMID] AS [OSMID], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[BILLEDID] AS [BILLEDID], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[BILLEMID] AS [BILLEMID], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[GIDID] AS [GIDID], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[LSEALNO] AS [LSEALNO], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[SSEALNO] AS [SSEALNO], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[CSEALNO] AS [CSEALNO], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[INSPTYPE] AS [INSPTYPE], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[VSLNAME] AS [VSLNAME], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[VOYNO] AS [VOYNO], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[PRDTGDESC] AS [PRDTGDESC], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[PRDTGID] AS [PRDTGID], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[PRDTGCODE] AS [PRDTGCODE], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[PRDTDESC] AS [PRDTDESC], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[CONTNRSID] AS [CONTNRSID], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[OSMIGMNO] AS [OSMIGMNO], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[OSMLNO] AS [OSMLNO], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[INSP_DES] AS [INSP_DES], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[Block] AS [Block], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[BILLEMDATE] AS [BILLEMDATE], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[OSSID] AS [OSSID], 
+    [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN].[SealNos] AS [SealNos]
+    FROM [dbo].[VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN] AS [VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_TALLYCHANAME_UPDATE_VIEW_ASSGN" EntityType="Self.VW_TALLYCHANAME_UPDATE_VIEW_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_TALLYCHANAME_UPDATE_VIEW_ASSGN].[OSMDATE] AS [OSMDATE], 
+    [VW_TALLYCHANAME_UPDATE_VIEW_ASSGN].[OSMID] AS [OSMID], 
+    [VW_TALLYCHANAME_UPDATE_VIEW_ASSGN].[CHAID] AS [CHAID], 
+    [VW_TALLYCHANAME_UPDATE_VIEW_ASSGN].[OSMNAME] AS [OSMNAME]
+    FROM [dbo].[VW_TALLYCHANAME_UPDATE_VIEW_ASSGN] AS [VW_TALLYCHANAME_UPDATE_VIEW_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN" EntityType="Self.VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN].[ASLDID] AS [ASLDID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN].[SDPTID] AS [SDPTID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN].[GIDID] AS [GIDID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN].[IGMNO] AS [IGMNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN].[GPLNO] AS [GPLNO]
+    FROM [dbo].[VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN] AS [VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN" EntityType="Self.VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[GIDID] AS [GIDID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[GIDATE] AS [GIDATE], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[GITIME] AS [GITIME], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[GIDNO] AS [GIDNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[CONTNRNO] AS [CONTNRNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[CONTNRSDESC] AS [CONTNRSDESC], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[GPLNO] AS [GPLNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[VSLNAME] AS [VSLNAME], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[VOYNO] AS [VOYNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[IGMNO] AS [IGMNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[IMPRTNAME] AS [IMPRTNAME], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[STMRNAME] AS [STMRNAME], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[LPSEALNO] AS [LPSEALNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[CSEALNO] AS [CSEALNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[SLOTID] AS [SLOTID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[ASLMDNO] AS [ASLMDNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[ASLDID] AS [ASLDID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[VHLNO] AS [VHLNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[DRVNAME] AS [DRVNAME], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[PRDTDESC] AS [PRDTDESC], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[ASLMTYPE] AS [ASLMTYPE], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[OSMNAME] AS [OSMNAME], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[BOENO] AS [BOENO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[BOEDATE] AS [BOEDATE], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[DOTYPE] AS [DOTYPE], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[DODATE] AS [DODATE], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[LSEALNO] AS [LSEALNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[SSEALNO] AS [SSEALNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[ASLMDATE] AS [ASLMDATE], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[ASLMTIME] AS [ASLMTIME], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[DODID] AS [DODID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[DOMDATE] AS [DOMDATE], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[DODNO] AS [DODNO], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[STMRID] AS [STMRID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[CONTNRSID] AS [CONTNRSID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[CONTNRTID] AS [CONTNRTID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[ASLOTYPE] AS [ASLOTYPE], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[OPRTYPEDESC] AS [OPRTYPEDESC], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[OSBILLREFNAME] AS [OSBILLREFNAME], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[OSBILLREFID] AS [OSBILLREFID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[CHAID] AS [CHAID], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[OOCDATE] AS [OOCDATE], 
+    [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN].[DODATEChr] AS [DODATEChr]
+    FROM [dbo].[VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN] AS [VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

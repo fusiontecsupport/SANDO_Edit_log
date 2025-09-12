@@ -1,0 +1,763 @@
+﻿@using scfs_erp.Models
+@using scfs.Data
+@model scfs_erp.Models.VehicleTicketDetail
+
+
+@{
+    ViewBag.Title = "Import Vehicle Ticket";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>Import Vehicle Ticket </strong>
+                        </div>
+                    </div>@Html.Raw(ViewBag.msg)
+
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ImportVehicleTicket/savedata")" method="post" accept-charset="utf-8" id="ImportVehicleTicket" data-ng-controller="myController" name="ImportVehicleTicket" onsubmit="return validation()">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="ImportVehicleTicket_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4 hide">
+                                            <div class="form-group">
+                                                <label>Primary  </label>
+                                                @Html.TextBoxFor(model => model.VTDID, new { @class = "form-control  VTDID", @id = "VTDID" })     @Html.TextBoxFor(model => model.EGIDID, new { @class = "form-control  EGIDID", @id = "EGIDID" })
+                                                @Html.TextBoxFor(model => model.VTNO, new { @class = "form-control  VTNO", @id = "VTNO", @data_val = false })
+                                                <input type="text" id="UsrAdmGrpChk" name="UsrAdmGrpChk" class="form-control UsrAdmGrpChk hide" value="@System.Web.HttpContext.Current.Session["AdminGrp"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Date<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.VTDATE, "{0:dd/MM/yyyy}", new { @class = "form-control VTDATE", @id = "VTDATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+                                                @*@Html.TextBoxFor(model => Model.VTDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker VTDATE ", @id = "VTDATE", @data_Val = false, tabindex = "2" })*@
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Time <span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.VTTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker VTTIME ", @id = "VTTIME", @data_Val = false, tabindex = "2" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>No </label>@*@Html.ValidationMessageFor(model => model.GBTIME)*@
+                                                @Html.TextBoxFor(model => model.VTDNO, new { @class = "form-control VTDNO ", @id = "VTDNO", @data_val = false, @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        @if (Model.VTDID != 0)
+                                        {
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>IGM No<span class="required-field"></span></label>
+                                                    <input type="text" value="" id="FIGMNO" class=" form-control FIGMNO" name="FIGMNO" readonly />
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Line No<span class="required-field"></span></label>
+                                                    <input type="text" value="" id="FLNO" class=" form-control FLNO" name="FLNO" readonly />
+
+                                                </div>
+                                            </div>}
+                                        else
+                                        { <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>IGM No<span class="required-field"></span></label>
+                                                    <input type="text" value="" id="FIGMNO" class=" form-control FIGMNO" name="FIGMNO" tabindex="3" />
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <label>Line No<span class="required-field"></span></label>
+                                                    <input type="text" value="" id="FLNO" class=" form-control FLNO" name="FLNO" tabindex="3" />
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+
+                                                <div class="form-group">
+                                                    <br />
+                                                    <input type="button" name="search" value="search" class="btn btn-success btn-xs  " id="search" onclick="GetCont()" tabindex="3" />
+                                                </div>
+                                            </div>}
+                                        @if (Model.VTDID != 0)
+                                        {<div class="Del_check hidden">@scfs_erp.Helper.Delete_fun.delete_check1("VEHICLETICKET", @Model.GIDID.ToString())</div>}
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Container No<span class="required-field"></span></label>@*@Html.ValidationMessageFor(model => model.GBNO)*@
+
+                                                @if (Model.VTDID != 0)
+                                                {<input type="text" value="@ViewBag.CONTNRNO" id="CONTNRNO" class=" form-control CONTNRNO" name="CONTNRNO" readonly="readonly" />
+                                                    @Html.TextBoxFor(model => model.ASLDID, new { @class = "form-control hide ASLDID ", @id = "ASLDID", @data_val = false, @readonly = "readonly" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownList("ASLDID", null, "---Select Container No---", new { @class = "form-control ASLDID", @id = "ASLDID", tabindex = "4", @onchange = "GetDetails()" })
+                                                }
+                                                @Html.TextBoxFor(model => model.GIDID, new { @class = "form-control hide GIDID ", @id = "GIDID", @data_val = false, @readonly = "readonly" })
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Size</label>@*@Html.ValidationMessageFor(model => model.GBDNO)*@
+                                                <input type="text" value="" id="SIZE" class=" form-control SIZE" name="SIZE" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>In Date </label>
+                                                <input type="text" value="" id="INDATE" class=" form-control INDATE" name="INDATE" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Cargo</label>
+                                                @Html.TextBoxFor(model => model.VTDESC, new { @class = "form-control VTDESC", @id = "VTDESC", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Vessel</label>
+                                                <input type="text" value="" id="FVSLNAME" class=" form-control FVSLNAME" name="FVSLNAME" readonly="readonly" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Voyage No</label>
+                                                <input type="text" value="" id="FVOYNO" class=" form-control FVOYNO" name="FVOYNO" readonly="readonly" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Importer</label>
+                                                <input type="text" value="" id="IMPRTNAME" class=" form-control IMPRTNAME" name="IMPRTNAME" readonly="readonly" />
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Streamer</label>
+                                                <input type="text" value="" id="STMRNAME" class=" form-control STMRNAME" name="STMRNAME" readonly="readonly" />
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 ">
+                                            <div class="form-group">
+                                                <label>CHA</label>
+
+                                                <input type="text" value="" id="CHANAME" class=" form-control CHANAME" name="CHANAME" readonly="readonly" />
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>BOE No</label>
+                                                <input type="text" value="" id="FBOENO" class=" form-control FBOENO" name="FBOENO" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>BOE Date</label>
+                                                <input type="text" value="" id="FBOEDT" class=" form-control FBOEDT" name="FBOEDT" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>DO Validity</label>
+                                                <input type="text" value="" id="FDODATE" class=" form-control FDODATE" name="FDODATE" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 hide">
+                                            <div class="form-group">
+                                                <label>D.Order No</label>
+                                                <input type="text" value="" id="FDORDRNO" class=" form-control FDORDRNO" name="FDORDRNO" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 hide">
+                                            <div class="form-group">
+                                                <label>D.Order Date</label>
+                                                <input type="text" value="" id="FDORDRDATE" class=" form-control FDORDRDATE" name="FDORDRDATE" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Type</label>
+                                                <input type="text" value="" id="VTTYPEDESC" class=" form-control VTTYPEDESC" name="VTTYPEDESC" readonly="readonly" />
+                                                @Html.DropDownListFor(model => Model.VTTYPE, new SelectList(ViewBag.VTTYPE, "value", "text"), new { @class = "form-control hide VTTYPE", @id = "VTTYPE", tabindex = "6" })
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>A.Slip No</label>
+                                                <input type="text" value="" id="FASLNO" class=" form-control FASLNO" name="FASLNO" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>A.Slip Date/Time</label>
+                                                <input type="text" value="" id="FASLDATE" class=" form-control FASLDATE" name="FASLDATE" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>SANCO Seal No<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => model.VTSSEALNO, new { @class = "form-control VTSSEALNO", @id = "VTSSEALNO", tabindex = "8" })
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Vehicle No<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.VHLNO, new { @class = "form-control VHLNO", @id = "VHLNO", tabindex = "8" })
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Driver Name<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.DRVNAME, new { @class = "form-control DRVNAME", @id = "DRVNAME", tabindex = "10" })
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="frm_hide" id="DESTF_DIV">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Operation Type</label>
+                                                    <input type="text" value="" id="txtopt" class=" form-control txtopt" name="txtopt" readonly="readonly" />
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>By</label>
+                                                    @Html.DropDownList("VTSTYPE", null, new { @class = "form-control VTSTYPE", @id = "VTSTYPE", tabindex = "14" })
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Qty<span class="required-field"></span></label>
+                                                    @Html.TextBoxFor(model => model.VTQTY, new { @class = "form-control VTQTY", @id = "VTQTY", tabindex = "16" })
+                                                    @*@Html.TextBoxFor(model => model.VTQTY, new { @class = "form-control VTQTY", @id = "VTQTY", tabindex = "16", @onkeypress = "return isNumberCommaDot(event)" })*@
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Cargo Status</label>
+                                                    @Html.DropDownList("VTCTYPE", null, new { @class = "form-control VTCTYPE", @id = "VTCTYPE", tabindex = "18" })
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Remarks</label>
+                                                @Html.TextAreaFor(model => model.VTREMRKS, new { @class = "form-control VTREMRKS", @id = "VTREMRKS", tabindex = "28" })
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Slip Date</label>
+
+                                                @Html.TextBox("ASMDATE", "{0:dd/MM/yyyy}", new { @class = "form-control ASMDATE", @readonly = "readonly", @id = "ASMDATE", @name = "ASMDATE" })
+                                            </div>
+                                        </div>
+                                        <div class=" col-md-2">
+                                            <div class="form-group">
+                                                <label>OOC Date</label>
+                                                <input type="text" id="OOCDATE" value="@ViewBag.OOCDATE" class="form-control OOCDATE" readonly name="OOCDATE" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hidden">
+                                        <input type="text" value="" id="TMPSTMRID" class=" form-control TMPSTMRID" name="TMPSTMRID" readonly="readonly" />
+                                        <input type="text" value="" id="TMPCHAID" class=" form-control TMPCHAID" name="TMPCHAID" readonly="readonly" />
+                                        <input type="text" value="" id="TMPCONTNRSID" class=" form-control TMPCONTNRSID" name="TMPCONTNRSID" readonly="readonly" />
+                                        <input type="text" value="" id="TMPCONTNRTID" class=" form-control TMPCONTNRTID" name="TMPCONTNRTID" readonly="readonly" />
+                                        <input type="text" value="" id="TMPCONTNRNO" class=" form-control TMPCONTNRNO" name="TMPCONTNRNO" readonly="readonly" />
+                                    </div>
+
+                                    <div class="col-md-12 box-footer">
+                                        <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />
+                                        <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="2000" />
+                                    </div>
+
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    <script>
+        $(window).bind("load", function () {
+            if ($("#VTDID").val() == "") {
+                $("#VTDID").val("0");
+                $("#GODID").val("0");
+
+            }
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+
+            $('input[id$=VTDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#VTDATE").focus();
+                }
+            });
+
+            if ($("#VTDID").val() == "0") {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                //console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                var datetme = hours + ':' + minutes + ':' + seconds;
+
+                $(".VTDATE").val(date);
+                $(".EVSDATE").val(date);
+                $(".EVLDATE").val(date);
+                $(".ELRDATE").val(date);
+                $(".VTTIME").val(datetme);
+                conttype();
+            }
+            else {
+                VTSTYPE = $("#VTSTYPE option:selected").val();
+                if (VTSTYPE == 1) {
+                    
+                    $("#ImportVehicleTicket input:submit").attr("disabled", "disabled");
+                }
+                if ($(".Del_check").html() != "PROCEED") {
+                    alert($(".Del_check").html()); $("#add_detail,#del_detail").addClass("hide");
+                    $("#ImportVehicleTicket input:submit").attr("disabled", "disabled");
+                } else { $("#add_detail,#del_detail").removeClass("hide"); $("#ImportVehicleTicket input:submit").removeAttr("disabled", "disabled"); }
+            }
+        });
+
+        $(function () {
+            $(".datepicker").removeAttr('VTDATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+        });
+
+        $(window).bind("load", function () {
+            if ($(".VTDID").val() == "") {
+                $(".VTDID").val("0");
+            }
+            if ($(".VTDID").val() != 0) {
+                GetDetails();
+
+            }
+            $(".datepicker").removeAttr('VTDATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+            //AdminGrpChk();
+        });
+        function conttype() {
+            VTTYPE = $("#VTTYPE option:selected").val();
+            if (VTTYPE == 1) {
+                $("#VTSTYPE").val(1);
+            }
+            else {
+                $("#VTSTYPE").val(0);
+            }
+        }
+
+        function GetCont() {
+            //alert('test');
+            $("#ASLDID").empty();
+            if ($("#FIGMNO").val() == "") {
+                //$('#FIGMNO').css('border-color', 'red');
+                alert('Please enter IGMNO');
+                $("#FIGMNO").focus();
+                return false
+
+            }
+            
+            if ($("#FLNO").val() == "") {
+                //$('#FLNO').css('border-color', 'red');
+                alert('Please enter LNO');
+                $("#FLNO").focus();
+                return false
+
+            }
+           
+
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("Getcont", "ImportVehicleTicket")', // we are calling json method
+                data:{id: $("#FIGMNO").val() + ";" + $("#FLNO").val()},
+                dataType: 'json',
+                success: function (data) {
+                    $("#ASLDID").append('<option>Please select</option>');
+                    $.each(data, function (i, dataval) {
+                        $("#ASLDID").append('<option value="' + dataval.ASLDID + '">' + dataval.CONTNRNO + '</option>');
+
+                    });
+
+                },
+                error: function (ex) {
+                    //alert('Failed to data ' + ex);
+                }
+            });
+        }
+
+        function GetDetails() {
+
+            var ASLDID = $(".ASLDID option:selected").val();
+            if ($(".VTDID").val() != 0) { ASLDID = $(".ASLDID").val(); }
+            var url = "/ImportVehicleTicket/GetContDetails/" + ASLDID;
+            
+            // alert(url);
+            // $("input:text").has("readonly").empty();
+            $.ajax({
+
+                type: 'get',
+                url: url, // we are calling json method
+
+                dataType: 'json',
+
+                success: function (data) {
+                    console.log(data);
+                    $("#SIZE").val(data[0].CONTNRSDESC);
+                    $("#INDATE").val(GetFormattedDate(data[0].GIDATE));
+                    $("#VTDESC").val(data[0].PRDTDESC);
+                    $("#CHANAME").val(data[0].OSBILLREFNAME);
+                    $("#TMPCHAID").val(data[0].OSBILLREFID);
+                    $("#GIDID").val(data[0].GIDID);
+
+                    $("#FIGMNO").val(data[0].IGMNO);
+                    $("#FLNO").val(data[0].GPLNO);
+                    $("#FVSLNAME").val(data[0].VSLNAME);
+                    $("#FVOYNO").val(data[0].VOYNO);
+                    $("#IMPRTNAME").val(data[0].IMPRTNAME);
+                    $("#STMRNAME").val(data[0].STMRNAME);
+                    $("#FBOENO").val(data[0].BOENO);
+                    $("#FBOEDT").val(GetFormattedDate(data[0].BOEDATE));
+                    //$("#FDODATE").val(GetFormattedDate(data[0].DODATE));
+                    $("#FDODATE").val(data[0].DODATEChr);
+                    $("#FDORDRNO").val(data[0].DODNO)
+
+                    $("#TMPSTMRID").val(data[0].STMRID);
+
+                    $("#TMPCONTNRSID").val(data[0].CONTNRSID);
+                    $("#TMPCONTNRTID").val(data[0].CONTNRTID);
+                    $("#TMPCONTNRNO").val(data[0].CONTNRNO);
+                    $('#txtopt').val(data[0].OPRTYPEDESC);
+                    $("#OOCDATE").val(data[0].OOCDATE);
+
+                    if (data[0].DOMDATE != null) $("#FDORDRDATE").val(GetFormattedDate(data[0].DOMDATE));                    
+                    if (data[0].ASLMTYPE == 1) {
+                        $("#VTTYPEDESC").val("LOAD");
+                        $("#DESTF_DIV").addClass("frm_hide");
+                    }
+                    else if (data[0].ASLMTYPE == 2) {
+                        $("#VTTYPEDESC").val("DESTUFF");
+                        $("#DESTF_DIV").removeClass("frm_hide");
+                    }
+                    $("#VTTYPE").val(data[0].ASLMTYPE);
+                    $("#FASLNO").val(data[0].ASLMDNO);
+                    $("#FASLDATE").val(GetFormattedDateTime(data[0].ASLMTIME));
+
+
+                    if ($(".VTDID").val() == 0) {
+                        $("#VTSSEALNO").val(data[0].CSEALNO);
+                        $("#VHLNO").val(data[0].VHLNO)
+                        $("#DRVNAME").val(data[0].DRVNAME)
+                    }
+                    // alert($("#GIDID").val());
+                    base = window.location.origin;
+                    $.post(base + "/ImportVehicleTicket/DOCheck",
+                        {
+                            id: $("#GIDID").val(), fld: "IMPORTVTENTRYCHK"
+                        },
+                        function (data, status) {
+                            //alert(data);
+                            if (data == "EXISTS..!") {
+                                $("#ImportVehicleTicket input:submit").removeAttr("disabled", "disabled");
+                                return true;
+                            }
+                            else if (data == "PROCEED") {
+                                alert("Kindly Put DO / Invoice For the Selected Container...!");
+                                $("#ImportVehicleTicket input:submit").attr("disabled", "disabled");
+
+                            }
+
+                            //else if (data != "Deleted Successfully ...") {
+                            //    alert(data);
+                            //}
+                            //else {
+                            //    alert(data);
+                            //    location.replace(base + "/ImportVehicleTicket");
+                        }
+                    );
+                }
+            });
+
+
+            var murl = "/ImportVehicleTicket/SlipMaxDate/" + ASLDID;
+
+            $.ajax({
+
+                type: 'get',
+                url: murl, // we are calling json method
+
+                dataType: 'json',
+
+                success: function (data) {
+                    var msdate = data[0].ASLMDATE;
+
+                    if (msdate != "") {
+                        
+                        var inDate = data[0].ASLMDATE; //Wed Feb 09 2011 15:41:41 GMT+0530 (India Standard Time)
+                        var JavaScriptDate = new Date(parseInt(inDate.substr(6))); //to js format
+                        var dt = new Date(JavaScriptDate); //Date object
+
+                        var year = dt.getFullYear();
+                        var month = dt.getMonth() + 1;
+                        var day = dt.getDate();
+
+                        if (month < 10) month = "0" + month;
+                        if (day < 10) day = "0" + day;
+
+                        $(".ASMDATE").val(day + "/" + month + "/" + year);
+                    }
+
+
+                    //$('.ASMDATE').val(data[0].ASLMDATE);
+                }
+            });
+
+        }
+
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getDate() +
+                "/" +
+                eval(value1.getMonth() + 1) +
+                "/" +
+                value1.getFullYear();
+            return dat;
+        }
+        function GetFormattedDateTime(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getDate() +
+                "/" +
+                eval(value1.getMonth() + 1) +
+                "/" +
+                value1.getFullYear() + " " + value1.getHours() + ":" + value1.getMinutes();
+            return dat;
+        }
+
+        function validation() {
+            var oocdate = $("#OOCDATE").val();
+            var vtdate = $("#VTDATE").val();
+            var dodate = $("#FDODATE").val();
+            var res = CompareDates(vtdate, oocdate);
+            var res1 = CompareDates(dodate, vtdate);
+            //alert(oocdate);
+            //alert(dodate);
+            //alert(vtdate);
+            //alert(res);
+            //alert(res1);
+            if ($('#VTDATE').val() == "") {
+                alert('Please enter Date');
+                $('#VTDATE').focus();
+                return false;
+            }
+            else if ($('#OOCDATE').val() == "") {
+                alert("Please Update OOC Date in OpenSheet !!");
+                $('#VTDATE').css('border-color', 'red');
+                $('#VTDATE').focus();
+                return false;
+            }
+            else if (res == 2) {
+                alert('VT Date Should be greater than or equal to OOC Date!!');
+                $("#VTDATE").focus();
+                return false;
+
+            }
+            else if (res1 == 2) {
+                alert('DO Validity Date Should be greater than or equal to VT Date!!');
+                $("#VTDATE").focus();
+                return false;
+
+            }
+            if ($('#VTTIME').val() == "") {
+                alert('Please enter Time');
+                $('#VTTIME').focus();
+                return false;
+            }
+            if (($("#VTDID").val() == "" || $("#VTDID").val() == "0") && ($('#FIGMNO').val() == "")) {
+                alert('Please enter IGM No');
+                $('#FIGMNO').focus();
+                return false;
+            }
+            if (($("#VTDID").val() == "" || $("#VTDID").val() == "0") && ($('#FLNO').val() == "")) {
+                alert('Please enter Line No');
+                $('#FLNO').focus();
+                return false;
+            }
+            if ($("#ASLDID").val() == "" || $("#ASLDID").val() == "0") {
+                //$('#ASLDID').css('border-color', 'red');
+                alert('Please select Container No');
+                $('#ASLDID').focus();
+                return false;
+            }
+            if ($("#VTSSEALNO").val() == "") {
+                //$('#VTSSEALNO').css('border-color', 'red');
+                $('#VTSSEALNO').focus();
+                alert('Please enter SANCO Seal No');
+                return false;
+
+            }
+            if ($("#VHLNO").val() == "") {
+                //$('#VHLNO').css('border-color', 'red');
+                $('#VHLNO').focus();
+                alert('Please enter Vehicle No');
+                return false;
+            }
+
+            if ($("#DRVNAME").val() == "") {
+                //$('#DRVNAME').css('border-color', 'red');
+                $('#DRVNAME').focus();
+                alert('Please enter Driver Name');
+                return false;
+
+            }
+
+            if (($('#VTTYPEDESC').val() == "DESTUFF") && ($('#VTQTY').val() == "" || $('#VTQTY').val() == "0" || $('#VTQTY').val() == "0.00" )) {
+                $('#VTQTY').focus();
+                alert('Please enter Qty ');
+                return false;
+            }
+
+
+            if (($('#VTDATE').val() != "" && $('#VTDATE').val() != null) && ($('#ASMDATE').val() != "" && $('#ASMDATE').val() != null)) {
+
+                var dsdate = Splitthedate($('#VTDATE').val());
+                var osdate = Splitthedate($('#ASMDATE').val());
+                //alert(dsdate);
+                //alert(osdate);
+
+                if ((dsdate < osdate)) {
+                    alert("VT Date Grater Than Slip Date !! ");
+                    $("#VTDATE").focus();
+                    return false;
+                }
+
+            }
+            //else {
+            //    $('#DRVNAME').css('border-color', 'black');
+            //}
+            //$('#VTQTY').val(0);
+            //if ($('#VTQTY').val() == "") {
+            //    $('#VTQTY').css('border-color', 'red');
+            //    $('#VTQTY').focus();
+            //    alert('Please enter Qty');
+            //    return false;
+            //} else {
+            //    $('#VTQTY').css('border-color', 'black');
+            //}
+            return true;
+        }
+        function AdminGrpChk() {
+            admgrpchk = $("#UsrAdmGrpChk").val();
+            if (admgrpchk == "N") {
+                $("#VTDATE").datepicker("option", "disabled", true);
+                $("#VTTIME").datepicker("option", "disabled", true);
+
+                $("#VTDATE").attr('readonly', true);
+                $("#VTTIME").attr('readonly', true);
+                $("#FIGMNO ").focus();
+            }
+        }
+    </script>
+}
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7b38cd68593047148e49ae0dc8096f41" Name="Diagram1" ZoomLevel="56">
+        <EntityTypeShape EntityType="CFSExport_Model.VW_EXPORT_SHIPPINGBILL_NO_CTRL_ASSGN" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_EXPORT_RATECARDMASTER_FLX_ASSGN" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_EXPORT_RATECARDMASTER_FLX_ASSGN_01" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_EXPORT_STUFFING_BILL_PRINT_ADDRESS_DETAIL_ASSGN" Width="1.5" PointX="10.375" PointY="4.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_EXPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN" Width="1.5" PointX="5.375" PointY="11.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_EXPORT_INVOICE_STUFFING_DETAIL_CTRL_ASSGN" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_STUFF_GATEIN_CTRL_ASSGN" Width="1.5" PointX="6.375" PointY="0.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_EXPORT_SLABTYPE_HSN_DETAIL_ASSGN" Width="1.5" PointX="3.375" PointY="7.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_VEHICLETICKET_EXPORT_CONTAINER_CBX_ASSGN_DIRECT" Width="1.5" PointX="6.75" PointY="5.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_VEHICLETICKET_EXPORT_CONTAINER_CTRL_ASSGN" Width="1.5" PointX="11.375" PointY="8.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_SHIPPINGBILL_GATEINT_TRUCKNO_CBX_ASSGN" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_EXPORT_INVOICE_OPERATION_WISE_TARIFF_ASSGN" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_ESEAL_GATEOUT_CONTAINER_CBX_CHNG_ASSGN" Width="1.5" PointX="13.375" PointY="5.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_STUFFING_SBILLNO_REFNO_CBX_ASSGN" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_VEHICLETICKET_EXPORT_CONTAINER_CTRL_ASSGN_DIRECT" Width="1.5" PointX="9.375" PointY="14.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_ESEAL_GATEOUT_MOD_ASSGN" Width="1.5" PointX="13.375" PointY="11.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_EXPORT_ASL_DETAIL_CTRL_ASSGN_MODS" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_EXPORT_ASL_STUFF_CONTAINER_CBX_ASSGN_NEW" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_VEHICLETICKET_EXPORT_CONTAINER_CBX_ASSGN" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_STUFFING_CHECKEXISTING_ORGSHIPPINGBILL" Width="1.5" PointX="15.375" PointY="8.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_SHUTOUT_VEHICLETICKET_CTRL_ASSGN" Width="1.5" PointX="15.375" PointY="11.75" />
+        <EntityTypeShape EntityType="CFSExport_Model.VW_STUFFING_ORGSBILLNO_REFNO_CBX_ASSGN" Width="1.5" PointX="0.75" PointY="13.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

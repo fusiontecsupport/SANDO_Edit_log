@@ -1,0 +1,210 @@
+﻿@using scfs.Data
+@using scfs_erp.Models;
+@model scfs_erp.Models.OpenSheetMD
+
+@{
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+<style type="text/css">
+    .modal-dialog {
+        width: 85%;
+        height: 85%;
+        /*background-color: white;*/
+    }
+</style>
+<div class="modal-dialog" style="width:95%">
+    <div class="modal-content">
+        <div class="modal-header">
+            @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
+            <div class="modal-title">Container Seal Details</div>
+        </div>
+        <form id="schedulefrm" action="@Url.Content("~/OpenSheet/ssavedata")" method="post" autocomplete="on">
+            <div class="msg" hidden style="margin-left:0;margin-right:0"> </div>
+            <div class="msg_error" hidden style="margin-left:0;margin-right:0"> </div>
+
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Date</label>
+                        @if (Model.masterdata != null && Model.masterdata.Count != 0)
+                        {
+                            @Html.TextBoxFor(model => model.masterdata[0].OSMID, new { @class = "form-control hide OSMID", @id = "OSMID" })
+                            @Html.TextBoxFor(model => model.masterdata[0].OSMDATE, new { @class = "form-control OSMDATE", @id = "OSMDATE", @readonly = "readonly" })
+                        }
+                        else
+                        {
+                            <input type="text" id="OSMID" class="form-control OSMID hide" name="OSMID" value="0" />
+                            <input type="text" id="OSMDATE" class="form-control OSMDATE" name="OSMDATE" value="" readonly="readonly" />
+                        }
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>No</label>
+                        @if (Model.masterdata != null && Model.masterdata.Count != 0)
+                        {
+                            @Html.TextBoxFor(model => model.masterdata[0].OSMNO, new { @class = "form-control hide OSMNO", @id = "OSMNO" })
+                            @Html.TextBoxFor(model => model.masterdata[0].OSMDNO, new { @class = "form-control OSMDNO", @id = "OSMDNO", @readonly = "readonly" })
+                        }
+                        else
+                        {
+                            <input type="text" id="OSMNO" class="form-control OSMNO hide" name="OSMNO" value="0" />
+                            <input type="text" id="OSMDNO" class="form-control OSMDNO" name="OSMDNO" value="" readonly="readonly" />
+                        }
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Cha Name</label>
+                        @if (Model.masterdata != null && Model.masterdata.Count != 0)
+                        {
+                            @Html.TextBoxFor(model => model.masterdata[0].CHAID, new { @class = "form-control hide CHAID", @id = "CHAID" })
+                            @Html.TextBoxFor(model => model.masterdata[0].OSMNAME, new { @class = "form-control OSMNAME", @id = "OSMNAME", @readonly = "readonly" })
+                        }
+                        else
+                        {
+                            <input type="text" id="CHAID" class="form-control CHAID hide" name="CHAID" value="0" />
+                            <input type="text" id="OSMNAME" class="form-control OSMNAME" name="OSMNAME" value="" readonly="readonly" />
+                        }
+                    </div>
+                </div>
+
+            </div>
+            <div class="clearfix"> </div>
+            <div class="col-lg-12">
+                <div class="col-md-12">
+                    @if (Model.masterdata != null)
+                    {
+                        <div class="table_grid" id="table_grid"></div>
+                    }
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+            <div class="col-lg-12">
+                <div class="col-md-12">
+                    @if (Model.masterdata != null)
+                    {
+                        <div class="shtable_grid" id="shtable_grid"></div>
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="btnclose" data-dismiss="modal" tabindex="9">Close</button>
+                <button type="button" class="btn btn-success hide" id="btnSaveClick" tabindex="8">Save</button>
+                <button type="submit" class="btn btn-success" id="SaveClick" tabindex="8">Save</button>
+            </div>
+
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+<script>
+
+    $(window).bind("load", function () {
+        if ($(".OSMID").val() == "") {
+            $(".OSMID").val("0");
+        }
+
+        if ($("#OSMID").val() != "" || $("#OSMID").val() != "0") {
+            Getdetails($("#OSMID").val());
+        }
+    });
+
+
+    $(function () {
+        if ($("#OSMID").val() != "" || $("#OSMID").val() != "0") {
+            Getdetails($("#OSMID").val());
+        }
+
+    });
+
+    $(document).ready(function () {
+
+        var rowcount = $('#sealhmytabl tbody tr').length;
+
+        $(document).on("click", "#shdel_detail", function () {
+
+            var r = confirm("Are you sure to delete this record ?");
+
+            if (r == true) {
+
+                var $tableBody = $('#sealhmytabl').find("tbody");
+                $trCur = $tableBody.find("tr:eq(0)");
+
+                var idx = $('#sealhmytabl tbody tr').length;
+                var row = $(this).closest("tr");
+                
+                var det_id = row.find("#OSSID").val();
+                //alert(det_id);
+                if (idx > 1) {
+                    if (det_id != 0) {
+
+
+                        $.post('@Url.Action("shDel", "OpenSheet")',
+                            {
+                                id: det_id, fld: "SEALHISTORY"
+                            },
+                            function (data, status) {
+                                console.log()
+                                if (data != "") {
+                                    alert("Record deleted Successfully");
+                                    var returnurl = "/OpenSheet/Index";
+                                    window.location.href = returnurl;
+                                }
+                                else {
+
+                                }
+                            });//---End of post
+                    }
+                }
+
+            }
+        });
+    });
+
+    function Getdetails(OSMID) {
+        base = window.location.origin;
+        $.ajax({
+            type: 'get',
+            url: '@Url.Action("Detail_EditData", "OpenSheet")/' + OSMID,// we are calling json method
+
+            success: function (data) {
+
+                $("#table_grid").html("");
+                $("#table_grid").html(data);
+                //Container();
+                //delivery_status();
+                var stmr = $("#STMRNAME").val();
+                var imprt = $("#IMPRTNAME").val();
+                var vsl = $("#VSLNAME").val();
+                var voyno = $("#VOYNO").val();
+                $("#T_STMRNAME").val(stmr);
+                $("#T_IMPRTNAME").val(imprt);
+                $("#T_VOYNO").val(voyno);
+                $("#BILLEMID").val($("#FBILLEMID").val());
+            }
+        });
+
+        $.ajax({
+            type: 'get',
+            url: '@Url.Action("ShDetail_EditData", "OpenSheet")/' + OSMID,// we are calling json method
+            success: function (data) {
+                if (data != "") {
+                    $("#shtable_grid").html("");
+                    $("#shtable_grid").html(data);
+                }
+                else { $("#shtable_grid").html(""); }
+            }
+        });
+    }
+
+    $('#btnclose').click(function () {
+        base = window.location.origin;
+        var url = base + "/OpenSheet/Index";
+        window.location.href = url;
+    });
+
+</script>

@@ -1,0 +1,141 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.EndorsementChargeTypeMaster
+
+@{
+    ViewBag.Title = "Export Charge Type Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Endorsement Charge Type</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/EndorsementChargeType/savedata")" method="post" accept-charset="utf-8" id="accountgroupmasterform" data-ng-controller="myController" name="accountgroupmasterform">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="AccountGroupMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.ECTID, new { @class = "form-control  ECTID", @id = "ECTID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.ECTCODE, new { @class = "form-control ECTCODE", @id = "ECTCODE", @required = true })
+                                        <input type="text" value="@Model.ECTCODE" name="i_ECTCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.ECTDESC, new { @class = "form-control ECTDESC", @id = "ECTDESC", @required = true })
+                                        <input type="text" value="@Model.ECTDESC" name="i_ECTDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />*@
+                                <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden " hidden />
+                                @*<input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />*@
+                                <a href="@Url.Action("Index", "EndorsementCharge")" class="btn btn-primary btn-xs pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $('#btnsave').click(function () {
+            if ($('#ECTCODE').val() == "") {
+                alert('Please Enter Code !!');
+                $('#ECTCODE').focus();
+                return false;
+            }
+            if ($('#ECTDESC').val() == "") {
+                alert('Please Enter Description !!');
+                $('#ECTDESC').focus();
+                return false;
+            }
+
+            var pdate = new Date();
+
+            if ($('#ECTID').val() == "") { $('#ECTID').val(0); }
+
+            var tab = {
+                ECTID: $('#ECTID').val(),
+                ECTCODE: $('#ECTCODE').val(),
+                ECTDESC: $('#ECTDESC').val(),
+                DISPSTATUS: $('#DISPSTATUS').val(),
+                CUSRID: "",
+                LMUSRID: 1,
+                PRCSDATE: pdate
+            };
+            $.ajax({
+                //url: "/EndorsementChargeType/savedata",
+                url: "@Url.Action("savedata", "EndorsementChargeType")",
+                data: JSON.stringify(tab),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (status) {
+                    if (status == "Update") {
+                        alert('Export Charge Type  Master Details Updated Successfully !! ');
+
+                        var returnurl = "@Url.Action("Index", "EndorsementChargeType")";
+                        window.location.href = returnurl;
+                    }
+                    else if (status == "Success") {
+                        alert('Export Charge Type Master Details Inserted Successfully !! ');
+                        var returnurl = "@Url.Action("Index", "EndorsementChargeType")";
+                        window.location.href = returnurl;
+                    }
+                    else if (status == "Existing") {
+                        alert('Export Charge Type Master Details Already Inserted !! ');
+                        $('#ECTCODE').val("");
+                        $('#ECTDESC').val("");
+                        var returnurl = "@Url.Action("Form", "EndorsementChargeType")";
+                        window.location.href = returnurl;
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
+        });
+    </script>
+
+}

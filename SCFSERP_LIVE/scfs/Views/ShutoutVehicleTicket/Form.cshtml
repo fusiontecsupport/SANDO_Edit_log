@@ -1,0 +1,734 @@
+﻿@using scfs_erp.Models;
+@using scfs.Data;
+@model scfs_erp.Models.ShutoutVehicleTicketDetail
+
+@{
+    ViewBag.Title = "Shutout Vehicle Ticket Details";
+}
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Shutout Vehicle Ticket</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/ShutoutVehicleTicket/savedata")" method="post" accept-charset="utf-8" id="Directvtform" data-ng-controller="myController" name="Directvtform" onsubmit="return  Form_validate()">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ExportDirectVT_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>No  </label>
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.VTDID, new { @class = "form-control hide  VTDID", @id = "VTDID" })
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.VTNO, new { @class = "form-control  VTNO", @readonly="readonly", @id = "VTNO", @data_val = false })
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.ASLDID, new { @class = "form-control  hide ASLDID", @id = "ASLDID", @data_val = false })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Date<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.VTDATE, new { @class = "form-control VTDATE", @id = "VTDATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Time<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.VTTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker VTTIME ", @id = "VTTIME", @data_Val = false, @tabindex = "2" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2 hide">
+                                    <div class="form-group">
+                                        <label>No </label>
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.VTDNO, new { @class = "form-control VTDNO ", @id = "VTDNO", @data_val = false, @readonly = "readonly", @tabindex = "-1" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Shutout No<span class="required-field"></span></label>
+
+                                        @if (Model.shutoutvtdetail == null) //(Model.shutoutvtdetail.VTDID == 0)
+                                        {
+
+                                            @Html.DropDownList("STFMID", null, "--Select Shutout No--", new { @class = "form-control STFMID", @id = "STFMID", @required = "required", @tabindex = "3", @onchange = "GetSODtl();" })
+
+                                        }
+                                        else
+                                        {
+                                            <input type="text" class="STFMDNO" name="STFMDNO" value="@ViewBag.STFMDNO" tabindex="-1" />                                            
+                                            @Html.TextBoxFor(model => model.shutoutvtdetail.STFMID, new { @class = "form-control STFMID hide ", @value= "@Model.shutoutvtdetail.STFMID", @id = "STFMID", @data_val = false, @readonly = "readonly", @tabindex = "-1" })
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>NOP<span class="required-field"></span></label>
+
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.VTQTY, new { @class = "form-control VTQTY", @readonly = "readonly", @id = "VTQTY", @required = "required", @tabindex = "-1" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>By<span class="required-field"></span></label>
+                                        @Html.DropDownList("FVTCTYPE", null, "--Select By", new { @class = "form-control FVTCTYPE", @id = "FVTCTYPE", @required = "required", @tabindex = "3", @onchange = "SelByMode();" })
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.VTCTYPE, new { @class = "form-control VTCTYPE hide", @readonly = "readonly", @id = "VTCTYPE", @required = "required", @tabindex = "-1" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 byveh">
+                                    <div class="form-group">
+                                        <label>Driver Name<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.DRVNAME, new { @class = "form-control DRVNAME byveh", @id = "DRVNAME", @tabindex = "4" })
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-3 byveh">
+                                    <div class="form-group">
+                                        <label>Transpoter Name<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.TRNSPRTNAME, new { @class = "form-control TRNSPRTNAME byveh", @id = "TRNSPRTNAME", @required = "required", tabindex = "5", data_autocomplete_url = Url.Action("AutoTransporter", "ShutoutVehicleTicket"), @placeholder = "---Please Select----" })
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.TRNSPRTID, new { @class = "hide form-control TRNSPRTID", @id = "TRNSPRTID" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 byhnd" id="othertransdiv">
+                                    <div class="form-group">
+                                        <label class="byhndvehlbl">Other Transpoter Name<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.GTRNSPRTNAME, new { @class = "form-control GTRNSPRTNAME byhnd", @id = "GTRNSPRTNAME", @required = "required", tabindex = "6", @maxLength = "100" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2 byveh">
+                                    <div class="form-group">
+                                        <label>Vehicle No<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.VHLNO, new { @class = "form-control VHLNO byveh", @id = "VHLNO", @required = "required", data_autocomplete_url = Url.Action("AutoVehicleNo", "ShutoutVehicleTicket"), @tabindex = "7" })
+                                        @Html.TextBoxFor(model => model.shutoutvtdetail.VHLMID, new { @class = "form-control  VHLMID hide ", @id = "VHLMID", tabindex = "-1" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>CHA (Licence)<span class="required-field"></span>  </label>
+                                        <input type="text" class="STFMNAME form-control" name="STFMNAME" id="STFMNAME" readonly="readonly" tabindex="-1" />
+                                        <input type="text" class="CHAID hide form-control" name="CHAID" id="CHAID" readonly="readonly" tabindex="-1" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>GST NO </label>
+                                    <div class="form-group">
+                                        <input type="text" class="CATEAGSTNO form-control" name="CATEAGSTNO" id="CATEAGSTNO" value="@ViewBag.CATEAGSTNO" readonly="readonly" tabindex="-1" />
+                                        <input type="text" class="STATEID hide form-control" name="STATEID" id="STATEID" value="@ViewBag.STATEID" readonly="readonly" tabindex="-1" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>CHA Location<span class="required-field"></span></label>
+                                        @Html.DropDownList("STFCATEAID", null, "Select Location", new { @class = "form-control STFCATEAID", @id = "STFCATEAID", @tabindex = "8" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Address 1 </label>
+                                    <div class="form-group">
+                                        <input type="text" class="TRANIMPADDR1 form-control" name="TRANIMPADDR1" id="TRANIMPADDR1" readonly="readonly" tabindex="-1" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Address 2 </label>
+                                    <div class="form-group">
+                                        <input type="text" class="TRANIMPADDR2 form-control" name="TRANIMPADDR2" id="TRANIMPADDR2" readonly="readonly" tabindex="-1" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Address 3 </label>
+                                    <div class="form-group">
+                                        <input type="text" class="TRANIMPADDR3 form-control" name="TRANIMPADDR3" id="TRANIMPADDR3" readonly="readonly" tabindex="-1" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Address 4 </label>
+                                    <div class="form-group">
+                                        <input type="text" class="TRANIMPADDR4 form-control" name="TRANIMPADDR4" id="TRANIMPADDR4" readonly="readonly" tabindex="-1" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    @Html.TextAreaFor(model => model.shutoutvtdetail.VTREMRKS, new { @class = "form-control VTREMRKS", @id = "VTREMRKS", @tabindex = "9" })
+                                </div>
+                            </div>
+                           
+                            <div id="shutout-detail-panel">
+
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-12 box-footer">
+                            <div class="col-md-12 box-footer">
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" tabindex="11" />
+                                <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden " hidden />
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="10" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getDate() +
+                "/" +
+                eval(value1.getMonth() + 1) +
+                "/" +
+                value1.getFullYear();
+            return dat;
+        }
+
+
+        function SelByMode() {
+            var vtctyp = $(".FVTCTYPE").val();
+            $(".VTCTYPE").val(vtctyp);
+            //alert(vtctyp);
+            if (vtctyp == "1") {
+                $(".byhnd").show();
+                $(".byhnd").attr('required', 'required');
+                $(".byveh").removeAttr('required');
+                $(".byveh").hide();
+                $(".byhndvehlbl").html("Person Name");
+            }
+            else {
+                $(".byveh").show();
+                $(".byveh").attr('required', 'required');
+                $(".byhnd").removeAttr('required');
+                $(".byhnd").hide();
+                $("#othertransdiv").hide();
+                $(".byhndvehlbl").html("Other Transporter Name");
+            }
+        }
+        $(document).ready(function () {
+            $(".DRVNAME").focus();
+            add_autocomplete_transport($("#TRNSPRTNAME"), "TRNSPRTNAME,TRNSPRTID");
+            add_autocomplete_vehicle($("#VHLNO"), "VHLMDESC,VHLMID");
+            $("#othertransdiv").hide();
+            SelByMode();
+            $("#TRNSPRTNAME").on("change", function () {
+                var TRNSPRTNAME = $("#TRNSPRTNAME").val();
+                var TRNSPRTID = $("#TRNSPRTID").val();
+                //if (TRNSPRTID == "67554") {
+                if (TRNSPRTID == "68812") {
+
+                    $("#VHLNO").val("");
+                    //$("#GPNRNO").val("-");
+                    $("#VHLMID").val("0");
+                    $("#GTRNSPRTNAME").val("");
+                    $("#GOTRNSPRTNAME").val("");
+                    $("#othertransdiv").show();
+                    $("#GTRNSPRTNAME").focus();
+                }
+                else if (TRNSPRTID == "19739") {
+                    $("#VHLNO").val("");
+                    //$("#GPNRNO").val("-");
+                    $("#VHLMID").val("0");
+                    $("#GTRNSPRTNAME").val(TRNSPRTNAME);
+                    $("#GOTRNSPRTNAME").val(TRNSPRTNAME);
+
+                    //alert($("#GTRNSPRTNAME").val());
+                    $("#othertransdiv").hide();
+                }
+
+                else {
+                    //alert("y")
+                    $("#GTRNSPRTNAME").val(TRNSPRTNAME);
+                    $("#GOTRNSPRTNAME").val(TRNSPRTNAME);
+                    $("#othertransdiv").hide();
+                    //alert($("#GTRNSPRTNAME").val());
+                }
+
+            });
+
+            $(".VHLNO").on("blur", function () {
+                var VHLMID = $(".VHLMID").val();
+                if (VHLMID == "" || VHLMID == "0") {
+                    VHLMID = 0;
+                }
+                var TRNSPRTNAME = $("#TRNSPRTNAME").val();
+                var TRNSPRTID = $("#TRNSPRTID").val();
+                if (TRNSPRTID == "19739") {
+                    if (TRNSPRTID > 0) {
+                        var url = "/ShutoutVehicleTicket/GetVehicle/" + TRNSPRTID + "-" + VHLMID;
+                        //var url = "/NonPnrGateIn/GetVehicle/" + TRNSPRTID;
+                        $.ajax({
+                            url: url,
+                            dataType: 'json',
+                            async: false,
+                            success: function (data) {
+                                //console.log(data);
+                                if (data.length > 0) {
+                                    //alert(data[0].VHLPNRNO);
+                                    $("#VHLMID").val(data[0].VHLMID);
+                                    //$("#GPNRNO").val(data[0].VHLPNRNO);
+                                }
+                                else {
+                                    $("#VHLMID").val("0");
+                                    //$("#GPNRNO").val("-");
+                                }
+                            }
+                        });
+                    }
+
+                }
+                else {
+                    $("#VHLMID").val("0");
+                    //$("#GPNRNO").val("-");
+                }
+
+                //----End of function
+            });
+
+        });
+
+        $(window).bind("load", function () {
+            if ($(".VTDID").val() == "") {
+                $(".VTDID").val("0");
+            }
+
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+
+
+            $('input[id$=VTDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#VTDATE").focus();
+                }
+            });
+
+            
+            $(".datepicker").removeAttr('VTDATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+
+            if ($("#VTDID").val() == 0) {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                //console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                var datetme = hours + ':' + minutes + ':' + seconds;
+
+                $(".VTDATE").val(date);
+                $(".VTTIME").val(datetme);
+            }
+            else {
+                if ($(".VTDID").val() != 0) {
+                    GetSODtl();
+                    SelByMode();
+                }
+            }
+        });
+
+        function add_autocomplete_transport($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                    });
+                    //$("#VHLNO").empty();
+                    id = $("#TRNSPRTID").val();
+                    vid = $("#VHLNO").val();
+                    // alert(id);
+                    if (id == "19739" || id == "19740") {
+                        //  alert(id);
+                        @* $.ajax({
+                            type: 'get',
+                            url: '@Url.Action("GetVehicle", "EVTkt")?id=' + id, //.....calling json method
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data != "") {
+                                    $(".VHL_DIV").html("<select class='form-control VHLNO' name='VHLNO' id='VHLNO' tabindex = '9'></select>")
+                                    $.each(data, function (i, dataval) {
+                                        $("#VHLNO").append('<option value="' + dataval.VHLMDESC + '">' + dataval.VHLMDESC + '</option>');
+                                    });
+                                    // $("#VHLNO").append('');
+                                }
+                            },
+                            error: function (ex) {
+                                alert('Failed to data ' + ex);
+                            }
+                        });*@
+
+                            }
+                    return false
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_vehicle($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                    });
+
+
+
+
+                    return false
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+
+
+
+        function Form_validate() {
+            var vtctyp = $(".VTCTYPE").val();            
+            if ($("#VTDATE").val() == "") {
+                alert("Please enter Date !!");
+                $(".VTDATE").focus();
+                return false;
+            }
+            else if ($("#VTTIME").val() == "") {
+                alert("Please enter Time !!");
+                $(".VTTIME").focus();
+                return false;
+            }
+            else if ($("#STFMID").val() == "") {
+                alert("Please select Stuffing No !!");
+                $(".STFMID").focus();
+                return false;
+            }
+            else if (vtctyp != "1" && vtctyp != "2") {
+                alert("Please select By !!");
+                $(".VTCTYPE").focus();
+                return false;
+            }
+            else if ($("#DRVNAME").val() == "" && vtctyp == "2") {
+                alert("Please enter driver name !!");
+                $(".DRVNAME").focus();
+                return false;
+            }
+            var temp3 = $("#VTQTY").val();            
+            if (temp3 == "") {
+                alert("Please enter NOP !!");
+                $(".VTQTY").focus();
+                return false;
+            }
+            var temp6 = $("#GOTRNSPRTNAME").val();            
+            if (temp6 == "") {
+                if (vtctyp=="1")
+                    alert("Please enter person name !!");
+                else
+                    alert("Please enter transporter name !!");
+                $("#GOTRNSPRTNAME").focus();
+                return false;
+            }                        
+            var temp8 = $("#VHLNO").val();
+            if (temp8 == "" && vtctyp == "2") {
+                alert("Please enter vehicle no !!");
+                $("#VHLNO").focus();
+                return false;
+            }
+            
+            
+        }
+
+
+        function GetSODtl() {
+
+            var STFMID = $(".STFMID").val();
+            var url = '@Url.Action("Detail", "ShutoutVehicleTicket")' + '/' + STFMID;// "/ShutoutVehicleTicket/Detail/" + STFMID;
+            //alert(url);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function (data) {
+                    //console.log(data);
+                    $.each(data, function (key, val) {
+
+                        var STFCATEAID = val.STFCATEAID;
+                        var STFMID = val.STFMID;
+                        var STFMDNO = val.STFMDNO;
+                        var STFMNAME = val.STFMNAME;
+                        var CHAID = val.CHAID;
+                        var TRANIMPADDR1 = val.TRANIMPADDR1;
+                        var TRANIMPADDR2 = val.TRANIMPADDR2;
+                        var TRANIMPADDR3 = val.TRANIMPADDR3;
+                        var TRANIMPADDR4 = val.TRANIMPADDR4;
+                        var STATEID = val.STATEID;
+                        var CATEAGSTNO = val.CATEAGSTNO;                        
+                        var STFDNOP = val.STFDNOP;
+                        var STFCATELOCN = val.STFCATELOCN;
+                        $("#STFCATEAID").empty();
+                        $("#STFCATEAID").append('<option value="' + STFCATEAID + '">' + STFCATELOCN + '</option>');
+                        $("#STFCATEAID").val(STFCATEAID).trigger('change');                        
+                        $("#STFMNAME").val(STFMNAME);
+                        $("#CHAID").val(CHAID);
+                        $("#TRANIMPADDR1").val(TRANIMPADDR1);
+                        $("#TRANIMPADDR2").val(TRANIMPADDR2);
+                        $("#TRANIMPADDR3").val(TRANIMPADDR3);
+                        $("#TRANIMPADDR4").val(TRANIMPADDR4);
+                        $("#STATEID").val(STATEID);
+                        $("#VTQTY").val(STFDNOP);
+                        $("#STFMID").val(STFMID);
+                        $("#STFMDNO").val(STFMDNO);
+                        $("#CATEAGSTNO").val(CATEAGSTNO);
+                    }); 
+                },
+                complete: function (data) {
+                    $("#shutout-detail-panel").html("");
+                    $.ajax({
+                        url: '@Url.Action("GetShutoutDetail", "ShutoutVehicleTicket")' + '/' + STFMID,
+                        data: $("#shutout-detail-panel").serialize(),
+                        type: "POST",
+                        dataType: "html"
+                    }).success(function (result, status) {
+                        $("#shutout-detail-panel").html(result);
+                        var all = document.querySelectorAll("#shutout-detail-panel select, #shutout-detail-panel input, #shutout-detail-panel textarea, #shutout-detail-panel button");
+                        for (let el of all) {
+                            el.disabled = true;
+                        }
+                        //console.log("It Worked!");
+                        /*another logic*/
+                    }).error(function (xhr, status) {
+                        /*you logic for error*/
+                    });
+                    
+                }
+            });
+        }
+    </script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

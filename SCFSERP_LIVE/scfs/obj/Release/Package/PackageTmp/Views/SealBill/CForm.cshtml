@@ -1,0 +1,182 @@
+﻿@using scfs_erp.Models;
+
+@{
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Form";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form id="SealPrint" method="post" action="@Url.Action("PrintView","SealBill")">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
+                <h4 class="modal-title">Seal Invoice Print</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="FTRANMID" class="FTRANMID hide form-control" name="FTRANMID" value="@ViewBag.id">
+                <input type="text" id="FGSTAMT" class="FGSTAMT hide form-control" name="FGSTAMT" value="@ViewBag.FGSTAMT">
+
+
+                <div class="form-group col-lg-12">
+                    <label>Name</label>
+                    <input type="text" id="TRANCSNAME" class="TRANCSNAME  form-control" name="TRANCSNAME" value="@ViewBag.TRANCSNAME">
+                </div>
+
+
+                <div class="form-group col-lg-6">
+                    <label>Address Line1</label>
+                    <input type="text" id="TRANIMPADDR1" class="TRANIMPADDR1  form-control" name="TRANIMPADDR1" value="@ViewBag.TRANIMPADDR1">
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Address Line2</label>
+                    <input type="text" id="TRANIMPADDR2" class="TRANIMPADDR2  form-control" name="TRANIMPADDR2" value="@ViewBag.TRANIMPADDR2">
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Address Line3</label>
+                    <input type="text" id="TRANIMPADDR3" class="TRANIMPADDR3  form-control" name="TRANIMPADDR3" value="@ViewBag.TRANIMPADDR3">
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Address Line4</label>
+                    <input type="text" id="TRANIMPADDR4" class="TRANIMPADDR4  form-control" name="TRANIMPADDR4" value="@ViewBag.TRANIMPADDR4">
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>GS TIN No.</label>
+                    <input type="text" id="GSTNO" class="GSTNO  form-control" name="GSTNO" readonly="readonly">
+                </div>
+
+                <div class="form-group col-lg-5">
+                    <label>Billed to</label>
+                    <input type="radio" name="brpttype" value="0" onchange="GetBillVal()" checked>CHA&nbsp;&nbsp;&nbsp;<input type="radio" name="brpttype" value="1" onchange="GetBillgrpVal()">Exporter
+                    <input type="text" id="brpttype_f" class="brpttype_f  form-control hidden" name="brpttype_f" value="0">
+                </div>
+
+                <div class="clearfix"> </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="closemodel();" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="Print">Print</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+
+    function GetBillVal() {
+        $(".brpttype_f").val("0");
+
+        url = '@Url.Action("AFormAddr", "SealBill")/' + $(".FTRANMID").val() + '~' + '0';
+
+        $.ajax({
+            type: 'post',
+            url: url, // we are calling json method
+            //  data: $("#InvoicePrint").serialize(),
+
+            success: function (data) {
+
+                if (data.length != 0) {
+                    $(".TRANCSNAME").val(data[0].TRANCSNAME);
+                    $(".TRANIMPADDR1").val(data[0].TRANIMPADDR1);
+                    $(".TRANIMPADDR2").val(data[0].TRANIMPADDR2);
+                    $(".TRANIMPADDR3").val(data[0].TRANIMPADDR3);
+                    $(".TRANIMPADDR4").val(data[0].TRANIMPADDR4);
+                    $(".GSTNO").val(data[0].CHACATEGSTNO);
+
+                }
+                else {
+                    $("#TRANCSNAME").val("");
+                    $("#TRANIMPADDR1").val("");
+                    $("#TRANIMPADDR2").val("");
+                    $("#TRANIMPADDR3").val("");
+                    $("#TRANIMPADDR4").val("");
+                    $(".GSTNO").val("");
+                }
+
+
+            }
+        })
+
+    }
+
+
+
+    function GetBillgrpVal() {
+        $(".brpttype_f").val("1");
+
+        url = '@Url.Action("AFormAddr", "SealBill")/' + $(".FTRANMID").val() + '~' + '1';
+
+        $.ajax({
+            type: 'post',
+            url: url, // we are calling json method
+            //  data: $("#InvoicePrint").serialize(),
+
+            success: function (data) {
+                if (data.length != 0) {
+                    $(".TRANCSNAME").val(data[0].EXPRTNAME);
+                    $(".TRANIMPADDR1").val(data[0].EXPRTCATEADDR1);
+                    $(".TRANIMPADDR2").val(data[0].EXPRTCATEADDR2);
+                    $(".TRANIMPADDR3").val(data[0].EXPRTCATEADDR3);
+                    $(".TRANIMPADDR4").val(data[0].EXPRTCATEADDR4);
+                    $(".GSTNO").val(data[0].EXPRTCATEGSTNO);
+
+                }
+                else {
+                    $("#TRANCSNAME").val("");
+                    $("#TRANIMPADDR1").val("");
+                    $("#TRANIMPADDR2").val("");
+                    $("#TRANIMPADDR3").val("");
+                    $("#TRANIMPADDR4").val("");
+                    $(".GSTNO").val("");
+                }
+            }
+        })
+
+
+    }
+
+
+
+    $("#Print").click(function () {
+        if ($(".TRANCSNAME").val() == "") { alert("Kindly Enter CHA Name...!"); $(".TRANCSNAME").focus(); return false; }
+
+        if ($(".GSTNO").val() == "") { alert("Please update the GSTIN No...!"); $(".GSTNO").focus(); return false; }
+
+        url = '@Url.Action("SaveAddress", "SealBill")/' + $(".FTRANMID").val();
+
+        $.ajax({
+            type: 'post',
+            url: url, // we are calling json method
+            data: $("#SealPrint").serialize(),
+            success: function (data) {
+
+                if (data == "Saved") {
+
+                    window.open("/SealBill/PrintView/" + $(".FTRANMID").val() + ";" + +$(".FGSTAMT").val() + ";" + $(".brpttype_f").val());
+
+                }
+            }
+        })
+    });
+
+     function closemodel() {
+        var returnurl = '@Url.Action("Index", "SealBill")';
+        window.location.href = returnurl;
+
+    }
+
+</script>
+

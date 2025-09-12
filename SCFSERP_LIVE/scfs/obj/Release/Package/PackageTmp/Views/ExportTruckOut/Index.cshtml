@@ -1,0 +1,148 @@
+﻿@model IEnumerable<scfs_erp.Models.GateOutDetail>
+
+@{
+    ViewBag.Title = "Truck Out Detail";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <i class="glyphicon glyphicon-export"></i><strong>@ViewBag.Title</strong>
+                    <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("Form", "ExportTruckOut")"><i class="fa fa-plus-square "></i> Add New </a>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <br />
+
+            <div class="row">
+                <div class="col-xs-3"> </div>
+                <div class="col-xs-6">
+                    <form action="#" method="post" accept-charset="utf-8" id="form" data-ng-controller="myController" name="form">
+                        <label for="from">From</label>
+                        <input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                        <label for="to">to</label>
+                        <input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                        <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                    </form>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                <thead>
+                    <tr>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            No
+                        </th>
+
+                        <th>
+                            CHA Name
+                        </th>
+                        <th>
+                            Vehicle No
+                        </th>
+
+                        <th>
+                            Driver
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    </div>
+    @section Scripts {
+        <script>
+        $(document).ready(function () {
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ExportTruckOut")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-4" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": " ", "sClass": "col-lg-3" },
+
+
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "ExportTruckOut")/' +
+                                oObj.aData[5] + '\"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("PrintView", "ExportTruckOut")/' +
+                                oObj.aData[5] + '\ " target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[5] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+            //------------Delete Record-------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ExportTruckOut/Del",
+                           {
+                               id: idx, fld: "ExportTruckOut"
+                           },
+                         function (data, status) {
+                             if (data == "") {
+                                 alert("You are not Authorized to Delete....!");
+                             }
+                             else if (data != "Deleted successfully...") {
+                                 alert(data);
+                             }
+                             else {
+                                 alert(data);
+                                 location.replace(base + "/ExportTruckOut");
+                             }
+                         });
+                }
+                return false;
+            });//End
+        });
+        </script>
+    }

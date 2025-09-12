@@ -1,0 +1,107 @@
+﻿@model IEnumerable<scfs_erp.Models.SoftDepartmentMaster>
+@{
+    ViewBag.Title = "Soft Department Master Form";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+                </div>
+                <div class="box-icons">
+                    <button onclick="parent.location = '@Url.Action("Form","SoftDepartmentMaster")'; return false;" class=" btn-success"> Create New </button>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content no-padding">
+                <br />
+                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SDPTNAME)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OPTNSTR)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DISPSTATUS)
+                            </th>
+                           
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SDPTNAME)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OPTNSTR)
+                                </td>
+                                <td>
+
+                                    @if (item.DISPSTATUS != 0)
+                                    {
+
+                                        <span>Enabled</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span>Disabled</span>
+
+                                    }
+
+
+                                </td>
+                                <td class="col-sm-2 cent">
+                                    @Html.ActionLink("Edit", "Form", new { id = item.SDPTID }, new { @class = "btn btn-primary" })
+                                    <a href="" class="btn btn-danger del" id="@item.SDPTID">  Delete </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+        @section Scripts {
+
+            <script>
+                $(document).ready(function () {
+
+                    $('#datatable-3').dataTable({
+                        "sPaginationType": "bs_normal"
+                    });
+
+                    //----------------Delete button click event--------
+                    $(document).on("click","a.del",function() {
+                        var r=confirm("Are you sure to delete this record ?");
+                     
+                        if (r==true)
+                        {
+                            var idx = $(this).attr('id');
+                            alert(idx);
+                            base = window.location.origin;
+                            alert(base+"/SoftDepartmentMaster/Del");
+                            $.post(base +"/SoftDepartmentMaster/Del",
+                                     {
+                                         id:idx,fld:""
+                                     },
+                                   function(data,status){
+                                       alert(data);
+                                       if(data=="Deleted Successfully ...")
+                                           location.replace(base + "/SoftDepartmentMaster");
+                                   });
+                        }
+                            return false;
+                    });//----End of delete
+                });//---End ofready event
+            </script>
+        }

@@ -1,0 +1,508 @@
+﻿@model IEnumerable<scfs_erp.Models.XMLwithOpenXML>
+
+@{
+    ViewBag.Title = "CHPOE07";
+}
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+                        </div>
+                        <div class="box-icons">
+                            <button onclick="parent.location = '@Url.Action("GSTForm","StuffingBill")'; return false;" class=" btn-success hide"> Create New </button>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-xs btn-primary" onclick="importxmlfile()" id="EXP_ADIV"> <i class="fa fa-share-square-o "> </i>  Import </a>  &nbsp; &nbsp; &nbsp;
+                            </div>
+                        </div>
+                        <div class="no-move"></div>
+                    </div>
+
+                    <div class="box-content no-padding">
+                        <br />
+                        <div class="row">
+                            <div class="col-xs-3"> </div>
+                            <div class="col-xs-12">
+                                <form action="#" method="post" accept-charset="utf-8" id="XMLFileform" data-ng-controller="myController" name="XMLFileform">
+                                    <table style="margin-left:65px" class="hide"><tr><td><span style="margin-left:5px">Bill Type</span></td><td></td><td><span style="margin-left:5px">Billed to</span></td><td></td><td><span style="margin-left:5px">From</span></td><td><input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]" style="margin-left:5px"></td><td><span style="margin-left:5px">To</span></td><td><input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]" style="margin-left:5px"></td><td><input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left:15px" /></td></tr></table>
+
+                                </form>
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>File Name</th>
+                                    <th>Path</th>
+                                    <th>Load Time</th>
+                                    <th><input type="checkbox" id="CHCK_ALL" onchange="checkall()" /> </th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+
+                    <div class="hidden">
+                        <input name="hdn_xmlid" class="hdn_xmlid" id="hdn_xmlid" /><input id="hdn_xmllist" name="hdn_xmllist" class="hdn_xmllist" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('hidden.bs.modal', function (e) {
+                var target = $(e.target);
+                target.removeData('bs.modal')
+                    .find(".modal-content").html('');
+            });
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "CHPOE07")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-4" },
+                    { "sName": "", "sClass": "col-lg-6" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    //{ "sName": "", "sClass": "" },
+                    //{ "sName": " " },
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return '<input type="checkbox" class="TRANCBX form-control" id="TRANCBX" name="TRANCBX" onchange="OnChangeCheckbox(this)" value=' + oObj.aData[3] + '>  <input type="text" class="booltype hide" id="booltype" name="booltype"> ';
+                                                  @*if (oObj.aData[3] > 0)
+                                                  {
+                                                      return '<input type="checkbox" class="TRANCBX form-control" id="TRANCBX" name="TRANCBX" onchange="OnChangeCheckbox(this)" value=' + oObj.aData[3] + '>  <input type="text" class="booltype hide555" id="booltype" name="booltype"> ';
+
+                                                  }
+                                                  else
+                                                  {
+                                                      return '<input type="checkbox" class="TRANCBX form-control" id="TRANCBX" name="TRANCBX" onchange="OnChangeCheckbox(this)" value=' + oObj.aData[3] + '>  <input type="text" class="booltype hide555" id="booltype" name="booltype"><a   class=" hide btn btn-primary btn-xs EInvoice  @ViewBag.aaa"   href="#" id="' + oObj.aData[3] + '" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-magnet"></i></a>  &nbsp;&nbsp;<a   class=" hide btn btn-warning btn-xs" target="_blank"   href="@Url.Action("PrintView", "StuffingBill")/' +
+                                                        oObj.aData[3] + '\"  ><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs hide" href="#" id="' + oObj.aData[3] + '" "><i class="glyphicon glyphicon-trash"></i> </a>';
+
+                                                  }*@
+                        }
+                    }
+
+                ]
+            });
+
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+            //------------Delete Record-------------//
+
+
+            //------------Swal Delete Record-------------//
+
+
+
+        });
+
+        function hdnxmlist_assgn() {
+            i = 0;
+            var nitemid = "";
+            var itemids = "";
+            var tbl = $("#dataTables-example").find('tbody');
+            $(".TRANCBX").each(function () {
+                $trcur = tbl.find("tr:eq(" + i + ")");
+                var ckb = $trcur.find(".booltype").val();
+                //alert(ckb);
+
+                if (ckb == "true") {
+                    nitemid = $trcur.find(".TRANCBX").val();
+                    itemids = itemids + nitemid + ";";
+                }
+
+                i++;
+
+            });
+            var newitemids = "";
+            if (itemids.length > 1) { newitemids = itemids.substring(0, itemids.length - 1); } else { newitemids = ""; }
+            //alert(newitemids);
+            $(".hdn_xmllist").val(newitemids);
+        }
+
+        function checkall() {
+
+
+            var nitemid = "";
+            var itemids = "";
+            i = 0; j = 0;
+            CHCK_ALL = $("#CHCK_ALL").is(':checked');
+            var tbl = $("#dataTables-example").find('tbody');
+            $(".TRANCBX").each(function () {
+                $trcur = tbl.find("tr:eq(" + i + ")");
+                if (CHCK_ALL == true) {
+                    this.checked = "true";
+                    $(this).attr("checked", true);
+                    $(".booltype")[i].value = "true";
+                    nitemid = $trcur.find(".TRANCBX").val();
+                    itemids = itemids + nitemid + ";";
+                }
+                else {
+                    $(this).removeAttr("checked", "checked");
+                    $(".booltype")[i].value = "false";
+                }
+
+                i++;
+
+            });
+            var newitemids = "";
+            if (itemids.length > 1) { newitemids = itemids.substring(0, itemids.length - 1); } else { newitemids = ""; }
+            $(".hdn_xmllist").val(newitemids);
+        }
+
+        function OnChangeCheckbox(obj) {
+            i = 0; j = 0; var tax_param = "";
+            var hdntext = $(".hdn_xmlid").val(); var hdnlist = $(".hdn_studentlist").val();
+            row = obj.parentNode.parentNode.rowIndex;
+            var c_row = row - 1;
+            $tablebody = $("#dataTables-example").find('tbody');
+            $trcur = $tablebody.find("tr:eq(" + c_row + ")");
+
+            ckb = $trcur.find(".TRANCBX").is(':checked');
+            //alert(ckb);
+            if ($("#CHCK_ALL").is(':checked') == true) {
+                if (ckb == true) {
+                    $trcur.find(".booltype").val(ckb);//alert(1)
+                    if (hdntext.match($trcur.find(".TRANCBX").val())) {
+
+                        //alert(2)
+                        // replacedtext = hdntext.replace($trcur.find(".TRANCBX").val(), '');
+                        replacetext = hdntext.replace(new RegExp('\s*' + $trcur.find(".TRANCBX").val() + ',?\s*', 'g'), '');
+                        hdntext = "";
+                        tax_param = replacetext;
+                        // alert(hdntext + "<br/>" + $trcur.find(".TRANCBX").val() + "<br\>" + replacetext);
+                    }
+                }
+
+                else {
+                    $trcur.find(".booltype").val(ckb);
+                    if (!hdntext.match($trcur.find(".TRANCBX").val()))
+                        tax_param = tax_param + $trcur.find(".TRANCBX").val() + ",";
+                }
+            }
+            else
+            {
+                tax_param1 = "";
+                if (ckb == true) {
+                    $trcur.find(".booltype").val(ckb);//alert(1)
+                    hdnxmlist_assgn();
+                    //if (!hdnlist.match($trcur.find(".TRANCBX").val()))
+                    //    tax_param1 = tax_param1 + $trcur.find(".TRANCBX").val() + ",";
+
+                }
+
+                else {
+                    $trcur.find(".booltype").val(ckb);
+                    hdnxmlist_assgn();
+                    if (hdnlist.match($trcur.find(".TRANCBX").val())) {
+
+                        //alert(2)
+                        // replacedtext = hdntext.replace($trcur.find(".TRANCBX").val(), '');
+                        replacetext = hdnlist.replace(new RegExp('\s*' + $trcur.find(".TRANCBX").val() + ',?\s*', 'g'), '');
+                        hdnlist = "";
+                        tax_param1 = replacetext;
+                        // alert(hdntext + "<br/>" + $trcur.find(".TRANCBX").val() + "<br\>" + replacetext);
+                    }
+                }
+
+                //if (hdnlist == "")
+                //    $(".hdn_xmllist").val(tax_param1);
+                //else if (hdnlist != "")
+                //    $(".hdn_xmllist").val(hdnlist + tax_param1);
+            }
+
+            //// alert(tax_param);
+            //if (hdntext == "")
+            //    $(".hdn_xmlid").val(tax_param);
+            //else if (hdntext != "")
+            //    $(".hdn_xmlid").val(hdntext + tax_param);
+
+            //  GetTotalQty();
+        }
+
+        function importxmlfile()
+        {
+            var chkinkbad = 0;
+            var xmlids = "";
+            base = window.location.origin;
+            $('#dataTables-example :text,#dataTables-example checkbox').each(function () {
+                //alert(this.id);
+                switch (this.id) {
+                    case "booltype":
+                        if ($.trim(this.value) == "true") {
+                            chkinkbad++;
+                            //this.focus();
+                        }
+                        //if (chkinkbad >= 1) { return false; }
+                        break;
+                    default:
+                        //if ($.trim(this.value) == "") inkbad++;
+                }
+            });
+            //alert(chkinkbad);
+            if (chkinkbad == 0) {
+                //alert("Kindly Select Detail To Proceed...!"); return false;
+                swal({
+                    title: "CHPOE07",
+                    text: "Kindly Select CHPOE07 File To Proceed...!",
+                    type: "warning",
+                   }).then(function () {
+                    //location.replace(base + "/StuffingBill");
+                }
+                );
+            }
+            else {
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure to Import the Selected XML File ?",
+                    type: "info",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true,
+                    cancelButtonText: "No",
+                    showCloseButton: true
+                })
+                    .then((result) => {
+                        if (result.value) {
+                            //check
+                            xmlids = $(".hdn_xmllist").val();
+                           // alert(xmlids);
+                            if (xmlids != "")
+                            {
+                                $.ajax({
+                                    type: 'post',
+                                    url: '@Url.Action("ImportXMLFile", "CHPOE07")?ids=' + xmlids, // we are calling json method
+                                    success: function (jdata) {
+                                        //alert(jdata);
+
+                                        if (jdata == "Imported Succesfully") {
+                                            swal({
+                                                title: "Saved",
+                                                text: "XML File Imported Successfully !!",
+                                                type: "success",
+                                                timer: 10000
+                                            }).then(function () {
+                                                location.replace(base + "/CHPOE07");
+                                            }
+                                            );
+                                        }
+                                        else {
+                                            swal({
+                                                title: "Error",
+                                                text: jdata,
+                                                type: "warning",
+                                                //timer: 10000
+                                            }).then(function () {
+                                               // location.replace(base + "/StuffingBill");
+                                            }
+                                            );
+                                        }
+
+                                            //$.ajax({
+                                            //    type: "POST",
+                                            //    url: "https://www.fusiontec.com/ebill2/upload.php?ids=" + idx,
+                                            //    dataType: 'json',
+                                            //    data: { json: JSON.stringify(jdata) },
+                                            //    success: function (data) {
+                                            //        //alert(data);
+                                            //    },
+                                            //    error: function (ex) {
+                                            //        //alert(ex.responseJSON);
+                                            //        //alert('Failed to data ' + ex);
+                                            //    }
+                                            //    //alert(data);
+                                            //});
+
+                                            @*$.ajax({
+                                                type: "post",
+                                                url: '@Url.Action("UInvoice", "StuffingBill")/' + idx, // we are calling json method
+                                                success: function (data) {
+                                                    //alert(data);
+                                                    //location.replace(base + "/StuffingBill");
+                                                    if (data == "Uploaded Succesfully")
+                                                    {
+                                                        swal({
+                                                            title: "Saved",
+                                                            text: "Export Invoice Uploaded Successfully !!",
+                                                            type: "success",
+                                                            timer: 10000
+                                                        }).then(function () {
+                                                            location.replace(base + "/StuffingBill");
+                                                        }
+                                                        );
+                                                    }
+                                                    else {
+                                                        swal({
+                                                            title: "Error",
+                                                            text: data,
+                                                            type: "warning",
+                                                            //timer: 10000
+                                                        }).then(function () {
+                                                            location.replace(base + "/StuffingBill");
+                                                        }
+                                                        );
+                                                    }
+
+                                                },
+                                                error: function (ex) {
+                                                    //alert(ex.responseJSON);
+                                                    //alert('Failed to data ' + ex);
+                                                }
+                                            });*@
+                                    },
+                                    error: function (ex) {
+                                        alert('Failed to save data ' + ex);
+                                    }
+                                });
+                            }
+                            $('.booltype').each(function () {
+                                var ckb = $(this).is(':checked');
+                                if (ckb == true) {
+                                    xmlid = $(".XMLId")[i].value.trim();
+                                    if (xmlid > 0)
+                                    {
+
+                                    }
+                                }
+                                else {
+                                    //$(".booltype")[i].value = false;
+                                }
+
+
+                                i++;
+                            });
+
+                            //check
+
+                            //
+
+
+
+                        } else if (result.dismiss === 'cancel') {
+
+                            //
+                            location.replace(base + "/StuffingBill");
+                            return false;
+                            //
+                        }
+                    })
+
+            }
+        }
+
+        function CallTransfer() {
+            var tax_param = "";
+
+            var setconfirm = confirm("Are You Sure To Send Reminder?");
+
+            if (setconfirm == true) {
+                if ($("#CHCK_ALL").is(":checked") == false) {
+                    if ($(".hdn_studentlist").val() == "" && $(".hdn_studentid").val() == "") {
+                        alert("Kindly Select Detail To Proceed...!"); return false;
+                    }
+                    else {
+                        //  var formData = { term: tax_param }; //Array
+                        var formData = { term: $(".hdn_studentid").val() }; //Array
+                        //     alert(formData);
+                        var dynamicurl = "";
+                        if ($("#CHCK_ALL").is(":checked") == false) { dynamicurl = '@Url.Action("TestTransferSelected", "ApplicationForm")'; formData = { term: $(".hdn_studentlist").val() }; }
+                        else if ($(".hdn_studentid").val() == "" && $("#CHCK_ALL").is(":checked") == true) dynamicurl = '@Url.Action("TestTransferAll", "ApplicationForm")'
+                        else dynamicurl = '@Url.Action("TestTransfer", "ApplicationForm")'
+
+                        $.ajax({
+                            url: dynamicurl,
+                            type: "POST",
+                            data: formData,
+                            success: function (data) {
+
+                                if (data == "updated Succesfully") {
+                                    alert("Reminder Sent Succesfully..!");;
+                                    location.reload();
+                                }
+
+
+
+                            },
+                            error: function () {
+                                alert("sorry");
+                            }
+
+                        });
+                    }
+                }
+                else {
+                    //  var formData = { term: tax_param }; //Array
+                    var formData = { term: $(".hdn_studentid").val() }; //Array
+                    //     alert(formData);
+                    var dynamicurl = "";
+                    if ($("#CHCK_ALL").is(":checked") == false) { dynamicurl = '@Url.Action("TestTransferSelected", "ApplicationForm")'; formData = { term: $(".hdn_studentlist").val() }; }
+                    else if ($(".hdn_studentid").val() == "" && $("#CHCK_ALL").is(":checked") == true) dynamicurl = '@Url.Action("TestTransferAll", "ApplicationForm")'
+                    else dynamicurl = '@Url.Action("TestTransfer", "ApplicationForm")'
+
+                    $.ajax({
+                        url: dynamicurl,
+                        type: "POST",
+                        data: formData,
+                        success: function (data) {
+
+                            if (data == "updated Succesfully") {
+                                alert("Reminder Sent Succesfully..!");;
+                                location.reload();
+                            }
+
+
+
+                        },
+                        error: function () {
+                            alert("sorry");
+                        }
+
+                    });
+                }
+            }
+        }
+
+
+    </script>
+}
+
+<div id="myModal" class="modal fade">
+
+
+</div>

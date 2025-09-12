@@ -1,0 +1,310 @@
+﻿
+@{
+    ViewBag.Title = "Export Vehicle Ticket";
+}
+<style>
+    .dropdown-menu li a {
+        width: 50px;
+    }
+</style>
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-export"></i>&nbsp;@ViewBag.Title
+                                <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("Form", "ExportVehicleTicket")"><i class="fa fa-plus-square "></i> Add New </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-1"> </div>
+                        <div class="col-xs-12">
+                            <form action="#" method="post" accept-charset="utf-8" id="remotegateinform" data-ng-controller="myController" name="remotegateinform">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-1">
+                                            <label for="from">Type</label>
+
+                                            <div class="form-group">
+                                                @Html.DropDownList("VTCTYPE", null, new { @class = "form-control  VTCTYPE", @id = "VTCTYPE", tabindex = "2" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="from">From</label>
+                                            <div class="form-group">
+                                                <input type="text" id="from" name="from" class="form-control" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="from">To</label>
+                                            <div class="form-group">
+                                                <input type="text" id="to" name="to" class="form-control" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="from"></label>
+                                            <div class="form-group">
+                                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="from" style="font-weight:bold;color:black">Total 20</label>
+                                            <div class="form-group">
+                                                <input type="text" id="txtgi20" name="txtgi20" class="form-control txtgi20" style="border-width: 0px;background-color:#c4e5fb;font-weight:bold;color:black" value="@System.Web.HttpContext.Current.Session["EVT20"]" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="from" style="font-weight:bold;color:black">Total 40</label>
+                                            <div class="form-group">
+                                                <input type="text" id="txtgi40" name="txtgi40" class="form-control txtgi40" style="border-width: 0px;background-color:#cbcbed;font-weight:bold;color:black" value="@System.Web.HttpContext.Current.Session["EVT40"]" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <label for="from" style="font-weight:bold;color:black">Total 45</label>
+                                            <div class="form-group">
+                                                <input type="text" id="txtgi45" name="txtgi45" class="form-control txtgi45" style="border-width: 0px;background-color:#f7eddc;font-weight:bold;color:black" value="@System.Web.HttpContext.Current.Session["EVT45"]" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="from" style="font-weight:bold;color:black">TUES</label>
+                                            <div class="form-group">
+                                                <input type="text" id="txtgitu" name="txtgitu" class="form-control txtgitu" style="border-width: 0px;background-color:#efd8d1;font-weight:bold;color:black" value="@System.Web.HttpContext.Current.Session["EVTTU"]" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    No
+                                </th>
+
+                                <th>
+                                    Container No
+                                </th>
+                                <th>
+                                    Size
+                                </th>
+                                <th>
+                                    Stuff No
+                                </th>
+                                <th>
+                                    Product
+                                </th>
+
+                                <th>
+                                    Vehicle No
+                                </th>
+                                <th>
+                                    Qty
+                                </th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+
+                                <th colspan="12" style="text-align:center"></th>
+                            </tr>
+
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ExportVehicleTicket")",
+                "bProcessing": true,
+                "bStateSave": true,
+                //"aaSorting": [[1, "asc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "" },
+                    { "sName": " ", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-3" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            if (oObj.aData[12] == "1")
+
+                                return ' <a class="btn btn-primary btn-xs"   href="@Url.Action("DirectEdit", "ExportVehicleTicket")/' +
+                                    oObj.aData[8] + ';' + oObj.aData[11] + '\"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("PrintView", "ExportVehicleTicket")/' +
+                                    oObj.aData[8] + '" target="_blank"  ><i class="glyphicon glyphicon-print"></i></a>   &nbsp;&nbsp;<a   class="btn btn-success btn-xs"  target="_blank"  title="QR Code Print" href="@Url.Action("QRCPrintView", "ExportVehicleTicket")/' +
+                                oObj.aData[8] + '\"><i class="glyphicon glyphicon-print" ></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[8] + "-" + oObj.aData[9] + "-" + oObj.aData[10] + "-" + oObj.aData[11] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+
+                            else
+                                return ' <a class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "ExportVehicleTicket")/' +
+                                    oObj.aData[8] + ';' + oObj.aData[11] + '\"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("PrintView", "ExportVehicleTicket")/' +
+                                    oObj.aData[8] + '" target="_blank"  ><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a   class="btn btn-success btn-xs"  target="_blank"  title="QR Code Print" href="@Url.Action("QRCPrintView", "ExportVehicleTicket")/' +
+                                oObj.aData[8] + '\"><i class="glyphicon glyphicon-print" ></i></a>   &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[8] + "-" + oObj.aData[9] + "-" + oObj.aData[10] + "-" + oObj.aData[11] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+
+                        }
+                    }
+                ],
+                "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+                    var TNOS = 0; var FNOS = 0; var TUES = 0;
+
+                    for (var i = 0; i < aaData.length; i++) {
+                        // alert(aaData[4]);
+
+                    }
+
+                    for (var i = 0; i < aaData.length; i++) {
+                        //alert("2" + aaData[aiDisplay[i]][3]);
+                        if (aaData[aiDisplay[i]][3] == 20) TNOS++;
+                        if (aaData[aiDisplay[i]][3] == 40) FNOS++;
+                        TUES = eval(TNOS) + eval(2 * FNOS);
+                        //alert("Forty : " + FNOS);
+                        //  iPageMarket += aaData[aiDisplay[i]][4] * 1;
+                    }
+                    //alert("Total Forty : " + FNOS);
+                    /* Modify the footer row to match what we want */
+                    var nCells = nRow.getElementsByTagName('th'); nCells[0].innerHTML = '<span style="color:red">20":</span>' + eval(TNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">40":</span>' + eval(FNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">TUES:</span>' + eval(TUES)
+
+                }
+
+            });
+
+
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+
+            GetContainerDetails();
+            //------------Delete Record-------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ExportVehicleTicket/Del",
+                        {
+                            id: idx, fld: "VEHICLETICKET"
+                        },
+                        function (data, status) {
+                            if (data == "") {
+                                alert("You are not Authorized to Delete....!");
+                            }
+                            else if (data != "Deleted Successfully ...") {
+                                alert(data);
+                            }
+                            else {
+                                alert(data);
+                                location.replace(base + "/ExportVehicleTicket");
+                            }
+                        });
+                }
+                return false;
+            });//End
+        });
+
+        function GetContainerDetails() {
+            var fromdate = $("#from").val();
+            var todate = $("#to").val(); var sdptid = 1;
+
+            if (fromdate == "") {
+                alert('Please Enter From Date !!')
+                $("#from").focus();
+                return false;
+            }
+
+            if (todate == "") {
+                alert('Please Enter To Date !!')
+                $("#to").focus();
+                return false;
+            }
+
+            url = '@Url.Action("TotalContainerDetails", "ExportVehicleTicket")';
+
+            $.ajax({
+                type: 'post',
+                url: url, // we are calling json method
+                data: { fromdate: fromdate, todate: todate, sdptid: sdptid },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.length != 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            //alert(data[i].Sno);
+                            if ((data[i].Sno == 2) && (data[i].Descriptn == "EXPORT - VEHICLETICKE")) {
+
+                                var gi20 = data[i].c_20;
+                                //alert(gi20);
+
+                                $('.txtgi20').val(gi20);
+                                $('.txtgi40').val(data[i].c_40);
+                                $('.txtgi45').val(data[i].c_45);
+                                $('.txtgitu').val(data[i].c_tues);
+
+
+                            }
+
+                        }
+
+                    }
+
+                },
+
+            });
+
+
+        }
+    </script>
+}

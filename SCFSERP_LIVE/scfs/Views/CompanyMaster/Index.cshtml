@@ -1,0 +1,118 @@
+﻿@model IEnumerable<scfs_erp.Models.CompanyMaster>
+
+@{
+    ViewBag.Title = "Company Master";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+                </div>
+                <div class="box-icons">
+                    <button onclick="parent.location = '@Url.Action("Form", "CompanyMaster")'; return false;" class=" btn-success"> Create New </button>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content no-padding">
+                <br />
+                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>
+                                Code
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.COMPNAME)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.COMPADDR)
+                            </th>
+
+                            <th>
+                                Contact Number
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.COMPCPRSN)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.COMPMAIL)
+                            </th>
+
+                            <th></th>
+                        </tr>
+
+                    </thead> 
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(function () {
+           
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "CompanyMaster")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                        { "sName": "", "sClass": "col-sm-2" },
+                        { "sName": " ", "sClass": "col-sm-4" },
+                           { "sName": "", "sClass": "col-sm-3" },
+                             { "sName": "", "sClass": "col-sm-2" },
+                               { "sName": "", "sClass": "col-sm-2" },
+                                { "sName": "", "sClass": "col-sm-3" },
+                              
+                                      {
+                                          "sClass": "col-sm-1 cent",
+                                          "sName": "ID",
+                                          "bSearchable": false,
+                                          "bSortable": false,
+                                          "fnRender": function (oObj) {
+                                              return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "CompanyMaster")/' +
+                                              oObj.aData[6] + '\"  "><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger btn-xs del" href="#" id="' +
+                                              oObj.aData[6] + '\" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                                          }
+                                      }
+
+                ]
+        });
+            //-------------Delete Record------------//
+            $(document).on("click","a.del",function() {
+                var r=confirm("Are you sure to delete this record ?");
+
+                if (r==true)
+                {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base +"/CompanyMaster/Del",
+                         {
+                             id:idx,fld:""
+                         },
+                       function(data,status){
+                           alert(data);
+                           if(data=="Deleted Successfully ...")
+                               location.replace(base + "/CompanyMaster");
+                       });
+                }
+                return false;
+            });//End of Delete
+        });
+    </script>
+}
+
+
+     

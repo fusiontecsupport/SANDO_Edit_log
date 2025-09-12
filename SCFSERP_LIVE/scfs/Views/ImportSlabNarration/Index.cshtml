@@ -1,0 +1,144 @@
+﻿
+@model IEnumerable<scfs_erp.Models.SlabNarrationMaster>
+
+
+@{
+    ViewBag.Title = "Slab Narration Master";
+}
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i><strong>@ViewBag.Title</strong>
+                        </div>
+                        <div class="box-icons">
+                            <button onclick="parent.location = '@Url.Action("Form", "ImportSlabNarration")'; return false;" class=" btn-success"> Create New </button>
+                        </div>
+                    </div>
+
+                    <div class="box-content no-padding">
+                        <div class="row">
+                            
+                            <div class="col-xs-12">
+                                <form action="#" method="post" accept-charset="utf-8" id="ImportSlabNarrationform" data-ng-controller="myController" name="ImportSlabNarrationform">
+
+                                    <table class="table">
+                                        <tr>
+                                            <td>Type</td>
+                                            <td>
+                                                @Html.DropDownList("AASDPTTYPEID", null, new { @class = "form-control AASDPTTYPEID" })
+                                            </td>
+                                            <td>Tariff</td>
+                                            <td>
+                                                @Html.DropDownList("TARIFFMID", null, new { @class = "form-control", @onchange = "GetStreamer()" })
+                                            </td>
+
+                                            <td>Charge Type</td>
+                                            <td>
+                                                @Html.DropDownList("CHRGETYPE", null, new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                            </td>
+                                            <td>Slab Type</td>
+                                            <td>
+                                                @Html.DropDownList("SLABTID", null, new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                            </td>
+                                            <td><input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" /></td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                            <thead>
+                                <tr>
+
+                                    <th class="hide">
+                                        Date
+                                    </th>
+                                    <th>
+                                        Tariff
+                                    </th>
+                                    <th>
+                                        Slab Type
+                                    </th>
+                                    <th>
+                                        Bill Type
+                                    </th>
+
+                                    <th>
+                                        Narration
+                                    </th>
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ImportSlabNarration")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "", "sClass": "hide"},
+                    { "sName": " " },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": " " },                 
+                    {
+                        "sClass": "col-md-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return '<a  class="btn btn-danger btn-xs del" href="#" id="' +
+                                oObj.aData[5] + '\" ><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+
+
+            //----------------Delete button click event--------
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ImportSlabNarration/Del",
+                        {
+                            id: idx, fld: ""
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted Successfully ...") {
+                                window.location.reload("/ImportSlabNarration/Index");
+                            }
+                 
+                        });
+                }
+                return false;
+            });//----End of delete
+        });
+
+        
+    </script>
+}

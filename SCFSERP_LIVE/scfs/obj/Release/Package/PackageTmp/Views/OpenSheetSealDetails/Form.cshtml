@@ -1,0 +1,237 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.OpenSheetSealDetails
+@{
+    ViewBag.Title = "Open Sheet Seal Details";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Open Sheet Seal Details Form</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/OpenSheetSealDetails/savedata")" method="post" accept-charset="utf-8" id="opensheetsealdetails" data-ng-controller="myController" name="opensheetsealdetails" onsubmit="return validate()">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="OpenSheetSealDetailsForm_info">
+                        <div class="row">
+                            <div class="col-md-12 hidden">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.OSSID, new { @class = "form-control  OSSID", @id = "OSSID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>OSM Id </label>
+                                        @Html.TextBoxFor(Model => Model.OSMID, new { @class = "form-control OSMID", @id = "OSMID", @readonly = true })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Seal Date </label>@*@Html.ValidationMessageFor(model => model.OSSDATE)*@
+                                        @Html.TextBoxFor(model => Model.OSSDATE, new { @class = "form-control datetime OSSDATE", @id = "OSSDATE", @data_val = false, tabindex = "1" })
+                                    </div>
+                                </div>
+
+                                @*</div>
+        <fieldset style="width:100%">
+            <legend style="font-size:large">OpenSheet Info</legend>*@
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Date </label>
+                                        <input type="text" id="OSMDATE" name="OSMDATE" class="form-control OSMDATE" value="@ViewBag.OSMDATE" readonly>
+                                        <input type="text" id="OSMLDTYPE" name="OSMLDTYPE" class="form-control OSMLDTYPE hidden" value="@ViewBag.OSMLDTYPE" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Time </label>
+                                        <input type="text" id="OSMTIME" name="OSMTIME" class="form-control OSMTIME" value="@ViewBag.OSMTIME" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>No</label>
+                                        <input type="text" id="OSMNO" name="OSMNO" class="form-control OSMNO" value="@ViewBag.OSMNO" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>BOENO </label>
+                                        <input type="text" id="BOENO" name="BOENO" class="form-control BOENO" value="@ViewBag.BOENO" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>BOE Date</label>
+                                        <input type="text" id="BOEDATE" name="BOEDATE" class="form-control BOEDATE" value="@ViewBag.BOEDATE" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>CHA  </label>
+                                        <input type="text" id="CHANAME" name="CHANAME" class="form-control CHANAME" value="@ViewBag.OSMNAME" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>CHA(Licence Name)</label>
+                                        <input type="text" id="OSMLNAME" name="OSMLNAME" class="form-control OSMLNAME" value="@ViewBag.OSMLNAME" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>CHA Staff Name</label>
+                                        <input type="text" id="OSMCNAME" name="OSMCNAME" class="form-control OSMCNAME" value="@ViewBag.OSMCNAME" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control", tabindex = "2" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <label>From Seal No </label>
+                                        <input type="text" class="FSLNO form-control" name="FSLNO" id="FSLNO" placeholder="---Please Type FSLNO----" tabindex="3" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <label>To Seal No </label>
+                                        <input type="text" class="TSLNO form-control" name="TSLNO" id="TSLNO" placeholder="---Please Type TSLNO----" tabindex="4" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <br />
+                                        <input type="button" name="search" value="search" class="btn btn-success btn-xs" id="btnsearch" onclick="GetSealDetail()" tabindex="8" />
+                                    </div>
+                                </div>
+                                @*</fieldset>*@
+                                <fieldset style="width:100%">
+                                    <legend style="font-size:large">Seal Details</legend>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.DropDownList("SEALMID", null, new { @class = "form-control multiselect SEALMID", @id = "SEALMID", @multiple = "multiple", @style = "Width:100%;height:400px", @onchange = "return  Select_Seal()" })
+                                            <input type="hidden" id="SEAL_VAL" name="SEAL_VAL" class="form-control SEAL_VAL" hidden="hidden">
+                                            @Html.HiddenFor(model => Model.OSSDESC, new { @class = "form-control  OSSDESC", @id = "OSSDESC" })
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-12 box-footer">
+
+
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" tabindex="100" />
+
+
+                            </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function GetSealDetail() {
+            if ($('#FSLNO').val() == "") {
+                alert('Please Enter From Seal No');
+                $('#FSLNO').focus();
+                return false;
+            } else if ($('#TSLNO').val() == "") {
+                alert('Please Enter To Seal No');
+                $('#TSLNO').focus();
+                return false;
+            }
+            //alert($('#FSLNO').val());
+            $("#SEALMID").html("");
+            //alert("selected");
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetSealNos", "OpenSheetSealDetails")/?id=' + $('#FSLNO').val() + '~' + $('#TSLNO').val(), // we are calling json method
+                
+                dataType: 'json',
+                success: function (data) {
+                    
+                    console.log(data);
+                    ////$(".TARIFFMID").append('<option>Please select</option>');
+
+                    
+                    $(".SEALMID").append('<div class = "available">');
+                    $.each(data, function (i, dataval) {
+                       $("#SEALMID").append('<option class="available" value="' + dataval.SEALMID + '">' + dataval.SEALMDESC + '</option>');
+
+                    });
+                    $(".SEALMID").append('</div>');
+                },
+                error: function (ex) {
+                    alert(url);
+                    alert('Failed to data ' + ex);
+                }
+            });
+            return false;
+        }
+
+        $(window).bind("load", function () {
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+            $(".multiselect").multiselect();//--Multiselect dropdown
+
+            $('.datetime').datetimepicker({
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+            });
+
+            //---------Edit mode-------//
+            if ($("#OSSID").val() != 0) {
+                Select_Seal();
+            }//---End
+
+        });//----End of window bind function
+
+        //-----------Multiselect seal number-------//
+        function Select_Seal() {
+            var foo = 0; foo1 = 0;
+            $('#SEALMID :selected').each(function (i, selected) {
+                foo1 = foo1 + ',' + ($(this).text());
+                $("#OSSDESC").val(foo1);
+                foo = foo + ',' + ($(this).val());
+                $("#SEAL_VAL").val(foo);
+            });
+        }//--End of function
+
+        //----------------------Form validation-----------//
+        function validate() {
+            var Date=$("#OSSDATE").val();
+            var SEALMID = $("#SEALMID").val();
+            if (Date == "01/01/0001 12:00:00 AM") {
+                alert("Please Enter Date");
+                return false;
+            }
+            if(SEALMID==null){
+                alert("Please Select SEAL No");
+                return false;
+            }
+        }//--------End of validate
+    </script>
+}

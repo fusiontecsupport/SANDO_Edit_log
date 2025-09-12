@@ -1,0 +1,344 @@
+﻿@using scfs_erp.Models;
+@model emailinvoicetemplate
+
+@{
+    ViewBag.Title = "E-Mail Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@*<style>
+    .frm_hide {
+    display: none;
+    }
+    </style>*@
+@*<link href="~/Content/summernote.css" rel="stylesheet" />*@
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+<style>
+    #ajaxSpinnerContainer {
+        height: 1px;
+    }
+
+    #ajaxSpinnerImage {
+        display: none;
+    }
+
+    #fade {
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: #ababab;
+        z-index: 1001;
+        -moz-opacity: 0.8;
+        opacity: .70;
+        filter: alpha(opacity=80);
+    }
+
+    #modal {
+        display: none;
+        position: absolute;
+        top: 45%;
+        left: 45%;
+        width: 84px;
+        height: 84px;
+        padding: 30px 15px 0px;
+        border: 3px solid #ababab;
+        box-shadow: 1px 1px 10px #ababab;
+        border-radius: 20px;
+        background-color: white;
+        z-index: 1002;
+        text-align: center;
+        overflow: auto;
+    }
+</style>
+
+@*<div class="modal-dialog">
+    <div class="modal-content">
+
+    </div>
+    </div>*@
+
+
+<div id="fade"></div>
+@*<div id="modal">
+    <img src="~/Content/themes/base/images/loading.gif" />
+
+    </div>*@
+<form id="ImpInvoiceMail" method="post" action="@Url.Action("SendMail","MailForm")" enctype="multipart/form-data">
+    <div class="msg" hidden style="margin-left:0;margin-right:0"> </div>
+    <div class="msg_error" hidden style="margin-left:0;margin-right:0"> </div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">e-Mail Form</h4>
+    </div>
+    <div class="modal-body">
+        <input type="text" id="FQMREFNAME" class="FQMREFNAME hide form-control" name="FQMREFNAME" value="@ViewBag.FQMREFNAME">
+        <input type="text" id="FTRANMID" class="FTRANMID hide form-control" name="FTRANMID" value="@ViewBag.id">
+        <input type="text" id="FQMDNO" class="FQMDNO hide form-control" name="FQMDNO" value="@ViewBag.FQMDNO">
+        <input type="text" id="SDPTID" class="SDPTID hide form-control" name="SDPTID" value="@ViewBag.SDPTID">
+        <input type="text" id="REGSTRID" class="REGSTRID hide form-control" name="REGSTRID" value="@ViewBag.REGSTRID">
+        <input type="text" id="qmbtype" class="qmbtype hide form-control" name="qmbtype" value="@ViewBag.qmbtype">
+        <input type="text" id="messageid" class="messageid hide form-control" name="messageid" value="@ViewBag.messageid">
+        <input type="text" id="DefaultFiles" class="DefaultFiles hide form-control" name="DefaultFiles" value="@ViewBag.DefaultFiles">
+        <div class="form-group col-lg-12">
+            <label>Mail To</label>
+            <input type="text" id="CATEMAIL" class="CATEMAIL form-control" name="CATEMAIL" value="@ViewBag.CATEMAIL">
+        </div>
+
+        <div class="form-group col-lg-12">
+            <label>CC:</label>
+            <input type="text" id="CATEMAILCC" class="CATEMAILCC form-control" name="CATEMAILCC" value="@ViewBag.CATEMAILCC">
+        </div>
+
+        <div class="form-group col-lg-12">
+            <label>BCC:</label>
+            <input type="text" id="CATEMAILBCC" class="CATEMAILBCC form-control" name="CATEMAILBCC" value="@ViewBag.CATEMAILBCC">
+            </div>
+
+        <div class="form-group col-lg-12">
+            <label>Subject</label>
+            <input type="text" id="TMPSUB" class="TMPSUB form-control" name="TMPSUB" value="@ViewBag.SUB">
+        </div>
+
+        <div class="form-group col-lg-12">
+            <label>Attachment</label>
+            <div>
+                @Html.TextBox("file", "", new { id = "TMPATTACHMENT", type = "file", @multiple = "multiple", @class = "form-control content-group" })
+            </div>
+        </div>
+        <br />
+        <br />
+        @if (Convert.ToString(ViewBag.REGSTRID) == "0")
+        {
+            if (ViewBag.DefaultFiles != null)
+            {
+                var cnt = 0;
+                <div class="form-group col-lg-12">
+                    <label>Default Files</label>
+                    <div>
+                        <table class="table-bordered">
+                            <tr>
+
+                                <td><b>FileName</b></td>
+                                <td><b>Delete</b></td>
+                            </tr>
+
+                            @foreach (var filename in ViewBag.DefaultFiles.ToString().Split(','))
+                            {
+                                cnt = ++cnt;
+                                <tr id="tr_@cnt">
+                                    <td> <label id="@cnt" name="@cnt" class="@cnt control-label">@filename</label></td>
+                                    <td> <a onclick="functiondelete('@cnt')" class="btn-danger">Delete</a></td>
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                </div>
+            }
+        }
+        <br />
+        <br />
+        @if (ViewBag.InvoiceFiles != null)
+        {
+            <div class="form-group col-lg-12">
+                <label>Invoice Files</label> <br />
+                                             <label class="control-label"><b><a href="@ViewBag.InvoiceFilesLink" target="_blank">@ViewBag.InvoiceFiles</a></b></label>
+            </div>
+        }
+        <br />
+        <br />
+        @if (ViewBag.LOGFiles != null)
+        {
+            <div class="form-group col-lg-12">
+                <label>LOG Files</label> <br />
+                <label class="control-label"><b>@ViewBag.LOGFiles</b></label>
+            </div>
+        }
+        <br />
+        <br />
+        @if (ViewBag.SCFiles != null)
+        {
+            <div class="form-group col-lg-12">
+                <label>Sales Contract Files</label> <br />
+                <label class="control-label"><b>@ViewBag.SCFiles</b></label>
+            </div>
+        }
+        <br />
+        <br />
+        <div class="form-group col-lg-12">
+            <label>Message </label>
+            <div>
+                <div class="input-group">
+<textarea id="emailbody" name="emailbody" rows="60" style="resize: none; width: 400px;" placeholder="" class="text-editor emailbody form-control input-lg textarea-editor">@ViewBag.emailmsg</textarea>
+                    @*@Html.TextAreaFor(model=>model.eqtbody, new { rows = "20", style = "resize:none;width:400px;", placeholder = Html.DisplayNameFor(model => model.eqtbody), @class = "form-control input-lg textarea-editor"})*@
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="form-group col-lg-12 hide">
+            <label>Select Type</label>
+            <input type="radio" name="rpttype" value="0" onchange="GetVal()" checked>Detail&nbsp;&nbsp;&nbsp;<input type="radio" name="rpttype" value="1" onchange="GetgrpVal()">Group
+            <input type="text" id="rpttype_f" class="rpttype_f form-control hidden" name="rpttype_f" value="0">
+        </div>
+
+        <div class="clearfix"> </div>
+        <div class="modal-footer">
+            @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
+            <button type="submit" class="btn btn-success" id="Print" onclick=" return ValidateEmail();">Mail</button>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+    <script src="~/Scripts/script-custom-editor.js"></script>
+
+
+    @*<script src="~/Scripts/summernote.js"></script>*@
+    @*<script src="~/Scripts/script-custom-editor.js"></script>*@
+    <script>
+
+$(window).bind("load", function () {
+$(document).ajaxStart(function () {
+
+openModal();
+})
+.ajaxStop(function () {
+
+closeModal();
+});
+})
+function openModal() {
+document.getElementById('modal').style.display = 'block';
+document.getElementById('fade').style.display = 'block';
+}
+
+function closeModal() {
+document.getElementById('modal').style.display = 'none';
+document.getElementById('fade').style.display = 'none';
+}
+        $(document).ready(function () {
+
+//url = '@Url.Action("APrintView", "Invoice")/' + $(".FTRANMID").val()+ ";" + $(".rpttype_f").val();
+
+$.ajax({
+type: 'post',
+url: url, // we are calling json method
+
+success: function (data) {
+}
+})
+})
+
+
+function functiondelete(fileid) {
+var deletefilename = $('#' + fileid).text();
+if (confirm("Are you want to delete this file:" + deletefilename)) {
+var defaultfilename = $('#DefaultFiles').val();
+defaultfilename = defaultfilename.replace(deletefilename + ",", "");
+defaultfilename = defaultfilename.replace("," + deletefilename, "");
+$('#DefaultFiles').val("");
+$('#DefaultFiles').val(defaultfilename);
+$('#tr_' + fileid).remove();
+}
+}
+    </script>
+    <script type="text/javascript">
+function ValidateEmail() {
+var ToMailIds = document.getElementById("CATEMAIL").value;
+    var CCMailIds = document.getElementById("CATEMAILCC").value;
+    var BCCMailIds = document.getElementById("CATEMAILBCC").value;
+var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+var ToMailId = ToMailIds.split(","), i, Toemailstatus = true;
+    var CCMailId = CCMailIds.split(","), i, CCemailstatus = true;
+    var BCCMailId = BCCMailIds.split(","), i, BCCemailstatus = true;
+if (document.getElementById("CATEMAIL").value != "") {
+
+for (i = 0; i < ToMailId.length; i++) {
+if (ToMailId[i] != "") {
+if (!expr.test(ToMailId[i])) {
+alert(" Customer email id is invalid");
+//$("#Print").addClass("");
+Toemailstatus = false;
+}
+}
+}
+    for (i = 0; i < CCMailId.length; i++) {
+        if (CCMailId[i] != "") {
+            if (!expr.test(CCMailId[i])) {
+                alert(" CC email id is invalid");
+                //$("#Print").addClass("");
+                CCemailstatus = false;
+            }
+        }
+    }
+
+    for (i = 0; i < BCCMailId.length; i++) {
+        if (BCCMailId[i] != "") {
+            if (!expr.test(BCCMailId[i])) {
+                alert(" BCC email id is invalid");
+                //$("#Print").addClass("");
+                BCCemailstatus = false;
+            }
+        }
+    }
+}
+else {
+alert("Customer Email is empty");
+Toemailstatus = false;
+}
+
+    if (Toemailstatus == true && (CCemailstatus == true || BCCemailstatus == true ) ) {
+
+$("#Print").addClass("disabled");
+url = '@Url.Action("SendMail", "Quotation")'
+// alert($("#ImpInvoiceMail").serialize());
+$.ajax({
+type: 'post',
+url: url, // we are calling json method
+data: $("#ImpInvoiceMail").serialize(),
+beforeRequest: openModal(),
+success: function (data) {
+
+if (data == "Success") {
+//closeModal();
+////alert("Mail has been Successfully Sent...");
+//$(".msg").html("Mail has been Successfully Sent...");
+//$('.msg').show();
+//$('.msg').delay(1200).fadeOut(1000);
+//$('#myModal').modal('hide');
+alert("Mail has been Successfully Sent...");
+window.close();
+}
+else {
+//closeModal();
+//$(".msg_error").html(data);
+//$('.msg_error').show();
+//$('.msg_error').delay(1200).fadeOut(1000);
+// alert(data);
+window.close();
+}
+//},
+//error:function(data){
+// alert(data);
+}
+});
+return true;
+}
+
+else {
+return false;
+}
+}
+    </script>
+
+}
+

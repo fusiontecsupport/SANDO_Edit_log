@@ -1,0 +1,151 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.Export_OperationTypeMaster
+@{
+    ViewBag.Title = "Export Operation Type Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Export-Operation Type</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/Export_OperationTypeMaster/savedata")" method="post" accept-charset="utf-8" id="accountgroupmasterform" data-ng-controller="myController" name="accountgroupmasterform">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="AccountGroupMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.EOPTID, new { @class = "form-control  EOPTID", @id = "EOPTID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.EOPTCODE, new { @class = "form-control EOPTCODE", @id = "EOPTCODE", @required = true })
+                                        <input type="text" value="@Model.EOPTCODE" name="i_EOPTCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.EOPTDESC, new { @class = "form-control EOPTDESC", @id = "EOPTDESC", @required = true })
+                                        <input type="text" value="@Model.EOPTDESC" name="i_EOPTDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />*@
+                                <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden" hidden />
+                                @*<input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />*@
+                                <a href="@Url.Action("Index", "Export_OperationTypeMaster")" class="btn btn-primary btn-xs pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    $('#btnsave').click(function () {
+        if ($('#EOPTCODE').val() == "") {
+            alert('Please Enter Code !!');
+            $('#EOPTCODE').focus();
+            return false;
+        }
+        if ($('#EOPTDESC').val() == "") {
+            alert('Please Enter Description !!');
+            $('#EOPTDESC').focus();
+            return false;
+        }
+
+        var pdate = new Date();
+
+        if ($('#EOPTID').val() == "") { $('#EOPTID').val(0); }
+
+        if ($('#DISPORDER').val() == "") { $('#DISPORDER').val(0); }
+
+        var export_operationtypemaster = {
+            EOPTID: $('#EOPTID').val(),
+            EOPTCODE: $('#EOPTCODE').val(),
+            EOPTDESC: $('#EOPTDESC').val(),
+            DISPORDER: $('#DISPORDER').val(),
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: 1,
+            PRCSDATE: pdate
+        };
+
+        $.ajax({
+            //url: "/EmptySlabtypeMaster/savedata",
+            url:"@Url.Action("savedata", "Export_OperationTypeMaster")",
+            data: JSON.stringify(export_operationtypemaster),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('Exportb OperationType Master Details Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "Export_OperationTypeMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('Export OperationType Master Details Inserted Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "Export_OperationTypeMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('Export OperationType Master Details Already Inserted !! ');
+                    $('#EOPTCODE').val("");
+                    $('#EOPTDESC').val("");
+                    var returnurl = "@Url.Action("Form", "Export_OperationTypeMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Error") {
+                    alert(Message);                    
+                    var returnurl = "@Url.Action("Index", "Export_OperationTypeMaster")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+    });
+</script>
+
+}
+
+

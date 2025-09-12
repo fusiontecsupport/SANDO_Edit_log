@@ -1,0 +1,292 @@
+﻿
+@{
+    ViewBag.Title = "Import Destuff Slip";
+}
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-import"></i>Import Destuff Slip
+                                <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("Form", "ImportDeStuff")"><i class="fa fa-plus-square "></i> Add New </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1"> </div>
+                        <div class="col-xs-10">
+                            <form action="#" method="post" accept-charset="utf-8" id="remotegateinform" data-ng-controller="myController" name="remotegateinform">
+                                <div class="col-md-12">
+
+                                    <div class="col-md-2">
+                                        <label for="from">From</label>
+                                        <div class="form-group">
+                                            <input type="text" id="from" name="from" class="form-control from" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="from">To</label>
+                                        <div class="form-group">
+                                            <input type="text" id="to" name="to" class="form-control to" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <label for="from"></label>
+                                        <div class="form-group">
+                                            <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label for="from" style="font-weight:bold;color:black">Total 20</label>
+                                        <div class="form-group">
+                                            <input type="text" id="txtgi20" name="txtgi20" class="form-control txtgi20" style="border-width: 0px;background-color:#c4e5fb;font-weight:bold;color:black" value="@System.Web.HttpContext.Current.Session["ID20"]" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="from" style="font-weight:bold;color:black">Total 40</label>
+                                        <div class="form-group">
+                                            <input type="text" id="txtgi40" name="txtgi40" style="border-width: 0px;background-color:#cbcbed;font-weight:bold;color:black" class="form-control txtgi40" value="@System.Web.HttpContext.Current.Session["ID40"]" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <label for="from" style="font-weight:bold;color:black">Total 45</label>
+                                        <div class="form-group">
+                                            <input type="text" id="txtgi45" name="txtgi45"  style="border-width: 0px;background-color:#f7eddc;font-weight:bold;color:black" class="form-control txtgi45" value="@System.Web.HttpContext.Current.Session["ID45"]" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label for="from" style="font-weight:bold;color:black">TUES</label>
+                                        <div class="form-group">
+                                            <input type="text" id="txtgitu" name="txtgitu" style="border-width: 0px;background-color:#efd8d1;font-weight:bold;color:black" class="form-control txtgitu" value="@System.Web.HttpContext.Current.Session["IDTU"]" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                               
+                            </form>
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    No
+                                </th>
+                                <th>Container No</th>
+                                <th>Size</th>
+                                <th>
+                                    CHA Name
+                                </th>
+                                <th>
+                                    BOE No
+                                </th>
+                                <th>
+                                    IGM No
+                                </th>
+                                <th>
+                                    GPL No
+                                </th>
+                                <th>S</th>
+                                <th class="hide"></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ImportDeStuff")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "asc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-md-2 " },
+                    { "sName": " ", "sClass": "col-md-1 " }, { "sName": " ", "sClass": "col-md-3 " },
+                    { "sName": "", "sClass": "col-md-1 " },
+                    { "sName": "", "sClass": "col-md-4 " },
+                    { "sName": " ", "sClass": "col-md-2 " },
+                    { "sName": "", "sClass": "col-md-2 " },
+                    { "sName": "", "sClass": "col-md-2 " },
+                    { "sName": "", "sClass": "col-md-1 " },
+                    { "sName": "", "sClass": "col-md-1 hide" },
+                    {
+                        "sClass": "col-md-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            var edchk = '';
+                            var dlchk = '';
+                            if (oObj.aData[11] == 'Not-Exists') {
+                                edchk = ' <a  class="btn btn-primary btn-xs"  href="@Url.Action("Edit", "ImportDeStuff")/' +
+                                    oObj.aData[9] + '\"  "><i class="glyphicon glyphicon-edit" style="font-size:small"></i></a> ';
+                                dlchk = ' <a  class="btn btn-danger  del btn-xs" href="#" id="' +
+                                    oObj.aData[9] + '\" ><i class="glyphicon glyphicon-trash" style="font-size:small "></i> </a>';
+
+                            }
+
+                            if (oObj.aData[9] == "C") {
+                                return edchk+'   &nbsp;&nbsp;<a  class="btn btn-info hide1 ucancel btn-xs" href="#" id="' +
+                                    oObj.aData[9] + '\" title="Undo Cancel">U </a> &nbsp;&nbsp; ' + dlchk;
+                            }
+                            else {
+                                return edchk +'  &nbsp;&nbsp; <a  class="btn btn-info  cancel btn-xs" href="#" id="' +
+                                    oObj.aData[9] + '\" title="Cancel">C </a> &nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("PrintView", "ImportDeStuff")/' +
+                                    oObj.aData[9] + '\"  " title="Print" target="_blank"><i class="glyphicon glyphicon-print"></i></a> &nbsp;&nbsp; ' + dlchk;
+                            }
+                        }
+                    }
+
+                ]
+            });
+
+
+        });
+
+        GetContainerDetails();
+
+        $("#from").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            dateFormat: 'dd-mm-yy',
+            onClose: function (selectedDate) {
+                $("#to").datepicker("option", "minDate", selectedDate);
+            }
+        });
+
+        $("#to").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            dateFormat: 'dd-mm-yy',
+            onClose: function (selectedDate) {
+                $("#from").datepicker("option", "maxDate", selectedDate);
+            }
+        });
+
+
+        //----------------Cancel button click event----
+        $(document).on("click", "a.cancel", function () {
+            var r = confirm("Are you sure to Cancel this record ?");
+
+            if (r == true) {
+                var idx = $(this).attr('id');
+                base = window.location.origin;
+                $.post(base + "/ImportDeStuff/Cancel",
+                    {
+                        id: idx, fld: "IMPORTAUTHSLIP"
+                    },
+                    function (data, status) {
+                        alert(data);
+                        if (data == "Cancelled successfully...")
+                            location.replace(base + "/ImportDeStuff");
+                    });
+            }
+            return false;
+        });//----End of delete
+
+        //----------------Delete button click event----
+        $(document).on("click", "a.del", function () {
+            var r = confirm("Are you sure to delete this record ?");
+
+            if (r == true) {
+                var idx = $(this).attr('id');
+                base = window.location.origin;
+                $.post(base + "/ImportDeStuff/Del",
+                    {
+                        id: idx, fld: "DESTUFFSLIP"
+                    },
+                    function (data, status) {
+                        alert(data);
+                        if (data == "Deleted successfully...")
+                            location.replace(base + "/ImportDeStuff");
+                    });
+            }
+            return false;
+        });//----End of delete
+
+        function GetContainerDetails() {
+             var fromdate = $("#from").val();
+             var todate = $("#to").val(); var sdptid = 1;
+
+            if (fromdate == "") {
+                alert('Please Enter From Date !!')
+                $("#from").focus();
+                return false;
+            }
+
+            if (todate == "") {
+                alert('Please Enter To Date !!')
+                $("#to").focus();
+                return false;
+            }
+
+            url = '@Url.Action("TotalContainerDetails", "ImportDeStuff")';
+
+            $.ajax({
+                type: 'post',
+                url: url, // we are calling json method
+                data: { fromdate: fromdate, todate: todate, sdptid: sdptid },
+                dataType:'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.length != 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            //alert(data[i].Sno);
+                            if ((data[i].Sno == 2) && (data[i].Descriptn == "IMPORT - DESTUFF")) {
+
+                                var gi20 = data[i].c_20;
+                                //alert(gi20);
+
+                                $('.txtgi20').val(gi20);
+                                $('.txtgi40').val(data[i].c_40);
+                                $('.txtgi45').val(data[i].c_45);
+                                $('.txtgitu').val(data[i].c_tues);
+
+
+                            }
+
+                        }
+
+                    }
+
+                },
+
+            });
+
+
+        }
+
+
+    </script>
+}
+

@@ -1,0 +1,155 @@
+﻿
+@model IEnumerable<scfs_erp.Models.Export_Endorsement_Rate_Master>
+
+@{
+    ViewBag.Title = "Endorsement Rate Card";
+}
+
+<div class="box">
+    <div class="box-header">
+        <div class="box-name">
+            <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+        </div>
+        <div class="box-icons">
+            <button onclick="parent.location = '@Url.Action("Form", "Export_Endorsement_Rate_Master")'; return false;" class="btn-success"> Create New </button>
+        </div>
+        <div class="no-move"></div>
+    </div>
+    <div class="box-content no-padding">
+        <br />
+        <div class="row">
+            @*<div class="col-xs-3"> </div>*@
+            <div class="col-md-12">
+                <form action="#" method="post" accept-charset="utf-8" id="exportgateinform" data-ng-controller="myController" name="exportgateinform">
+                    <!--<table style="margin-left:70PX">
+                        <tr>
+                            <td>Charge Type</td>&nbsp;&nbsp;
+                            <td>
+                                Html.DropDownList("ECTID", null, new { class = "form-control ECTID", onchange = "GetCharge()" })
+                            </td>&nbsp;&nbsp;
+                            <td>Charge</td>&nbsp;&nbsp;
+                            <td>
+                                Html.DropDownList("ECMID", null, new { class = "form-control ECMID", data_val = "true", data_val_required = "Field is required" })
+                            </td>&nbsp;&nbsp;
+                            <td>Type</td>&nbsp;&nbsp;-->
+                            @*<td>
+                                @Html.DropDownList("CHRGETYPE", null, new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                            </td>*@<!--&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <td><input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left:20PX" /></td>
+                        </tr>
+                    </table>-->
+                </form>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Charge</th>
+                    <th>
+                        W.E. From
+                    </th>
+                    <th>
+                        Size
+                    </th>
+                    <th>
+                        Calculated On
+                    </th>
+
+                    <th>
+                        By
+                    </th>
+
+                    <th>
+                        Amount
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "Export_Endorsement_Rate_Master")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-md-3", },
+                    { "sName": " ", "sClass": "col-md-3", },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": " " },
+                    { "sName": "" },
+                    { "sName": "" },
+                    {
+                        "sClass": "col-md-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-primary  btn-xs"   href="@Url.Action("Edit", "Export_Endorsement_Rate_Master")/' +
+                                oObj.aData[7] + '\"  Title=Modify Details"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' +
+                                oObj.aData[7] + '\" ><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+            //----------------Delete Record-----------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/Export_Endorsement_Rate_Master/Del",
+                        {
+                            id: idx, fld: ""
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted Successfully ...")
+                                location.replace(base + "/Export_Endorsement_Rate_Master");
+                        });
+                }
+                return false;
+            });//End
+
+        });
+        function GetCharge() {
+
+            $(".ECMID").empty();
+            $.ajax({
+
+                type: 'get',
+                url: '@Url.Action("GetCharge", "Export_Endorsement_Rate_Master")?id=' + $(".ECTID option:selected").val(), // we are calling json method
+
+                success: function (data) {
+                    // alert(data);
+                    //  $(".ECMID").append('<option>Select</option>');
+                    $.each(data, function (i, dataval) {
+                        $(".ECMID").append('<option value="' + dataval.ECMID + '">' + dataval.ECMDESC + '</option>');
+
+                    });
+
+                },
+                error: function (ex) {
+                    alert('Failed to data ' + ex);
+                }
+            });
+            return false;
+        }
+    </script>
+}

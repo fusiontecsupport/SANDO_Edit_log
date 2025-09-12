@@ -1,0 +1,226 @@
+﻿@model IEnumerable<scfs_erp.Models.Ex_BondMaster>
+
+
+@{
+    ViewBag.Title = "ExBond Master";
+}
+
+<style>
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+</style>
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-import"></i>@ViewBag.Title
+                                <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("Form", "ExBondInformation")"><i class="fa fa-plus-square "></i> Add New </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3"> </div>
+                        <div class="col-xs-6">
+                            <form action="#" method="post" accept-charset="utf-8" id="exbondmasterform" data-ng-controller="myController" name="exbondmasterform">
+
+                                <label for="from">From</label>
+                                <input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                <label for="to">to</label>
+                                <input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                            </form>
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+
+                                <th style="width:auto;">
+                                    Date
+                                </th>
+                                <th style="width:auto;">
+                                    No
+                                </th>
+                                <th style="width:auto;">
+                                    Ex Bond&nbsp;No
+                                </th>
+                                <th style="width:auto;">CHA Name</th>
+                                <th style="width:auto;">
+                                    Importer&nbsp;Name
+                                </th>
+                                <th style="width:auto;">ASBL. Amount</th>
+                                <th style="width:auto;">S</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                @*<th colspan="7" style="text-align:right" id="tot"></th>
+
+                                    <th  style="text-align:right" id="tot1"></th><th></th>
+
+                                    <th colspan="1" style="text-align:right" id="tot2"></th>*@
+                                <th colspan="8" style="text-align:center"></th>
+                            </tr>
+
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            //s alert(1);
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ExBondInformation")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": " " },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-3" },
+                    { "sName": " ", "sClass": "col-lg-3" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    {
+                        "sClass": "col-md-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            // if (oObj.aData[4] == 20) TNOS++;
+                            return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "ExBondInformation")/' +
+                                oObj.aData[7] + '\"  "><i class="glyphicon glyphicon-edit" style="font-size:small"></i></a>  &nbsp;&nbsp;  <a   class="btn btn-default btn-xs printview"   href="@Url.Action("PrintView", "ExBondInformation")/' +
+                                oObj.aData[7] + '\"  " title="Gate In Print" target="_blank"><i class="glyphicon glyphicon-print"></i></a> &nbsp;&nbsp;  <a   class="btn btn-info btn-xs"   href="@Url.Action("TPrintView", "ExBondInformation")/' +
+                                oObj.aData[7] + '\"  " title="Truck In Print" target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' +
+                                oObj.aData[7] + '\" ><i class="glyphicon glyphicon-trash" style="font-size:small "></i> </a> ';
+                        }
+                    }
+
+                ],
+
+            });
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+
+            //--------------print------------------------//
+
+            $(".print-invoice").on("click", function () {
+                var idx = $(this).attr('id');
+
+                turl = "http://216.172.100.137:8080/cfsrpt11/print.php?id" + idx;
+                cpurl = "http://216.172.100.137:8080/cfsrpt11/igatein.pdf";
+
+                var pdf = $.post(turl, function () {
+                    alert("success");
+                })
+                    .success(function () { })
+                    .complete(function () { });
+
+                pdf.complete(function () { window.open(cpurl, "_blank"); });
+
+                return false;
+
+            });
+
+            //end
+
+
+            //--------Delete record----------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ExBondInformation/Del",
+                        {
+                            id: idx, fld: "EXBONDMASTER"
+                        },
+                        function (data, status) {
+                            if (data == "Deleted Successfully ...") {
+                                $('<div></div>').dialog({
+                                    modal: true,
+                                    title: "Information",
+                                    open: function () {
+                                        var markup = '<b>Deleted Successfully !!<b>';
+                                        $(this).delay(1200).fadeOut(1000);
+                                        $(this).html(markup);
+
+                                    },
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                            var returnurl = '@Url.Action("Index", "ExBondInformation")';
+                                            window.location.href = returnurl;
+                                        }
+                                    }
+                                });
+                            }
+                            else {
+                                $('<div></div>').dialog({
+                                    modal: true,
+                                    title: "Error",
+                                    open: function () {
+                                        var markup = '<b>' + data + '!!<b>';
+                                        $(this).delay(1200).fadeOut(1000);
+                                        $(this).html(markup);
+
+                                    },
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                            var returnurl = '@Url.Action("Index", "ExBondInformation")';
+                                            window.location.href = returnurl;
+                                        }
+                                    }
+                                });
+                            }
+
+                        });
+                }
+                return false;
+            });//End
+
+        });
+    </script>
+}

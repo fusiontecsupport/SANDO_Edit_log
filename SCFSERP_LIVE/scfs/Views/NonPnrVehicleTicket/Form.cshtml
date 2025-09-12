@@ -1,0 +1,279 @@
+﻿
+@using scfs_erp.Models;
+@using scfs.Data;
+@model scfs_erp.Models.VehicleTicketDetail
+
+
+@{
+    ViewBag.Title = "Non PNR Vehicle Ticket";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Vehicle Ticket </strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/NonPnrVehicleTicket/savedata")" method="post" accept-charset="utf-8" id="NonPnrVehicleTicket" data-ng-controller="myController" name="ImportVehicleTicket" onsubmit="return Validate()">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ImportVehicleTicket_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hide">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => model.VTDID, new { @class = "form-control  VTDID", @id = "VTDID" })     @Html.TextBoxFor(model => model.EGIDID, new { @class = "form-control  EGIDID", @id = "EGIDID" })
+                                        @Html.TextBoxFor(model => model.VTNO, new { @class = "form-control  VTNO", @id = "VTNO", @data_val = false })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Date<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.VTDATE, "{0:dd/MM/yyyy}", new { @class = "form-control VTDATE", @id = "VTDATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+                                        @*@Html.TextBoxFor(model => Model.VTDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker VTDATE ", @id = "VTDATE", @data_Val = false, tabindex = "2" })*@
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Time <span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => Model.VTTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker VTTIME ", @id = "VTTIME", @data_Val = false, tabindex = "2" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>No </label>@*@Html.ValidationMessageFor(model => model.GBTIME)*@
+                                        @Html.TextBoxFor(model => model.VTDNO, new { @class = "form-control VTDNO ", @id = "VTDNO", @data_val = false, @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                @if (Model.VTDID != 0)
+                                {<div class="Del_check hidden">@scfs_erp.Helper.Delete_fun.delete_check1("VEHICLETICKET", @Model.GIDID.ToString())</div>}
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Container No</label>@*@Html.ValidationMessageFor(model => model.GBNO)*@
+
+                                        @if (Model.VTDID != 0)
+                                        {<input type="text" value="@ViewBag.CONTNRNO" id="CONTNRNO" class=" form-control CONTNRNO" name="CONTNRNO" readonly="readonly" />
+                                            @Html.TextBoxFor(model => model.ASLDID, new { @class = "form-control hide ASLDID ", @id = "ASLDID", @data_val = false, @readonly = "readonly" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownList("ASLDID", null, "---Select Container No---", new { @class = "form-control ASLDID", @id = "ASLDID", @required = "required", tabindex = "4", @ONCHANGE = "GetDetails()" })
+                                        }
+                                        @Html.TextBoxFor(model => model.GIDID, new { @class = "form-control hide GIDID ", @id = "GIDID", @data_val = false, @readonly = "readonly" })
+
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Size</label>@*@Html.ValidationMessageFor(model => model.GBDNO)*@
+                                        <input type="text" value="" id="SIZE" class=" form-control SIZE" name="SIZE" readonly="readonly" />
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <label>In Date </label>
+                                        <input type="text" value="" id="INDATE" class=" form-control INDATE" name="INDATE" readonly="readonly" />
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>IGM No</label>
+                                        <input type="text" value="" id="FIGMNO" class=" form-control FIGMNO" name="FIGMNO" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Line No</label>
+                                        <input type="text" value="" id="FLNO" class=" form-control FLNO" name="FLNO" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Cargo</label>
+                                        @Html.TextBoxFor(model => model.VTDESC, new { @class = "form-control VTDESC", @id = "VTDESC", @readonly = "readonly" })
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Vessel</label>
+                                        <input type="text" value="" id="FVSLNAME" class=" form-control FVSLNAME" name="FVSLNAME" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Voyage No</label>
+                                        <input type="text" value="" id="FVOYNO" class=" form-control FVOYNO" name="FVOYNO" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Importer</label>
+                                        <input type="text" value="" id="IMPRTNAME" class=" form-control IMPRTNAME" name="IMPRTNAME" readonly="readonly" />
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Streamer</label>
+                                        <input type="text" value="" id="STMRNAME" class=" form-control STMRNAME" name="STMRNAME" readonly="readonly" />
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4 ">
+                                    <div class="form-group">
+                                        <label>CHA</label>
+
+                                        <input type="text" value="" id="CHANAME" class=" form-control CHANAME" name="CHANAME" readonly="readonly" />
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>BOE No</label>
+                                        <input type="text" value="" id="FBOENO" class=" form-control FBOENO" name="FBOENO" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>BOE Date</label>
+                                        <input type="text" value="" id="FBOEDT" class=" form-control FBOEDT" name="FBOEDT" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>DO Validity</label>
+                                        <input type="text" value="" id="FDODATE" class=" form-control FDODATE" name="FDODATE" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>D.Order No</label>
+                                        <input type="text" value="" id="FDORDRNO" class=" form-control FDORDRNO" name="FDORDRNO" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>D.Order Date</label>
+                                        <input type="text" value="" id="FDORDRDATE" class=" form-control FDORDRDATE" name="FDORDRDATE" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Type</label>
+                                        <input type="text" value="" id="VTTYPEDESC" class=" form-control VTTYPEDESC" name="VTTYPEDESC" readonly="readonly" />
+                                        @Html.DropDownListFor(model => Model.VTTYPE, new SelectList(ViewBag.VTTYPE, "value", "text"), new { @class = "form-control hide VTTYPE", @id = "VTTYPE", tabindex = "6" })
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>A.Slip No</label>
+                                        <input type="text" value="" id="FASLNO" class=" form-control FASLNO" name="FASLNO" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>A.Slip Date/Time</label>
+                                        <input type="text" value="" id="FASLDATE" class=" form-control FASLDATE" name="FASLDATE" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Vehicle No</label>
+
+                                        @Html.TextBoxFor(model => model.VHLNO, new { @class = "form-control VHLNO", @id = "VHLNO", @required = "required", tabindex = "8" })
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Driver Name</label>
+                                        @Html.TextBoxFor(model => model.DRVNAME, new { @class = "form-control DRVNAME", @id = "DRVNAME", tabindex = "10", @required = "required" })
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>SANCO Seal No </label>
+                                        @Html.TextBoxFor(model => model.VTSSEALNO, new { @class = "form-control VTSSEALNO", @id = "VTSSEALNO", tabindex = "12" })
+                                    </div>
+
+                                </div>
+
+                                <div class="frm_hide" id="DESTF_DIV">
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>By</label>
+                                            @Html.DropDownList("VTSTYPE", null, new { @class = "form-control VTSTYPE", @id = "VTSTYPE", tabindex = "14" })
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Qty</label>
+
+                                            @Html.TextBoxFor(model => model.VTQTY, new { @class = "form-control VTQTY", @id = "VTQTY", tabindex = "16" })
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Cargo Status</label>
+                                            @Html.DropDownList("VTCTYPE", null, new { @class = "form-control VTCTYPE", @id = "VTCTYPE", tabindex = "18" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        @Html.TextAreaFor(model => model.VTREMRKS, new { @class = "form-control VTREMRKS", @id = "VTREMRKS", tabindex = "28" })
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 box-footer">
+                                    <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />
+                                    <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="2000" />
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

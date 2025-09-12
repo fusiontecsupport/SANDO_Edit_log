@@ -1,0 +1,71 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.CategoryTypeMaster
+@{
+    ViewBag.Title = "Category Type Master";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Category Type Master form</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/CategoryTypeMaster/savedata")" method="post" accept-charset="utf-8" id="categorytypemasterform" data-ng-controller="myController" name="categorytypemasterform">
+
+                    <fieldset id="CategoryTypeMasterForm_info">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.CATETID, new { @class = "form-control  CATETID", @id = "CATETID" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code </label>
+                                        @Html.TextBoxFor(model => Model.CATETCODE, new { @class = "form-control CATETCODE", @id = "CATETCODE" })
+                                        <input type="text" value="@Model.CATETCODE" name="i_CATETCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description </label>
+                                        @Html.TextBoxFor(model => Model.CATETDESC, new { @class = "form-control  CATETDESC", @id = "CATETDESC" })
+                                        <input type="text" value="@Model.CATETDESC" name="i_CATETDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div><div class="row">
+                            <div class="col-md-12 box-footer">
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

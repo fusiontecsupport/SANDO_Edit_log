@@ -1,0 +1,149 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.RowMaster
+
+@{
+    ViewBag.Title = "Row Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Row Master</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                @*<form action="@Url.Content("~/RowMaster/savedata")" method="post" accept-charset="utf-8" id="rowmasterform" data-ng-controller="myController" name="rowmasterform">*@
+                <form>
+                    @Html.ValidationSummary(true)
+                    <fieldset id="RowMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.ROWID, new { @class = "form-control  ROWID", @id = "ROWID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code <span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.ROWCODE)*@
+                                        @Html.TextBoxFor(model => Model.ROWCODE, new { @class = "form-control ROWCODE", @id = "ROWCODE" })
+                                        <input type="text" value="@Model.ROWCODE" name="i_ROWCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description <span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.ROWDESC)*@
+                                        @Html.TextBoxFor(model => Model.ROWDESC, new { @class = "form-control  ROWDESC", @id = "ROWDESC" })
+                                        <input type="text" value="@Model.ROWDESC" name="i_ROWDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DISPSTATUS)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+        <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />*@
+                                <a href="@Url.Action("Index", "RowMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+<script>        
+        
+        $('#btnsave').click(function () {
+            if ($('#ROWCODE').val() == "") {
+                alert('Please Enter Code !!');
+                $('#ROWCODE').focus();
+                return false;
+            }
+            if ($('#ROWDESC').val() == "") {
+                alert('Please Enter Description !!');
+                $('#ROWDESC').focus();
+                return false;
+            }
+
+            var pdate = new Date();
+
+            if ($('#ROWID').val() == "") { $('#ROWID').val(0); }
+
+            var tab = {
+                ROWID: $('#ROWID').val(),
+                ROWCODE: $('#ROWCODE').val(),
+                ROWDESC: $('#ROWDESC').val(),                
+                DISPSTATUS: $('#DISPSTATUS').val(),
+                CUSRID: "",
+                LMUSRID: 1,
+                PRCSDATE: pdate
+            };
+            $.ajax({
+                url: "/RowMaster/savedata",
+                data: JSON.stringify(tab),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (status) {
+                    if (status == "Update") {
+                        alert('Row Master Details Updated Successfully !! ');
+
+                        var returnurl = "@Url.Action("Index", "RowMaster")";
+                        window.location.href = returnurl;
+                    }
+                    else if (status == "Success") {
+                        alert('Row Master Details Inserted Successfully !! ');
+                        var returnurl = "@Url.Action("Index", "RowMaster")";
+                        window.location.href = returnurl;
+                    }
+                    else if (status == "Existing") {
+                        alert('Row Master Details Already Inserted !! ');
+                        $('#ROWCODE').val("");
+                        $('#ROWDESC').val("");                       
+                        var returnurl = "@Url.Action("Form", "RowMaster")";
+                        window.location.href = returnurl;
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
+
+        });
+
+
+
+</script>
+
+
+
+}
+
+

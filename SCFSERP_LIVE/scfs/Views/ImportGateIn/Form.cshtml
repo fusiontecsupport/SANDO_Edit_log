@@ -1,0 +1,2015 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.GateInDetail
+
+@{
+    ViewBag.Title = "Import Gate IN";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+
+    .gclr {
+        font-weight: bold;
+        color:red;
+    }
+</style>
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>Import Gate In</strong>
+                        </div>
+                    </div>@Html.Raw(ViewBag.msg)
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ImportGateIn/saveidata")" method="post" accept-charset="utf-8" id="gateinform" data-ng-controller="myController" name="gateinform" onsubmit="return escord()">
+                            <fieldset id="GateInForm_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3 hidden">
+                                                <div class="form-group">
+                                                    <label>Primary</label>
+                                                    @Html.TextBoxFor(model => Model.GIDID, new { @class = " form-control  GIDID", @id = "GIDID" })
+                                                    @Html.TextBoxFor(model => Model.RGIDID, new { @class = " form-control  RGIDID", @id = "RGIDID" })
+                                                    <input type="text" class="R_GIDID" id="R_GIDID" name="R_GIDID" value="@Model.RGIDID">
+                                                    <input type="text" id="UsrAdmGrpChk" name="UsrAdmGrpChk" class="form-control UsrAdmGrpChk hide" value="@System.Web.HttpContext.Current.Session["AdminGrp"]">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>In Date<span class="required-field"></span> </label>
+
+                                                    @Html.TextBoxFor(model => Model.GIDATE, "{0:dd/MM/yyyy}", new { @class = "form-control GIDATE", @id = "GIDATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>In Time<span class="required-field"></span> </label>
+                                                    @Html.TextBoxFor(model => Model.GITIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker GITIME", @id = "GITIME", @data_val = false, tabindex = "1" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Port Out Date<span class="required-field"></span></label>
+
+                                                    @Html.TextBoxFor(model => Model.GICCTLDATE, "{0:dd/MM/yyyy}", new { @class = "form-control GICCTLDATE", @id = "GICCTLDATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Port Out Time<span class="required-field"></span></label>
+
+                                                    @Html.TextBoxFor(model => Model.GICCTLTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker GICCTLTIME", @id = "GICCTLTIME", @data_val = false, tabindex = "2" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 hidden">
+                                                <div class="form-group">
+                                                    <label>Gate In No<span class="required-field"></span> </label>
+                                                    @Html.TextBoxFor(model => Model.GINO, new { @class = "form-control  GINO", @id = "GINO", @readonly = true, tabindex = "3" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 hidden">
+                                                <div class="form-group">
+                                                    <label>No<span class="required-field"></span> </label>
+                                                    @Html.TextBoxFor(model => Model.GIDNO, new { @class = "form-control  GIDNO", @id = "GIDNO", @readonly = true, tabindex = "4" })
+                                                    @Html.ValidationMessageFor(model => model.GIDNO)
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Ref No </label>
+                                                    @Html.TextBoxFor(model => Model.GPREFNO, new { @class = "form-control  GPREFNO", @id = "GPREFNO", tabindex = "6" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Driver Name<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.DRVNAME)*@
+                                                    @Html.TextBoxFor(model => Model.DRVNAME, new { @class = "form-control DRVNAME", @id = "DRVNAME", @required = "required", tabindex = "7", @maxlength = "100" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Transpoter Name<span class="required-field"></span> </label>
+                                                    @Html.TextBoxFor(model => Model.TRNSPRTNAME, new { @class = "form-control TRNSPRTNAME", @id = "TRNSPRTNAME", @required = "required", tabindex = "8", data_autocomplete_url = Url.Action("AutoTransporter", "ImportGateIn"), @placeholder = "---Please Select----" })
+                                                    @Html.TextBoxFor(model => Model.TRNSPRTID, new { @class = "hide form-control TRNSPRTID", @id = "TRNSPRTID" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4" id="othertransdiv">
+                                                <div class="form-group">
+                                                    <label>Other Transpoter Name</label>
+                                                    @Html.TextBoxFor(model => Model.GTRNSPRTNAME, new { @class = "form-control GTRNSPRTNAME", @id = "GTRNSPRTNAME", @required = "required", tabindex = "9" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Vehicle No<span class="required-field"></span></label>
+                                                    <div class="VHL_DIV">
+                                                        @Html.TextBoxFor(model => Model.VHLNO, new { @class = "form-control VHLNO", @id = "VHLNO", @required = "required", tabindex = "10", data_autocomplete_url = Url.Action("AutoVehicleNo", "ImportGateIn"), @onchange = "CheckVehicle(this,GIDID)", @onkeydown = "return isAlphaNumberOnlyKey(event);", @maxlength = "15" })
+                                                        @Html.TextBoxFor(model => Model.VHLMID, new { @class = "form-control  VHLMID hide", @id = "VHLMID", tabindex = "10" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>PNR No<span class="required-field"></span> </label>
+                                                    @Html.TextBoxFor(model => Model.GPNRNO, new { @class = "form-control  GPNRNO", @id = "GPNRNO", @required = "required", tabindex = "-1", @readonly = "readonly", @onkeydown = "return isAlphaNumberOnlyKey(event);", @maxlength = "15" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-primary" id="job_list">
+                                                <div class="panel-heading navbar-inverse">
+                                                    Vessel / Container Details
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>Vessel Name<span class="required-field"></span> </label>
+                                                                @Html.TextBoxFor(model => Model.VSLNAME, new { @class = "form-control VSLNAME", @id = "VSLNAME", data_autocomplete_url = Url.Action("AutoVessel", "ImportGateIn"), @required = "required", @placeholder = "---Please Select----", tabindex = "-1" })
+                                                                @Html.TextBoxFor(model => Model.VSLID, new { @class = " hide form-control VSLID", @id = "VSLID" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>Voyage No<span class="required-field"></span> </label>
+                                                                @Html.TextBoxFor(model => Model.VOYNO, new { @class = "form-control  VOYNO", @id = "VOYNO", @required = "required", tabindex = "-1", @maxlength = "10", @onkeydown = "return isAlphaNumberOnlyKey(event);" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>IGM No.<span class="required-field"></span>  </label>
+                                                                @Html.TextBoxFor(model => Model.IGMNO, new { @class = "form-control  IGMNO", @id = "IGMNO", @required = "required", tabindex = "-1", @maxlength = "15" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>Line No<span class="required-field"></span> </label>
+                                                                @Html.TextBoxFor(model => Model.GPLNO, new { @class = "form-control  GPLNO", @id = "GPLNO", @required = "required", tabindex = "-1", @maxlength = "15" })
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Importer Name<span class="required-field"></span> </label>
+                                                                @Html.TextBoxFor(model => Model.IMPRTNAME, new { @class = "form-control IMPRTNAME", @id = "IMPRTNAME", data_autocomplete_url = Url.Action("AutoImpoter", "ImportGateIn"), @required = "required", @placeholder = "---Please Select----", tabindex = "-1" })
+                                                                @Html.TextBoxFor(model => Model.IMPRTID, new { @class = "hide form-control IMPRTID", @id = "IMPRTID" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Steamer Name<span class="required-field"></span> </label>
+                                                                @Html.TextBoxFor(model => Model.STMRNAME, new { @class = "form-control STMRNAME", @id = "STMRNAME", data_autocomplete_url = Url.Action("AutoSteamer", "ImportGateIn"), @required = "required", @placeholder = "---Please Select----", tabindex = "-1" })
+                                                                @Html.TextBoxFor(model => Model.STMRID, new { @class = "hide form-control STMRID", @id = "STMRID" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 hide">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>CHA Name </label>
+                                                                @Html.TextBoxFor(model => Model.CHANAME, new { @class = "form-control CHANAME", @id = "CHANAME", data_autocomplete_url = Url.Action("AutoChaName", "ImportGateIn"), @required = "required", @placeholder = "---Please Select----", tabindex = "-1" })
+                                                                @Html.TextBoxFor(model => Model.CHAID, new { @class = "hide form-control CHAID", @id = "CHAID" })
+                                                                @Html.TextBoxFor(model => Model.BCHAID, new { @class = "hide form-control BCHAID", @id = "BCHAID" })
+                                                                @Html.TextBoxFor(model => Model.BCHANAME, new { @class = "hide form-control BCHANAME", @id = "BCHANAME" })
+                                                                @Html.TextBoxFor(model => Model.EXPRTRID, new { @class = "hide form-control EXPRTRID", @id = "EXPRTRID" })
+                                                                @Html.TextBoxFor(model => Model.EXPRTRNAME, new { @class = "hide form-control EXPRTRNAME", @id = "EXPRTRNAME" })
+                                                                @Html.TextBoxFor(model => Model.UNITID, new { @class = "hide form-control UNITID", @id = "UNITID" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>Bill of Entry No</label>
+                                                                @Html.TextBoxFor(model => Model.BOENO, new { @class = "form-control BOENO", @id = "BOENO", tabindex = "-1", @maxlength = "50" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>Bill of Entry Date </label>
+                                                                @Html.TextBoxFor(model => Model.BOEDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker BOEDATE", @id = "BOEDATE", tabindex = "-1" })
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Container No<span class="required-field"></span></label>@*@Html.ValidationMessageFor(model => model.CONTNRNO)*@
+                                                                @Html.TextBoxFor(model => Model.CONTNRNO, new { @class = "form-control  CONTNRNO", @id = "CONTNRNO", @required = "required", tabindex = "-1", @onchange = "CheckContr(CONTNRNO,this)", @maxlength = "15" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Size<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.CONTNRSID)*@
+                                                                @Html.DropDownList("CONTNRSID", null, "Select", new { @class = "form-control", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Type<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.CONTNRTID)*@
+                                                                @Html.DropDownList("CONTNRTID", null, "Select", new { @class = "form-control", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>ISO Code<span class="required-field"></span></label>
+                                                                @Html.TextBoxFor(model => Model.GIISOCODE, new { @class = "form-control  GIISOCODE", @id = "GIISOCODE", tabindex = "-1", @required = "required", @maxlength = "10", @onkeydown = "return isAlphaNumberOnlyKey(event);" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>L.seal no<span class="required-field"></span></label>
+                                                                @Html.TextBoxFor(model => Model.LPSEALNO, new { @class = "form-control  LPSEALNO", @id = "LPSEALNO", tabindex = "11", @maxlength = "50", @onkeydown = "return isAlphaNumberOnlyKey(event);" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>C.seal no<span class="required-field"></span></label>
+                                                                @Html.TextBoxFor(model => Model.CSEALNO, new { @class = "form-control  CSEALNO", @id = "CSEALNO", tabindex = "12", @maxlength = "15", @onkeydown = "return isAlphaNumberOnlyKey(event);" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Refer(Plug)</label>@*@Html.ValidationMessageFor(model => model.GPETYPE)*@
+                                                                @Html.DropDownList("GRADEID", null, new { @class = "form-control", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>SSR/Escort</label>@*@Html.ValidationMessageFor(model => model.GPETYPE)*@
+                                                                @Html.DropDownList("GPETYPE", null, new { @class = "form-control", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label class="gclr">S.Amend / Mismatch</label>@*@Html.ValidationMessageFor(model => model.GPSTYPE)*@
+                                                                @Html.DropDownList("GPSTYPE", null, new { @class = "form-control", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>SSR/Escort Amount </label>
+                                                                @Html.TextBoxFor(model => Model.GPEAMT, new { @class = "form-control  GPEAMT", @id = "GPEAMT", tabindex = "-1", @onkeypress = "return isNumberCommaDot(event)" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Addtnl. Amount </label>
+                                                                @Html.TextBoxFor(model => Model.GPAAMT, new { @class = "form-control  GPAAMT", @id = "GPAAMT", tabindex = "-1", @onkeypress = "return isNumberCommaDot(event)" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label class="gclr">Scanned</label>
+                                                                @Html.DropDownList("GPSCNTYPE", null, "Please select", new { @class = "form-control GPSCNTYPE", @id = "GPSCNTYPE", @onchange = "GetScanTypeChange()", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-2" id="sc_credit">
+                                                            <div class="form-group">
+                                                                <label class="gclr">Scan Type</label>
+                                                                @Html.DropDownList("GPSCNMTYPE", null, "Please select", new { @class = "form-control GPSCNMTYPE", @id= "GPSCNMTYPE", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-primary" id="job_list">
+                                                <div class="panel-heading navbar-inverse">
+                                                    Product Details
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="col-md-12">
+
+
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Product Category<span class="required-field"></span> </label>
+                                                                @Html.DropDownList("PRDTGID", null, "Please select an option", new { @class = "form-control", @required = "required", tabindex = "13" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>Product Description<span class="required-field"></span> </label>
+                                                                @Html.TextBoxFor(model => Model.PRDTDESC, new { @class = "form-control  PRDTDESC", @id = "PRDTDESC", @required = "required", tabindex = "-1", @maxlength = "100" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Weightment</label>
+                                                                @Html.DropDownList("GPWTYPE", null, new { @class = "form-control", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Weight</label>
+                                                                @Html.TextBoxFor(model => Model.GPWGHT, new { @class = "form-control  GPWGHT", @id = "GPWGHT", tabindex = "-1", @onkeypress = "return isNumberCommaDot(event)" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-primary" id="job_list">
+                                                <div class="panel-heading navbar-inverse">
+                                                    Other Details
+                                                </div>
+                                                <div class="panel-body">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Port<span class="required-field"></span></label>
+                                                                @Html.DropDownList("GPPTYPE", null, "Please select", new { @class = "form-control", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>IGM Date </label>
+                                                                @Html.TextBoxFor(model => Model.IGMDATE, "{0:dd/MM/yyyy}", new { @class = "form-control IGMDATE", @id = "IGMDATE", @data_val = false, @tabindex = "-1", @placeholder = "Please Select Date" })
+                                                                @*@Html.TextBoxFor(model => Model.IGMDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker IGMDATE", @id = "IGMDATE", @data_val = false, tabindex = "35" })*@
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>BL No. </label>
+                                                                @Html.TextBoxFor(model => Model.BLNO, new { @class = "form-control  BLNO", @id = "BLNO", @maxlength = "20", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>FCL</label>@*@Html.ValidationMessageFor(model => model.GFCLTYPE)*@
+                                                                @Html.DropDownList("GFCLTYPE", null, "Please select", new { @class = "form-control", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Damage</label>
+                                                                @Html.TextBoxFor(model => Model.GIDMGDESC, new { @class = "form-control  GIDMGDESC", @id = "GIDMGDESC", tabindex = "13" })
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>GP Mode<span class="required-field"></span> </label>@Html.ValidationMessageFor(model => model.GPMODEID)
+                                                                @Html.DropDownList("GPMODEID", null, "Select Mode", new { @class = "form-control", @required = "required", @tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Row<span class="required-field"></span></label>
+                                                                @Html.DropDownList("ROWID", null, "Please select", new { @class = "form-control", @required = "required", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Slot<span class="required-field"></span> </label>
+                                                                @Html.DropDownList("SLOTID", null, "Please select", new { @class = "form-control", tabindex = "-1" })
+                                                            </div>
+                                                        </div>
+                                                        @*<div class="col-md-2">
+                                <div class="form-group">
+                                    <label>CFS Name </label>@Html.ValidationMessageFor(model => model.CFSNAME)
+                                    @Html.TextBoxFor(model => Model.CFSNAME, new { @class = "form-control  CFSNAME", @id = "CFSNAME", tabindex = "41", @maxlength = "50" })
+
+                                </div>
+                            </div>*@
+                                                        <div class="col-md-8">
+                                                            <div class="form-group">
+                                                                <label>Remarks  </label>@Html.ValidationMessageFor(model => model.GIREMKRS)
+                                                                @Html.TextBoxFor(model => Model.GIREMKRS, new { @class = "form-control  GIREMKRS", @id = "GIREMKRS", tabindex = "14", @maxlength = "50" })
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @*<div class="col-md-12"><fieldset style="width:100%"><legend style="font-size:medium">Product Details</legend></fieldset></div>*@
+
+
+
+                                    <div class="col-md-12 box-footer">
+                                        @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />*@
+                                        <a href="@Url.Action("Index", "ImportGateIn")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')" tabindex="43">Go Back</a>
+                                        <input type="button" name="save2" value="Submit" id="btnsave" class="btn btn-success btn-xs btnsave" tabindex="15" />
+                                        <input type="text" name="gity" value="@System.Web.HttpContext.Current.Session["GTY"]" id="txtgity" class="hidden" />
+                                        @*<input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="100" />*@
+
+                                    </div>
+                                    @if (Model != null)
+                                    {
+                                       
+                                        <div class="Del_check hidden">@scfs_erp.Helper.Delete_fun.delete_check1("GATEINDETAIL", @Model.GIDID.ToString())</div>
+                                    }
+                                    <input type="text" id="txtGroup" class="form-control hide txtGroup" name="txtGroup" value="@System.Web.HttpContext.Current.Session["Group"]">
+
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+
+    <script>
+
+        $("#btnsave").click(function () {
+            flag = true;
+            if ($('#GIDATE').val() == "") {
+                alert('Please Enter In Date !!');
+                flag = false;
+                $('#GIDATE').focus();
+            }
+            else if ($('#GITIME').val() == "") {
+                alert('Please Enter In Time !!');
+                flag = false;
+                $('#GITIME').focus();
+            }
+            else if ($('#GICCTLDATE').val() == "") {
+                alert('Please Enter CCTL Out Date !!');
+                flag = false;
+                $('#GICCTLDATE').focus();
+
+            }
+            else if ($('#GICCTLTIME').val() == "") {
+                alert('Please Enter CCTL Out Time !!');
+                flag = false;
+                $('#GICCTLTIME').focus();
+
+            }
+            else if ($('#DRVNAME').val() == "") {
+                alert('Please Enter Driver Name !!');
+                flag = false;
+                $('#DRVNAME').focus();
+            }
+            else if ($('#TRNSPRTNAME').val() == "") {
+                alert('Please Select Transpoter Name !!');
+                flag = false;
+                $('#TRNSPRTNAME').focus();
+            }
+            else if ($('#TRNSPRTID').val() == "" || $('#TRNSPRTID').val() == "0") {
+                alert('Please Select Transpoter Name !!');
+                flag = false;
+                $('#TRNSPRTNAME').focus();
+            }
+            else if ($('#VHLNO').val() == "") {
+                alert('Please Enter Vehicle No !!');
+                flag = false;
+                $('#VHLNO').focus();
+            }
+            else if ($('#VHLMID').val() == "0" && $('#TRNSPRTID').val() == "19739") {
+                alert('Please Check Vehicle No is updated in Vehicle Master!!');
+                flag = false;
+                $('#VHLNO').focus();
+            }
+            else if ($('#GPNRNO').val() == "") {
+                alert('Please Enter PNR No !!');
+                flag = false;
+                $('#GPNRNO').focus();
+            }
+
+            else if ($('#VSLNAME').val() == "") {
+                alert('Please Select Vessel Name !!');
+                flag = false;
+                $('#VSLNAME').focus();
+            }
+            else if ($('#VSLID').val() == "" || $('#VSLID').val() == "0") {
+                alert('Please Select Vessel Name !!');
+                flag = false;
+                $('#VSLNAME').focus();
+            }
+            else if ($('#VOYNO').val() == "") {
+                alert('Please Enter Voyage No !!');
+                flag = false;
+                $('#VOYNO').focus();
+            }
+            else if ($('#IGMNO').val() == "") {
+                alert('Please Enter IGM No !!');
+                flag = false;
+                $('#IGMNO').focus();
+            }
+            else if ($('#GPLNO').val() == "") {
+                alert('Please Enter Line No !!');
+                flag = false;
+                $('#GPLNO').focus();
+            }
+            else if ($('#IMPRTNAME').val() == "") {
+                alert('Please Select Importer Name !!');
+                flag = false;
+                $('#IMPRTNAME').focus();
+            }
+            else if ($('#IMPRTID').val() == "" || $('#IMPRTID').val() == "0") {
+                alert('Please Select Importer Name !!');
+                flag = false;
+                $('#IMPRTNAME').focus();
+            }
+            else if ($('#STMRNAME').val() == "") {
+                alert('Please Select Steamer Name !!');
+                flag = false;
+                $('#STMRNAME').focus();
+            }
+            else if ($('#STMRID').val() == "" || $('#STMRID').val() == "0") {
+                alert('Please Select Steamer Name !!');
+                flag = false;
+                $('#STMRNAME').focus();
+            }
+            else if ($('#CONTNRNO').val() == "") {
+                alert('Please Enter Container No !!');
+                flag = false;
+                $('#CONTNRNO').focus();
+            }
+            else if ($('#CONTNRSID').val() == "") {
+                alert('Please Select Size !!');
+                flag = false;
+                $('#CONTNRSID').focus();
+            }
+            else if ($('#CONTNRTID').val() == "") {
+                alert('Please Select Type !!');
+                flag = false;
+                $('#CONTNRTID').focus();
+            }
+            else if ($('#GIISOCODE').val() == "") {
+                alert('Please Enter ISO Code !!');
+                flag = false;
+                $('#GIISOCODE').focus();
+            }
+            else if ($('#LPSEALNO').val() == "") {
+                alert('Please Enter L.Seal No !!');
+                flag = false;
+                $('#LPSEALNO').focus();
+            }
+            else if ($('#CSEALNO').val() == "") {
+                alert('Please Enter C.Seal No !!');
+                flag = false;
+                $('#CSEALNO').focus();
+            }
+            else if ($('#PRDTGID').val() == "") {
+                alert('Please Select Product Category !!');
+                flag = false;
+                $('#PRDTGID').focus();
+            }
+            else if ($('#PRDTDESC').val() == "") {
+                alert('Please Select Product Description !!');
+                flag = false;
+                $('#PRDTDESC').focus();
+            }
+            else if (($('#GPWTYPE option:selected').val() == "1") && ($('#GPWGHT').val() == "" || $('#GPWGHT').val() == "0" || $('#GPWGHT').val() == "0.00" || $('#GPWGHT').val() == "0.000" || $('#GPWGHT').val() == "0.0000")) {
+                alert('Please enter Weight !!');
+                flag = false;
+                $('#GPWGHT').focus();
+            }
+            else if ($('#GPPTYPE').val() == "") {
+                alert('Please Select Port !!');
+                flag = false;
+                $('#GPPTYPE').focus();
+            }
+            else if ($('#GPMODEID').val() == "") {
+                alert('Please Select GP Mode !!');
+                flag = false;
+                $('#GPMODEID').focus();
+            }
+            else if ($('#ROWID').val() == "") {
+                alert('Please Select Row !!');
+                flag = false;
+                $('#ROWID').focus();
+            }
+            else if ($('#SLOTID').val() == "" || $('#SLOTID').val() == "0") {
+                alert('Please Select Slot !!');
+                flag = false;
+                $('#SLOTID').focus();
+            }
+            else if ($('#GPSCNTYPE').val() == "1") {
+                if ($('#GPSCNMTYPE').val() == "") {
+                    alert('Please Select Scan Type !!');
+                    flag = false;
+                    $('#GPSCNMTYPE').focus();
+                }
+            }
+
+            if (flag) {
+
+                if ($("#BOEDATE").val() == "") { $("#BOEDATE").val("null"); }
+                if ($("#IGMDATE").val() == "") { $("#IGMDATE").val("null"); }
+                if ($("#GPWGHT").val() == "") { $("#GPWGHT").val("0"); }
+                if ($("#GPEAMT").val() == "") { $("#GPEAMT").val("0"); }
+                if ($("#GPAAMT").val() == "") { $("#GPAAMT").val("0"); }
+                if ($("#SLOTID").val() == "") { $("#SLOTID").val("0"); }
+                if ($("#CHAID").val() == "") { $("#CHAID").val("0"); }
+                if ($("#BCHAID").val() == "") { $("#BCHAID").val("0"); }
+                if ($("#CHANAME").val() == "") { $("#CHANAME").val("-"); }
+                if ($("#BCHANAME").val() == "") { $("#BCHANAME").val("-"); }
+                if ($("#EXPRTRID").val() == "") { $("#EXPRTRID").val("0"); }
+                if ($("#EXPRTRNAME").val() == "") { $("#EXPRTRNAME").val("0"); }
+                if ($("#UNITID").val() == "") { $("#UNITID").val("0"); }
+                if ($("#BOENO").val() == "") { $("#BOENO").val("-"); }
+
+                var gidate = $('.GIDATE').val();
+                var gitime = $('.GITIME').val();
+                var pidate = $('.GICCTLDATE').val();
+                var pitime = $('.GICCTLTIME').val();
+
+                if ((pidate != "" && pitime != "") && (pitime != "" && gitime != "")) {
+                    var podate = Splitthedate($('.GICCTLDATE').val());
+                    var gindate = Splitthedate($('.GIDATE').val());
+
+                    var potime = Splitthetime($('.GICCTLTIME').val());
+                    var gintime = Splitthetime($('.GITIME').val());
+
+                    var Podatetime = podate + potime;
+                    var GiDateTime = gindate + gintime;
+
+                    //alert(podate);
+                    //alert(gindate);
+                    //if (gindate < podate) {
+                    //    alert("Gate in date must be grater than Port date");
+                    //    $('#GIDATE').focus();
+                    //    flag = false;
+                    //}
+
+
+                    if (GiDateTime < Podatetime) {
+                        alert("Gate in date must be grater than Port date");
+                        $('#GIDATE').focus();
+                        flag = false;
+                    }
+                }
+
+                //if ((pitime != "" && gitime != "")) {
+
+                //    //alert(potime);
+                //    //alert(gintime);
+                //    if (gintime < potime) {
+                //        alert("Gate in Time must be grater than Port Time");
+                //        $('#GITIME').focus();
+                //        flag = false;
+                //    }
+                //}
+
+                //if ((gidate != "" && gitime != "") && (pidate != "" && pitime != "")) {
+                //    var gdt = gidate + " " + gitime;
+                //    var pdt = pidate + " " + pitime;
+                //    if (gdt >= pdt) {
+                //        flag = true;
+                //    }
+                //    else {
+                //        alert("Gate in date must be grater than Port date");
+                //        $('#GIDATE').focus();
+                //        flag = false;
+                //    }
+
+                //    //if ((gdt < pdt)) {
+                //    //    alert("Gate in date must be grater than Port date");
+                //    //    $('#GIDATE').focus();
+                //    //    flag = false;
+                //    //}
+                //}
+
+                if (flag) {
+                    var r = confirm("Do you want to submit this record ?");
+
+                    if (r == true) {
+                        var tab = ($("#gateinform").serialize());
+                        console.log(tab);
+                        $("#btnsave").attr("disabled", "disabled");
+                        $.ajax({
+                            type: 'post',
+                            url: '@Url.Action("saveidata", "ImportGateIn")', // we are calling json method
+                            data: tab,
+                            success: function (data) {
+                                var txtgit = $('#txtgity').val();
+                                if (data == "saved") {
+                                    if (txtgit == "RGateIn") {
+                                        var returnurl = '@Url.Action("GIndex", "ImportRemoteGateIn")';
+                                        window.location.href = returnurl;
+                                        alert('Save Successfully');
+
+                                        $('#VOYNO').val(''); $('#IGMNO').val('');
+                                        $('#GPLNO').val(''); $('#CONTNRNO').val('');
+                                        $("#btnsave").removeAttr("disabled", "disabled");
+                                    }
+                                    else if (txtgit == "GateIn") {
+                                        var returnurl = '@Url.Action("Index", "ImportGateIn")';
+                                        window.location.href = returnurl;
+                                        alert('Save Successfully');
+                                        $('#VOYNO').val(''); $('#IGMNO').val('');
+                                        $('#GPLNO').val(''); $('#CONTNRNO').val('');
+                                        $("#btnsave").removeAttr("disabled", "disabled");
+                                    }                           
+                                }
+                                else {
+                                    alert('Gatein Details exists');
+                                    var returnurl = '@Url.Action("Form", "ImportGateIn")';
+                                    window.location.href = returnurl;
+                                    $("#btnsave").removeAttr("disabled", "disabled");
+                                }
+                            },
+                            error: function (ex) {
+                                //alert('Failed to save data ' + ex);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+        function DuplctContCheck() {
+            // alert("call");
+            var VOYNO = $("#VOYNO").val();
+            var GPLNO = $("#GPLNO").val();
+            var IGMNO = $("#IGMNO").val();
+            var CONTNRNO = $("#CONTNRNO").val();
+            var GiDate = $("GIDATE").val();
+            base = window.location.origin;
+            if (VOYNO != "" && GPLNO != "" && IGMNO != "" && CONTNRNO != "") {
+                $.post(base + "/ImportGateIn/CONT_Duplicate_Check",
+                    {
+                        VOYNO: VOYNO, GPLNO: GPLNO, IGMNO: IGMNO, CONTNRNO: CONTNRNO, date: GiDate
+                    },
+                    function (data, status) {
+                        // alert(data);
+                        if (data == "Container number already exists") {
+                            alert("Container number already exists for this IGMNO:" + IGMNO + ",Line No:" + GPLNO + ",Voyage No:" + VOYNO + "");
+                            $("#CONTNRNO").val("");
+
+                        }
+                        else if (data == "DATE INCORRECT") {
+                            alert("Please Check Container GateIn Date");
+                            $("#CONTNRNO").val("");
+                        }
+                    });
+            }
+            return false;
+        }
+
+        $(document).ready(function () {
+            $("#othertransdiv").hide();
+            //$("#DRVNAME").focus();
+            
+            $('input[id$=GIDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                //dateFormat: 'yy-mm-dd',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#GIDATE").focus();
+                }
+            });
+
+            $('input[id$=GICCTLDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#GICCTLDATE").focus();
+                }
+            });
+
+            $('input[id$=IGMDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#IGMDATE").focus();
+                }
+            });
+
+
+
+            if ($("#RGIDID").val() != 0) {
+                //$("#GICCTLDATE").attr('readonly', 'readonly');
+                //$("#GICCTLDATE").attr('tabindex', '-1');
+                //$("#GICCTLTIME").attr('readonly', 'readonly');
+                //$("#GICCTLTIME").attr('tabindex', '-1');
+                $("#GICCTLDATE").removeAttr('readonly', 'readonly');
+                $("#GICCTLDATE").attr('tabindex', '1');
+                $("#GICCTLTIME").removeAttr('readonly', 'readonly');
+                $("#GICCTLTIME").attr('tabindex', '1');
+                //alert("a");
+                GetScanTypeChange();
+            }
+            else if ($("#GIDID").val() == 0 || $("#GIDID").val() == "") {
+                $("#GICCTLDATE").removeAttr('readonly', 'readonly');
+                $("#GICCTLTIME").removeAttr('readonly', 'readonly');
+                $("#GICCTLTIME").val("")
+                //alert("b");
+            }
+
+
+            function split(val) {
+                return val.split(/,\s*/);
+            }
+            function extractLast(term) {
+                return split(term).pop();
+            }
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+            $("input:submit").on("click", function () {
+                // alert("call");
+                if ($("#gateinform").valid()) {
+                    // alert("1call");
+                    openModal();
+                }
+                else {
+                    return false;
+                }
+            })
+
+            $(".datepicker").removeAttr('GIDATE').removeClass('hasDatepicker');
+            $(".datepicker").removeAttr('GICCTLDATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+            $("#BOEDATE").datepicker({ dateFormat: 'dd/mm/yy', maxDate: '+1d' });
+            $("#IGMDATE").datepicker({ dateFormat: 'dd/mm/yy', maxDate: '+1d' });
+
+       //-----------------Cascading of ROW Id-----------//
+            @*$("#ROWID").change(function () {
+                $("#SLOTID").empty();
+                id = $("#ROWID").val();
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("GetSlot", "ImportGateIn")?id=' + id, //.....calling json method
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data, function (i, dataval) {
+                            $("#SLOTID").append('<option>Please select a slot</option><option value="' + dataval.SLOTID + '">' + dataval.SLOTDESC + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to data ' + ex);
+                    }
+                });
+                return false;
+            });//End of Change event*@
+
+            $(function () {
+
+                //------------Autocomplete function-------------//
+                add_autocomplete_Vessel($("#VSLNAME"), "VSLNAME,VSLID");
+                //    add_autocomplete($("#VHLNO"), "VHLNO,TRNSPRTID,TRNSPRTNAME");
+                add_autocomplete_transport($("#TRNSPRTNAME"), "TRNSPRTNAME,TRNSPRTID");
+                add_autocomplete_Steamer($("#STMRNAME"), "STMRNAME,STMRID");
+                add_autocomplete_Importer($("#IMPRTNAME"), "IMPRTNAME,IMPRTID");
+                add_autocomplete($("#SLOTID"), "SLOTID,SLOTDESC");
+
+                add_autocomplete_chaname($("#CHANAME"), "CHANAME,CHAID");
+                add_autocomplete_vehicle($("#VHLNO"), "VHLMDESC,VHLMID");
+
+                //End
+
+                $(".datepicker").datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    maxDate: new Date()
+                });
+
+                if ($("#GIDID").val() == "") {
+                    $("#GIDID").val('0');
+                }
+
+                if ($("#GIDID").val() != "0") {
+                    if ($(".Del_check").html() != "PROCEED") {
+                        alert($(".Del_check").html());
+                        var UserGroup = $('.txtGroup').val();
+                        //alert(UserGroup);
+                        if ((UserGroup == "SuperAdmin" || UserGroup == "Admin" || UserGroup == "GroupAdmin")) {
+                            $(".btnsave").removeAttr("disabled", "disabled");
+                        }
+                        else {
+                            $(".btnsave").attr("disabled", "disabled");
+                        }
+                        //$(".btnsave").attr("disabled", "disabled");
+                        //$("#gateinform input:submit").attr("disabled", "disabled");
+                    } else {
+                        var UserGroup = $('.txtGroup').val();
+                        //alert(UserGroup);
+                        if ((UserGroup == "SuperAdmin" || UserGroup == "Admin" || UserGroup == "GroupAdmin")) {
+                            $(".btnsave").removeAttr("disabled", "disabled");
+                        }
+                        else {
+                            $(".btnsave").attr("disabled", "disabled");
+                        }
+
+
+                        //$("#gateinform input:submit").removeAttr("disabled", "disabled");
+                    }
+                }
+                else {
+
+
+                    var dt = new Date();
+
+                    var year = dt.getFullYear();
+                    var month = (dt.getMonth() + 1).toString();
+                    var day = dt.getDate().toString();
+
+                    if (month < 10) month = "0" + month;
+                    if (day < 10) day = "0" + day;
+
+                    //var month = dt.getMonth() + 1;
+                    //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                    console.log(year + '/' + month + '/' + day);
+
+                    var date = day + '/' + month + '/' + year;
+
+                    var hours = dt.getHours();
+                    var minutes = dt.getMinutes();
+                    var seconds = dt.getSeconds();
+
+                    if (hours < 10) hours = "0" + hours;
+                    if (minutes < 10) minutes = "0" + minutes;
+                    if (seconds < 10) seconds = "0" + seconds;
+
+                    //var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                    console.log(hours + ':' + minutes + ':' + seconds);
+
+                    var time = hours + ':' + minutes + ':' + seconds;
+                    var datetme = time;
+                    //$(".datepicker").val(date);
+
+                    //$("#GIDATE").val(date);
+                    $("#GICCTLDATE").val(date);
+                    $(".timepicker").val(datetme);
+                }
+                //$('.time').timepicker();
+            });
+
+           // AdminGrpChk();
+        });
+
+        //-----------container no check----------------------//
+
+        $("#CONTNRNO").on("change", function () {
+           DuplctContCheck();
+            //var VOYNO = $("#VOYNO").val();
+            //var GPLNO = $("#GPLNO").val();
+            //var IGMNO = $("#IGMNO").val();
+            //var CONTNRNO = $("#CONTNRNO").val();
+            //base = window.location.origin;
+            //$.post(base + "/GateInDetail/CONT_Duplicate_Check",
+            //        {
+            //            P_VOYNO: VOYNO, P_GPLNO: GPLNO, P_IGMNO: IGMNO, P_CONTNRNO: CONTNRNO
+            //        },
+            //       function (data, status) {
+            //           if (data == "Container number already exists") {
+            //               alert(data);
+            //               $("#CONTNRNO").val("");
+            //           }
+            //       });
+            //return false;
+        });
+        //----End---
+        $("#ROWID").change(function () {
+                $("#SLOTID").empty();
+                id = $("#ROWID").val();
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("GetSlot", "ImportGateIn")?id=' + id, //.....calling json method
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#SLOTID").append('<option value=0>Please select a slot</option>');
+                        $.each(data, function (i, dataval) {
+                            $("#SLOTID").append('<option value="' + dataval.SLOTID + '">' + dataval.SLOTDESC + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        //alert('Failed to data ' + ex);
+                    }
+                });
+                return false;
+            });
+
+
+        $("#IGMNO,#VOYNO,#GPLNO").on("change", function () {
+            // $("#CONTNRNO").val("");
+            //DuplctContCheck();
+        });
+
+        function split(val) {
+            return val.split(/,\s*/)
+        }
+        function extractLast(term) {
+            return split(term).pop()
+        }
+
+        $("#TRNSPRTNAME").on("blur", function () {
+            var TRNSPRTNAME = $("#TRNSPRTNAME").val();
+            var TRNSPRTID = $("#TRNSPRTID").val();
+            //if (TRNSPRTID == "67554") {
+            if (TRNSPRTID == 68812 || TRNSPRTID == 67554) {
+
+                $("#VHLNO").val("");
+                $("#GPNRNO").val("-");
+                $("#VHLMID").val("0");
+                $("#GTRNSPRTNAME").val("");
+                $("#othertransdiv").show();
+                $("#GTRNSPRTNAME").focus()
+            }
+            else if (TRNSPRTID == 19739) {
+                $("#VHLNO").val("");
+                $("#GPNRNO").val("-");
+                $("#VHLMID").val("0");
+                $("#GTRNSPRTNAME").val(TRNSPRTNAME);
+
+                //alert($("#GTRNSPRTNAME").val());
+                $("#othertransdiv").hide();
+            }
+
+            else {
+                //alert("y")
+                $("#GTRNSPRTNAME").val(TRNSPRTNAME);
+                $("#othertransdiv").hide();
+                //alert($("#GTRNSPRTNAME").val());
+            }
+
+        });
+
+        $("#VHLNO").on("blur", function () {
+            var VHLMID = $("#VHLMID").val();
+            if (VHLMID == "" || VHLMID == "0") {
+                VHLMID = 0;
+            }
+            var TRNSPRTNAME = $("#TRNSPRTNAME").val();
+            var TRNSPRTID = $("#TRNSPRTID").val();
+            if (TRNSPRTID == "19739") {
+                if (TRNSPRTID > 0) {
+                    var url = "/NonPnrGateIn/GetVehicle/" + TRNSPRTID + "-" + VHLMID;
+                    //var url = "/NonPnrGateIn/GetVehicle/" + TRNSPRTID;
+                    $.ajax({
+                        url: url,
+                        dataType: 'json',
+                        async: false,
+                        success: function (data) {
+                            //console.log(data);
+                            if (data.length > 0) {
+                                //alert(data[0].VHLPNRNO);
+                                $("#VHLMID").val(data[0].VHLMID);
+                                $("#GPNRNO").val(data[0].VHLPNRNO);
+                            }
+                            else {
+                                $("#VHLMID").val("0");
+                                $("#GPNRNO").val("-");
+                            }
+                        }
+                    });
+                }
+
+            }
+            else {
+                $("#VHLMID").val("0");
+                $("#GPNRNO").val("-");
+            }
+
+            //----End of function
+        });
+
+        function add_autocomplete_transport($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                        $("#TRNSPRTID").val(ui.item.id);
+                    });
+                    //alert($("#TRNSPRTID").val());
+                    //$("#VHLNO").empty();
+                    id = $("#TRNSPRTID").val();
+                    vid = $("#VHLNO").val();
+                    // alert(id);
+                    if (id == "19739" || id == "19740") {
+                        //  alert(id);
+                        @* $.ajax({
+                            type: 'get',
+                            url: '@Url.Action("GetVehicle", "NonPnrGateIn")?id=' + id, //.....calling json method
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data != "") {
+                                    $(".VHL_DIV").html("<select class='form-control VHLNO' name='VHLNO' id='VHLNO' tabindex = '9'></select>")
+                                    $.each(data, function (i, dataval) {
+                                        $("#VHLNO").append('<option value="' + dataval.VHLMDESC + '">' + dataval.VHLMDESC + '</option>');
+                                    });
+                                    // $("#VHLNO").append('');
+                                }
+                            },
+                            error: function (ex) {
+                                alert('Failed to data ' + ex);
+                            }
+                        });*@
+
+                    }
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            console.log(data);
+                            //alert(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#TRNSPRTNAME").focus();
+                                $("#TRNSPRTID").val("0");
+                            }
+                            else { }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_Steamer($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                        $("#STMRID").val(ui.item.id);
+                    });
+
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            console.log(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#STMRNAME").focus();
+                                $("#STMRID").val("0");
+                            }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#STMRNAME").val('');
+                            $("#STMRID").val("0");
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_Importer($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                        $("#IMPRTID").val(ui.item.id);
+                    });
+
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            console.log(data);
+                            //alert(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#IMPRTNAME").focus();
+                                $("#IMPRTID").val("0");
+                            }
+                            else { }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#IMPRTNAME").val('');
+                            $("#IMPRTID").val("0");
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_chaname($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        max: 10,
+                        scrollable: true,
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;// + " (" + item['WRDCODE'] + ")";
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                        case 6:
+                                            jsonArg.xparam4 = data;
+                                            break
+
+
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                            case 6:
+                                $("#" + value).val(ui.item.xparam4);
+                                break
+                        }
+                        count++
+                    });
+                    $("#CHAID").val(ui.item.id);
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            if (data.length == 0) {
+                                //$(event.currentTarget).val('');
+                                alert('Select Items from the list.');
+                                $("#CHANAME").focus();
+                                $("#CHAID").val('0');
+                            }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#CHANAME").val('');
+                            $("#CHAID").val('0');
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_vehicle($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term + ";" + $("#TRNSPRTID").val()
+                            //term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                    });
+
+                    return false
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_Vessel($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        max: 10,
+                        scrollable: true,
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;// + " (" + item['WRDCODE'] + ")";
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                        case 6:
+                                            jsonArg.xparam4 = data;
+                                            break
+
+
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                            case 6:
+                                $("#" + value).val(ui.item.xparam4);
+                                break
+                        }
+                        count++
+                    });
+                    $("#VSLID").val(ui.item.id);
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            if (data.length == 0) {
+                                //$(event.currentTarget).val('');
+                                alert('Select Items from the list.');
+                                $("#VSLNAME").focus();
+                                $("#VSLID").val('0');
+                            }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#VSLNAME").val('');
+                            $("#VSLID").val('0');
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+        //-----------Escort check------------
+        function escord() {
+            //alert("aa");
+            temp3 = $("#TRNSPRTID").val();
+            if (temp3 == "0") {
+                closeModal();
+                alert("Please Select Transporter...!");
+                $(".TRNSPRTNAME").focus();
+                return false;
+            }
+            if (temp3 == "") {
+                closeModal();
+                alert("Please Select Transporter...!");
+                $(".TRNSPRTNAME").focus();
+                return false;
+            }
+            vtemp3 = $("#VHLNO").val();
+            if (vtemp3 == "") {
+                closeModal();
+                alert("Please Enter Vehicle No....!");
+                $(".VHLNO").focus();
+                return false;
+            }
+            temp4 = $("#VSLID").val();
+            if (temp4 == "0") {
+                closeModal();
+                alert("Please Select Vessel");
+                $(".VSLNAME").focus();
+                return false;
+            }
+            temp1 = $("#IMPRTID").val();
+            if (temp1 == "0") {
+                closeModal();
+                alert("Please Select Importer");
+                $(".IMPRTNAME").focus();
+                return false;
+            }
+            temp2 = $("#STMRID").val();
+            if (temp2 == "0") {
+                closeModal();
+                alert("Please Select Streamer");
+                $(".STMRNAME").focus();
+                return false;
+            }
+            var vno = $("#GPETYPE").val();
+            var amt = $("#GPEAMT").val();
+            if (vno == 1 && amt == 0) {
+                closeModal();
+                alert("Please Enter Escord Amount...!");
+                $(".GPEAMT").focus();
+                return false;
+            }
+            else {
+                return true;
+            }
+            var wgt = $("#GPWTYPE").val();
+            var wgamt = $("#GPGWGHT").val();
+            if (wgt == 1 && wgamt == "") {
+                closeModal();
+                alert("Please Enter Weight...!");
+                $(".GPGWGHT").focus();
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function AdminGrpChk()
+        {
+            admgrpchk = $("#UsrAdmGrpChk").val();
+            if (admgrpchk == "N") {
+                $("#GIDATE").datepicker("option", "disabled", true);
+                $("#GITIME").datepicker("option", "disabled", true);
+                //$("#GITIME").timepicker("option", "disabled", true);
+                $("#GIDATE").attr('readonly', true);
+                $("#GITIME").attr('readonly', true);
+                $("#GICCTLDATE ").focus();
+            }       
+        }
+
+        function GetScanTypeChange() {
+
+
+            var id1 = $(".GPSCNTYPE option:selected").val();
+            //alert(id1);
+            if (id1.trim() == "" || eval(id1) == 0) {
+                document.getElementById("sc_credit").style.display = "none";
+            }
+            else {
+                document.getElementById("sc_credit").style.display = "block";
+            }
+
+            //if (id2.trim() == "" || eval(id2) == 2) {
+            //    document.getElementById("sc_credit").style.display = "none";
+            //    $(".QM_CREDIT_PERIOD").val("0");
+            //}
+            //else {
+            //    document.getElementById("sc_credit").style.display = "block";
+            //}
+
+
+        }
+    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}
+
+

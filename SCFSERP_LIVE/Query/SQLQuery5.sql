@@ -1,0 +1,1 @@
+﻿select * from CATEGORYMASTER where CATETID=6

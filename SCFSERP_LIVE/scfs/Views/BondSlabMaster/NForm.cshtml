@@ -1,0 +1,180 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.BondSlabMaster
+
+@{
+    ViewBag.Title = "Bond Slab Master";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+                </div>
+
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content no-padding">
+                <form action="@Url.Content("~/BondSlabMaster/nsavedata")" method="post" accept-charset="utf-8" id="slabmasterform" data-ng-controller="myController" name="slabmasterform">
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-1"> </div>
+                        <div class="col-lg-12">
+
+                            <table class="table">
+                                <tr>
+
+                                    <td>Tariff</td>
+                                    <td>
+                                        @Html.DropDownList("ATARIFFMID", null, new { @class = "form-control ATARIFFMID", @onchange = "GetCHA()" })
+                                    </td>
+
+                                    <td class="CHA_LBL">CHA</td>
+                                    <td>
+                                        <div class="chaid">
+                                            <input type="text" name="ACHANAME" id="ACHANAME" value="@Session["FCHANAME"]" class="form-control ACHANAME" data-autocomplete-url=@Url.Action("AutoChaname", "BondGateIn") placeholder="Select CHA" />
+                                            <input type="text" class="hide form-control  ACHAID" id="ACHAID" name="ACHAID" value="@Session["FCHAID"]" />
+
+                                        </div>
+                                    </td>
+                                    <td>Charge Type</td>
+                                    <td>
+                                        @Html.DropDownList("CHRGETYPE", null, new { @class = "form-control CHRGETYPE", @data_val = "true", @data_val_required = "Field is required" })
+                                    </td>
+                                    <td>Slab Type</td>
+                                    <td>
+                                        @Html.DropDownList("ASLABTID", null, new { @class = "form-control ASLABTID", @data_val = "true", @data_val_required = "Field is required" })
+                                    </td>
+                                    
+                                    <td><input type="button" name="submit" value="Search" class="btn btn-primary btn-xs" onclick="GetDetail()" /></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    W.E. From
+                                </th>
+                                <th>
+                                    Size
+                                </th>
+                                <th>
+                                    Yard
+                                </th>
+                                <th>
+                                    Slab Days
+                                </th>
+                                <th>
+                                    Operation
+                                </th>
+                                <th>
+                                    Wages
+                                </th>
+                                <th>
+                                    VT Handling Type
+                                </th>
+                                <th>
+                                    Period
+                                </th>
+                                <th>
+                                    Cargo Type
+                                </th>
+                                <th>
+                                    Min
+                                </th>
+                                <th>
+                                    Max
+                                </th>
+                                <th>
+                                    Value
+                                </th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="TMPBODY"></tbody>
+                    </table>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Transferred To</div>
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <td>W.E. From</td>
+                                <td>@Html.TextBoxFor(model => Model.SLABMDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker SLABMDATE", @id = "SLABMDATE", @data_val = false })
+                                @Html.TextBoxFor(model => Model.SLABMID, new { @class = "form-control hide SLABMID", @value ="0", @id = "SLABMID" })</td>
+                                <td>Type</td>
+
+                                <td>Tariff</td>
+                                <td>
+                                    @Html.DropDownList("TARIFFMID", null, new { @class = "form-control TARIFFMID", @onchange = "GetCHA()" })
+                                </td>
+                                <td class="CHA_LBL">CHA</td>
+                                <td>
+                                    <div class="chaid">
+                                        <input type="text" name="CHANAME" id="CHANAME" value="@Session["FCHANAME"]" class="form-control CHANAME" data-autocomplete-url=@Url.Action("AutoChaname", "BondGateIn") placeholder="Select CHA" />
+                                        <input type="text" class="hide form-control  CHAID" id="CHAID" name="CHAID" value="@Session["FCHAID"]" />
+
+                                    </div>
+                                </td>
+
+                                <td>Slab Type</td>
+                                <td>
+                                    @Html.DropDownList("SLABTID", null, new { @class = "form-control SLABTID", @data_val = "true", @data_val_required = "Field is required" })
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="box-footer">
+                        <input type="submit" name="save" value="Transfer" class="btn btn-success btn-xs" id="save" />
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            GetCHA(); add_autocomplete($("#CHANAME"), "CHANAME,CHAID");
+            add_autocomplete($("#ACHANAME"), "ACHANAME,ACHAID");
+
+
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', changeMonth: true, changeYear: true });
+            $('.datetime').datetimepicker({
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+            });
+        });
+
+        function GetDetail() {
+           // alert('@Url.Action("GetDetail", "BondSlabMaster")/' + $(".ATARIFFMID option:selected").val() + "~" + $(".ACHRGETYPE option:selected").val() + "~" + $(".ASLABTID option:selected").val());
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("GetDetail", "BondSlabMaster")/' + $(".ATARIFFMID option:selected").val() + "~" + $(".CHRGETYPE option:selected").val() + "~" + $(".ASLABTID option:selected").val() + '~' + $(".ASDPTTYPEID option:selected").val(), // we are calling json method
+
+                success: function (data) { $("#TMPBODY").html(data); }
+            });
+        }
+
+        function GetCHA() {
+            if (($('#TARIFFMID').val() == 4) || ($('#TARIFFMID').val() == 6)) {
+                $(".chaid,.CHA_LBL").show();
+                var Sel_text = $('#TARIFFMID option:selected').val();
+                $("#CHAID").val(Sel_text);
+            }
+            else {
+                $('.chaid,.CHA_LBL').hide();
+                $("#CHAID").val(0);
+            }
+        }
+    </script>
+}
+

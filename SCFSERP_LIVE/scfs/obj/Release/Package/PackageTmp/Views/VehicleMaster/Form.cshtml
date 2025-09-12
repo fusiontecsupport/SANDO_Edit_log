@@ -1,0 +1,160 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.VehicleMaster
+
+@{
+    ViewBag.Title = "Vehicle Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Vehicle Master</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                @*<form action="@Url.Content("~/VehicleMaster/savedata")" method="post" accept-charset="utf-8" id="vehiclemasterform" data-ng-controller="myController" name="vehiclemasterform">*@
+                <form>
+                    @Html.ValidationSummary(true)
+                    <fieldset id="VehicleMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.VHLMID, new { @class = "form-control  VHLMID", @id = "VHLMID" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.VHLMDESC)*@
+                                        @Html.TextBoxFor(model => Model.VHLMDESC, new { @class = "form-control  VHLMDESC", @id = "VHLMDESC" })
+                                        <input type="text" value="@Model.VHLMDESC" name="i_VHLMDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Driver Name<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.VHLDRVNAME)*@
+                                        @Html.TextBoxFor(model => Model.VHLDRVNAME, new { @class = "form-control VHLDRVNAME", @id = "VHLDRVNAME" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>PNR No<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.VHLPNRNO)*@
+                                        @Html.TextBoxFor(model => Model.VHLPNRNO, new { @class = "form-control  VHLPNRNO", @id = "VHLPNRNO" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Transpoter</label>@*@Html.ValidationMessageFor(model => model.TRNSPRTID)*@
+                                        @Html.DropDownList("TRNSPRTID", null, "Please select an option", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DISPSTATUS)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                <a href="@Url.Action("Index", "VehicleMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                @*<input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />*@
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $('#btnsave').click(function () {
+
+        if ($('#VHLMDESC').val() == "") {
+            alert('Please Enter Description !!');
+            $('#VHLMDESC').focus();
+            return false;
+        }
+        if ($('#VHLDRVNAME').val() == "") {
+            alert('Please Enter Driver Name !!');
+            $('#VHLDRVNAME').focus();
+            return false;
+        }
+        var pdate = new Date();
+
+        if ($('#VHLMID').val() == "") { $('#VHLMID').val(0); }
+
+        var tab = {
+            VHLPNRNO: $('#VHLPNRNO').val(),
+            VHLMID: $('#VHLMID').val(),
+            VHLMDESC: $('#VHLMDESC').val(),
+            VHLDRVNAME: $('#VHLDRVNAME').val(),
+            TRNSPRTID: $('#TRNSPRTID').val(),
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: 1,
+            PRCSDATE: pdate
+        };
+        $.ajax({
+            //url: "/VehicleMaster/savedata",
+            url:"@Url.Action("savedata", "VehicleMaster")",
+            data: JSON.stringify(tab),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('Vehicle Master Details Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "VehicleMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('Vehicle Master Details Inserted Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "VehicleMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('Vehicle Master Details Already Inserted !! ');
+                    $('#VHLMDESC').val("");
+                    $('#VHLDRVNAME').val("");
+                    var returnurl = "@Url.Action("Form", "VehicleMaster")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+
+    });
+</script>
+
+}

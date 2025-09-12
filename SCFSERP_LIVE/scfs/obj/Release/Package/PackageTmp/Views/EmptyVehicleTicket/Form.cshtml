@@ -1,0 +1,666 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.GateOutDetail
+
+@{
+    ViewBag.Title = "Empty Vehicle Ticket Detail";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>@ViewBag.Title</strong>
+                        </div>
+                    </div>
+
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/EmptyVehicleTicket/savedata")" method="post" accept-charset="utf-8" id="EmptyVehicleTicketform" data-ng-controller="myController" name="EmptyVehicleTicketform" onsubmit="return Validation()">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="GateOutDetailform_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4 hide">
+                                            <div class="form-group">
+                                                <label>Primary  </label>
+                                                @Html.TextBoxFor(model => model.GODID, new { @class = "form-control  GODID", @id = "GODID" })
+                                                @Html.TextBoxFor(model => model.GODNO, new { @class = "form-control  GODNO", @id = "GODNO" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Date <span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.GODATE, new { @class = "form-control GODATE", @id = "GODATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+                                                @*@Html.TextBoxFor(model => Model.GODATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker GODATE ", @id = "GODATE", @data_val = false, tabindex = "1" })*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Time <span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.GOTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker GOTIME", @id = "GOTIME", @data_val = false, tabindex = "1" })
+                                                @*@Html.TextBoxFor(model => Model.GOTIME, new { @class = "form-control datetime GOTIME ", @id = "GOTIME", @data_val = false, tabindex = "2" })*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>No </label>
+                                                @Html.TextBoxFor(model => Model.GONO, new { @class = "form-control GONO ", @id = "GONO", @data_val = false, @readonly = "readonly" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Container No<span class="required-field"></span></label>
+                                                @if (Model.GODID != 0)
+                                                {
+                                                    <input type="text" value="@ViewBag.CONTNRNO" id="CONTNRNO" class="form-control CONTNRNO" name="CONTNRNO" maxlength="15" data-autocomplete-url="@Url.Action("AutoContainer", "EmptyVehicleTicket")/" tabindex="-1" placeholder="--Please Select Container No--" readonly="readonly" autocomplete="on" />
+                                                    @Html.TextBoxFor(model => Model.GIDID, new { @class = "hide form-control  GIDID ", @id = "GIDID", @data_val = false })
+
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" value="" id="CONTNRNO" class="form-control CONTNRNO" name="CONTNRNO" maxlength="15" data-autocomplete-url="@Url.Action("AutoContainer", "EmptyVehicleTicket")/" tabindex="2" placeholder="--Please Select Container No--" autocomplete="on" />
+                                                    @Html.TextBoxFor(model => Model.GIDID, new { @class = "hide form-control  GIDID ", @id = "GIDID", @data_val = false })
+
+
+                                                    @*@Html.DropDownList("GIDID", null, "<---Select Container No--->", new { @class = "form-control GIDID", @id = "GIDID", @required = "required", tabindex = "4", @ONCHANGE = "GetDetails()" })*@
+                                                }
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Size</label>
+                                                <input type="text" value="@ViewBag.CONTNRSCODE" id="SIZE" class=" form-control SIZE" name="SIZE" readonly />
+                                                <input type="text" value="" id="PGIDID" class=" form-control hidden PGIDID" name="PGIDID" readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>In Date </label>
+                                                <input type="text" value="@ViewBag.GIDATE" id="INDATE" class=" form-control INDATE" name="INDATE" readonly />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Streamer</label>
+                                                <input type="text" value="@ViewBag.STMRNAME" id="STMRNAME" class=" form-control STMRNAME" name="STMRNAME" readonly="readonly" />
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-3 ">
+                                            <div class="form-group">
+                                                <label>CHA<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.CHAID, new { @class = "form-control hide CHAID", @id = "CHAID" })
+                                                @Html.TextBoxFor(model => model.CHASNAME, new { @class = "form-control CHASNAME", @id = "CHASNAME", tabindex = "8", @data_autocomplete_url = @Url.Action("AutoCha", "EmptyVehicleTicket") })
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-4 ">
+                                            <div class="form-group">
+                                                <label>CHA StaffName<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.GOPLCNAME, new { @class = "form-control GOPLCNAME", @id = "GOPLCNAME",  tabindex = "8" })
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Vehicle No<span class="required-field"></span></label>
+
+                                                @Html.TextBoxFor(model => model.VHLNO, new { @class = "form-control VHLNO", @id = "VHLNO", tabindex = "8" })
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Driver Name<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.GDRVNAME, new { @class = "form-control GDRVNAME", @id = "GDRVNAME", tabindex = "10" })
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-12 box-footer">
+                                            <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+                                            <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="200" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(function () {
+            add_autocomplete_Containerno($("#CONTNRNO"), "CONTNRNO,GIDID");
+            add_autocomplete_Chaname($("#CHASNAME"), "CHASNAME,CHAID");
+        });
+
+        $(window).bind("load", function () {
+            if ($("#GODID").val() == "") {
+                $("#GODID").val("0");
+
+            }
+
+            $('input[id$=GODATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#GODATE").focus();
+                }
+            });
+
+
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+
+
+            if ($(".GODID").val() == 0) {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                var time = hours + ':' + minutes + ':' + seconds;
+
+                $(".GODATE").val(date);
+                $(".GOTIME").val(time);
+
+            }
+
+            add_autocomplete_Containerno($("#CONTNRNO"), "CONTNRNO,GIDID");
+        });
+
+        $(document).ready(function () {
+
+            if ($("#GODID").val() == "") {
+                $("#GODID").val("0");
+
+            }
+
+            add_autocomplete_Containerno($("#CONTNRNO"), "CONTNRNO,GIDID");
+
+            $('input[id$=GODATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#GODATE").focus();
+                }
+            });
+
+
+            //-----------DATE CONTROLS----------------//
+            $(".datepicker").removeAttr('GODATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+            //$('.time').timepicker();
+            //  GetDetail();
+            if ($(".GODID").val() == 0) {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                var time = hours + ':' + minutes + ':' + seconds;
+
+                $(".GODATE").val(date);
+                $(".GOTIME").val(time);
+
+            }
+
+        });//.......end of bind
+
+        function add_autocomplete_Containerno($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+
+                    });
+
+
+                    var GIDID = $('#GIDID').val();
+
+                    var url = "/EmptyVehicleTicket/GetContDetails/" + GIDID;
+
+                    $.ajax({
+
+                        type: 'get',
+                        url: url, // we are calling json method
+
+                        dataType: 'json',
+
+                        success: function (data) {
+                            $("#SIZE").val(data[0].CONTNRSDESC);
+                            $("#INDATE").val(GetFormattedDate(data[0].GIDATE));
+                            $("#PGIDID").val(data[0].PGIDID);
+
+
+                            $("#STMRNAME").val(data[0].STMRNAME);
+
+
+                            $("#CHAID").val(data[0].CHAID);
+
+
+                            $("#CHASNAME").val(data[0].CHANAME);
+
+
+                            $("#GOPLCNAME").val(data[0].CHANAME);
+
+                            $("#VHLNO").val(data[0].VHLNO);
+                            $("#GDRVNAME").val(data[0].DRVNAME)
+                            $.ajax({
+
+                                type: 'get',
+                                url: '@Url.Action("GetCha","EmptyVehicleTicket")/' + $("#PGIDID").val(), // we are calling json method
+
+                                dataType: 'json',
+
+                                success: function (data) {
+
+                                    $("#GOPLCNAME").val(data[0].BILLEMNAME);
+
+                                    $("#CHAID").val(data[0].CHAID);
+                                }
+                            });
+
+                        }
+                    });
+
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            //console.log(data);
+                            //alert(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#CONTNRNO").focus();
+                                $("#GIDID").val("0");
+                            }
+                            else { }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#CONTNRNO").val('');
+                            $("#GIDID").val("0");
+                            //console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_Chaname($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+
+                    });
+
+
+                    
+
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            //console.log(data);
+                            //alert(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#CHASNAME").focus();
+                                $("#CHAID").val("0");
+                            }
+                            else { }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#CHASNAME").val('');
+                            $("#CHAID").val("0");
+                            //console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getDate() +
+                "/" +
+                eval(value1.getMonth() + 1) +
+                "/" +
+                value1.getFullYear();
+            return dat;
+        }
+
+        function Validation() {
+            flag = true;
+            if ($('#GODATE').val() == "") {
+                alert('Please Enter In Date !!');
+                flag = false;
+                $('#GODATE').focus();
+            }
+            else if ($('#GOTIME').val() == "") {
+                alert('Please Enter In Time !!');
+                flag = false;
+                $('#GOTIME').focus();
+            }
+            else if ($('#CONTNRNO').val() == "") {
+                alert('Please Select Container No !!');
+                flag = false;
+                $('#CONTNRNO').focus();
+            }
+            else if ($('#GIDID').val() == "" || $('#GIDID').val() == "0") {
+                alert('Please Select Container No !!');
+                flag = false;
+                $('#CONTNRNO').focus();
+            }
+            else if ($('#CHASNAME').val() == "") {
+                alert('Please Select CHA !!');
+                flag = false;
+                $('#CHASNAME').focus();
+            }
+            else if ($('#CHAID').val() == "" || $('#CHAID').val() == "0") {
+                alert('Please Select CHA !!');
+                flag = false;
+                $('#CHASNAME').focus();
+            }
+            else if ($('#VHLNO').val() == "") {
+                alert('Please Enter Trailor No !!');
+                flag = false;
+                $('#VHLNO').focus();
+            }
+            else if ($('#GDRVNAME').val() == "") {
+                alert('Please Enter  Driver Name !!');
+                flag = false;
+                $('#GDRVNAME').focus();
+            }
+           
+            
+            if (flag) {
+                var r = confirm("Are you sure to submit this record ?");
+                if (r == true) {
+                    return true;
+                } else {
+
+                    return false;
+                }
+            } else {
+
+                return false;
+            }
+        }
+
+        $('#CHASNAME').on('blur', function () {
+            $('#GOPLCNAME').val($('#CHASNAME').val());
+        });
+
+    </script>
+
+
+}

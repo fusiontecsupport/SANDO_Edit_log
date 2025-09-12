@@ -1,0 +1,1507 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SCFSModelStoreContainer" CdmEntityContainer="SCFSERPEntities">
+    <FunctionImportMapping FunctionImportName="PR_ACCOUNTINGYEAR_ID_CHK" FunctionName="SCFSModel.Store.PR_ACCOUNTINGYEAR_ID_CHK">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.PR_ACCOUNTINGYEAR_ID_CHK_Result">
+          <ScalarProperty Name="YRID" ColumnName="YRID" />
+          <ScalarProperty Name="YRDESC" ColumnName="YRDESC" />
+          <ScalarProperty Name="YRID1" ColumnName="YRID1" />
+          <ScalarProperty Name="FDATE" ColumnName="FDATE" />
+          <ScalarProperty Name="TDATE" ColumnName="TDATE" />
+          <ScalarProperty Name="YRDESC1" ColumnName="YRDESC1" />
+          <ScalarProperty Name="CUSRID" ColumnName="CUSRID" />
+          <ScalarProperty Name="PRCSDATE" ColumnName="PRCSDATE" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="PR_COMPANYACCOUNTINGDETAIL_ID_CHK" FunctionName="SCFSModel.Store.PR_COMPANYACCOUNTINGDETAIL_ID_CHK">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.PR_COMPANYACCOUNTINGDETAIL_ID_CHK_Result">
+          <ScalarProperty Name="COMPYID" ColumnName="COMPYID" />
+          <ScalarProperty Name="COMPID" ColumnName="COMPID" />
+          <ScalarProperty Name="YRID" ColumnName="YRID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchDesignationMaster" FunctionName="SCFSModel.Store.pr_SearchDesignationMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchDesignationMaster_Result">
+          <ScalarProperty Name="DSGNCODE" ColumnName="DSGNCODE" />
+          <ScalarProperty Name="DSGNDESC" ColumnName="DSGNDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="DSGNID" ColumnName="DSGNID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchDesignationTypeMaster" FunctionName="SCFSModel.Store.pr_SearchDesignationTypeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchDesignationTypeMaster_Result">
+          <ScalarProperty Name="DSGNTCODE" ColumnName="DSGNTCODE" />
+          <ScalarProperty Name="DSGNTDESC" ColumnName="DSGNTDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="DSGNTID" ColumnName="DSGNTID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchBookedMaster" FunctionName="SCFSModel.Store.pr_SearchBookedMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchBookedMaster_Result">
+          <ScalarProperty Name="BOOKCODE" ColumnName="BOOKCODE" />
+          <ScalarProperty Name="BOOKDESC" ColumnName="BOOKDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="BOOKID" ColumnName="BOOKID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchDepartmentMaster" FunctionName="SCFSModel.Store.pr_SearchDepartmentMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchDepartmentMaster_Result">
+          <ScalarProperty Name="DEPTCODE" ColumnName="DEPTCODE" />
+          <ScalarProperty Name="DEPTDESC" ColumnName="DEPTDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="DEPTID" ColumnName="DEPTID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchConditionMaster" FunctionName="SCFSModel.Store.pr_SearchConditionMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchConditionMaster_Result">
+          <ScalarProperty Name="CONDTNCODE" ColumnName="CONDTNCODE" />
+          <ScalarProperty Name="CONDTNDESC" ColumnName="CONDTNDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="CONDTNID" ColumnName="CONDTNID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchChargeMaster" FunctionName="SCFSModel.Store.pr_SearchChargeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchChargeMaster_Result">
+          <ScalarProperty Name="CHRGCODE" ColumnName="CHRGCODE" />
+          <ScalarProperty Name="CHRGDESC" ColumnName="CHRGDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="CHRGID" ColumnName="CHRGID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchContainerSizeMaster" FunctionName="SCFSModel.Store.pr_SearchContainerSizeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchContainerSizeMaster_Result">
+          <ScalarProperty Name="CONTNRSCODE" ColumnName="CONTNRSCODE" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchHSNCodeMaster" FunctionName="SCFSModel.Store.pr_SearchHSNCodeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchHSNCodeMaster_Result">
+          <ScalarProperty Name="HSNCODE" ColumnName="HSNCODE" />
+          <ScalarProperty Name="HSNDESC" ColumnName="HSNDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="HSNID" ColumnName="HSNID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchStateMaster" FunctionName="SCFSModel.Store.pr_SearchStateMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchStateMaster_Result">
+          <ScalarProperty Name="STATECODE" ColumnName="STATECODE" />
+          <ScalarProperty Name="STATEDESC" ColumnName="STATEDESC" />
+          <ScalarProperty Name="STATETYPE" ColumnName="STATETYPE" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="STATEID" ColumnName="STATEID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchUnitMaster" FunctionName="SCFSModel.Store.pr_SearchUnitMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchUnitMaster_Result">
+          <ScalarProperty Name="UNITCODE" ColumnName="UNITCODE" />
+          <ScalarProperty Name="UNITDESC" ColumnName="UNITDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="UNITID" ColumnName="UNITID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchRowMaster" FunctionName="SCFSModel.Store.pr_SearchRowMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchRowMaster_Result">
+          <ScalarProperty Name="ROWCODE" ColumnName="ROWCODE" />
+          <ScalarProperty Name="ROWDESC" ColumnName="ROWDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="ROWID" ColumnName="ROWID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchSlotMaster" FunctionName="SCFSModel.Store.pr_SearchSlotMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchSlotMaster_Result">
+          <ScalarProperty Name="SLOTCODE" ColumnName="SLOTCODE" />
+          <ScalarProperty Name="SLOTDESC" ColumnName="SLOTDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="SLOTID" ColumnName="SLOTID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchGradeMaster" FunctionName="SCFSModel.Store.pr_SearchGradeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchGradeMaster_Result">
+          <ScalarProperty Name="GRADECODE" ColumnName="GRADECODE" />
+          <ScalarProperty Name="GRADEDESC" ColumnName="GRADEDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="GRADEID" ColumnName="GRADEID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchLocationMaster" FunctionName="SCFSModel.Store.pr_SearchLocationMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchLocationMaster_Result">
+          <ScalarProperty Name="LOCTCODE" ColumnName="LOCTCODE" />
+          <ScalarProperty Name="LOCTDESC" ColumnName="LOCTDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="LOCTID" ColumnName="LOCTID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchPlaceMaster" FunctionName="SCFSModel.Store.pr_SearchPlaceMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchPlaceMaster_Result">
+          <ScalarProperty Name="PLCCODE" ColumnName="PLCCODE" />
+          <ScalarProperty Name="PLCDESC" ColumnName="PLCDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="PLCID" ColumnName="PLCID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchProductGroup" FunctionName="SCFSModel.Store.pr_SearchProductGroup">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchProductGroup_Result">
+          <ScalarProperty Name="PRDTGCODE" ColumnName="PRDTGCODE" />
+          <ScalarProperty Name="PRDTGDESC" ColumnName="PRDTGDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="PRDTGID" ColumnName="PRDTGID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchCostFactorMaster" FunctionName="SCFSModel.Store.pr_SearchCostFactorMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchCostFactorMaster_Result">
+          <ScalarProperty Name="CFDESC" ColumnName="CFDESC" />
+          <ScalarProperty Name="CFEXPR" ColumnName="CFEXPR" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="CFID" ColumnName="CFID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchBankMaster" FunctionName="SCFSModel.Store.pr_SearchBankMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchBankMaster_Result">
+          <ScalarProperty Name="BANKMCODE" ColumnName="BANKMCODE" />
+          <ScalarProperty Name="BANKMDESC" ColumnName="BANKMDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="BANKMID" ColumnName="BANKMID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchCompanyMaster" FunctionName="SCFSModel.Store.pr_SearchCompanyMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchCompanyMaster_Result">
+          <ScalarProperty Name="COMPCODE" ColumnName="COMPCODE" />
+          <ScalarProperty Name="COMPNAME" ColumnName="COMPNAME" />
+          <ScalarProperty Name="COMPADDR" ColumnName="COMPADDR" />
+          <ScalarProperty Name="COMPPHN1" ColumnName="COMPPHN1" />
+          <ScalarProperty Name="COMPCPRSN" ColumnName="COMPCPRSN" />
+          <ScalarProperty Name="COMPMAIL" ColumnName="COMPMAIL" />
+          <ScalarProperty Name="COMPID" ColumnName="COMPID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchDisplayOrderMaster" FunctionName="SCFSModel.Store.pr_SearchDisplayOrderMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchDisplayOrderMaster_Result">
+          <ScalarProperty Name="DORDORDR" ColumnName="DORDORDR" />
+          <ScalarProperty Name="DORDRDESC" ColumnName="DORDRDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="DORDRID" ColumnName="DORDRID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_SlabTypeMaster" FunctionName="SCFSModel.Store.pr_Search_SlabTypeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_SlabTypeMaster_Result">
+          <ScalarProperty Name="SLABTCODE" ColumnName="SLABTCODE" />
+          <ScalarProperty Name="SLABTDESC" ColumnName="SLABTDESC" />
+          <ScalarProperty Name="HSNCODE" ColumnName="HSNCODE" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="SLABTID" ColumnName="SLABTID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_TariffGroupMaster" FunctionName="SCFSModel.Store.pr_Search_TariffGroupMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_TariffGroupMaster_Result">
+          <ScalarProperty Name="TGCODE" ColumnName="TGCODE" />
+          <ScalarProperty Name="TGDESC" ColumnName="TGDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="TGID" ColumnName="TGID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Empty_ComponentCodeMaster" FunctionName="SCFSModel.Store.pr_Search_Empty_ComponentCodeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Empty_ComponentCodeMaster_Result">
+          <ScalarProperty Name="COMPTCODE" ColumnName="COMPTCODE" />
+          <ScalarProperty Name="COMPTDESC" ColumnName="COMPTDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="COMPTID" ColumnName="COMPTID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Empty_DamageCodeMaster" FunctionName="SCFSModel.Store.pr_Search_Empty_DamageCodeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Empty_DamageCodeMaster_Result">
+          <ScalarProperty Name="DMGCODE" ColumnName="DMGCODE" />
+          <ScalarProperty Name="DMGDESC" ColumnName="DMGDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="DMGID" ColumnName="DMGID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Empty_LocationCodeMaster" FunctionName="SCFSModel.Store.pr_Search_Empty_LocationCodeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Empty_LocationCodeMaster_Result">
+          <ScalarProperty Name="LOCTCODE" ColumnName="LOCTCODE" />
+          <ScalarProperty Name="LOCTDESC" ColumnName="LOCTDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="LOCTID" ColumnName="LOCTID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Empty_RepairCodeMaster" FunctionName="SCFSModel.Store.pr_Search_Empty_RepairCodeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Empty_RepairCodeMaster_Result">
+          <ScalarProperty Name="RPRCODE" ColumnName="RPRCODE" />
+          <ScalarProperty Name="RPRDESC" ColumnName="RPRDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="RPRID" ColumnName="RPRID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Empty_SlabTypeMaster" FunctionName="SCFSModel.Store.pr_Search_Empty_SlabTypeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Empty_SlabTypeMaster_Result">
+          <ScalarProperty Name="SLABTCODE" ColumnName="SLABTCODE" />
+          <ScalarProperty Name="SLABTDESC" ColumnName="SLABTDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="SLABTID" ColumnName="SLABTID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_GoDownMaster" FunctionName="SCFSModel.Store.pr_Search_GoDownMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_GoDownMaster_Result">
+          <ScalarProperty Name="GDWNCODE" ColumnName="GDWNCODE" />
+          <ScalarProperty Name="GDWNDESC" ColumnName="GDWNDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="GDWNID" ColumnName="GDWNID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_ContainerThruMaster" FunctionName="SCFSModel.Store.pr_Search_ContainerThruMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_ContainerThruMaster_Result">
+          <ScalarProperty Name="CONTNRFCODE" ColumnName="CONTNRFCODE" />
+          <ScalarProperty Name="CONTNRFDESC" ColumnName="CONTNRFDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="CONTNRFID" ColumnName="CONTNRFID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="PR_GATEIN_CONTAINER_CHK_ASSGN" FunctionName="SCFSModel.Store.PR_GATEIN_CONTAINER_CHK_ASSGN">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.PR_GATEIN_CONTAINER_CHK_ASSGN_Result">
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="GODATE" ColumnName="GODATE" />
+          <ScalarProperty Name="GEDATE" ColumnName="GEDATE" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Category_TypeMaster" FunctionName="SCFSModel.Store.pr_Search_Category_TypeMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Category_TypeMaster_Result">
+          <ScalarProperty Name="CATETCODE" ColumnName="CATETCODE" />
+          <ScalarProperty Name="CATETDESC" ColumnName="CATETDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="CATETID" ColumnName="CATETID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_AccountGroup" FunctionName="SCFSModel.Store.pr_Search_AccountGroup">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_AccountGroup_Result">
+          <ScalarProperty Name="ACHEADGCODE" ColumnName="ACHEADGCODE" />
+          <ScalarProperty Name="ACHEADGDESC" ColumnName="ACHEADGDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="ACHEADGID" ColumnName="ACHEADGID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_AccountHead" FunctionName="SCFSModel.Store.pr_Search_AccountHead">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_AccountHead_Result">
+          <ScalarProperty Name="ACHEADCODE" ColumnName="ACHEADCODE" />
+          <ScalarProperty Name="ACHEADDESC" ColumnName="ACHEADDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="ACHEADID" ColumnName="ACHEADID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="PR_NONPNR_AUTHORIZATION_DETAIL_CTRL_ASSGN" FunctionName="SCFSModel.Store.PR_NONPNR_AUTHORIZATION_DETAIL_CTRL_ASSGN">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.PR_NONPNR_AUTHORIZATION_DETAIL_CTRL_ASSGN_Result">
+          <ScalarProperty Name="ASLMID" ColumnName="ASLMID" />
+          <ScalarProperty Name="ASLDID" ColumnName="ASLDID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="GIDNO" ColumnName="GIDNO" />
+          <ScalarProperty Name="OSMDNO" ColumnName="OSMDNO" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="BOEDATE" ColumnName="BOEDATE" />
+          <ScalarProperty Name="DODATE" ColumnName="DODATE" />
+          <ScalarProperty Name="LSEALNO" ColumnName="LSEALNO" />
+          <ScalarProperty Name="SSEALNO" ColumnName="SSEALNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="OSMIGMNO" ColumnName="OSMIGMNO" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="OSMLNO" ColumnName="OSMLNO" />
+          <ScalarProperty Name="OSDID" ColumnName="OSDID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN">
+        <MappingFragment StoreEntitySet="VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN">
+          <ScalarProperty Name="ASLDID" ColumnName="ASLDID" />
+          <ScalarProperty Name="SDPTID" ColumnName="SDPTID" />
+          <ScalarProperty Name="CSEALNO" ColumnName="CSEALNO" />
+          <ScalarProperty Name="LPSEALNO" ColumnName="LPSEALNO" />
+          <ScalarProperty Name="BOEDATE" ColumnName="BOEDATE" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="GINO" ColumnName="GINO" />
+          <ScalarProperty Name="GIDNO" ColumnName="GIDNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VW_VEHICLETICKET_NONPNR_CONTAINER_CBX_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_VEHICLETICKET_NONPNR_CONTAINER_CBX_ASSGN">
+        <MappingFragment StoreEntitySet="VW_VEHICLETICKET_NONPNR_CONTAINER_CBX_ASSGN">
+          <ScalarProperty Name="BTRANDID" ColumnName="BTRANDID" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="SDPTID" ColumnName="SDPTID" />
+          <ScalarProperty Name="ASLDID" ColumnName="ASLDID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VW_NONPNRASD_GIGMNO_CONTAINER_CBX_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_NONPNRASD_GIGMNO_CONTAINER_CBX_ASSGN">
+        <MappingFragment StoreEntitySet="VW_NONPNRASD_GIGMNO_CONTAINER_CBX_ASSGN">
+          <ScalarProperty Name="SDPTID" ColumnName="SDPTID" />
+          <ScalarProperty Name="CSEALNO" ColumnName="CSEALNO" />
+          <ScalarProperty Name="LPSEALNO" ColumnName="LPSEALNO" />
+          <ScalarProperty Name="BOEDATE" ColumnName="BOEDATE" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="GINO" ColumnName="GINO" />
+          <ScalarProperty Name="GIDNO" ColumnName="GIDNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VW_NONPNR_GATE_IN_PRINT_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_NONPNR_GATE_IN_PRINT_ASSGN">
+        <MappingFragment StoreEntitySet="VW_NONPNR_GATE_IN_PRINT_ASSGN">
+          <ScalarProperty Name="IGMDATE" ColumnName="IGMDATE" />
+          <ScalarProperty Name="GPSCNTYPE" ColumnName="GPSCNTYPE" />
+          <ScalarProperty Name="GIISOCODE" ColumnName="GIISOCODE" />
+          <ScalarProperty Name="KUSRID" ColumnName="KUSRID" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPWGHT" ColumnName="GPWGHT" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="CSEALNO" ColumnName="CSEALNO" />
+          <ScalarProperty Name="LPSEALNO" ColumnName="LPSEALNO" />
+          <ScalarProperty Name="CONTNRTCODE" ColumnName="CONTNRTCODE" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="GPREFNO" ColumnName="GPREFNO" />
+          <ScalarProperty Name="DRVNAME" ColumnName="DRVNAME" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="TRNSPRTNAME" ColumnName="TRNSPRTNAME" />
+          <ScalarProperty Name="GIVHLTYPE" ColumnName="GIVHLTYPE" />
+          <ScalarProperty Name="GIDNO" ColumnName="GIDNO" />
+          <ScalarProperty Name="GINO" ColumnName="GINO" />
+          <ScalarProperty Name="GITIME" ColumnName="GITIME" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="SDPTID" ColumnName="SDPTID" />
+          <ScalarProperty Name="COMPYID" ColumnName="COMPYID" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="COMPADDR" ColumnName="COMPADDR" />
+          <ScalarProperty Name="COMPDNAME" ColumnName="COMPDNAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VW_NONPNR_GATEOUT_PRINT_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_NONPNR_GATEOUT_PRINT_ASSGN">
+        <MappingFragment StoreEntitySet="VW_NONPNR_GATEOUT_PRINT_ASSGN">
+          <ScalarProperty Name="RPTID" ColumnName="RPTID" />
+          <ScalarProperty Name="OPTNSTR" ColumnName="OPTNSTR" />
+          <ScalarProperty Name="KUSRID" ColumnName="KUSRID" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="CHASNAME" ColumnName="CHASNAME" />
+          <ScalarProperty Name="EMPNAME" ColumnName="EMPNAME" />
+          <ScalarProperty Name="SSEALNO" ColumnName="SSEALNO" />
+          <ScalarProperty Name="LSEALNO" ColumnName="LSEALNO" />
+          <ScalarProperty Name="GDRVNAME" ColumnName="GDRVNAME" />
+          <ScalarProperty Name="GOBTYPE" ColumnName="GOBTYPE" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="CONTNRTCODE" ColumnName="CONTNRTCODE" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="GODNO" ColumnName="GODNO" />
+          <ScalarProperty Name="GONO" ColumnName="GONO" />
+          <ScalarProperty Name="GOTIME" ColumnName="GOTIME" />
+          <ScalarProperty Name="GODATE" ColumnName="GODATE" />
+          <ScalarProperty Name="REGSTRID" ColumnName="REGSTRID" />
+          <ScalarProperty Name="SDPTID" ColumnName="SDPTID" />
+          <ScalarProperty Name="COMPYID" ColumnName="COMPYID" />
+          <ScalarProperty Name="GODID" ColumnName="GODID" />
+          <ScalarProperty Name="COMPADDR" ColumnName="COMPADDR" />
+          <ScalarProperty Name="COMPDNAME" ColumnName="COMPDNAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_NonPnr_Invoice" FunctionName="SCFSModel.Store.pr_Search_NonPnr_Invoice">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_NonPnr_Invoice_Result">
+          <ScalarProperty Name="TRANDATE" ColumnName="TRANDATE" />
+          <ScalarProperty Name="TRANTIME" ColumnName="TRANTIME" />
+          <ScalarProperty Name="TRANDNO" ColumnName="TRANDNO" />
+          <ScalarProperty Name="TRANNO" ColumnName="TRANNO" />
+          <ScalarProperty Name="TRANREFNAME" ColumnName="TRANREFNAME" />
+          <ScalarProperty Name="NOC" ColumnName="NOC" />
+          <ScalarProperty Name="TRANNAMT" ColumnName="TRANNAMT" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="GSTAMT" ColumnName="GSTAMT" />
+          <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="PR_NEW_IMPORT_RATECARDMASTER_FLX_ASSGN" FunctionName="SCFSModel.Store.PR_NEW_IMPORT_RATECARDMASTER_FLX_ASSGN">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.PR_NEW_IMPORT_RATECARDMASTER_FLX_ASSGN_Result">
+          <ScalarProperty Name="SLABTID" ColumnName="SLABTID" />
+          <ScalarProperty Name="SLABAMT" ColumnName="SLABAMT" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="z_pr_New_Import_Covid_Slab_Assgn" FunctionName="SCFSModel.Store.z_pr_New_Import_Covid_Slab_Assgn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.z_pr_New_Import_Covid_Slab_Assgn_Result">
+          <ScalarProperty Name="SAMT" ColumnName="SAMT" />
+          <ScalarProperty Name="DISCAMT" ColumnName="DISCAMT" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN">
+        <MappingFragment StoreEntitySet="VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN">
+          <ScalarProperty Name="CONTNRTID" ColumnName="CONTNRTID" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+          <ScalarProperty Name="STMRID" ColumnName="STMRID" />
+          <ScalarProperty Name="ASLMTIME" ColumnName="ASLMTIME" />
+          <ScalarProperty Name="ASLMDATE" ColumnName="ASLMDATE" />
+          <ScalarProperty Name="BOEDATE" ColumnName="BOEDATE" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="ASLMTYPE" ColumnName="ASLMTYPE" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="DRVNAME" ColumnName="DRVNAME" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="ASLDID" ColumnName="ASLDID" />
+          <ScalarProperty Name="ASLMDNO" ColumnName="ASLMDNO" />
+          <ScalarProperty Name="SLOTID" ColumnName="SLOTID" />
+          <ScalarProperty Name="CSEALNO" ColumnName="CSEALNO" />
+          <ScalarProperty Name="LPSEALNO" ColumnName="LPSEALNO" />
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="GIDNO" ColumnName="GIDNO" />
+          <ScalarProperty Name="GITIME" ColumnName="GITIME" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VW_NONPNR_RATECARDMASTER_FLX_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_NONPNR_RATECARDMASTER_FLX_ASSGN">
+        <MappingFragment StoreEntitySet="VW_NONPNR_RATECARDMASTER_FLX_ASSGN">
+          <ScalarProperty Name="SLABMDATE" ColumnName="SLABMDATE" />
+          <ScalarProperty Name="SLABAMT" ColumnName="SLABAMT" />
+          <ScalarProperty Name="SLABMAX" ColumnName="SLABMAX" />
+          <ScalarProperty Name="SLABMIN" ColumnName="SLABMIN" />
+          <ScalarProperty Name="WTYPE" ColumnName="WTYPE" />
+          <ScalarProperty Name="HTYPE" ColumnName="HTYPE" />
+          <ScalarProperty Name="SDTYPE" ColumnName="SDTYPE" />
+          <ScalarProperty Name="YRDTYPE" ColumnName="YRDTYPE" />
+          <ScalarProperty Name="CONTNRSCODE" ColumnName="CONTNRSCODE" />
+          <ScalarProperty Name="CATEDNAME" ColumnName="CATEDNAME" />
+          <ScalarProperty Name="COMPYID" ColumnName="COMPYID" />
+          <ScalarProperty Name="SLABMID" ColumnName="SLABMID" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+          <ScalarProperty Name="STMRID" ColumnName="STMRID" />
+          <ScalarProperty Name="CHRGETYPE" ColumnName="CHRGETYPE" />
+          <ScalarProperty Name="SLABTID" ColumnName="SLABTID" />
+          <ScalarProperty Name="TARIFFMID" ColumnName="TARIFFMID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="PR_NEW_NONPNR_RATECARDMASTER_FLX_ASSGN" FunctionName="SCFSModel.Store.PR_NEW_NONPNR_RATECARDMASTER_FLX_ASSGN">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.PR_NEW_NONPNR_RATECARDMASTER_FLX_ASSGN_Result">
+          <ScalarProperty Name="SLABTID" ColumnName="SLABTID" />
+          <ScalarProperty Name="SLABAMT" ColumnName="SLABAMT" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="VW_IMPORT_SLABTYPE_HSN_DETAIL_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_IMPORT_SLABTYPE_HSN_DETAIL_ASSGN">
+        <MappingFragment StoreEntitySet="VW_IMPORT_SLABTYPE_HSN_DETAIL_ASSGN">
+          <ScalarProperty Name="AIGSTEXPRN" ColumnName="AIGSTEXPRN" />
+          <ScalarProperty Name="ASGSTEXPRN" ColumnName="ASGSTEXPRN" />
+          <ScalarProperty Name="ACGSTEXPRN" ColumnName="ACGSTEXPRN" />
+          <ScalarProperty Name="IGSTEXPRN" ColumnName="IGSTEXPRN" />
+          <ScalarProperty Name="TARIFFMID" ColumnName="TARIFFMID" />
+          <ScalarProperty Name="SGSTEXPRN" ColumnName="SGSTEXPRN" />
+          <ScalarProperty Name="CGSTEXPRN" ColumnName="CGSTEXPRN" />
+          <ScalarProperty Name="HSNCODE" ColumnName="HSNCODE" />
+          <ScalarProperty Name="SLABTID" ColumnName="SLABTID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="PR_ImportSlabDuplicateCheck" FunctionName="SCFSModel.Store.PR_ImportSlabDuplicateCheck" />
+    <FunctionImportMapping FunctionImportName="pr_AutoPopulate_VT_to_GO" FunctionName="SCFSModel.Store.pr_AutoPopulate_VT_to_GO" />
+    <FunctionImportMapping FunctionImportName="pr_AutoPopulate_NonPNR_GO_DESTUFF_EMPTY_INSERT_GI" FunctionName="SCFSModel.Store.pr_AutoPopulate_NonPNR_GO_DESTUFF_EMPTY_INSERT_GI" />
+    <EntitySetMapping Name="VW_IMPORT_RATECARDMASTER_FLX_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_IMPORT_RATECARDMASTER_FLX_ASSGN">
+        <MappingFragment StoreEntitySet="VW_IMPORT_RATECARDMASTER_FLX_ASSGN">
+          <ScalarProperty Name="SDPTTYPEID" ColumnName="SDPTTYPEID" />
+          <ScalarProperty Name="SLABMDATE" ColumnName="SLABMDATE" />
+          <ScalarProperty Name="SLABAMT" ColumnName="SLABAMT" />
+          <ScalarProperty Name="SLABMAX" ColumnName="SLABMAX" />
+          <ScalarProperty Name="SLABMIN" ColumnName="SLABMIN" />
+          <ScalarProperty Name="WTYPE" ColumnName="WTYPE" />
+          <ScalarProperty Name="HTYPE" ColumnName="HTYPE" />
+          <ScalarProperty Name="SDTYPE" ColumnName="SDTYPE" />
+          <ScalarProperty Name="YRDTYPE" ColumnName="YRDTYPE" />
+          <ScalarProperty Name="CONTNRSCODE" ColumnName="CONTNRSCODE" />
+          <ScalarProperty Name="CATEDNAME" ColumnName="CATEDNAME" />
+          <ScalarProperty Name="COMPYID" ColumnName="COMPYID" />
+          <ScalarProperty Name="SLABMID" ColumnName="SLABMID" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+          <ScalarProperty Name="STMRID" ColumnName="STMRID" />
+          <ScalarProperty Name="CHRGETYPE" ColumnName="CHRGETYPE" />
+          <ScalarProperty Name="SLABTID" ColumnName="SLABTID" />
+          <ScalarProperty Name="TARIFFMID" ColumnName="TARIFFMID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VW_IMPORT_RATECARDMASTER_FLX_ASSGN_01">
+      <EntityTypeMapping TypeName="SCFSModel.VW_IMPORT_RATECARDMASTER_FLX_ASSGN_01">
+        <MappingFragment StoreEntitySet="VW_IMPORT_RATECARDMASTER_FLX_ASSGN_01">
+          <ScalarProperty Name="SDPTTYPEID" ColumnName="SDPTTYPEID" />
+          <ScalarProperty Name="XTRANSDATE" ColumnName="XTRANSDATE" />
+          <ScalarProperty Name="WTYPE" ColumnName="WTYPE" />
+          <ScalarProperty Name="HTYPE" ColumnName="HTYPE" />
+          <ScalarProperty Name="YRDTYPE" ColumnName="YRDTYPE" />
+          <ScalarProperty Name="SDTYPE" ColumnName="SDTYPE" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+          <ScalarProperty Name="CHRGETYPE" ColumnName="CHRGETYPE" />
+          <ScalarProperty Name="STMRID" ColumnName="STMRID" />
+          <ScalarProperty Name="TARIFFMID" ColumnName="TARIFFMID" />
+          <ScalarProperty Name="SLABTID" ColumnName="SLABTID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VW_IMPORT_RATECARDMASTER_FLX_ASSGN_02">
+      <EntityTypeMapping TypeName="SCFSModel.VW_IMPORT_RATECARDMASTER_FLX_ASSGN_02">
+        <MappingFragment StoreEntitySet="VW_IMPORT_RATECARDMASTER_FLX_ASSGN_02">
+          <ScalarProperty Name="SDPTTYPEID" ColumnName="SDPTTYPEID" />
+          <ScalarProperty Name="XTRANSDATE" ColumnName="XTRANSDATE" />
+          <ScalarProperty Name="WTYPE" ColumnName="WTYPE" />
+          <ScalarProperty Name="HTYPE" ColumnName="HTYPE" />
+          <ScalarProperty Name="YRDTYPE" ColumnName="YRDTYPE" />
+          <ScalarProperty Name="SDTYPE" ColumnName="SDTYPE" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+          <ScalarProperty Name="CHRGETYPE" ColumnName="CHRGETYPE" />
+          <ScalarProperty Name="STMRID" ColumnName="STMRID" />
+          <ScalarProperty Name="TARIFFMID" ColumnName="TARIFFMID" />
+          <ScalarProperty Name="SLABTID" ColumnName="SLABTID" />
+          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="pr_NonPnr_Invoice_IGMNO_BillType_Load" FunctionName="SCFSModel.Store.pr_NonPnr_Invoice_IGMNO_BillType_Load">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_NonPnr_Invoice_IGMNO_BillType_Load_Result">
+          <ScalarProperty Name="TRANBTYPE" ColumnName="TRANBTYPE" />
+          <ScalarProperty Name="TRANBTYPEDESC" ColumnName="TRANBTYPEDESC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_NonPnr_Invoice_CategoryAddresDetails" FunctionName="SCFSModel.Store.pr_NonPnr_Invoice_CategoryAddresDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_NonPnr_Invoice_CategoryAddresDetails_Result">
+          <ScalarProperty Name="CATEAID" ColumnName="CATEAID" />
+          <ScalarProperty Name="STATEID" ColumnName="STATEID" />
+          <ScalarProperty Name="CATEAGSTNO" ColumnName="CATEAGSTNO" />
+          <ScalarProperty Name="CATEAADDR1" ColumnName="CATEAADDR1" />
+          <ScalarProperty Name="CATEAADDR2" ColumnName="CATEAADDR2" />
+          <ScalarProperty Name="CATEAADDR3" ColumnName="CATEAADDR3" />
+          <ScalarProperty Name="CATEAADDR4" ColumnName="CATEAADDR4" />
+          <ScalarProperty Name="Tariffmid" ColumnName="Tariffmid" />
+          <ScalarProperty Name="TGID" ColumnName="TGID" />
+          <ScalarProperty Name="Addressdetail" ColumnName="Addressdetail" />
+          <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_NonPnr_DeStuffSlip" FunctionName="SCFSModel.Store.pr_Search_NonPnr_DeStuffSlip">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_NonPnr_DeStuffSlip_Result">
+          <ScalarProperty Name="ASLMDATE" ColumnName="ASLMDATE" />
+          <ScalarProperty Name="ASLMNO" ColumnName="ASLMNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="BOEDATE" ColumnName="BOEDATE" />
+          <ScalarProperty Name="ASLMID" ColumnName="ASLMID" />
+          <ScalarProperty Name="ASLDID" ColumnName="ASLDID" />
+          <ScalarProperty Name="OSDID" ColumnName="OSDID" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="ASLMDNO" ColumnName="ASLMDNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_NonPnr_LoadSlip" FunctionName="SCFSModel.Store.pr_Search_NonPnr_LoadSlip">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_NonPnr_LoadSlip_Result">
+          <ScalarProperty Name="ASLMDATE" ColumnName="ASLMDATE" />
+          <ScalarProperty Name="ASLMNO" ColumnName="ASLMNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="BOEDATE" ColumnName="BOEDATE" />
+          <ScalarProperty Name="ASLMID" ColumnName="ASLMID" />
+          <ScalarProperty Name="ASLDID" ColumnName="ASLDID" />
+          <ScalarProperty Name="OSDID" ColumnName="OSDID" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="ASLMDNO" ColumnName="ASLMDNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Import_TariffMaster" FunctionName="SCFSModel.Store.pr_Search_Import_TariffMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Import_TariffMaster_Result">
+          <ScalarProperty Name="TARIFFMCODE" ColumnName="TARIFFMCODE" />
+          <ScalarProperty Name="TariffType" ColumnName="TariffType" />
+          <ScalarProperty Name="TARIFFMDESC" ColumnName="TARIFFMDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="TARIFFMID" ColumnName="TARIFFMID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_NonPnr_GateOut" FunctionName="SCFSModel.Store.pr_Search_NonPnr_GateOut">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_NonPnr_GateOut_Result">
+          <ScalarProperty Name="GODATE" ColumnName="GODATE" />
+          <ScalarProperty Name="GOTIME" ColumnName="GOTIME" />
+          <ScalarProperty Name="GONO" ColumnName="GONO" />
+          <ScalarProperty Name="GODNO" ColumnName="GODNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSCODE" ColumnName="CONTNRSCODE" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="GDRVNAME" ColumnName="GDRVNAME" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="ASLMDNO" ColumnName="ASLMDNO" />
+          <ScalarProperty Name="VTTYPE" ColumnName="VTTYPE" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="GODID" ColumnName="GODID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_SlabMaster" FunctionName="SCFSModel.Store.pr_Search_SlabMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_SlabMaster_Result">
+          <ScalarProperty Name="SLABMDATE" ColumnName="SLABMDATE" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+          <ScalarProperty Name="YRDTYPE" ColumnName="YRDTYPE" />
+          <ScalarProperty Name="SDTYPE" ColumnName="SDTYPE" />
+          <ScalarProperty Name="HTYPE" ColumnName="HTYPE" />
+          <ScalarProperty Name="WTYPE" ColumnName="WTYPE" />
+          <ScalarProperty Name="SLABMIN" ColumnName="SLABMIN" />
+          <ScalarProperty Name="SLABMAX" ColumnName="SLABMAX" />
+          <ScalarProperty Name="SLABAMT" ColumnName="SLABAMT" />
+          <ScalarProperty Name="CHRGETYPE" ColumnName="CHRGETYPE" />
+          <ScalarProperty Name="SLABMID" ColumnName="SLABMID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_CategoryMaster" FunctionName="SCFSModel.Store.pr_Search_CategoryMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_CategoryMaster_Result">
+          <ScalarProperty Name="CATECODE" ColumnName="CATECODE" />
+          <ScalarProperty Name="CATENAME" ColumnName="CATENAME" />
+          <ScalarProperty Name="STATEDESC" ColumnName="STATEDESC" />
+          <ScalarProperty Name="HSNDESC" ColumnName="HSNDESC" />
+          <ScalarProperty Name="CATEGSTNO" ColumnName="CATEGSTNO" />
+          <ScalarProperty Name="CATEPANNO" ColumnName="CATEPANNO" />
+          <ScalarProperty Name="CATETANNO" ColumnName="CATETANNO" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="CATEID" ColumnName="CATEID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Fetch_CHAIMP_Dtl" FunctionName="SCFSModel.Store.pr_Fetch_CHAIMP_Dtl">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Fetch_CHAIMP_Dtl_Result">
+          <ScalarProperty Name="CATENAME" ColumnName="CATENAME" />
+          <ScalarProperty Name="CATEID" ColumnName="CATEID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="VW_NONPNR_GATEOUT_DETAIL_CTRL_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_NONPNR_GATEOUT_DETAIL_CTRL_ASSGN">
+        <MappingFragment StoreEntitySet="VW_NONPNR_GATEOUT_DETAIL_CTRL_ASSGN">
+          <ScalarProperty Name="VTSTYPE" ColumnName="VTSTYPE" />
+          <ScalarProperty Name="GODID" ColumnName="GODID" />
+          <ScalarProperty Name="ASLMTYPE" ColumnName="ASLMTYPE" />
+          <ScalarProperty Name="VTSSEALNO" ColumnName="VTSSEALNO" />
+          <ScalarProperty Name="LPSEALNO" ColumnName="LPSEALNO" />
+          <ScalarProperty Name="DRVNAME" ColumnName="DRVNAME" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="CFSNAME" ColumnName="CFSNAME" />
+          <ScalarProperty Name="CHAID" ColumnName="CHAID" />
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="COMPYID" ColumnName="COMPYID" />
+          <ScalarProperty Name="VTNO" ColumnName="VTNO" />
+          <ScalarProperty Name="VTDNO" ColumnName="VTDNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VW_NONPNR_GATEOUT_DETAIL_CTRL_ASSGN_001">
+      <EntityTypeMapping TypeName="SCFSModel.VW_NONPNR_GATEOUT_DETAIL_CTRL_ASSGN_001">
+        <MappingFragment StoreEntitySet="VW_NONPNR_GATEOUT_DETAIL_CTRL_ASSGN_001">
+          <ScalarProperty Name="LPSEALNO" ColumnName="LPSEALNO" />
+          <ScalarProperty Name="VTSTYPE" ColumnName="VTSTYPE" />
+          <ScalarProperty Name="GODID" ColumnName="GODID" />
+          <ScalarProperty Name="ASLMTYPE" ColumnName="ASLMTYPE" />
+          <ScalarProperty Name="VTSSEALNO" ColumnName="VTSSEALNO" />
+          <ScalarProperty Name="DRVNAME" ColumnName="DRVNAME" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="CFSNAME" ColumnName="CFSNAME" />
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="CHAID" ColumnName="CHAID" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="COMPYID" ColumnName="COMPYID" />
+          <ScalarProperty Name="VTDNO" ColumnName="VTDNO" />
+          <ScalarProperty Name="VTNO" ColumnName="VTNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_NonPnr_GateInGridAssgn" FunctionName="SCFSModel.Store.pr_Search_NonPnr_GateInGridAssgn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_NonPnr_GateInGridAssgn_Result">
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="GINO" ColumnName="GINO" />
+          <ScalarProperty Name="GIDNO" ColumnName="GIDNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="VW_NONPNR_TRANSACTION_ADDRESS_DETAIL_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_NONPNR_TRANSACTION_ADDRESS_DETAIL_ASSGN">
+        <MappingFragment StoreEntitySet="VW_NONPNR_TRANSACTION_ADDRESS_DETAIL_ASSGN">
+          <ScalarProperty Name="STATEID" ColumnName="STATEID" />
+          <ScalarProperty Name="CATEAID" ColumnName="CATEAID" />
+          <ScalarProperty Name="CATEID" ColumnName="CATEID" />
+          <ScalarProperty Name="IMPCATEGSTNO" ColumnName="IMPCATEGSTNO" />
+          <ScalarProperty Name="CHACATEGSTNO" ColumnName="CHACATEGSTNO" />
+          <ScalarProperty Name="IMPCATEADDR4" ColumnName="IMPCATEADDR4" />
+          <ScalarProperty Name="IMPCATEADDR3" ColumnName="IMPCATEADDR3" />
+          <ScalarProperty Name="IMPCATEADDR2" ColumnName="IMPCATEADDR2" />
+          <ScalarProperty Name="IMPCATEADDR1" ColumnName="IMPCATEADDR1" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="TRANIMPADDR4" ColumnName="TRANIMPADDR4" />
+          <ScalarProperty Name="TRANIMPADDR3" ColumnName="TRANIMPADDR3" />
+          <ScalarProperty Name="TRANIMPADDR2" ColumnName="TRANIMPADDR2" />
+          <ScalarProperty Name="TRANIMPADDR1" ColumnName="TRANIMPADDR1" />
+          <ScalarProperty Name="TRANCSNAME" ColumnName="TRANCSNAME" />
+          <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Advance" FunctionName="SCFSModel.Store.pr_Search_Advance">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Advance_Result">
+          <ScalarProperty Name="TRANDATE" ColumnName="TRANDATE" />
+          <ScalarProperty Name="TRANTIME" ColumnName="TRANTIME" />
+          <ScalarProperty Name="TRANDNO" ColumnName="TRANDNO" />
+          <ScalarProperty Name="TRANREFNAME" ColumnName="TRANREFNAME" />
+          <ScalarProperty Name="TRANREFNO" ColumnName="TRANREFNO" />
+          <ScalarProperty Name="TRANREFDATE" ColumnName="TRANREFDATE" />
+          <ScalarProperty Name="TRANREFAMT" ColumnName="TRANREFAMT" />
+          <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_NonPnr_Invoice_Print_Customer_Detail_Assgn" FunctionName="SCFSModel.Store.pr_NonPnr_Invoice_Print_Customer_Detail_Assgn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_NonPnr_Invoice_Print_Customer_Detail_Assgn_Result">
+          <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+          <ScalarProperty Name="OSBILLREFNAME" ColumnName="OSBILLREFNAME" />
+          <ScalarProperty Name="CATEADDR1" ColumnName="CATEADDR1" />
+          <ScalarProperty Name="CATEADDR2" ColumnName="CATEADDR2" />
+          <ScalarProperty Name="CATEADDR3" ColumnName="CATEADDR3" />
+          <ScalarProperty Name="CATEADDR4" ColumnName="CATEADDR4" />
+          <ScalarProperty Name="CATEGSTNO" ColumnName="CATEGSTNO" />
+          <ScalarProperty Name="CATEMAIL" ColumnName="CATEMAIL" />
+          <ScalarProperty Name="CATEPHN1" ColumnName="CATEPHN1" />
+          <ScalarProperty Name="TRANREFID" ColumnName="TRANREFID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_NonPnr_Invoice_IGMNO_Grid_Assgn" FunctionName="SCFSModel.Store.pr_NonPnr_Invoice_IGMNO_Grid_Assgn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_NonPnr_Invoice_IGMNO_Grid_Assgn_Result">
+          <ScalarProperty Name="TRANREFID" ColumnName="TRANREFID" />
+          <ScalarProperty Name="TRANREFNAME" ColumnName="TRANREFNAME" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="STMRID" ColumnName="STMRID" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="STRGDATE" ColumnName="STRGDATE" />
+          <ScalarProperty Name="GODATE" ColumnName="GODATE" />
+          <ScalarProperty Name="GOTIME" ColumnName="GOTIME" />
+          <ScalarProperty Name="NOD" ColumnName="NOD" />
+          <ScalarProperty Name="WGHT" ColumnName="WGHT" />
+          <ScalarProperty Name="PRDTGID" ColumnName="PRDTGID" />
+          <ScalarProperty Name="TRANDID" ColumnName="TRANDID" />
+          <ScalarProperty Name="TRANDOTYPE" ColumnName="TRANDOTYPE" />
+          <ScalarProperty Name="TARIFFMID" ColumnName="TARIFFMID" />
+          <ScalarProperty Name="DPAIDNO" ColumnName="DPAIDNO" />
+          <ScalarProperty Name="DPAIDAMT" ColumnName="DPAIDAMT" />
+          <ScalarProperty Name="GPEAMT" ColumnName="GPEAMT" />
+          <ScalarProperty Name="GPCSAMT" ColumnName="GPCSAMT" />
+          <ScalarProperty Name="GPLBAMT" ColumnName="GPLBAMT" />
+          <ScalarProperty Name="GPAAMT" ColumnName="GPAAMT" />
+          <ScalarProperty Name="TRANDSAMT" ColumnName="TRANDSAMT" />
+          <ScalarProperty Name="TRANDHAMT" ColumnName="TRANDHAMT" />
+          <ScalarProperty Name="TRANDEAMT" ColumnName="TRANDEAMT" />
+          <ScalarProperty Name="TRANDFAMT" ColumnName="TRANDFAMT" />
+          <ScalarProperty Name="TRANDAAMT" ColumnName="TRANDAAMT" />
+          <ScalarProperty Name="TRANDNAMT" ColumnName="TRANDNAMT" />
+          <ScalarProperty Name="RCOL1" ColumnName="RCOL1" />
+          <ScalarProperty Name="RCOL2" ColumnName="RCOL2" />
+          <ScalarProperty Name="RCOL3" ColumnName="RCOL3" />
+          <ScalarProperty Name="RCOL4" ColumnName="RCOL4" />
+          <ScalarProperty Name="RCOL5" ColumnName="RCOL5" />
+          <ScalarProperty Name="RCOL6" ColumnName="RCOL6" />
+          <ScalarProperty Name="RCOL7" ColumnName="RCOL7" />
+          <ScalarProperty Name="RAMT1" ColumnName="RAMT1" />
+          <ScalarProperty Name="RAMT2" ColumnName="RAMT2" />
+          <ScalarProperty Name="RAMT3" ColumnName="RAMT3" />
+          <ScalarProperty Name="RAMT4" ColumnName="RAMT4" />
+          <ScalarProperty Name="RAMT5" ColumnName="RAMT5" />
+          <ScalarProperty Name="RAMT6" ColumnName="RAMT6" />
+          <ScalarProperty Name="RAMT7" ColumnName="RAMT7" />
+          <ScalarProperty Name="RCAMT1" ColumnName="RCAMT1" />
+          <ScalarProperty Name="RCAMT2" ColumnName="RCAMT2" />
+          <ScalarProperty Name="RCAMT3" ColumnName="RCAMT3" />
+          <ScalarProperty Name="RCAMT4" ColumnName="RCAMT4" />
+          <ScalarProperty Name="RCAMT5" ColumnName="RCAMT5" />
+          <ScalarProperty Name="RCAMT6" ColumnName="RCAMT6" />
+          <ScalarProperty Name="RCAMT7" ColumnName="RCAMT7" />
+          <ScalarProperty Name="GPETYPE" ColumnName="GPETYPE" />
+          <ScalarProperty Name="GPCSTYPE" ColumnName="GPCSTYPE" />
+          <ScalarProperty Name="GPLBTYPE" ColumnName="GPLBTYPE" />
+          <ScalarProperty Name="GPSTYPE" ColumnName="GPSTYPE" />
+          <ScalarProperty Name="GPWTYPE" ColumnName="GPWTYPE" />
+          <ScalarProperty Name="GPSCNTYPE" ColumnName="GPSCNTYPE" />
+          <ScalarProperty Name="TRANDRATE" ColumnName="TRANDRATE" />
+          <ScalarProperty Name="STATETYPE" ColumnName="STATETYPE" />
+          <ScalarProperty Name="STRG_HSN_CODE" ColumnName="STRG_HSN_CODE" />
+          <ScalarProperty Name="HANDL_HSN_CODE" ColumnName="HANDL_HSN_CODE" />
+          <ScalarProperty Name="STRG_TAXABLE_AMT" ColumnName="STRG_TAXABLE_AMT" />
+          <ScalarProperty Name="HANDL_TAXABLE_AMT" ColumnName="HANDL_TAXABLE_AMT" />
+          <ScalarProperty Name="STRG_CGST_EXPRN" ColumnName="STRG_CGST_EXPRN" />
+          <ScalarProperty Name="STRG_SGST_EXPRN" ColumnName="STRG_SGST_EXPRN" />
+          <ScalarProperty Name="STRG_IGST_EXPRN" ColumnName="STRG_IGST_EXPRN" />
+          <ScalarProperty Name="STRG_CGST_AMT" ColumnName="STRG_CGST_AMT" />
+          <ScalarProperty Name="STRG_SGST_AMT" ColumnName="STRG_SGST_AMT" />
+          <ScalarProperty Name="STRG_IGST_AMT" ColumnName="STRG_IGST_AMT" />
+          <ScalarProperty Name="HANDL_CGST_EXPRN" ColumnName="HANDL_CGST_EXPRN" />
+          <ScalarProperty Name="HANDL_SGST_EXPRN" ColumnName="HANDL_SGST_EXPRN" />
+          <ScalarProperty Name="HANDL_IGST_EXPRN" ColumnName="HANDL_IGST_EXPRN" />
+          <ScalarProperty Name="HANDL_CGST_AMT" ColumnName="HANDL_CGST_AMT" />
+          <ScalarProperty Name="HANDL_SGST_AMT" ColumnName="HANDL_SGST_AMT" />
+          <ScalarProperty Name="HANDL_IGST_AMT" ColumnName="HANDL_IGST_AMT" />
+          <ScalarProperty Name="TRAND_COVID_DISC_AMT" ColumnName="TRAND_COVID_DISC_AMT" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Get_Finance_Transaction_Details" FunctionName="SCFSModel.Store.pr_Get_Finance_Transaction_Details">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Get_Finance_Transaction_Details_Result">
+          <ScalarProperty Name="STRG_CGST_EXPRN" ColumnName="STRG_CGST_EXPRN" />
+          <ScalarProperty Name="STRG_IGST_EXPRN" ColumnName="STRG_IGST_EXPRN" />
+          <ScalarProperty Name="STRG_SGST_EXPRN" ColumnName="STRG_SGST_EXPRN" />
+          <ScalarProperty Name="HANDL_CGST_EXPRN" ColumnName="HANDL_CGST_EXPRN" />
+          <ScalarProperty Name="HANDL_IGST_EXPRN" ColumnName="HANDL_IGST_EXPRN" />
+          <ScalarProperty Name="HANDL_SGST_EXPRN" ColumnName="HANDL_SGST_EXPRN" />
+          <ScalarProperty Name="STRG_CGST_AMT" ColumnName="STRG_CGST_AMT" />
+          <ScalarProperty Name="STRG_IGST_AMT" ColumnName="STRG_IGST_AMT" />
+          <ScalarProperty Name="STRG_SGST_AMT" ColumnName="STRG_SGST_AMT" />
+          <ScalarProperty Name="HANDL_CGST_AMT" ColumnName="HANDL_CGST_AMT" />
+          <ScalarProperty Name="HANDL_IGST_AMT" ColumnName="HANDL_IGST_AMT" />
+          <ScalarProperty Name="HANDL_SGST_AMT" ColumnName="HANDL_SGST_AMT" />
+          <ScalarProperty Name="TRAND_STRG_CGST_AMT" ColumnName="TRAND_STRG_CGST_AMT" />
+          <ScalarProperty Name="TRAND_STRG_IGST_AMT" ColumnName="TRAND_STRG_IGST_AMT" />
+          <ScalarProperty Name="TRAND_STRG_SGST_AMT" ColumnName="TRAND_STRG_SGST_AMT" />
+          <ScalarProperty Name="TRAND_HANDL_CGST_AMT" ColumnName="TRAND_HANDL_CGST_AMT" />
+          <ScalarProperty Name="TRAND_HANDL_IGST_AMT" ColumnName="TRAND_HANDL_IGST_AMT" />
+          <ScalarProperty Name="TRAND_HANDL_SGST_AMT" ColumnName="TRAND_HANDL_SGST_AMT" />
+          <ScalarProperty Name="TRANCGSTAMT" ColumnName="TRANCGSTAMT" />
+          <ScalarProperty Name="TRANIGSTAMT" ColumnName="TRANIGSTAMT" />
+          <ScalarProperty Name="TRANSGSTAMT" ColumnName="TRANSGSTAMT" />
+          <ScalarProperty Name="TRANGAMT" ColumnName="TRANGAMT" />
+          <ScalarProperty Name="TRANDGAMT" ColumnName="TRANDGAMT" />
+          <ScalarProperty Name="TRANDNAMT" ColumnName="TRANDNAMT" />
+          <ScalarProperty Name="TRANNAMT" ColumnName="TRANNAMT" />
+          <ScalarProperty Name="TRANDATE" ColumnName="TRANDATE" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="VW_ASL_IGMNO_CONTAINER_CBX_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_ASL_IGMNO_CONTAINER_CBX_ASSGN">
+        <MappingFragment StoreEntitySet="VW_ASL_IGMNO_CONTAINER_CBX_ASSGN">
+          <ScalarProperty Name="SSEALNO" ColumnName="SSEALNO" />
+          <ScalarProperty Name="LSEALNO" ColumnName="LSEALNO" />
+          <ScalarProperty Name="DODATE" ColumnName="DODATE" />
+          <ScalarProperty Name="BOEDATE" ColumnName="BOEDATE" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="OSMDNO" ColumnName="OSMDNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="OSDID" ColumnName="OSDID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="pr_Get_VT_Details_For_QRCode" FunctionName="SCFSModel.Store.pr_Get_VT_Details_For_QRCode">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Get_VT_Details_For_QRCode_Result">
+          <ScalarProperty Name="VTDID" ColumnName="VTDID" />
+          <ScalarProperty Name="SDPTID" ColumnName="SDPTID" />
+          <ScalarProperty Name="COMPYID" ColumnName="COMPYID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="VTDATE" ColumnName="VTDATE" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="GPWGHT" ColumnName="GPWGHT" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="LPSEALNO" ColumnName="LPSEALNO" />
+          <ScalarProperty Name="OSMBLNO" ColumnName="OSMBLNO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_ChequeEntry" FunctionName="SCFSModel.Store.pr_Search_ChequeEntry">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_ChequeEntry_Result">
+          <ScalarProperty Name="TRANDATE" ColumnName="TRANDATE" />
+          <ScalarProperty Name="TRANTIME" ColumnName="TRANTIME" />
+          <ScalarProperty Name="TRANDNO" ColumnName="TRANDNO" />
+          <ScalarProperty Name="TRANREFNAME" ColumnName="TRANREFNAME" />
+          <ScalarProperty Name="TRANREFNO" ColumnName="TRANREFNO" />
+          <ScalarProperty Name="TRANREFDATE" ColumnName="TRANREFDATE" />
+          <ScalarProperty Name="TRANREFAMT" ColumnName="TRANREFAMT" />
+          <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_BL_Search_Container_No_Assgn" FunctionName="SCFSModel.Store.pr_BL_Search_Container_No_Assgn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_BL_Search_Container_No_Assgn_Result">
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_BOE_Search_Container_No_Assgn" FunctionName="SCFSModel.Store.pr_BOE_Search_Container_No_Assgn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_BOE_Search_Container_No_Assgn_Result">
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_IGMNO_Search_Container_No_Assgn" FunctionName="SCFSModel.Store.pr_IGMNO_Search_Container_No_Assgn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_IGMNO_Search_Container_No_Assgn_Result">
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Finance_TranSactionBillNo" FunctionName="SCFSModel.Store.pr_Finance_TranSactionBillNo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Finance_TranSactionBillNo_Result">
+          <ScalarProperty Name="TRANDNO" ColumnName="TRANDNO" />
+          <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Empty_SlipIn" FunctionName="SCFSModel.Store.pr_Search_Empty_SlipIn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Empty_SlipIn_Result">
+          <ScalarProperty Name="ASLMDATE" ColumnName="ASLMDATE" />
+          <ScalarProperty Name="ASLMNO" ColumnName="ASLMNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="ASLMID" ColumnName="ASLMID" />
+          <ScalarProperty Name="ASLDID" ColumnName="ASLDID" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="ASLMDNO" ColumnName="ASLMDNO" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="VW_EMPTY_CONTAINERNO_AUTOASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_EMPTY_CONTAINERNO_AUTOASSGN">
+        <MappingFragment StoreEntitySet="VW_EMPTY_CONTAINERNO_AUTOASSGN">
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="pr_SearchVehicle" FunctionName="SCFSModel.Store.pr_SearchVehicle">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_SearchVehicle_Result">
+          <ScalarProperty Name="VHLPNRNO" ColumnName="VHLPNRNO" />
+          <ScalarProperty Name="VHLMDESC" ColumnName="VHLMDESC" />
+          <ScalarProperty Name="CATENAME" ColumnName="CATENAME" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="VHLMID" ColumnName="VHLMID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="VW_NEW_EMPTY_VT_CONTAINERNO_AUTOASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_NEW_EMPTY_VT_CONTAINERNO_AUTOASSGN">
+        <MappingFragment StoreEntitySet="VW_NEW_EMPTY_VT_CONTAINERNO_AUTOASSGN">
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Empty_VT" FunctionName="SCFSModel.Store.pr_Search_Empty_VT">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Empty_VT_Result">
+          <ScalarProperty Name="GODATE" ColumnName="GODATE" />
+          <ScalarProperty Name="GOTIME" ColumnName="GOTIME" />
+          <ScalarProperty Name="GONO" ColumnName="GONO" />
+          <ScalarProperty Name="GODNO" ColumnName="GODNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSCODE" ColumnName="CONTNRSCODE" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="GDRVNAME" ColumnName="GDRVNAME" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="GODID" ColumnName="GODID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Empty_GateIn" FunctionName="SCFSModel.Store.pr_Search_Empty_GateIn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Empty_GateIn_Result">
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="GITIME" ColumnName="GITIME" />
+          <ScalarProperty Name="GINO" ColumnName="GINO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="GIDNO" ColumnName="GIDNO" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_SlabNarrationMaster" FunctionName="SCFSModel.Store.pr_Search_SlabNarrationMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_SlabNarrationMaster_Result">
+          <ScalarProperty Name="PRCSDATE" ColumnName="PRCSDATE" />
+          <ScalarProperty Name="TARIFFMID" ColumnName="TARIFFMID" />
+          <ScalarProperty Name="SLABTID" ColumnName="SLABTID" />
+          <ScalarProperty Name="BILLTID" ColumnName="BILLTID" />
+          <ScalarProperty Name="SLABTYPE" ColumnName="SLABTYPE" />
+          <ScalarProperty Name="TARIFF" ColumnName="TARIFF" />
+          <ScalarProperty Name="CHRGETYPE" ColumnName="CHRGETYPE" />
+          <ScalarProperty Name="SLABNARTN" ColumnName="SLABNARTN" />
+          <ScalarProperty Name="SLABNID" ColumnName="SLABNID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="PR_IMPORT_DASHBOARD_DETAILS" FunctionName="SCFSModel.Store.PR_IMPORT_DASHBOARD_DETAILS">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.PR_IMPORT_DASHBOARD_DETAILS_Result">
+          <ScalarProperty Name="Sno" ColumnName="Sno" />
+          <ScalarProperty Name="Descriptn" ColumnName="Descriptn" />
+          <ScalarProperty Name="c_20" ColumnName="c_20" />
+          <ScalarProperty Name="c_40" ColumnName="c_40" />
+          <ScalarProperty Name="c_45" ColumnName="c_45" />
+          <ScalarProperty Name="c_tues" ColumnName="c_tues" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="PR_EXPORT_DASHBOARD_DETAILS" FunctionName="SCFSModel.Store.PR_EXPORT_DASHBOARD_DETAILS">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.PR_EXPORT_DASHBOARD_DETAILS_Result">
+          <ScalarProperty Name="Sno" ColumnName="Sno" />
+          <ScalarProperty Name="Descriptn" ColumnName="Descriptn" />
+          <ScalarProperty Name="c_20" ColumnName="c_20" />
+          <ScalarProperty Name="c_40" ColumnName="c_40" />
+          <ScalarProperty Name="c_45" ColumnName="c_45" />
+          <ScalarProperty Name="c_tues" ColumnName="c_tues" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Finance_CreditNote" FunctionName="SCFSModel.Store.pr_Search_Finance_CreditNote">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Finance_CreditNote_Result">
+          <ScalarProperty Name="TRANDATE" ColumnName="TRANDATE" />
+          <ScalarProperty Name="TRANDNO" ColumnName="TRANDNO" />
+          <ScalarProperty Name="TRANREFNAME" ColumnName="TRANREFNAME" />
+          <ScalarProperty Name="TRANGSTAMT" ColumnName="TRANGSTAMT" />
+          <ScalarProperty Name="TRANNAMT" ColumnName="TRANNAMT" />
+          <ScalarProperty Name="ACKNO" ColumnName="ACKNO" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="TRANBILLREFNO" ColumnName="TRANBILLREFNO" />
+          <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_StagMaster" FunctionName="SCFSModel.Store.pr_Search_StagMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_StagMaster_Result">
+          <ScalarProperty Name="STAGCODE" ColumnName="STAGCODE" />
+          <ScalarProperty Name="STAGDESC" ColumnName="STAGDESC" />
+          <ScalarProperty Name="GDWNCODE" ColumnName="GDWNCODE" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="STAGID" ColumnName="STAGID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="VW_ASL_EMPTY_CONTAINER_CBX_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_ASL_EMPTY_CONTAINER_CBX_ASSGN">
+        <MappingFragment StoreEntitySet="VW_ASL_EMPTY_CONTAINER_CBX_ASSGN">
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="CHAID" ColumnName="CHAID" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="STMRID" ColumnName="STMRID" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="CONTNRSID" ColumnName="CONTNRSID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VW_NEW_EMPTY_GATEOUT_CONTAINER_CBX_ASSGN">
+      <EntityTypeMapping TypeName="SCFSModel.VW_NEW_EMPTY_GATEOUT_CONTAINER_CBX_ASSGN">
+        <MappingFragment StoreEntitySet="VW_NEW_EMPTY_GATEOUT_CONTAINER_CBX_ASSGN">
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="DRVNAME" ColumnName="DRVNAME" />
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="CHAID" ColumnName="CHAID" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="PGIDID" ColumnName="PGIDID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_Finance_DebitNote" FunctionName="SCFSModel.Store.pr_Search_Finance_DebitNote">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_Finance_DebitNote_Result">
+          <ScalarProperty Name="TRANDATE" ColumnName="TRANDATE" />
+          <ScalarProperty Name="TRANDNO" ColumnName="TRANDNO" />
+          <ScalarProperty Name="TRANREFNAME" ColumnName="TRANREFNAME" />
+          <ScalarProperty Name="TRANGSTAMT" ColumnName="TRANGSTAMT" />
+          <ScalarProperty Name="TRANNAMT" ColumnName="TRANNAMT" />
+          <ScalarProperty Name="ACKNO" ColumnName="ACKNO" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="TRANBILLREFNO" ColumnName="TRANBILLREFNO" />
+          <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="PR_IMPORT_AUTHORIZATION_DETAIL_CTRL_ASSGN" FunctionName="SCFSModel.Store.PR_IMPORT_AUTHORIZATION_DETAIL_CTRL_ASSGN">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.PR_IMPORT_AUTHORIZATION_DETAIL_CTRL_ASSGN_Result">
+          <ScalarProperty Name="ASLMID" ColumnName="ASLMID" />
+          <ScalarProperty Name="ASLDID" ColumnName="ASLDID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="OSMDNO" ColumnName="OSMDNO" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="BOEDATE" ColumnName="BOEDATE" />
+          <ScalarProperty Name="DODATE" ColumnName="DODATE" />
+          <ScalarProperty Name="LSEALNO" ColumnName="LSEALNO" />
+          <ScalarProperty Name="SSEALNO" ColumnName="SSEALNO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="OSMIGMNO" ColumnName="OSMIGMNO" />
+          <ScalarProperty Name="OSMLNO" ColumnName="OSMLNO" />
+          <ScalarProperty Name="OSDID" ColumnName="OSDID" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="VTDNO" ColumnName="VTDNO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Get_Non_PNR_VT_Details_For_QRCode" FunctionName="SCFSModel.Store.pr_Get_Non_PNR_VT_Details_For_QRCode">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Get_Non_PNR_VT_Details_For_QRCode_Result">
+          <ScalarProperty Name="VTDID" ColumnName="VTDID" />
+          <ScalarProperty Name="SDPTID" ColumnName="SDPTID" />
+          <ScalarProperty Name="COMPYID" ColumnName="COMPYID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="VTDATE" ColumnName="VTDATE" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="GPWGHT" ColumnName="GPWGHT" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="LPSEALNO" ColumnName="LPSEALNO" />
+          <ScalarProperty Name="OSMBLNO" ColumnName="OSMBLNO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Get_Export_VT_Details_For_QRCode" FunctionName="SCFSModel.Store.pr_Get_Export_VT_Details_For_QRCode">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Get_Export_VT_Details_For_QRCode_Result">
+          <ScalarProperty Name="VTDID" ColumnName="VTDID" />
+          <ScalarProperty Name="SDPTID" ColumnName="SDPTID" />
+          <ScalarProperty Name="COMPYID" ColumnName="COMPYID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="VTDATE" ColumnName="VTDATE" />
+          <ScalarProperty Name="IMPRTNAME" ColumnName="IMPRTNAME" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="VHLNO" ColumnName="VHLNO" />
+          <ScalarProperty Name="VSLNAME" ColumnName="VSLNAME" />
+          <ScalarProperty Name="VOYNO" ColumnName="VOYNO" />
+          <ScalarProperty Name="PRDTDESC" ColumnName="PRDTDESC" />
+          <ScalarProperty Name="GPWGHT" ColumnName="GPWGHT" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="LPSEALNO" ColumnName="LPSEALNO" />
+          <ScalarProperty Name="OSMBLNO" ColumnName="OSMBLNO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_Search_NonPnr_VehicleTicket" FunctionName="SCFSModel.Store.pr_Search_NonPnr_VehicleTicket">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_Search_NonPnr_VehicleTicket_Result">
+          <ScalarProperty Name="VTDATE" ColumnName="VTDATE" />
+          <ScalarProperty Name="VTDNO" ColumnName="VTDNO" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="ASLMDNO" ColumnName="ASLMDNO" />
+          <ScalarProperty Name="VTTYPE" ColumnName="VTTYPE" />
+          <ScalarProperty Name="CHANAME" ColumnName="CHANAME" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="EGIDID" ColumnName="EGIDID" />
+          <ScalarProperty Name="VTDID" ColumnName="VTDID" />
+          <ScalarProperty Name="GIDId" ColumnName="GIDId" />
+          <ScalarProperty Name="CGIDID" ColumnName="CGIDID" />
+          <ScalarProperty Name="VTSSEALNO" ColumnName="VTSSEALNO" />
+          <ScalarProperty Name="GODID" ColumnName="GODID" />
+          <ScalarProperty Name="GOSTS" ColumnName="GOSTS" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_IGMNO_Search_ContainerNo_GridAssgn" FunctionName="SCFSModel.Store.pr_IGMNO_Search_ContainerNo_GridAssgn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_IGMNO_Search_ContainerNo_GridAssgn_Result">
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSCODE" ColumnName="CONTNRSCODE" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="GODATE" ColumnName="GODATE" />
+          <ScalarProperty Name="BOENO" ColumnName="BOENO" />
+          <ScalarProperty Name="BLNO" ColumnName="BLNO" />
+          <ScalarProperty Name="LPSEALNO" ColumnName="LPSEALNO" />
+          <ScalarProperty Name="CSEALNO" ColumnName="CSEALNO" />
+          <ScalarProperty Name="GPMODEDESC" ColumnName="GPMODEDESC" />
+          <ScalarProperty Name="SLIPTYPE" ColumnName="SLIPTYPE" />
+          <ScalarProperty Name="INSPTYPE" ColumnName="INSPTYPE" />
+          <ScalarProperty Name="Scaned" ColumnName="Scaned" />
+          <ScalarProperty Name="Blocked" ColumnName="Blocked" />
+          <ScalarProperty Name="RowDesc" ColumnName="RowDesc" />
+          <ScalarProperty Name="GPWGHT" ColumnName="GPWGHT" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pr_IGMNO_Line_Search_ContainerNo_GridAssgn_N01" FunctionName="SCFSModel.Store.pr_IGMNO_Line_Search_ContainerNo_GridAssgn_N01">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFSModel.pr_IGMNO_Line_Search_ContainerNo_GridAssgn_N01_Result">
+          <ScalarProperty Name="GIDID" ColumnName="GIDID" />
+          <ScalarProperty Name="CONTNRNO" ColumnName="CONTNRNO" />
+          <ScalarProperty Name="CONTNRSCODE" ColumnName="CONTNRSCODE" />
+          <ScalarProperty Name="GIDATE" ColumnName="GIDATE" />
+          <ScalarProperty Name="LPSEALNO" ColumnName="LPSEALNO" />
+          <ScalarProperty Name="CSEALNO" ColumnName="CSEALNO" />
+          <ScalarProperty Name="GPMODEDESC" ColumnName="GPMODEDESC" />
+          <ScalarProperty Name="INSPTYPE" ColumnName="INSPTYPE" />
+          <ScalarProperty Name="Scaned" ColumnName="Scaned" />
+          <ScalarProperty Name="IGMNO" ColumnName="IGMNO" />
+          <ScalarProperty Name="GPLNO" ColumnName="GPLNO" />
+          <ScalarProperty Name="STMRNAME" ColumnName="STMRNAME" />
+          <ScalarProperty Name="CONTNRSDESC" ColumnName="CONTNRSDESC" />
+          <ScalarProperty Name="OSDID" ColumnName="OSDID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,538 @@
+﻿@using scfs_erp.Models;
+
+@model scfs_erp.Models.GateInBlockDetails
+
+@{
+    ViewBag.Title = "GateIn Block Details";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+</style>
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>GateIn Block</strong>
+                        </div>
+                    </div>
+
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ImportGateInBlock/savedata")" method="post" accept-charset="utf-8" id="gateinblockdetailsform" data-ng-controller="myController" name="gateinblockdetailsform" onsubmit="return Validate()">
+
+                            @Html.ValidationSummary(true)
+
+                            <fieldset id="GateInBlockDetailsform_info">
+
+                                <div class="row">
+                                    <div class="col-md-4 hidden">
+                                        <div class="form-group">
+                                            <label>Primary  </label>
+                                            @Html.TextBoxFor(model => model.GBDID, new { @class = "form-control  GBDID", @id = "GBDID" })
+                                            <input type="text" id="UsrAdmGrpChk" name="UsrAdmGrpChk" class="form-control UsrAdmGrpChk hide" value="@System.Web.HttpContext.Current.Session["AdminGrp"]">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Date<span class="required-field"></span></label>
+                                            @Html.TextBoxFor(model => Model.GBDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker GBDATE ", @id = "GBDATE", @data_val = false })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Time<span class="required-field"></span></label>
+                                            @Html.TextBoxFor(model => Model.GBTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker GBTIME ", @id = "GBTIME", @data_val = false })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2 hide">
+                                        <div class="form-group">
+                                            <label>GateIn No </label>
+                                            @Html.TextBoxFor(model => Model.GBNO, new { @class = "form-control  GBNO", @id = "GBNO", @readonly = true })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>No </label>
+                                            @Html.TextBoxFor(model => Model.GBDNO, new { @class = "form-control  GBDNO", @id = "GBDNO", @readonly = true })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Container No<span class="required-field"></span> </label>
+                                            @*<input type="text" id="CNTID" class="form-control" autocomplete="on" data-autocomplete-url=@Url.Action("AutoContainer", "ImportGateInBlock") value="@ViewBag.CONTNRNO" onchange="size()" />*@
+                                            <input type="text" id="CNTID" class="form-control" autocomplete="on" data-autocomplete-url=@Url.Action("AutoContainer", "ImportGateInBlock") value="@ViewBag.CONTNRNO" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 hide">
+                                        <div class="form-group">
+                                            <label>Id  </label>
+                                            @Html.TextBoxFor(model => Model.GIDID, new { @class = "form-control GIDID", @id = "GIDID", @readonly = true })
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4 hidden">
+                                        <div class="form-group">
+                                            <label>CON  </label>
+                                            <input type="text" id="CNTNO" class="form-control" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div id="gatetable"></div>
+                                <table class="table table-bordered table-striped table-hover table-heading table-datatable" style="width:100%">
+                                    <tr> <th>  Size</th> <th>  Line No</th> <th>  In Date</th> <th>  Voy No</th> <th> IGM No</th></tr>
+                                    <tr>
+                                        <td><input type="text" id="GSize" class="form-control" value="@ViewBag.GPETYPE" readonly /></td>
+                                        <td><input type="text" id="GLine" class="form-control" value="@ViewBag.GPLNO" readonly /></td>
+                                        <td><input type="text" id="GDate" class="form-control" value=@ViewBag.GIDATE readonly /></td>
+                                        <td><input type="text" id="GVoy" class="form-control" value="@ViewBag.VOYNO" readonly /></td>
+                                        <td><input type="text" id="IGM" class="form-control" value="@ViewBag.IGMNO" readonly /></td>
+                                    </tr>
+                                </table>
+                                <table class="table table-bordered table-striped table-hover table-heading table-datatable" style="width:100%">
+                                    <tr> <th>  Vessel</th> <th> Importer</th> <th>Steamer</th></tr>
+                                    <tr>
+                                        <td style="width:auto"><input type="text" id="Vessel" class="form-control" value="@ViewBag.VSLNAME" readonly /></td>
+                                        <td style="width:auto"><input type="text" id="Importer" class="form-control" value="@ViewBag.IMPRTNAME" readonly /></td>
+                                        <td style="width:auto"><input type="text" id="Streamer" class="form-control" value="@ViewBag.STMRNAME" readonly /></td>
+                                    </tr>
+
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Block Type<span class="required-field"></span></label>
+                                            @Html.DropDownList("GBTYPE", null, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Type<span class="required-field"></span></label>
+                                            @Html.DropDownList("GBSTYPE", null, new { @class = "form-control", @onchange = "BlockType()" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 frm_hide" id="blck">
+                                        <div class="form-group">
+                                            <label>Block Reason<span class="required-field"></span></label>
+                                            @Html.TextAreaFor(model => Model.NARTN, new { @class = "form-control NARTN", @id = "NARTN" })
+                                        </div>
+                                    </div>
+
+                                    <div class="frm_hide" id="unblck">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>UnBlock Date<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.GBUDATE, new { @class = "form-control datepicker GBUDATE", @id = "GBUDATE", @data_val = false })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>UnBlock Time<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.GBUTIME, new { @class = "form-control timepicker GBUTIME", @id = "GBUTIME", @data_val = false })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>UnBlock Reason<span class="required-field"></span></label>
+                                                @Html.TextAreaFor(model => Model.UNARTN, new { @class = "form-control UNARTN", @id = "UNARTN" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 box-footer">
+
+                                        <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+
+                                        <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" tabindex="100" />
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+
+@section Scripts{
+
+    <script>
+
+        $(function () {
+
+            //add_autocomplete($("#CNTID"), "CNTID,GIDID");
+            add_autocomplete_CtrnNo($("#CNTID"), "CNTID,GIDID");
+
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+
+            $(".datepicker").removeAttr('GBDATE', 'GBUDATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });           
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+
+            $('input[id$=GODATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#GODATE").focus();
+                }
+            });
+
+            if ($("#GBDID").val() == 0 || $("#GBDID").val() == "") {
+
+                $("#GBDID").val("0");
+
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = (dt.getMonth() + 1).toString();
+                var day = dt.getDate().toString();
+
+                if (day < 10) day = "0" + day;
+                if (month < 10) month = "0" + month;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                //var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                console.log(hours + ':' + minutes + ':' + seconds);
+
+                var time = hours + ':' + minutes + ':' + seconds;
+                var datetme = time;
+                $(".datepicker").val(date);
+                $(".timepicker").val(datetme);
+                
+            }
+            else {
+                if ($("#GIDID").val() > 0) {
+                    GetDetails($("#GIDID").val());
+                }
+            }
+
+
+            //$('.time').timepicker();
+
+            BlockType(); //----calling function--------
+            //size();
+            AdminGrpChk();
+
+        });//----End of function
+
+        //------------------Block Type function----------
+        function BlockType() {
+            if ($("#GBSTYPE").val() == 1) {
+                $("#unblck").removeClass("frm_hide")
+                $("#blck").addClass("frm_hide")
+            }
+            else {
+                $("#unblck").addClass("frm_hide")
+                $("#blck").removeClass("frm_hide")
+            }
+        }//End
+
+        function AdminGrpChk() {
+            admgrpchk = $("#UsrAdmGrpChk").val();
+            if (admgrpchk == "N") {
+                $("#GBDATE").datepicker("option", "disabled", true);
+                $("#GBTIME").datepicker("option", "disabled", true);
+                
+                $("#GBDATE").attr('readonly', true);
+                $("#GBTIME").attr('readonly', true);
+                $("#CNTID ").focus();
+            }
+        }
+
+
+        function add_autocomplete_CtrnNo($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                        $("#GIDID").val(ui.item.id);
+                    });
+                    //alert($("#GIDID").val());
+                    if ($("#GIDID").val() > 0) {
+                        GetDetails($("#GIDID").val());
+                    }
+
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            console.log(data);
+                            //alert(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#CNTID").focus();
+                                $("#GIDID").val("0");
+
+                            }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#CNTID").val('');
+                            $("#GIDID").val("0");
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function size(size) {
+            var size = $("#GSize").val();
+            if (size == 1) {
+                $("#GSize").val("ALL");
+            }
+            else if (size == 2) {
+                $("#GSize").val("NOT REQUIRED");
+            }
+            else if (size == 3) {
+
+                $("#GSize").val("20'");
+            }
+            else if (size == 4) {
+
+                $("#GSize").val("40'");
+            }
+            else if (size == 5) {
+                $("#GSize").val("45'");
+            }
+        }
+
+        function GetDetails(id) {
+            url = "/ImportGateInBlock/GetDetails";
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: { id: id },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    if (data != "") {
+                        //CNTID, GIDID, GSize, GLine, GVoy, IGM, Vessel, Importer, Streamer, GDate
+                        $("#GIDID").val(data[0].GIDID);
+                        $("#GSize").val(data[0].CONTNRSID);
+                        if ($("#GSize").val() > 0 || $("#GSize").val() != "") {
+                            size($("#GSize").val())
+                        }
+                        $("#GLine").val(data[0].GPLNO);
+                        $("#GVoy").val(data[0].VOYNO);
+                        $("#IGM").val(data[0].IGMNO);
+                        $("#Vessel").val(data[0].VSLNAME);
+                        $("#Importer").val(data[0].IMPRTNAME);
+                        $("#Streamer").val(data[0].STMRNAME);
+                        $("#GDate").val(data[0].GIDATE);
+                    }
+                }
+            });
+        }
+
+        function Validate() {
+            var GBDATE = $("#GBDATE").val();
+            var GBTIME = $("#GBTIME").val();
+            var GIDID = $("#GIDID").val();
+            var CONTID = $("#CNTID").val();
+
+            if (GBDATE == "") {
+                alert("Please select Date");
+                $("#GBDATE").focus();
+                return false;
+            }
+            else if (GBTIME == "") {
+                alert("Please select Time");
+                $("#GBTIME").focus();
+                return false;
+            }
+            else if (CONTID == "") {
+                alert("Please Enter the Container No");
+                $("#CNTID").focus();
+                return false;
+            }
+            else if (GIDID == "0" || GIDID == "") {
+                alert("Please select Container No Properly");
+                $("#CNTID").focus();
+                return false;
+            }
+
+            else if ($("#GBSTYPE").val() == 1) {
+                var UNARTN = $("#UNARTN").val();
+                var GBUDATE = $("#GBUDATE").val();
+                var GBUTIME = $("#GBUTIME").val();
+                
+                if (UNARTN == "") {
+                    alert("Please Enter Unblock Reason");
+                    $("#UNARTN").focus();
+                    return false;
+                }
+                else if (GBUDATE == "") {
+                    alert("Please Enter Unblock Date");
+                    $("#GBUDATE").focus();
+                    return false;
+                }
+                else if (GBUTIME == "") {
+                    alert("Please Enter Unblock Time");
+                    $("#GBUTIME").focus();
+                    return false;
+                }
+            }
+            else if ($("#GBSTYPE").val() == 0) {
+                var UNARTN = $("#NARTN").val();
+                if (UNARTN == "") {
+                    alert("Please Enter Block Reason");
+                    $("#NARTN").focus();
+                    return false;
+                }
+            }
+
+        }
+
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

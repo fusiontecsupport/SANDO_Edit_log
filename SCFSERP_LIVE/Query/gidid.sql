@@ -1,0 +1,1 @@
+﻿select GIDID from stuffingdetail 

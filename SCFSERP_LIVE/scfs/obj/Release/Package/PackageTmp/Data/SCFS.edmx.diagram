@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b884eb1c23b84bfcb8241b8ff8268cc5" Name="Diagram1" ZoomLevel="69" >
+        <EntityTypeShape EntityType="SCFSModel.VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN" Width="1.5" PointX="2.25" PointY="7.375" />
+        <EntityTypeShape EntityType="SCFSModel.VW_VEHICLETICKET_NONPNR_CONTAINER_CBX_ASSGN" Width="1.5" PointX="5.75" PointY="0.625" />
+        <EntityTypeShape EntityType="SCFSModel.VW_NONPNRASD_GIGMNO_CONTAINER_CBX_ASSGN" Width="1.5" PointX="0.5" PointY="9.75" />
+        <EntityTypeShape EntityType="SCFSModel.VW_NONPNR_GATE_IN_PRINT_ASSGN" Width="1.5" PointX="4" PointY="3.875" />
+        <EntityTypeShape EntityType="SCFSModel.VW_NONPNR_GATEOUT_PRINT_ASSGN" Width="1.5" PointX="5.75" PointY="3.5" />
+        <EntityTypeShape EntityType="SCFSModel.VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN" Width="1.5" PointX="9.25" PointY="0.5" />
+        <EntityTypeShape EntityType="SCFSModel.VW_NONPNR_RATECARDMASTER_FLX_ASSGN" Width="1.5" PointX="11" PointY="3.5" />
+        <EntityTypeShape EntityType="SCFSModel.VW_IMPORT_SLABTYPE_HSN_DETAIL_ASSGN" Width="1.5" PointX="11" PointY="0.5" />
+        <EntityTypeShape EntityType="SCFSModel.VW_IMPORT_RATECARDMASTER_FLX_ASSGN" Width="1.5" PointX="4.375" PointY="11.75" />
+        <EntityTypeShape EntityType="SCFSModel.VW_IMPORT_RATECARDMASTER_FLX_ASSGN_01" Width="1.5" PointX="12.375" PointY="12.75" />
+        <EntityTypeShape EntityType="SCFSModel.VW_IMPORT_RATECARDMASTER_FLX_ASSGN_02" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SCFSModel.VW_NONPNR_GATEOUT_DETAIL_CTRL_ASSGN" Width="1.5" PointX="8.375" PointY="8.75" />
+        <EntityTypeShape EntityType="SCFSModel.VW_NONPNR_GATEOUT_DETAIL_CTRL_ASSGN_001" Width="1.5" PointX="13.375" PointY="5.75" />
+        <EntityTypeShape EntityType="SCFSModel.VW_NONPNR_TRANSACTION_ADDRESS_DETAIL_ASSGN" Width="1.5" PointX="14.375" PointY="12.75" />
+        <EntityTypeShape EntityType="SCFSModel.VW_ASL_IGMNO_CONTAINER_CBX_ASSGN" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SCFSModel.VW_EMPTY_CONTAINERNO_AUTOASSGN" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SCFSModel.VW_NEW_EMPTY_VT_CONTAINERNO_AUTOASSGN" Width="1.5" PointX="15.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SCFSModel.VW_ASL_EMPTY_CONTAINER_CBX_ASSGN" Width="1.5" PointX="10.375" PointY="8.75" />
+        <EntityTypeShape EntityType="SCFSModel.VW_NEW_EMPTY_GATEOUT_CONTAINER_CBX_ASSGN" Width="1.5" PointX="0.75" PointY="15.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

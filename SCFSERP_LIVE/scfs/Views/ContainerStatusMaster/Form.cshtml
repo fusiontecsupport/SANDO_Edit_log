@@ -1,0 +1,165 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.ContainerStatusMaster
+
+@{
+    ViewBag.Title = "Container Status Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Container Status</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/ContainerStatusMaster/savedata")" method="post" accept-charset="utf-8" id="containerstatusmasterform" data-ng-controller="myController" name="containerstatusmasterform">
+
+                    <fieldset id="ContainerStatusMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.CNTNRSID, new { @class = "form-control  CNTNRSID", @id = "CNTNRSID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.CNTNRSCODE, new { @class = "form-control CNTNRSCODE", @id = "CNTNRSCODE" })
+                                        <input type="text" value="@Model.CNTNRSCODE" name="i_CNTNRSCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.CNTNRSDESC, new { @class = "form-control  CNTNRSDESC", @id = "CNTNRSDESC" })
+                                        <input type="text" value="@Model.CNTNRSDESC" name="i_CNTNRSDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Display Order<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.DISPORDER, new { @class = "form-control DISPORDER", @id = "DISPORDER" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />
+                                    <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />*@
+
+                                <a href="@Url.Action("Index", "ContainerStatusMaster")" class="btn btn-primary btn-xs pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+    $('#btnsave').click(function () {
+        if ($('#CNTNRSCODE').val() == "") {
+            alert('Please Enter Code !!');
+            $('#CNTNRSCODE').focus();
+            return false;
+        }
+        if ($('#CNTNRSDESC').val() == "") {
+            alert('Please Enter Description !!');
+            $('#CNTNRSDESC').focus();
+            return false;
+        }
+        if ($('#DISPORDER').val() == "") {
+            alert('Please Enter Display Order !!');
+            $('#CONTNRFTYPE').focus();
+            return false;
+        }
+
+        var CNTNRSID = $('#CNTNRSID').val();
+        var CNTNRSCODE = $('#CNTNRSCODE').val();
+        var CNTNRSDESC = $('#CNTNRSDESC').val();
+        var DISPORDER = $('#DISPORDER').val();
+        var DISPSTATUS = $('#DISPSTATUS').val();
+        var CUSRID = "";
+        var LMUSRID = "";
+        var pdate = new Date();
+        var PRCSDATE = pdate;
+
+        if ($('#CNTNRSID').val() == "") { $('#CNTNRSID').val(0); }
+
+        var tab = {
+            CNTNRSID: $('#CNTNRSID').val(),
+            CNTNRSCODE: $('#CNTNRSCODE').val(),
+            CNTNRSDESC: $('#CNTNRSDESC').val(),
+            DISPORDER: $('#DISPORDER').val(),
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: 1,
+            PRCSDATE: PRCSDATE
+        };
+
+        $.ajax({
+            //url: "/ContainerStatusMaster/savedata",
+            url: "@Url.Action("savedata", "ContainerStatusMaster")",
+            data: JSON.stringify(tab),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('Container Status Details Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "ContainerStatusMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('Container Status Details Inserted Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "ContainerStatusMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('Container Status Details Already Inserted !! ');
+                    $('#CNTNRSCODE').val("");
+                    $('#CNTNRSDESC').val("");
+                    var returnurl = "@Url.Action("Form", "ContainerStatusMaster")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    });
+
+    </script>
+}
+
+
+
+

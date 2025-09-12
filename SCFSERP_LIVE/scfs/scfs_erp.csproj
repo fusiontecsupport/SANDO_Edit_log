@@ -1,0 +1,2506 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>scfs</RootNamespace>
+    <AssemblyName>scfs</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClosedXML">
+      <HintPath>..\packages\ClosedXML.0.76.0\lib\net40-client\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalDecisions.CrystalReports.Engine.1.0.0\lib\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource">
+      <HintPath>..\packages\CrystalDecisions.ReportSource.1.0.0\lib\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared">
+      <HintPath>..\packages\CrystalDecisions.Shared.1.0.0\lib\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.1.0.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.1.0.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.14.0.0.1\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="QRCoder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.1\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <Private>True</Private>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.2.0.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.2.0.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.2.0.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.2.0.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Context\BondContext.cs" />
+    <Compile Include="Context\SCFSERPContext.cs" />
+    <Compile Include="Context\SCFS_BondContext.cs" />
+    <Compile Include="Controllers\Accounts\ChequeEntryController.cs" />
+    <Compile Include="Controllers\Accounts\DebitNoteController.cs" />
+    <Compile Include="Controllers\Accounts\FinanceAdvanceController.cs" />
+    <Compile Include="Controllers\Accounts\CreditNoteController.cs" />
+    <Compile Include="Controllers\Accounts\ManualCreditNoteController.cs" />
+    <Compile Include="Controllers\autoController.cs" />
+    <Compile Include="Controllers\Bond\BondContainerOutController.cs" />
+    <Compile Include="Controllers\Bond\BondGateInController.cs" />
+    <Compile Include="Controllers\Bond\BondInformationController.cs" />
+    <Compile Include="Controllers\Bond\BondInvoiceController.cs" />
+    <Compile Include="Controllers\Bond\BondPerformaInvoiceController.cs" />
+    <Compile Include="Controllers\Bond\BondManualInvoiceController.cs" />
+    <Compile Include="Controllers\Bond\BondSearchController.cs" />
+    <Compile Include="Controllers\Bond\ExBondInformationController.cs" />
+    <Compile Include="Controllers\Bond\ExBondVehicleTicketController.cs" />
+    <Compile Include="Controllers\Bond\ExBondVTInvoiceController.cs" />
+    <Compile Include="Controllers\Bond\ExBondVTProformaInvoiceController.cs" />
+    <Compile Include="Controllers\Cargo\ImportCargoInController.cs" />
+    <Compile Include="Controllers\Cargo\ImportCargoOutController.cs" />
+    <Compile Include="Controllers\EInvoice\BondEInvoiceController.cs" />
+    <Compile Include="Controllers\EInvoice\BondExBondEInvoiceController.cs" />
+    <Compile Include="Controllers\EInvoice\CreditNoteEInvoiceController.cs" />
+    <Compile Include="Controllers\EInvoice\ExportManualEInvoiceController.cs" />
+    <Compile Include="Controllers\EInvoice\ImportEInvoiceController.cs" />
+    <Compile Include="Controllers\EInvoice\ImportManualEInvoiceController.cs" />
+    <Compile Include="Controllers\EInvoice\ManualCreditNoteEInvoiceController.cs" />
+    <Compile Include="Controllers\EInvoice\SealEInvoiceController.cs" />
+    <Compile Include="Controllers\EInvoice\StuffingEInvoiceController.cs" />
+    <Compile Include="Controllers\Empty\EmptyGateInController.cs" />
+    <Compile Include="Controllers\Empty\EmptySlipInController.cs" />
+    <Compile Include="Controllers\Empty\EmptyVehicleTicketController.cs" />
+    <Compile Include="Controllers\ESeal\ESealGateInController.cs" />
+    <Compile Include="Controllers\ESeal\ESealGateOutController.cs" />
+    <Compile Include="Controllers\ESeal\ESealInvoiceController.cs" />
+    <Compile Include="Controllers\ESeal\ESealVehicleTicketController.cs" />
+    <Compile Include="Controllers\ExportSCMTR\CHPOE07Controller.cs" />
+    <Compile Include="Controllers\ExportSCMTR\StuffedListController.cs" />
+    <Compile Include="Controllers\Export\BSSealBillController.cs" />
+    <Compile Include="Controllers\Export\BSStuffingBillController.cs" />
+    <Compile Include="Controllers\Export\ExportAdvanceController.cs" />
+    <Compile Include="Controllers\Export\ExportCartingOrderController.cs" />
+    <Compile Include="Controllers\Export\ExportEmptyVTController.cs" />
+    <Compile Include="Controllers\Export\ExportGateInController.cs" />
+    <Compile Include="Controllers\Export\ExportGateOutController.cs" />
+    <Compile Include="Controllers\Export\ExportLoadSlipController.cs" />
+    <Compile Include="Controllers\Export\ExportManualBillController.cs" />
+    <Compile Include="Controllers\Export\ExportShippingBillMasterController.cs" />
+    <Compile Include="Controllers\Export\ExportSlabMasterController.cs" />
+    <Compile Include="Controllers\Export\ExportSlabTypeController.cs" />
+    <Compile Include="Controllers\Export\ExportTruckOutController.cs" />
+    <Compile Include="Controllers\Export\ExportVehicleTicketController.cs" />
+    <Compile Include="Controllers\Export\SealController.cs" />
+    <Compile Include="Controllers\Masters\CreditNoteTypeMasterController.cs" />
+    <Compile Include="Controllers\Search\HandlingContainerCountController.cs" />
+    <Compile Include="Controllers\Search\ImportCustomsReportController.cs" />
+    <Compile Include="Controllers\Search\InvoiceHSNDetailsController.cs" />
+    <Compile Include="Controllers\ShutOut\ShutoutVehicleTicketController.cs" />
+    <Compile Include="Controllers\Export\StuffingController.cs" />
+    <Compile Include="Controllers\General\MailFormController.cs" />
+    <Compile Include="Controllers\Import\BillOfEntryController.cs" />
+    <Compile Include="Controllers\Import\DeliveryOrderController.cs" />
+    <Compile Include="Controllers\Import\ImporterUpdateController.cs" />
+    <Compile Include="Controllers\Import\ImportGateInBlockController.cs" />
+    <Compile Include="Controllers\Import\ImportAdvanceController.cs" />
+    <Compile Include="Controllers\Import\ImportDeStuffController.cs" />
+    <Compile Include="Controllers\Import\ImportGateOutController.cs" />
+    <Compile Include="Controllers\Import\ImportInvoiceController.cs" />
+    <Compile Include="Controllers\Import\ImportLoadSlipController.cs" />
+    <Compile Include="Controllers\Import\ImportLorryHireController.cs" />
+    <Compile Include="Controllers\Import\ImportRemoteGateInController.cs" />
+    <Compile Include="Controllers\Import\ImportSteamerNameupdateController.cs" />
+    <Compile Include="Controllers\Import\ImportTruckInController.cs" />
+    <Compile Include="Controllers\Import\ImportTruckOutController.cs" />
+    <Compile Include="Controllers\Import\ImportUpdateDetailsController.cs" />
+    <Compile Include="Controllers\Import\ImportVehicleTicketController.cs" />
+    <Compile Include="Controllers\Import\ManualOpenSheetController.cs" />
+    <Compile Include="Controllers\Import\OpenSheetController.cs" />
+    <Compile Include="Controllers\Import\OpenSheetSealDetailsController.cs" />
+    <Compile Include="Controllers\Import\PerformaInvoiceController.cs" />
+    <Compile Include="Controllers\Import\PreCHAUpdateController.cs" />
+    <Compile Include="Controllers\Import\SectionController.cs" />
+    <Compile Include="Controllers\Masters\BondGodownMasterController.cs" />
+    <Compile Include="Controllers\Masters\BondProductGroupMasterController.cs" />
+    <Compile Include="Controllers\Masters\BondSlabController.cs" />
+    <Compile Include="Controllers\Masters\BondSlabTypeController.cs" />
+    <Compile Include="Controllers\Masters\BondTariffMasterController.cs" />
+    <Compile Include="Controllers\Masters\ImportSlabNarationController.cs" />
+    <Compile Include="Controllers\NonPnr\NonPnrAdvanceController.cs" />
+    <Compile Include="Controllers\Search\BLSearchDetailsController.cs" />
+    <Compile Include="Controllers\Search\BOESearchDetailsController.cs" />
+    <Compile Include="Controllers\Search\ContainerDetailsController.cs" />
+    <Compile Include="Controllers\Search\ExportContainerDetailsController.cs" />
+    <Compile Include="Controllers\Search\IgmLineNoWiseDetailsController.cs" />
+    <Compile Include="Controllers\Search\ImportContainerStockCheckController.cs" />
+    <Compile Include="Controllers\ShutOut\ShutoutCargoController.cs" />
+    <Compile Include="Data\BondEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BondEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\BondEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\BondEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BondEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\BondEntities1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BondEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\BONDSPACEDETAIL.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ExportEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExportEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ExportEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ExportEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExportEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ImportEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImportEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ImportEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ImportEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImportEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PROC_EXPORT_INVOICE_SBILL_CONTAINER_NO_GRID_ASSGN_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_BL_Search_Container_No_Assgn_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_BOE_Search_Container_No_Assgn_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_BondPerforma_Invoice_BondNO_Grid_Assgn_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Bond_Invoice_BondNO_Grid_Assgn_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Bond_Manual_Invoice_BondNO_Grid_Assgn_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_BS_Import_Invoice_No_Wise_Grid_Pulses_Assgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_DORDER_IGMNO_BILLENTRY_WISE_CONTAINER_FLX_ASSGN_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_DORDER_IGMNO_BOE_NO_CTRL_ASSGN_E001_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_ESeal_Invoice_Grid_Assgn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_ES_GATEIN_CONTAINER_CHK_ASSGN_001_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Export_AUTO_TRUCKNO_CBX_ASSGN_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_EXPORT_DASHBOARD_DETAILS_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Export_Invoice_Seal_No_Assgn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Export_Invoice_Stuff_Flx_Assgn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Export_Invoice_Stuff_No_Assgn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_EXPORT_LOADVEHICLEGATEOUT_DETAILS_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Export_Manual_Invoice_Ctrl_Flx_Assgn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_EXPORT_SHIPPINGBILLCOUNT_DETAILS_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Export_ShutOut_COrder_No_Assgn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Export_Stuffing_COrder_No_Assgn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Ex_Bond_VT_Invoice_BondNO_Grid_Assgn_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Ex_Bond_VT_Proforma_Invoice_BondNO_Grid_Assgn_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Fetch_CHAIMP_Dtl_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Fetch_Orginal_Shipping_Bill_Detail_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Finance_TranSactionBillNo_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_get_BondMaster_Status_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_get_BondMaster_Status_Result1.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_get_BondMaster_Status_Result2.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Get_Bond_Contnr_Recev_Frm_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_get_Bond_Details_for_Invoice_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_get_Bond_Entry_Types_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_get_Bond_Godowns_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_get_Bond_Godown_Types_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Get_Bond_Info_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_get_Bond_Operation_Types_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Get_Bond_Tariff_Period_Types_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_get_Bond_Types_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_GET_ESEAL_GATEINDETAIL_FVT_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Get_ExBond_Info_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Get_ExBond_VT_Info_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Get_Export_VT_Details_For_QRCode_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Get_Finance_Transaction_Details_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Get_Import_Slab_Narration_Detail_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Get_Non_PNR_VT_Details_For_QRCode_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Get_Shutout_By_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Get_VT_Details_For_QRCode_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_IGMNO_Line_Search_ContainerNo_GridAssgn_N01_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_IGMNO_Search_ContainerNo_GridAssgn_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_IGMNO_Search_Container_No_Assgn_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Import_Container_Stock_Assgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_IMPORT_DASHBOARD_DETAILS_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Import_DO_Invoice_IGMNO_Grid_Assgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Import_EmptyGatein_Detail_Assgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_IMPORT_GATEIN_CONTAINER_CHK_ASSGN_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Import_Invoice_IGMNO_Grid_Assgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_IMPORT_LOADESTUFFTOTCONTAINER_DETAILS_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Import_Manual_Invoice_Ctrl_Flx_Assgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Import_Performa_Invoice_IGMNO_Grid_Assgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_IMPORT_REMOTEGATEINCONTAINER_DETAILS_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Invoice_Print_Customer_Detail_Assgn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_NonPnr_Invoice_CategoryAddresDetails_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_NonPnr_Invoice_IGMNO_BillType_Load_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_NonPnr_Invoice_IGMNO_Grid_Assgn_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Performa_Invoice_Print_Customer_Detail_Assgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchBillOfEntry_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchBondProductGroup_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchCreditNoteTypeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchExportCartingOrder_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchExportTruckOut_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchImportLorryHire_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchManualOpenSheetGridAssgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchOpenSheetGridAssgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Advance_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_BondExBond_EInvoice_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_BondGodownMaster_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_BondInvoice_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_BondManualInvoice_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_BondPerformaInvoice_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_BondSlabMaster_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_BondSlabTypeMaster_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Bond_GateIn_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Bond_GateOut_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Bond_Information_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Bond_Invoice_Result.cs">
+      <DependentUpon>SCFS_ERP_SPBWEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Bond_TariffMaster_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Bond_Vehicle_Ticket_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_CategoryMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ChequeEntry_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_DeliveryOrder_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Empty_GateIn_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Empty_SlipIn_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Empty_VT_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ESeal_GateIn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ESeal_GateOut_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ESeal_Invoice_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ESeal_VehicleTicket_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ExBondVTInvoice_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ExBondVTProformaInvoice_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ExBond_Information_Result.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ExportManualBill_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ExportShippingAdmission_Multiple_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_CargoBlock_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_ContainerStatusMaster_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_ContainerTypeMaster_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Corderdetails_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Endorsement_ChargeType_Master_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Endorsement_Charge_Master_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Endorsement_Rate_Master_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_GateIn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_GateOut_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_LoadSlip_Master_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Operation_TypeMaster_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Seal_Billing_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_ShippingBillMasterDetails_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Shipping_Admission_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_ShutOut_Cargo_Master_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_SlabMaster_CHAWise_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_SlabMaster_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_SlabTypeMaster_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Stuffing_Master_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Stuff_Billing_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_TariffGroupMaster_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_TariffMaster_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_TariffTypeMaster_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Vehicle_Ticket_Master_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Vessel_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_XML_File_List_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Export_Yard_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Finance_CreditNote_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Finance_DebitNote_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ImportManualBill_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_CargoIn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_CargoOut_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_DeStuffSlip_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_GateInBlock_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_GateInGridAssgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_GateOut_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_Invoice_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_LoadSlip_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_Performa_Invoice_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_RemoteGateInTransfer_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_RemoteGateIn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_TruckIn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_TruckOut_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_VehicleTicket_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_NonPnr_GateInGridAssgn_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_NonPnr_VehicleTicket_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_SCMTR_Stuffed_List_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Shutout_VT_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_SlabNarrationMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_StagMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_SHUTOUT_CARGO_FLX_ASSGN_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SSRCharge_Container_Detail_Assgn_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_STUFFINGDETAIL_FLX_ASSGN_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_UPDATAE_CONTAINERNo_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_UPDATAE_SSRCHARGES_CONTAINERNo_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SCFS_ERP_SPBWEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCFS_ERP_SPBWEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SCFS_ERP_SPBWEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCFS_ERP_SPBWEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SCFS_ERP_SPBWEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCFS_ERP_SPBWEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SP_MANUALOPENSHEET_CONTAINER_FLX_ASSGN_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SP_OPENSHEET_CONTAINER_FLX_ASSGN_Result.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SP_STUFFINGDETAIL_FLX_ASSGN_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SP_STUFFING_CONTAINER_NO_CBX_ASSGN_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SP_STUFFING_SEAL_CONTAINER_NO_CBX_ASSGN_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_ACCOUNTHEADER_HSNCODE_DETAIL.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_ASL_EMPTY_CONTAINER_CBX_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_BOND_RATECARDMASTER_FLX_ASSGN.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN.cs">
+      <DependentUpon>BondEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_EMPTY_CONTAINERNO_AUTOASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_ESEAL_GATEOUT_CONTAINER_CBX_CHNG_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_ESEAL_GATEOUT_MOD_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_EXPORT_ASL_DETAIL_CTRL_ASSGN_MODS.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_EXPORT_ASL_STUFF_CONTAINER_CBX_ASSGN_NEW.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_EXPORT_INVOICE_OPERATION_WISE_TARIFF_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_EXPORT_INVOICE_STUFFING_DETAIL_CTRL_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_EXPORT_RATECARDMASTER_FLX_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_EXPORT_RATECARDMASTER_FLX_ASSGN_01.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_EXPORT_SHIPPINGBILL_NO_CTRL_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_EXPORT_SLABTYPE_HSN_DETAIL_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_EXPORT_STUFFING_BILL_PRINT_ADDRESS_DETAIL_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_EXPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_NEW_EMPTY_GATEOUT_CONTAINER_CBX_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_NEW_EMPTY_VT_CONTAINERNO_AUTOASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_OPENSHEET_DETAIL_CTRL_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_SHIPPINGBILL_GATEINT_TRUCKNO_CBX_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_SHUTOUT_VEHICLETICKET_CTRL_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_STUFFING_CHECKEXISTING_ORGSHIPPINGBILL.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_STUFFING_ORGSBILLNO_REFNO_CBX_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_STUFFING_SBILLNO_REFNO_CBX_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_STUFF_GATEIN_CTRL_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_TALLYCHANAME_UPDATE_VIEW_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_VEHICLETICKET_EXPORT_CONTAINER_CBX_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_VEHICLETICKET_EXPORT_CONTAINER_CBX_ASSGN_DIRECT.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_VEHICLETICKET_EXPORT_CONTAINER_CTRL_ASSGN.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_VEHICLETICKET_EXPORT_CONTAINER_CTRL_ASSGN_DIRECT.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN.cs">
+      <DependentUpon>ImportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Z_pr_ExBond_NOP_Assgn_Result.cs">
+      <DependentUpon>SCFS_ERP_SPBWEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\z_pr_New_Export_Covid_Slab_Assgn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\z_pr_XML_Export_Stuffed_Detail_Assgn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\z_pr_XML_Stuffed_SBill_No_Detail_Assgn_Result.cs">
+      <DependentUpon>ExportEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BillEntryDetail.cs" />
+    <Compile Include="Models\BillEntryMaster.cs" />
+    <Compile Include="Models\BOEDetails.cs" />
+    <Compile Include="Models\BondGateInDetail.cs" />
+    <Compile Include="Models\BondGodownTypeMaster.cs" />
+    <Compile Include="Models\BondGodownMaster.cs" />
+    <Compile Include="Models\BondMaster.cs" />
+    <Compile Include="Models\BondProductGroupMaster.cs" />
+    <Compile Include="Models\BondSlabClassificationMaster.cs" />
+    <Compile Include="Models\BondSlabMaster.cs" />
+    <Compile Include="Models\BondSlabTypeMaster.cs" />
+    <Compile Include="Models\BondTariffMaster.cs" />
+    <Compile Include="Models\BondPerformaTransactionDetail.cs" />
+    <Compile Include="Models\BondTransactionDetail.cs" />
+    <Compile Include="Models\BondPerformaTransactionMaster.cs" />
+    <Compile Include="Models\BondTransactionMaster.cs" />
+    <Compile Include="Models\BondPerformaTransactionMasterFactor.cs" />
+    <Compile Include="Models\BondTransactionMasterFactor.cs" />
+    <Compile Include="Models\BondPerformaTransactionMD.cs" />
+    <Compile Include="Models\BondTransactionMD.cs" />
+    <Compile Include="Models\BondYardMaster.cs" />
+    <Compile Include="Models\CustomerGroupMaster.cs" />
+    <Compile Include="Models\ExportCargoBlockDetails.cs" />
+    <Compile Include="Models\CommonEMailFunction.cs" />
+    <Compile Include="Models\CreditNoteMD.cs" />
+    <Compile Include="Models\CreditNote_TransactionDetail.cs" />
+    <Compile Include="Models\CreditNote_TransactionMaster.cs" />
+    <Compile Include="Models\CreditNote_TypeMaster.cs" />
+    <Compile Include="Models\DebitNoteMD.cs" />
+    <Compile Include="Models\DebitNote_TransactionDetail.cs" />
+    <Compile Include="Models\DebitNote_TransactionMaster.cs" />
+    <Compile Include="Models\DebitNote_TypeMaster.cs" />
+    <Compile Include="Models\DeliveryOrderDetail.cs" />
+    <Compile Include="Models\DeliveryOrderMaster.cs" />
+    <Compile Include="Models\DeliveryOrderMD.cs" />
+    <Compile Include="Models\emailinvoicetemplate.cs" />
+    <Compile Include="Models\BondContainerOut.cs" />
+    <Compile Include="Models\ExBondVehicleTicket.cs" />
+    <Compile Include="Models\ExportShippingBillDetail.cs" />
+    <Compile Include="Models\ExportShippingBillMaster.cs" />
+    <Compile Include="Models\Export_Gateout_Gootype.cs" />
+    <Compile Include="Models\Export_SCMTR_Stuffing.cs" />
+    <Compile Include="Models\Export_SealTypeMaster.cs" />
+    <Compile Include="Models\Export_Seal_Type_Master.cs" />
+    <Compile Include="Models\Export_StuffTypeMaster.cs" />
+    <Compile Include="Models\Ex_BondMaster.cs" />
+    <Compile Include="Models\GateInBlockDetails.cs" />
+    <Compile Include="Models\GateInGrp.cs" />
+    <Compile Include="Controllers\Import\ImportGateInController.cs" />
+    <Compile Include="Controllers\Masters\CategoryAddressDetailsController.cs" />
+    <Compile Include="Controllers\Masters\CategoryBasicDetailsController.cs" />
+    <Compile Include="Controllers\Masters\ContainerStatusMasterController.cs" />
+    <Compile Include="Controllers\Masters\ContainerThruMasterController.cs" />
+    <Compile Include="Controllers\Masters\ContainerTypeMasterController.cs" />
+    <Compile Include="Controllers\Masters\EndorsementChargeController.cs" />
+    <Compile Include="Controllers\Masters\EndorsementChargeTypeController.cs" />
+    <Compile Include="Controllers\Masters\ExportTariffGroupMasterController.cs" />
+    <Compile Include="Controllers\Masters\ExportTariffMasterController.cs" />
+    <Compile Include="Controllers\Masters\ExportTariffTypeMasterController.cs" />
+    <Compile Include="Controllers\Masters\Export_Endorsement_Rate_MasterController.cs" />
+    <Compile Include="Controllers\Masters\Export_OperationTypeMasterController.cs" />
+    <Compile Include="Controllers\Masters\GoDownMasterController.cs" />
+    <Compile Include="Controllers\Export\SealBillController.cs" />
+    <Compile Include="Controllers\Import\BSImportManualBillController.cs" />
+    <Compile Include="Controllers\Import\BSInvoiceController.cs" />
+    <Compile Include="Controllers\Import\ImportManualBillController.cs" />
+    <Compile Include="Controllers\Import\ImportSealMasterController.cs" />
+    <Compile Include="Controllers\General\AccountController.cs" />
+    <Compile Include="Controllers\Masters\AccountGroupMasterController.cs" />
+    <Compile Include="Controllers\Masters\AccountHeadMasterController.cs" />
+    <Compile Include="Controllers\General\BaseController.cs" />
+    <Compile Include="Controllers\Masters\BankMasterController.cs" />
+    <Compile Include="Controllers\Masters\BookedMasterController.cs" />
+    <Compile Include="Controllers\Masters\CategoryMasterController.cs" />
+    <Compile Include="Controllers\Masters\CategoryTypeMasterController.cs" />
+    <Compile Include="Controllers\General\CFSValController.cs" />
+    <Compile Include="Controllers\General\CommonController.cs" />
+    <Compile Include="Controllers\Masters\ChargeMasterController.cs" />
+    <Compile Include="Controllers\Masters\CompanyMasterController.cs" />
+    <Compile Include="Controllers\General\deletecheckController.cs" />
+    <Compile Include="Controllers\General\ErrorController.cs" />
+    <Compile Include="Controllers\General\GroupsController.cs" />
+    <Compile Include="Controllers\General\HomeController.cs" />
+    <Compile Include="Controllers\General\RolesController.cs" />
+    <Compile Include="Controllers\Masters\ConditionMasterController.cs" />
+    <Compile Include="Controllers\Masters\ContainerSizeMasterController.cs" />
+    <Compile Include="Controllers\Masters\CostFactorMasterController.cs" />
+    <Compile Include="Controllers\Masters\DepartmentMasterController.cs" />
+    <Compile Include="Controllers\Masters\DesignationMasterController.cs" />
+    <Compile Include="Controllers\Masters\DesignationTypeMasterController.cs" />
+    <Compile Include="Controllers\Masters\DisplayOrderMasterController.cs" />
+    <Compile Include="Controllers\Masters\EmptyComponentCodeMasterController.cs" />
+    <Compile Include="Controllers\Masters\EmptyDamageCodeMasterController.cs" />
+    <Compile Include="Controllers\Masters\EmptyLocationCodeMasterController.cs" />
+    <Compile Include="Controllers\Masters\EmptyRepairCodeMasterController.cs" />
+    <Compile Include="Controllers\Masters\EmptySlabTypeMasterController.cs" />
+    <Compile Include="Controllers\Masters\GradeMasterController.cs" />
+    <Compile Include="Controllers\Masters\HSNCodeMasterController.cs" />
+    <Compile Include="Controllers\Masters\LocationMasterController.cs" />
+    <Compile Include="Controllers\Masters\PlaceMasterController.cs" />
+    <Compile Include="Controllers\Masters\ProductGroupMasterController.cs" />
+    <Compile Include="Controllers\Masters\RowMasterController.cs" />
+    <Compile Include="Controllers\Masters\SlabMasterController.cs" />
+    <Compile Include="Controllers\Masters\SlabtypeMasterController.cs" />
+    <Compile Include="Controllers\Masters\SlotMasterController.cs" />
+    <Compile Include="Controllers\Masters\SoftDepartmentMasterController.cs" />
+    <Compile Include="Controllers\Export\StuffingBillController.cs" />
+    <Compile Include="Controllers\Masters\StagMasterController.cs" />
+    <Compile Include="Controllers\Masters\StateMasterController.cs" />
+    <Compile Include="Controllers\Masters\TariffGroupMasterController.cs" />
+    <Compile Include="Controllers\Masters\TariffMasterController.cs" />
+    <Compile Include="Controllers\Masters\UnitMasterController.cs" />
+    <Compile Include="Controllers\Masters\VehicleMasterController.cs" />
+    <Compile Include="Controllers\Masters\VesselMasterController.cs" />
+    <Compile Include="Controllers\Masters\YardMasterController.cs" />
+    <Compile Include="Controllers\NonPnr\NonPnrDeStuffAuthorizationSlipController.cs" />
+    <Compile Include="Controllers\NonPnr\NonPnrGateInController.cs" />
+    <Compile Include="Controllers\NonPnr\NonPnrGateOutController.cs" />
+    <Compile Include="Controllers\NonPnr\NonPnrInvoiceController.cs" />
+    <Compile Include="Controllers\NonPnr\NonPnrLoadAuthorizationSlipController.cs" />
+    <Compile Include="Controllers\NonPnr\NonPnrVehicleTicketController.cs" />
+    <Compile Include="DAL\CustomMembershipProvider.cs" />
+    <Compile Include="DAL\CustomRoleProvider.cs" />
+    <Compile Include="DAL\DataContext.cs" />
+    <Compile Include="DAL\DataContextInitilizer.cs" />
+    <Compile Include="DAL\Role.cs" />
+    <Compile Include="DAL\Security\BaseViewPage.cs" />
+    <Compile Include="DAL\Security\CustomAuthorizeAttribute.cs" />
+    <Compile Include="DAL\Security\CustomPrincipal.cs" />
+    <Compile Include="DAL\User.cs" />
+    <Compile Include="Models\GateInLorryHireDetail.cs" />
+    <Compile Include="Models\ManualOpenSheetDetail.cs" />
+    <Compile Include="Models\ManualOpenSheetMaster.cs" />
+    <Compile Include="Models\ManualOpenSheetMD.cs" />
+    <Compile Include="Models\OpenSheetMD.cs" />
+    <Compile Include="Models\OpenSheetSealDetails.cs" />
+    <Compile Include="Models\OpenSheetViaDetails.cs" />
+    <Compile Include="Models\Performa_TransactionDetail.cs" />
+    <Compile Include="Models\Performa_TransactionMaster.cs" />
+    <Compile Include="Models\Performa_TransactionMasterFactor.cs" />
+    <Compile Include="Models\Performa_TrasactionMD.cs" />
+    <Compile Include="Models\PortofReporting.cs" />
+    <Compile Include="Models\ProductTypeMaster.cs" />
+    <Compile Include="Data\PR_ACCOUNTINGYEAR_ID_CHK_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_COMPANYACCOUNTINGDETAIL_ID_CHK_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_GATEIN_CONTAINER_CHK_ASSGN_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_IMPORT_AUTHORIZATION_DETAIL_CTRL_ASSGN_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_NEW_IMPORT_RATECARDMASTER_FLX_ASSGN_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_NEW_NONPNR_RATECARDMASTER_FLX_ASSGN_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PR_NONPNR_AUTHORIZATION_DETAIL_CTRL_ASSGN_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_NonPnr_Invoice_Print_Customer_Detail_Assgn_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchBankMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchBookedMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchChargeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchCompanyMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchConditionMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchContainerSizeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchCostFactorMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchDepartmentMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchDesignationMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchDesignationTypeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchDisplayOrderMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchGradeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchHSNCodeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchLocationMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchPlaceMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchProductGroup_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchRowMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchSlotMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchStateMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchUnitMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_SearchVehicle_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_AccountGroup_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_AccountHead_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Category_TypeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_ContainerThruMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Empty_ComponentCodeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Empty_DamageCodeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Empty_LocationCodeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Empty_RepairCodeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Empty_SlabTypeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_GoDownMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_Import_TariffMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_NonPnr_DeStuffSlip_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_NonPnr_GateOut_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_NonPnr_Invoice_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_NonPnr_LoadSlip_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_SlabMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_SlabTypeMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\pr_Search_TariffGroupMaster_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SCFS.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCFS.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SCFS.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SCFS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SCFS.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_ASL_IGMNO_CONTAINER_CBX_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_RATECARDMASTER_FLX_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_RATECARDMASTER_FLX_ASSGN_01.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_RATECARDMASTER_FLX_ASSGN_02.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_IMPORT_SLABTYPE_HSN_DETAIL_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_NONPNRASD_GIGMNO_CONTAINER_CBX_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_NONPNR_GATEOUT_DETAIL_CTRL_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_NONPNR_GATEOUT_DETAIL_CTRL_ASSGN_001.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_NONPNR_GATEOUT_PRINT_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_NONPNR_GATE_IN_PRINT_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_NONPNR_RATECARDMASTER_FLX_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_NONPNR_TRANSACTION_ADDRESS_DETAIL_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_VEHICLETICKET_NONPNR_CONTAINER_CBX_ASSGN.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\z_pr_New_Import_Covid_Slab_Assgn_Result.cs">
+      <DependentUpon>SCFS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\AmtInWrd.cs" />
+    <Compile Include="Helper\autono.cs" />
+    <Compile Include="Helper\Autonumber.cs" />
+    <Compile Include="Helper\auto_numbr_invoice.cs" />
+    <Compile Include="Helper\BOECheck.cs" />
+    <Compile Include="Helper\CartngOrdr_Del.cs" />
+    <Compile Include="Helper\Container_formar_check.cs" />
+    <Compile Include="Helper\delet.cs" />
+    <Compile Include="Helper\Delete_check.cs" />
+    <Compile Include="Helper\Delete_fun.cs" />
+    <Compile Include="Helper\GateInCheck.cs" />
+    <Compile Include="Helper\ContainerNo_Check.cs" />
+    <Compile Include="Helper\OpenSheetDetails.cs" />
+    <Compile Include="Helper\PostData.cs" />
+    <Compile Include="Helper\test.cs" />
+    <Compile Include="Helper\TMP_InsertPrint.cs" />
+    <Compile Include="Migrations\201402161844035_init.cs" />
+    <Compile Include="Migrations\201402161844035_init.Designer.cs">
+      <DependentUpon>201402161844035_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountGroupMaster.cs" />
+    <Compile Include="Models\AccountHeadMaster.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\ApplicationRole.cs" />
+    <Compile Include="Models\ApplicationRoleGroup.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\ApplicationUserGroup.cs" />
+    <Compile Include="Models\AuthorizationSlipDetail.cs" />
+    <Compile Include="Models\AuthorizationSlipMaster.cs" />
+    <Compile Include="Models\AuthorizationSlipMD.cs" />
+    <Compile Include="Models\BankMaster.cs" />
+    <Compile Include="Models\Bond_NEW_TMPRPT_IDS.cs" />
+    <Compile Include="Models\Bond_TransactionDetail.cs" />
+    <Compile Include="Models\Bond_TransactionMaster.cs" />
+    <Compile Include="Models\BookedMaster.cs" />
+    <Compile Include="Models\CategoryMaster.cs" />
+    <Compile Include="Models\CategoryTypeMaster.cs" />
+    <Compile Include="Models\Category_Address_Details.cs" />
+    <Compile Include="Models\ChargeMaster.cs" />
+    <Compile Include="Models\CompanyMaster.cs" />
+    <Compile Include="Models\ConditionMaster.cs" />
+    <Compile Include="Models\ContainerSizeMaster.cs" />
+    <Compile Include="Models\ContainerStatusMaster.cs" />
+    <Compile Include="Models\ContainerThruMaster.cs" />
+    <Compile Include="Models\ContainerTypeMaster.cs" />
+    <Compile Include="Models\CostFactorMaster.cs" />
+    <Compile Include="Models\DepartmentMaster.cs" />
+    <Compile Include="Models\DesignationMaster.cs" />
+    <Compile Include="Models\DesignationTypeMaster.cs" />
+    <Compile Include="Models\DisplayOrderMaster.cs" />
+    <Compile Include="Models\EInvoice.cs" />
+    <Compile Include="Models\EmptyComponentCodeMaster.cs" />
+    <Compile Include="Models\EmptyDamageCodeMaster.cs" />
+    <Compile Include="Models\EmptyLocationCodeMaster.cs" />
+    <Compile Include="Models\EmptyRepairCodeMaster.cs" />
+    <Compile Include="Models\EmptySlabtypeMaster.cs" />
+    <Compile Include="Models\EndorsementChargeMaster.cs" />
+    <Compile Include="Models\ETransactionMaster.cs" />
+    <Compile Include="Models\ExBondMaster.cs" />
+    <Compile Include="Models\EndorsementChargeTypeMaster.cs" />
+    <Compile Include="Models\ExportSealTypeMaster.cs" />
+    <Compile Include="Models\ExportSlabMaster.cs" />
+    <Compile Include="Models\ExportSlabTypeMaster.cs" />
+    <Compile Include="Models\ExportTariffGroupMaster.cs" />
+    <Compile Include="Models\ExportTariffMaster.cs" />
+    <Compile Include="Models\ExportTariffOPDetails.cs" />
+    <Compile Include="Models\ExportTariffOperationMaster.cs" />
+    <Compile Include="Models\ExportTariffTypeMaster.cs" />
+    <Compile Include="Models\ExportVehicleGroupMaster.cs" />
+    <Compile Include="Models\ExportVehicleTypeMaster.cs" />
+    <Compile Include="Models\Export_Endorsement_Rate_Master.cs" />
+    <Compile Include="Models\Export_Invoice_Register.cs" />
+    <Compile Include="Models\Export_OperationTypeMaster.cs" />
+    <Compile Include="Models\Export_Slab_Charge_Type.cs" />
+    <Compile Include="Models\Export_Slab_wages_type.cs" />
+    <Compile Include="Models\Export_Slab_Yard_Type.cs" />
+    <Compile Include="Models\GateOutDetail.cs" />
+    <Compile Include="Models\GPModeMaster.cs" />
+    <Compile Include="Models\GateInDetail.cs" />
+    <Compile Include="Models\GodownMaster.cs" />
+    <Compile Include="Models\GradeMaster.cs" />
+    <Compile Include="Models\HSNCodeMaster.cs" />
+    <Compile Include="Models\Import_Seal_Master.cs" />
+    <Compile Include="Models\Import_Slab_Handling_Type_Master.cs" />
+    <Compile Include="Models\Import_Slab_Wages_Type_Master.cs" />
+    <Compile Include="Models\Import_Slab_Yard_Type_Master.cs" />
+    <Compile Include="Models\JQueryDataTableParamModel.cs" />
+    <Compile Include="Models\LocationMaster.cs" />
+    <Compile Include="Models\MenuRoleMaster.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\IdentityManager.cs" />
+    <Compile Include="Models\NEW_TMPRPT_IDS.cs" />
+    <Compile Include="Models\OpenSheetDetail.cs" />
+    <Compile Include="Models\OpenSheetMaster.cs" />
+    <Compile Include="Models\PlaceMaster.cs" />
+    <Compile Include="Models\PortTypeMaster.cs" />
+    <Compile Include="Models\ProductGroupMaster.cs" />
+    <Compile Include="Models\RemoteGateIn.cs" />
+    <Compile Include="Models\ReportingEvent.cs" />
+    <Compile Include="Models\ReportingPartyType.cs" />
+    <Compile Include="Models\RowMaster.cs" />
+    <Compile Include="Models\ShippingAdmission.cs" />
+    <Compile Include="Models\ShippingBillDetail.cs" />
+    <Compile Include="Models\ShippingBillMaster.cs" />
+    <Compile Include="Models\ShippingBillMD.cs" />
+    <Compile Include="Models\ShutoutVehicleTicketDetail.cs" />
+    <Compile Include="Models\ShutoutVTDetail.cs" />
+    <Compile Include="Models\SlabMaster.cs" />
+    <Compile Include="Models\SlabNarrationMaster.cs" />
+    <Compile Include="Models\SlabTypeMaster.cs" />
+    <Compile Include="Models\SlotMaster.cs" />
+    <Compile Include="Models\SoftDepartmentMaster.cs" />
+    <Compile Include="Models\Soft_Table_Delete_Detail.cs" />
+    <Compile Include="Models\SP_SHIPPINGBILL_GATEINT_TRUCKNO_CBX_ASSGN_Result.cs" />
+    <Compile Include="Models\StagMaster.cs" />
+    <Compile Include="Models\StateMaster.cs" />
+    <Compile Include="Models\StuffingDetail.cs" />
+    <Compile Include="Models\StuffingList.cs" />
+    <Compile Include="Models\StuffingMaster.cs" />
+    <Compile Include="Models\StuffingMD.cs" />
+    <Compile Include="Models\StuffingProductDetail.cs" />
+    <Compile Include="Models\Stuffing_Json_Detail.cs" />
+    <Compile Include="Models\Stuffing_Message_Type.cs" />
+    <Compile Include="Models\TariffGroupMaster.cs" />
+    <Compile Include="Models\TariffMaster.cs" />
+    <Compile Include="Models\TaxTypeMaster.cs" />
+    <Compile Include="Models\TMPRPT_IDS.cs" />
+    <Compile Include="Models\TMP_CARTING_ORDER_TRUCK_DUPCHK.cs" />
+    <Compile Include="Models\TransactionDetail.cs" />
+    <Compile Include="Models\TransactionMaster.cs" />
+    <Compile Include="Models\TransactionMasterFactor.cs" />
+    <Compile Include="Models\TransactionMD.cs" />
+    <Compile Include="Models\TransactionModeMaster.cs" />
+    <Compile Include="Models\UnitMaster.cs" />
+    <Compile Include="Models\VehicleMaster.cs" />
+    <Compile Include="Models\VehicleTicketDetail.cs" />
+    <Compile Include="Models\VehicleTicketGateOut.cs" />
+    <Compile Include="Models\VesselMaster.cs" />
+    <Compile Include="Models\VW_ACCOUNTING_YEAR_DETAIL_ASSGN.cs" />
+    <Compile Include="Models\VW_CARGO_OUT_CONTAINER_CBX_ASSGN.cs" />
+    <Compile Include="Models\VW_ESEAL_GATEINDETAIL_CONTAINERNO.cs" />
+    <Compile Include="Models\VW_EXPORT_CONTAINER_DETAIL_QUERY_ASSGN.cs" />
+    <Compile Include="Models\VW_EXPORT_CONT_STUFFING_DETAIL_ASSGN.cs" />
+    <Compile Include="Models\VW_EXPORT_GATEOUT_CONTAINER_CBX_ASSGN.cs" />
+    <Compile Include="Models\VW_EXPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN.cs" />
+    <Compile Include="Models\VW_EXPORT_GATEOUT_MOD_ASSGN.cs" />
+    <Compile Include="Models\VW_EXPORT_GATEOUT_TRUCKNO_CBX_ASSGN.cs" />
+    <Compile Include="Models\VW_EXPORT_SHIPPINGBILL_WISE_CARTINGORDER_DETAIL_ASSGN.cs" />
+    <Compile Include="Models\VW_EXPORT_SHIPPING_BILL_INVOICE_DETAIL.cs" />
+    <Compile Include="Models\VW_EXPORT_SHIPPING_BILL_WISE_STUFFNG_DETAIL_ASSGN.cs" />
+    <Compile Include="Models\VW_Gatein_Block_Contnrno_Assgn.cs" />
+    <Compile Include="Models\VW_IMPORT_CONTAINER_DETAIL_QUERY_ASSGN.cs" />
+    <Compile Include="Models\VW_IMPORT_GATEOUT_TRUCKNO_CBX_ASSGN.cs" />
+    <Compile Include="Models\Vw_ManualOpenSheet_Cbx_Assgn_01.cs" />
+    <Compile Include="Models\VW_NEW_CATEGORY_STATETYPE_ASSGN.cs" />
+    <Compile Include="Models\VW_OPENSHEET_BILL_ENTRY_MID_ASSGN.cs" />
+    <Compile Include="Models\Vw_Opensheet_Cbx_Assgn_01.cs" />
+    <Compile Include="Models\Vw_ShippingBill_Export_Gate_In_Ctrl_Assgn.cs" />
+    <Compile Include="Models\VW_TRANSACTION_SLAB_RE_CALC_ASSGN.cs" />
+    <Compile Include="Models\XMLwithOpenXML.cs" />
+    <Compile Include="Models\YardMaster.cs" />
+    <Compile Include="Models\Z_TRANSACTION_DOSPRINT_ASSGN.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionExpire.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\css\bootstrap.css" />
+    <Content Include="assets\css\custom-styles.css" />
+    <Content Include="assets\css\font-awesome.css" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfontba72.svg" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\js\bootstrap-remote-tabs.js" />
+    <Content Include="assets\js\bootstrap-switch.js" />
+    <Content Include="assets\js\bootstrap.min.js" />
+    <Content Include="assets\js\custom-scripts.js" />
+    <Content Include="assets\js\custom.js" />
+    <Content Include="assets\js\dataTables\dataTables.bootstrap.css" />
+    <Content Include="assets\js\dataTables\dataTables.bootstrap.js" />
+    <Content Include="assets\js\dataTables\jquery.dataTables.columnFilter.js" />
+    <Content Include="assets\js\dataTables\jquery.dataTables.js" />
+    <Content Include="assets\js\jquery-1.10.2.js" />
+    <Content Include="assets\js\jquery.metisMenu.js" />
+    <Content Include="assets\js\morris\morris-0.4.3.min.css" />
+    <Content Include="assets\js\morris\morris.js" />
+    <Content Include="assets\js\morris\raphael-2.1.0.min.js" />
+    <Content Include="Content\bootstrap-filterable.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\TableTools.css" />
+    <Content Include="Content\DataTables-1.9.4\docs\media\css\doc.css" />
+    <Content Include="Content\DataTables-1.9.4\docs\media\css\shCore.css" />
+    <Content Include="Content\DataTables-1.9.4\docs\media\css\shThemeDataTables.css" />
+    <Content Include="Content\DataTables-1.9.4\docs\media\images\arrow.jpg" />
+    <Content Include="Content\DataTables-1.9.4\docs\media\images\arrow.png" />
+    <Content Include="Content\DataTables-1.9.4\docs\media\images\extended.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\AutoFill\media\css\AutoFill.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\AutoFill\media\docs\media\css\doc.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\AutoFill\media\docs\media\css\shCore.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\AutoFill\media\docs\media\css\shThemeDataTables.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\AutoFill\media\docs\media\images\arrow.jpg" />
+    <Content Include="Content\DataTables-1.9.4\extras\AutoFill\media\docs\media\images\arrow.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\AutoFill\media\docs\media\images\extended.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\AutoFill\media\images\filler.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColReorder\media\css\ColReorder.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColReorder\media\docs\media\css\doc.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColReorder\media\docs\media\css\shCore.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColReorder\media\docs\media\css\shThemeDataTables.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColReorder\media\docs\media\images\arrow.jpg" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColReorder\media\docs\media\images\arrow.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColReorder\media\docs\media\images\extended.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColReorder\media\images\insert.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColVis\media\css\ColVis.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColVis\media\css\ColVisAlt.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColVis\media\docs\media\css\doc.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColVis\media\docs\media\css\shCore.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColVis\media\docs\media\css\shThemeDataTables.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColVis\media\docs\media\images\arrow.jpg" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColVis\media\docs\media\images\arrow.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColVis\media\docs\media\images\extended.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\ColVis\media\images\button.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\FixedColumns\docs\media\css\doc.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\FixedColumns\docs\media\css\shCore.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\FixedColumns\docs\media\css\shThemeDataTables.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\FixedColumns\docs\media\images\arrow.jpg" />
+    <Content Include="Content\DataTables-1.9.4\extras\FixedColumns\docs\media\images\arrow.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\FixedColumns\docs\media\images\extended.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\Scroller\media\css\dataTables.scroller.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\Scroller\media\docs\media\css\doc.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\Scroller\media\docs\media\css\shCore.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\Scroller\media\docs\media\css\shThemeDataTables.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\Scroller\media\docs\media\images\arrow.jpg" />
+    <Content Include="Content\DataTables-1.9.4\extras\Scroller\media\docs\media\images\arrow.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\Scroller\media\docs\media\images\extended.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\Scroller\media\images\loading-background.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\css\TableTools.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\css\TableTools_JUI.css" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\background.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\collection.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\collection_hover.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\copy.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\copy_hover.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\csv.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\csv_hover.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\pdf.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\pdf_hover.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\print.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\print_hover.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\xls.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\xls_hover.png" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\swf\copy_csv_xls.swf" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Content\DataTables-1.9.4\foundation\dataTables.foundation.css" />
+    <Content Include="Content\DataTables-1.9.4\foundation\dataTables.foundation.js" />
+    <Content Include="Content\DataTables-1.9.4\foundation\images\sort_asc.png" />
+    <Content Include="Content\DataTables-1.9.4\foundation\images\sort_asc_disabled.png" />
+    <Content Include="Content\DataTables-1.9.4\foundation\images\sort_both.png" />
+    <Content Include="Content\DataTables-1.9.4\foundation\images\sort_desc.png" />
+    <Content Include="Content\DataTables-1.9.4\foundation\images\sort_desc_disabled.png" />
+    <Content Include="Content\DataTables-1.9.4\media\css\demo_page.css" />
+    <Content Include="Content\DataTables-1.9.4\media\css\demo_table.css" />
+    <Content Include="Content\DataTables-1.9.4\media\css\demo_table_jui.css" />
+    <Content Include="Content\DataTables-1.9.4\media\css\jquery.dataTables.css" />
+    <Content Include="Content\DataTables-1.9.4\media\css\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\DataTables-1.9.4\media\images\back_disabled.png" />
+    <Content Include="Content\DataTables-1.9.4\media\images\back_enabled.png" />
+    <Content Include="Content\DataTables-1.9.4\media\images\back_enabled_hover.png" />
+    <Content Include="Content\DataTables-1.9.4\media\images\favicon.ico" />
+    <Content Include="Content\DataTables-1.9.4\media\images\forward_disabled.png" />
+    <Content Include="Content\DataTables-1.9.4\media\images\forward_enabled.png" />
+    <Content Include="Content\DataTables-1.9.4\media\images\forward_enabled_hover.png" />
+    <Content Include="Content\DataTables-1.9.4\media\images\sort_asc.png" />
+    <Content Include="Content\DataTables-1.9.4\media\images\sort_asc_disabled.png" />
+    <Content Include="Content\DataTables-1.9.4\media\images\sort_both.png" />
+    <Content Include="Content\DataTables-1.9.4\media\images\sort_desc.png" />
+    <Content Include="Content\DataTables-1.9.4\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\fooTable\footable-0.1.css" />
+    <Content Include="Content\fooTable\footable.js" />
+    <Content Include="Content\fooTable\footable.plugin.datatablesIntegration.js" />
+    <Content Include="Content\fooTable\img\down.png" />
+    <Content Include="Content\fooTable\img\minus.png" />
+    <Content Include="Content\fooTable\img\plus.png" />
+    <Content Include="Content\fooTable\img\sorting_sprite.png" />
+    <Content Include="Content\fooTable\img\up.png" />
+    <Content Include="Content\foundation\app.css" />
+    <Content Include="Content\foundation\foundation.css" />
+    <Content Include="Content\foundation\foundation.mvc.css" />
+    <Content Include="Content\foundation\foundation_icons_general\fonts\general_foundicons.svg" />
+    <Content Include="Content\foundation\foundation_icons_general\stylesheets\general_foundicons.css" />
+    <Content Include="Content\foundation\foundation_icons_general\stylesheets\general_foundicons_ie7.css" />
+    <Content Include="Content\foundation\normalize.css" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\jquery-ui.structure.css" />
+    <Content Include="Content\jquery-ui.structure.min.css" />
+    <Content Include="Content\jquery-ui.theme.css" />
+    <Content Include="Content\jquery-ui.theme.min.css" />
+    <Content Include="Content\jquery.alerts.css" />
+    <Content Include="Content\jquery.dataTables.css" />
+    <Content Include="Content\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\jquery.datetimepicker.css" />
+    <Content Include="Content\jquery.ui.dialog.css" />
+    <Content Include="Content\summernote.css" />
+    <Content Include="Content\sweetalert2.min.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\jQuery-Ajax-Loading-Overlay-with-Loading-Text-Spinner-Plugin.jpg" />
+    <Content Include="Content\themes\base\images\jQuery-Spin-Plugin.jpg" />
+    <Content Include="Content\themes\base\images\loading.gif" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\themes\Usercss.css" />
+    <Content Include="Content\token-input.css" />
+    <Content Include="Content\ui.multiselect.css" />
+    <Content Include="css\common.css" />
+    <Content Include="css\tablesort.css" />
+    <Content Include="css\ui.multiselect.css" />
+    <Content Include="Data\BondEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BondEntities.edmx</DependentUpon>
+      <LastGenOutput>BondEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\BondEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BondEntities.edmx</DependentUpon>
+      <LastGenOutput>BondEntities.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\ExportEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ExportEntities.edmx</DependentUpon>
+      <LastGenOutput>ExportEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\ExportEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ExportEntities.edmx</DependentUpon>
+      <LastGenOutput>ExportEntities.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\ImportEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ImportEntities.edmx</DependentUpon>
+      <LastGenOutput>ImportEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\ImportEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ImportEntities.edmx</DependentUpon>
+      <LastGenOutput>ImportEntities.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\SCFS.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SCFS.edmx</DependentUpon>
+      <LastGenOutput>SCFS.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\SCFS.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SCFS.edmx</DependentUpon>
+      <LastGenOutput>SCFS.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\SCFS_ERP_SPBWEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SCFS_ERP_SPBWEntities.edmx</DependentUpon>
+      <LastGenOutput>SCFS_ERP_SPBWEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\SCFS_ERP_SPBWEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SCFS_ERP_SPBWEntities.edmx</DependentUpon>
+      <LastGenOutput>SCFS_ERP_SPBWEntities.cs</LastGenOutput>
+    </Content>
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\opensansfont.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="images\arrow_mini_down.gif" />
+    <Content Include="images\bg.gif" />
+    <Content Include="images\bg_content.gif" />
+    <Content Include="images\bg_content_bottom.gif" />
+    <Content Include="images\bg_header_blue.gif" />
+    <Content Include="images\bg_header_green.gif" />
+    <Content Include="images\bg_header_red.gif" />
+    <Content Include="images\bg_login.gif" />
+    <Content Include="images\bg_usertools_left.gif" />
+    <Content Include="images\bg_usertools_right.gif" />
+    <Content Include="images\bullet_blue.gif" />
+    <Content Include="images\bullet_green.gif" />
+    <Content Include="images\bullet_red.gif" />
+    <Content Include="images\but_left_blue.gif" />
+    <Content Include="images\but_left_green.gif" />
+    <Content Include="images\but_left_grey.gif" />
+    <Content Include="images\but_left_red.gif" />
+    <Content Include="images\but_login_left.gif" />
+    <Content Include="images\but_login_span.gif" />
+    <Content Include="images\but_right_blue.gif" />
+    <Content Include="images\but_right_green.gif" />
+    <Content Include="images\but_right_grey.gif" />
+    <Content Include="images\but_right_red.gif" />
+    <Content Include="images\but_round_del_blue.gif" />
+    <Content Include="images\but_round_del_green.gif" />
+    <Content Include="images\but_round_del_red.gif" />
+    <Content Include="images\but_round_left_grey.gif" />
+    <Content Include="images\but_round_ok_blue.gif" />
+    <Content Include="images\but_round_ok_green.gif" />
+    <Content Include="images\but_round_ok_red.gif" />
+    <Content Include="images\but_round_span_blue.gif" />
+    <Content Include="images\but_round_span_green.gif" />
+    <Content Include="images\but_round_span_grey.gif" />
+    <Content Include="images\but_round_span_red.gif" />
+    <Content Include="images\container_shipping_03.jpg" />
+    <Content Include="images\forgot_bg_left.gif" />
+    <Content Include="images\forgot_bg_span.gif" />
+    <Content Include="images\icons\action_check.gif" />
+    <Content Include="images\icons\action_delete.gif" />
+    <Content Include="images\icons\action_remove.gif" />
+    <Content Include="images\icons\calendar.gif" />
+    <Content Include="images\icons\chart_bar.gif" />
+    <Content Include="images\icons\comments.gif" />
+    <Content Include="images\icons\edit.gif" />
+    <Content Include="images\icons\exclamation.gif" />
+    <Content Include="images\icons\feed.gif" />
+    <Content Include="images\icons\lightbulb.gif" />
+    <Content Include="images\icons\lightbulb_off.gif" />
+    <Content Include="images\icons\user.gif" />
+    <Content Include="images\icon_clock.png" />
+    <Content Include="images\icon_content_small.gif" />
+    <Content Include="images\icon_dashboard.png" />
+    <Content Include="images\icon_dashboard_small.gif" />
+    <Content Include="images\icon_edit.png" />
+    <Content Include="images\icon_error.gif" />
+    <Content Include="images\icon_info.gif" />
+    <Content Include="images\icon_mail_small.gif" />
+    <Content Include="images\icon_media.png" />
+    <Content Include="images\icon_news.png" />
+    <Content Include="images\icon_reports.png" />
+    <Content Include="images\icon_settings.png" />
+    <Content Include="images\icon_success.gif" />
+    <Content Include="images\icon_users.png" />
+    <Content Include="images\icon_warning.gif" />
+    <Content Include="images\informationbar_right.gif" />
+    <Content Include="images\navigation_background_blue.gif" />
+    <Content Include="images\navigation_background_green.gif" />
+    <Content Include="images\navigation_background_red.gif" />
+    <Content Include="images\navigation_first_blue.gif" />
+    <Content Include="images\navigation_first_green.gif" />
+    <Content Include="images\navigation_first_red.gif" />
+    <Content Include="images\navigation_last_blue.gif" />
+    <Content Include="images\navigation_last_green.gif" />
+    <Content Include="images\navigation_last_red.gif" />
+    <Content Include="images\tabs_left.gif" />
+    <Content Include="images\tabs_left_green.gif" />
+    <Content Include="images\tabs_left_red.gif" />
+    <Content Include="images\tabs_right.gif" />
+    <Content Include="images\tabs_right_green.gif" />
+    <Content Include="images\tabs_right_red.gif" />
+    <Content Include="Scripts\bootstrap-confirmation.js" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="filterTable.jquery.json" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfontba72.eot" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfontba72.ttf" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfontba72.woff" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfontd41d.eot" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\fonts\glyphicons-halflings-regulard41d.eot" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\collection.psd" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\copy document.psd" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\file_types.psd" />
+    <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\printer.psd" />
+    <Content Include="Content\DataTables-1.9.4\media\images\Sorting icons.psd" />
+    <Content Include="Content\foundation\foundation_icons_general\fonts\general_foundicons.eot" />
+    <Content Include="Content\foundation\foundation_icons_general\fonts\general_foundicons.ttf" />
+    <Content Include="Content\foundation\foundation_icons_general\fonts\general_foundicons.woff" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\CommonValidation.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.min.js.gz" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\js\ColReorder.min.js.gz" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\js\ColVis.min.js.gz" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\media\js\FixedColumns.min.js.gz" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\js\dataTables.scroller.min.js.gz" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\TableTools\media\js\TableTools.min.js.gz" />
+    <Content Include="Scripts\Gst-Bond-Invoice-costfactor.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\sweetalert2.all.min.js" />
+    <Content Include="Scripts\sweetalert2.min.js" />
+    <Content Include="Views\ManualCreditNote\Index.cshtml" />
+    <Content Include="Views\ManualCreditNote\CNForm.cshtml" />
+    <Content Include="Views\BSStuffingBill\AForm.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\OpenSans-Light.ttf" />
+    <Content Include="Views\ImportTruckOut\TOIndex.cshtml" />
+    <Content Include="Views\ImportTruckOut\Form.cshtml" />
+    <Content Include="Views\BLSearchDetails\Index.cshtml" />
+    <Content Include="Views\BOESearchDetails\Index.cshtml" />
+    <Content Include="Views\ContainerDetails\Index.cshtml" />
+    <Content Include="Views\ImportContainerStockCheck\Index.cshtml" />
+    <Content Include="Views\IgmLineNoWiseDetails\Index.cshtml" />
+    <Content Include="Views\ExportContainerDetails\SBSearch.cshtml" />
+    <Content Include="Views\ExportContainerDetails\Index.cshtml" />
+    <Content Include="fonts\OpenSans-Light.woff" />
+    <Content Include="fonts\memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWt06F15M.woff2" />
+    <Content Include="fonts\memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWtE6F15M.woff2" />
+    <Content Include="fonts\memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWtk6F15M.woff2" />
+    <Content Include="fonts\memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWtU6F15M.woff2" />
+    <Content Include="fonts\memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWu06F15M.woff2" />
+    <Content Include="fonts\memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWuk6F15M.woff2" />
+    <Content Include="fonts\memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWuU6F.woff2" />
+    <Content Include="fonts\memtYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWqWvU6F15M.woff2" />
+    <Content Include="fonts\memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTS-muw.woff2" />
+    <Content Include="fonts\memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTS2mu1aB.woff2" />
+    <Content Include="fonts\memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTSCmu1aB.woff2" />
+    <Content Include="fonts\memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTSGmu1aB.woff2" />
+    <Content Include="fonts\memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTSKmu1aB.woff2" />
+    <Content Include="fonts\memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTSOmu1aB.woff2" />
+    <Content Include="fonts\memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTSumu1aB.woff2" />
+    <Content Include="fonts\memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTSymu1aB.woff2" />
+    <Content Include="Views\ImportTruckIn\TIIndex.cshtml" />
+    <Content Include="Views\Section\Index.cshtml" />
+    <Content Include="Views\Section\Form.cshtml" />
+    <Content Include="Views\ImporterUpdate\Index.cshtml" />
+    <Content Include="Views\ImporterUpdate\Form.cshtml" />
+    <Content Include="Views\ImportUpdateDetails\Index.cshtml" />
+    <Content Include="Views\ImportUpdateDetails\PIndex.cshtml" />
+    <Content Include="Views\ImportUpdateDetails\WIndex.cshtml" />
+    <Content Include="Views\OpenSheet\TCHForm.cshtml" />
+    <Content Include="Views\ImportManualBill\MGSTForm.cshtml" />
+    <Content Include="Views\ImportUpdateDetails\RSIndex.cshtml" />
+    <Content Include="Web.config" />
+    <EntityDeploy Include="Data\SCFS.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SCFS.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\SCFS.edmx.diagram">
+      <DependentUpon>SCFS.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Data\ExportEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ExportEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\ExportEntities.edmx.diagram">
+      <DependentUpon>ExportEntities.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Data\ImportEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ImportEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\ImportEntities.edmx.diagram">
+      <DependentUpon>ImportEntities.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Data\SCFS_ERP_SPBWEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SCFS_ERP_SPBWEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\SCFS_ERP_SPBWEntities.edmx.diagram">
+      <DependentUpon>SCFS_ERP_SPBWEntities.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Data\BondEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BondEntities1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\BondEntities.edmx.diagram">
+      <DependentUpon>BondEntities.edmx</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\DataTables-1.9.4\docs\media\js\doc.js" />
+    <Content Include="Scripts\DataTables-1.9.4\docs\media\js\jquery.js" />
+    <Content Include="Scripts\DataTables-1.9.4\docs\media\js\shBrushJScript.js" />
+    <Content Include="Scripts\DataTables-1.9.4\docs\media\js\shCore.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\docs\media\js\doc.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\docs\media\js\jquery.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\docs\media\js\shBrushJScript.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\docs\media\js\shCore.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.min.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\docs\media\js\doc.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\docs\media\js\jquery.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\docs\media\js\shBrushJScript.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\docs\media\js\shCore.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\js\ColReorder.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\js\ColReorder.min.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\docs\media\js\doc.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\docs\media\js\jquery.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\docs\media\js\shBrushJScript.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\docs\media\js\shCore.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\js\ColVis.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\js\ColVis.min.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\docs\media\js\doc.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\docs\media\js\jquery.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\docs\media\js\shBrushJScript.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\docs\media\js\shCore.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\media\js\FixedColumns.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\media\js\FixedColumns.min.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\docs\media\js\doc.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\docs\media\js\jquery.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\docs\media\js\shBrushJScript.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\docs\media\js\shCore.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\js\dataTables.scroller.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\js\dataTables.scroller.min.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\TableTools\media\js\TableTools.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\TableTools\media\js\TableTools.min.js" />
+    <Content Include="Scripts\DataTables-1.9.4\extras\TableTools\media\js\ZeroClipboard.js" />
+    <Content Include="Scripts\DataTables-1.9.4\media\js\jquery.dataTables.js" />
+    <Content Include="Scripts\DataTables-1.9.4\media\js\jquery.dataTables.min.js" />
+    <Content Include="Scripts\DataTables-1.9.4\media\js\jquery.js" />
+    <Content Include="Scripts\datatables\copy_csv_xls_pdf.swf" />
+    <Content Include="Scripts\datatables\dataTables.bootstrap.js" />
+    <Content Include="Scripts\datatables\jquery.dataTables.js" />
+    <Content Include="Scripts\datatables\TableTools.js" />
+    <Content Include="Scripts\datatables\TableTools_orig.js" />
+    <Content Include="Scripts\datatables\ZeroClipboard.js" />
+    <Content Include="Scripts\filterable-cell.js" />
+    <Content Include="Scripts\filterable-row.js" />
+    <Content Include="Scripts\filterable-utils.js" />
+    <Content Include="Scripts\filterable.js" />
+    <Content Include="Scripts\gateinblock_auto.js" />
+    <Content Include="Scripts\fusion.js" />
+    <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
+    <Content Include="Scripts\Gst-Export-Invoice-costfactor-BS.js" />
+    <Content Include="Scripts\Gst-Export-Invoice-costfactor.js" />
+    <Content Include="Scripts\GST_Import_Inv_costfactor-BS.js" />
+    <Content Include="Scripts\GST_Import_Inv_costfactor.js" />
+    <Content Include="Scripts\GST_NonPnr_Inv_costfactor.js" />
+    <Content Include="Scripts\Import_Inv_costfactor.js" />
+    <Content Include="Scripts\Invoice-costfactor.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <Content Include="Scripts\jquery-ft-min.js" />
+    <Content Include="Scripts\jquery-key-restrictions.js" />
+    <Content Include="Scripts\jquery-key-restrictions.min.js" />
+    <Content Include="Scripts\jquery-ui-1.11.1.js" />
+    <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery-ui.min-1.11.1.js" />
+    <Content Include="Scripts\jquery.alerts.js" />
+    <Content Include="Scripts\jquery.datetimepicker.js" />
+    <Content Include="Scripts\jquery.filtertable.js" />
+    <Content Include="Scripts\jquery.filtertable.min.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.session.js" />
+    <Content Include="Scripts\jquery.tokeninput.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery.validate_tab.js" />
+    <Content Include="Scripts\jsapi.js" />
+    <Content Include="Scripts\LCLInvoice.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Purchase_cf.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\script-custom-editor.js" />
+    <Content Include="Scripts\summernote.js" />
+    <Content Include="Scripts\Supp_Inv_CF.js" />
+    <Content Include="Scripts\tablesort.js" />
+    <Content Include="Scripts\ui.multiselect.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Account\Delete.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SelectRoleEditorViewModel.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Delete.cshtml" />
+    <Content Include="Views\Groups\Create.cshtml" />
+    <Content Include="Views\Groups\Delete.cshtml" />
+    <Content Include="Views\Groups\Details.cshtml" />
+    <Content Include="Views\Groups\Edit.cshtml" />
+    <Content Include="Views\Groups\GroupRoles.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SelectGroupEditorViewModel.cshtml" />
+    <Content Include="Views\Account\UserGroups.cshtml" />
+    <Content Include="Views\Account\UserPermissions.cshtml" />
+    <Content Include="Views\AccountGroupMaster\Form.cshtml" />
+    <Content Include="Views\AccountGroupMaster\Index.cshtml" />
+    <Content Include="Views\AccountHeadMaster\Form.cshtml" />
+    <Content Include="Views\AccountHeadMaster\Index.cshtml" />
+    <Content Include="Views\CategoryMaster\Form.cshtml" />
+    <Content Include="Views\CategoryMaster\Index.cshtml" />
+    <Content Include="Views\CategoryTypeMaster\Form.cshtml" />
+    <Content Include="Views\CategoryTypeMaster\Index.cshtml" />
+    <Content Include="Views\CompanyMaster\Form.cshtml" />
+    <Content Include="Views\CompanyMaster\Index.cshtml" />
+    <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Shared\_UserLayout.cshtml" />
+    <Content Include="Views\SoftDepartmentMaster\Form.cshtml" />
+    <Content Include="Views\SoftDepartmentMaster\Index.cshtml" />
+    <Content Include="Views\StuffingBill\Form.cshtml" />
+    <Content Include="Views\ShutoutInvoice\Form.cshtml" />
+    <Content Include="Views\StuffingBill\Index.cshtml" />
+    <Content Include="Views\Shared\Stuffing.cshtml" />
+    <Content Include="Views\StuffingBill\View1.cshtml" />
+    <Content Include="Views\auto\Index.cshtml" />
+    <Content Include="Views\SealBill\Form.cshtml" />
+    <Content Include="Views\Shared\_PopupLayout.cshtml" />
+    <Content Include="Views\Home\Sess_Exp.cshtml" />
+    <Content Include="Views\SealBill\Index.cshtml" />
+    <Content Include="Views\ShutoutInvoice\Index.cshtml" />
+    <Content Include="Views\StuffingBill\CForm.cshtml" />
+    <Content Include="Views\SealBill\CForm.cshtml" />
+    <Content Include="Views\StuffingBill\MForm.cshtml" />
+    <Content Include="Views\SealBill\MForm.cshtml" />
+    <Content Include="Views\SealBill\GSTForm.cshtml" />
+    <Content Include="Views\ImportManualBill\Index.cshtml" />
+    <Content Include="Views\ImportManualBill\GSTForm.cshtml" />
+    <Content Include="Views\BSInvoice\Index.cshtml" />
+    <Content Include="Views\BSInvoice\GSTForm.cshtml" />
+    <Content Include="Views\BSInvoice\AForm.cshtml" />
+    <Content Include="Views\BSInvoice\BForm.cshtml" />
+    <Content Include="Views\BSInvoice\CForm.cshtml" />
+    <Content Include="Views\ShutoutInvoice\GSTForm.cshtml" />
+    <Content Include="Views\ExportManualBill\Index.cshtml" />
+    <Content Include="Views\BondInvoice\Index.cshtml" />
+    <Content Include="Views\DesignationMaster\Index.cshtml" />
+    <Content Include="Views\DesignationTypeMaster\Index.cshtml" />
+    <Content Include="Views\DesignationTypeMaster\Form.cshtml" />
+    <Content Include="Views\DesignationMaster\Form.cshtml" />
+    <Content Include="Views\BookedMaster\Index.cshtml" />
+    <Content Include="Views\BookedMaster\Form.cshtml" />
+    <Content Include="Views\DepartmentMaster\Form.cshtml" />
+    <Content Include="Views\DepartmentMaster\Index.cshtml" />
+    <Content Include="Views\ConditionMaster\Form.cshtml" />
+    <Content Include="Views\ConditionMaster\Index.cshtml" />
+    <Content Include="Views\ContainerSizeMaster\Index.cshtml" />
+    <Content Include="Views\ContainerSizeMaster\Form.cshtml" />
+    <Content Include="Views\ChargeMaster\Index.cshtml" />
+    <Content Include="Views\ChargeMaster\Form.cshtml" />
+    <Content Include="Views\HSNCodeMaster\Index.cshtml" />
+    <Content Include="Views\HSNCodeMaster\Form.cshtml" />
+    <Content Include="Views\StateMaster\Form.cshtml" />
+    <Content Include="Views\StateMaster\Index.cshtml" />
+    <Content Include="Views\UnitMaster\Form.cshtml" />
+    <Content Include="Views\UnitMaster\Index.cshtml" />
+    <Content Include="Views\VehicleMaster\Index.cshtml" />
+    <Content Include="Views\VehicleMaster\Form.cshtml" />
+    <Content Include="Views\RowMaster\Index.cshtml" />
+    <Content Include="Views\RowMaster\Form.cshtml" />
+    <Content Include="Views\SlotMaster\Index.cshtml" />
+    <Content Include="Views\SlotMaster\Form.cshtml" />
+    <Content Include="Views\ProductGroupMaster\Index.cshtml" />
+    <Content Include="Views\ProductGroupMaster\Form.cshtml" />
+    <Content Include="Views\PlaceMaster\Form.cshtml" />
+    <Content Include="Views\PlaceMaster\Index.cshtml" />
+    <Content Include="Views\LocationMaster\Form.cshtml" />
+    <Content Include="Views\LocationMaster\Index.cshtml" />
+    <Content Include="Views\GradeMaster\Index.cshtml" />
+    <Content Include="Views\GradeMaster\Form.cshtml" />
+    <Content Include="Views\CostFactorMaster\Index.cshtml" />
+    <Content Include="Views\CostFactorMaster\Form.cshtml" />
+    <Content Include="Views\DisplayOrderMaster\Index.cshtml" />
+    <Content Include="Views\DisplayOrderMaster\Form.cshtml" />
+    <Content Include="Views\BankMaster\Index.cshtml" />
+    <Content Include="Views\BankMaster\Form.cshtml" />
+    <Content Include="Views\SlabMaster\Index.cshtml" />
+    <Content Include="Views\SlabtypeMaster\Index.cshtml" />
+    <Content Include="Views\SlabtypeMaster\Form.cshtml" />
+    <Content Include="Views\TariffGroupMaster\Form.cshtml" />
+    <Content Include="Views\TariffGroupMaster\Index.cshtml" />
+    <Content Include="Views\TariffMaster\Form.cshtml" />
+    <Content Include="Views\TariffMaster\Index.cshtml" />
+    <Content Include="Views\SlabMaster\Form.cshtml" />
+    <Content Include="Views\SlabMaster\NForm.cshtml" />
+    <Content Include="Views\SlabMaster\Copy.cshtml" />
+    <Content Include="Views\ImportSealMaster\Index.cshtml" />
+    <Content Include="Views\ImportSealMaster\Form.cshtml" />
+    <Content Include="Views\EmptyComponentCodeMaster\Form.cshtml" />
+    <Content Include="Views\EmptyComponentCodeMaster\Index.cshtml" />
+    <Content Include="Views\EmptyDamageCodeMaster\Form.cshtml" />
+    <Content Include="Views\EmptyDamageCodeMaster\Index.cshtml" />
+    <Content Include="Views\EmptyLocationCodeMaster\Form.cshtml" />
+    <Content Include="Views\EmptyLocationCodeMaster\Index.cshtml" />
+    <Content Include="Views\EmptyRepairCodeMaster\Form.cshtml" />
+    <Content Include="Views\EmptyRepairCodeMaster\Index.cshtml" />
+    <Content Include="Views\EmptySlabTypeMaster\Index.cshtml" />
+    <Content Include="Views\EmptySlabTypeMaster\Form.cshtml" />
+    <Content Include="Views\GoDownMaster\Form.cshtml" />
+    <Content Include="Views\GoDownMaster\Index.cshtml" />
+    <Content Include="Views\ContainerThruMaster\Form.cshtml" />
+    <Content Include="Views\ContainerThruMaster\Index.cshtml" />
+    <Content Include="Views\StagMaster\Index.cshtml" />
+    <Content Include="Views\StagMaster\Form.cshtml" />
+    <Content Include="Views\Export_OperationTypeMaster\Index.cshtml" />
+    <Content Include="Views\Export_OperationTypeMaster\Form.cshtml" />
+    <Content Include="Views\ExportTariffTypeMaster\Form.cshtml" />
+    <Content Include="Views\ExportTariffTypeMaster\Index.cshtml" />
+    <Content Include="Views\ExportTariffGroupMaster\Form.cshtml" />
+    <Content Include="Views\ExportTariffGroupMaster\Index.cshtml" />
+    <Content Include="Views\ExportTariffMaster\TForm.cshtml" />
+    <Content Include="Views\ExportTariffMaster\Form.cshtml" />
+    <Content Include="Views\ExportTariffMaster\Index.cshtml" />
+    <Content Include="Views\ExportSlabType\Index.cshtml" />
+    <Content Include="Views\ExportSlabType\Form.cshtml" />
+    <Content Include="Views\ContainerTypeMaster\Form.cshtml" />
+    <Content Include="Views\ContainerTypeMaster\Index.cshtml" />
+    <Content Include="Views\ContainerStatusMaster\Index.cshtml" />
+    <Content Include="Views\ContainerStatusMaster\Form.cshtml" />
+    <Content Include="Views\EndorsementChargeType\Form.cshtml" />
+    <Content Include="Views\EndorsementChargeType\Index.cshtml" />
+    <Content Include="Views\EndorsementCharge\Form.cshtml" />
+    <Content Include="Views\EndorsementCharge\Index.cshtml" />
+    <Content Include="Views\Export_Endorsement_Rate_Master\Form.cshtml" />
+    <Content Include="Views\Export_Endorsement_Rate_Master\Index.cshtml" />
+    <Content Include="Views\YardMaster\Index.cshtml" />
+    <Content Include="Views\YardMaster\Form.cshtml" />
+    <Content Include="Views\VesselMaster\Form.cshtml" />
+    <Content Include="Views\VesselMaster\Index.cshtml" />
+    <Content Include="Views\ExportSlabMaster\Index.cshtml" />
+    <Content Include="Views\ExportSlabMaster\Form.cshtml" />
+    <Content Include="Views\ExportSlabMaster\NForm.cshtml" />
+    <Content Include="Views\ExportSlabMaster\Copy.cshtml" />
+    <Content Include="Views\CategoryBasicDetails\Form.cshtml" />
+    <Content Include="Views\CategoryAddressDetails\Form.cshtml" />
+    <Content Include="Views\NonPnrGateIn\Index.cshtml" />
+    <Content Include="Views\NonPnrGateIn\Form.cshtml" />
+    <Content Include="Views\NonPnrGateIn\checkpostdata.cshtml" />
+    <Content Include="Views\NonPnrGateIn\test1.cshtml" />
+    <Content Include="Views\NonPnrGateIn\RemoteGateInEdit.cshtml" />
+    <Content Include="Views\ImportGateIn\Index.cshtml" />
+    <Content Include="Views\ImportGateIn\Form.cshtml" />
+    <Content Include="Views\NonPnrLoadAuthorizationSlip\Index.cshtml" />
+    <Content Include="Views\NonPnrDeStuffAuthorizationSlip\Index.cshtml" />
+    <Content Include="Views\NonPnrDeStuffAuthorizationSlip\Form.cshtml" />
+    <Content Include="Views\NonPnrLoadAuthorizationSlip\Form.cshtml" />
+    <Content Include="Views\NonPnrVehicleTicket\Index.cshtml" />
+    <Content Include="Views\NonPnrVehicleTicket\Form.cshtml" />
+    <Content Include="Views\NonPnrVehicleTicket\NForm.cshtml" />
+    <Content Include="Views\NonPnrGateOut\Form.cshtml" />
+    <Content Include="Views\NonPnrInvoice\Index.cshtml" />
+    <Content Include="Views\NonPnrInvoice\Form.cshtml" />
+    <Content Include="Views\NonPnrInvoice\GSTForm.cshtml" />
+    <Content Include="Views\NonPnrInvoice\BForm.cshtml" />
+    <Content Include="Views\NonPnrInvoice\AForm.cshtml" />
+    <Content Include="Views\NonPnrInvoice\CForm.cshtml" />
+    <Content Include="Views\ExportGateIn\Index.cshtml" />
+    <Content Include="Views\ExportGateIn\NForm.cshtml" />
+    <Content Include="Views\ExportGateIn\Form.cshtml" />
+    <Content Include="Views\NonPnrGateOut\Index.cshtml" />
+    <Content Include="Views\ExportCartingOrder\Index.cshtml" />
+    <Content Include="Views\ExportCartingOrder\Form.cshtml" />
+    <Content Include="Views\ExportShippingBillMaster\Index.cshtml" />
+    <Content Include="Views\ExportShippingBillMaster\Form.cshtml" />
+    <Content Include="Views\Stuffing\Index.cshtml" />
+    <Content Include="Views\Stuffing\NForm.cshtml" />
+    <Content Include="Views\Seal\Index.cshtml" />
+    <Content Include="Views\Seal\NForm.cshtml" />
+    <Content Include="Views\StuffingBill\GSTForm.cshtml" />
+    <Content Include="Views\ExportLoadSlip\Index.cshtml" />
+    <Content Include="Views\ExportLoadSlip\Form.cshtml" />
+    <Content Include="Views\ExportVehicleTicket\Index.cshtml" />
+    <Content Include="Views\ExportVehicleTicket\Form.cshtml" />
+    <Content Include="Views\ExportVehicleTicket\DForm.cshtml" />
+    <Content Include="Views\BSSealBill\Index.cshtml" />
+    <Content Include="Views\BSSealBill\CForm.cshtml" />
+    <Content Include="Views\BSSealBill\MForm.cshtml" />
+    <Content Include="Views\BSSealBill\Form.cshtml" />
+    <Content Include="Views\BSSealBill\GSTForm.cshtml" />
+    <Content Include="Views\ExportVehicleTicket\PrintDet.cshtml" />
+    <Content Include="Views\EmptyGateIn\Index.cshtml" />
+    <Content Include="Views\BSStuffingBill\Index.cshtml" />
+    <Content Include="Views\BSStuffingBill\Form.cshtml" />
+    <Content Include="Views\BSStuffingBill\GSTForm.cshtml" />
+    <Content Include="Views\ExportAdvance\Index.cshtml" />
+    <Content Include="Views\ExportAdvance\EAForm.cshtml" />
+    <Content Include="Views\ImportAdvance\Index.cshtml" />
+    <Content Include="Views\ImportAdvance\IAForm.cshtml" />
+    <Content Include="Views\NonPnrAdvance\Index.cshtml" />
+    <Content Include="Views\NonPnrAdvance\NPAForm.cshtml" />
+    <Content Include="Views\NonPnrInvoice\GSTFormView.cshtml" />
+    <Content Include="Views\ImportRemoteGateIn\Index.cshtml" />
+    <Content Include="Views\ImportRemoteGateIn\GIndex.cshtml" />
+    <Content Include="Views\ImportRemoteGateIn\Form.cshtml" />
+    <Content Include="Views\OpenSheet\Index.cshtml" />
+    <Content Include="Views\OpenSheet\Form.cshtml" />
+    <Content Include="Views\BillOfEntry\Index.cshtml" />
+    <Content Include="Views\BillOfEntry\Form.cshtml" />
+    <Content Include="Views\ImportLoadSlip\Index.cshtml" />
+    <Content Include="Views\ImportLoadSlip\Form.cshtml" />
+    <Content Include="Views\OpenSheetSealDetails\Index.cshtml" />
+    <Content Include="Views\OpenSheetSealDetails\Form.cshtml" />
+    <Content Include="Views\ExportCartingOrder\SAIndex.cshtml" />
+    <Content Include="Views\ExportCartingOrder\TForm.cshtml" />
+    <Content Include="Views\ExportCartingOrder\OSForm.cshtml" />
+    <Content Include="Views\DeliveryOrder\Index.cshtml" />
+    <Content Include="Views\DeliveryOrder\Form.cshtml" />
+    <Content Include="Views\ImportDeStuff\Index.cshtml" />
+    <Content Include="Views\ImportDeStuff\Form.cshtml" />
+    <Content Include="Views\ImportVehicleTicket\Index.cshtml" />
+    <Content Include="Views\ImportVehicleTicket\NForm.cshtml" />
+    <Content Include="Views\StuffingBill\AForm.cshtml" />
+    <Content Include="Views\SealBill\AForm.cshtml" />
+    <Content Include="Views\BSSealBill\AForm.cshtml" />
+    <Content Include="Views\ExportTruckOut\Index.cshtml" />
+    <Content Include="Views\ExportTruckOut\Form.cshtml" />
+    <Content Include="Views\ExportManualBill\Form.cshtml" />
+    <Content Include="Views\ExportManualBill\GSTForm.cshtml" />
+    <Content Include="Views\ExportGateOut\Index.cshtml" />
+    <Content Include="Views\ExportGateOut\Form.cshtml" />
+    <Content Include="Views\ImportGateOut\Index.cshtml" />
+    <Content Include="Views\ImportGateOut\Form.cshtml" />
+    <Content Include="Views\PerformaInvoice\Index.cshtml" />
+    <Content Include="Views\PerformaInvoice\Form.cshtml" />
+    <Content Include="Views\PerformaInvoice\GSTForm.cshtml" />
+    <Content Include="Views\PerformaInvoice\DOGSTForm.cshtml" />
+    <Content Include="Views\PerformaInvoice\AForm.cshtml" />
+    <Content Include="Views\PerformaInvoice\CForm.cshtml" />
+    <Content Include="Views\ImportLorryHire\Index.cshtml" />
+    <Content Include="Views\ImportLorryHire\Form.cshtml" />
+    <Content Include="Views\ImportGateInBlock\Index.cshtml" />
+    <Content Include="Views\ImportGateInBlock\Form.cshtml" />
+    <Content Include="Views\ESealGateIn\Index.cshtml" />
+    <Content Include="Views\ESealGateIn\ESGIForm.cshtml" />
+    <Content Include="Views\ManualOpenSheet\Index.cshtml" />
+    <Content Include="Views\ManualOpenSheet\Form.cshtml" />
+    <Content Include="Views\ESealVehicleTicket\ESVTDForm.cshtml" />
+    <Content Include="Views\ESealVehicleTicket\Index.cshtml" />
+    <Content Include="Views\ESealGateOut\ESGOForm.cshtml" />
+    <Content Include="Views\ESealGateOut\Index.cshtml" />
+    <Content Include="Views\MailForm\Index.cshtml" />
+    <Content Include="Views\MailForm\MForm.cshtml" />
+    <Content Include="Views\OpenSheet\SForm.cshtml" />
+    <Content Include="Views\ESealInvoice\Index.cshtml" />
+    <Content Include="Views\ESealInvoice\ESIForm.cshtml" />
+    <Content Include="Views\CreditNote\Index.cshtml" />
+    <Content Include="Views\CreditNote\CNForm.cshtml" />
+    <Content Include="Views\ImportInvoice\Index.cshtml" />
+    <Content Include="Views\ImportInvoice\Form.cshtml" />
+    <Content Include="Views\ImportInvoice\GSTForm.cshtml" />
+    <Content Include="Views\ImportInvoice\DOGSTForm.cshtml" />
+    <Content Include="Views\ImportInvoice\AForm.cshtml" />
+    <Content Include="Views\FinanceAdvance\AForm.cshtml" />
+    <Content Include="Views\FinanceAdvance\Index.cshtml" />
+    <Content Include="Views\ChequeEntry\Index.cshtml" />
+    <Content Include="Views\ChequeEntry\AForm.cshtml" />
+    <Content Include="Views\ImportUpdateDetails\TRANSIndex.cshtml" />
+    <Content Include="Views\ImportEInvoice\Index.cshtml" />
+    <Content Include="Views\ImportManualEInvoice\Index.cshtml" />
+    <Content Include="Views\ImportInvoice\BForm.cshtml" />
+    <Content Include="Views\StuffingEInvoice\Index.cshtml" />
+    <Content Include="Views\SealEInvoice\Index.cshtml" />
+    <Content Include="Views\ExportManualEInvoice\Index.cshtml" />
+    <Content Include="Views\BondEInvoice\Index.cshtml" />
+    <Content Include="Views\EmptyVehicleTicket\Index.cshtml" />
+    <Content Include="Views\ImportManualBill\AForm.cshtml" />
+    <Content Include="Views\ExportManualBill\MGSTForm.cshtml" />
+    <Content Include="Views\EmptySlipIn\Index.cshtml" />
+    <Content Include="Views\EmptySlipIn\Form.cshtml" />
+    <Content Include="Views\EmptyVehicleTicket\Form.cshtml" />
+    <Content Include="Views\StuffingBill\BForm.cshtml" />
+    <Content Include="Views\SealBill\BForm.cshtml" />
+    <Content Include="Views\ExportShippingBillMaster\BForm.cshtml" />
+    <Content Include="Views\ImportSlabNarration\Index.cshtml" />
+    <Content Include="Views\ImportSlabNarration\Form.cshtml" />
+    <Content Include="Views\ImportCargoIn\Index.cshtml" />
+    <Content Include="Views\ManualOpenSheet\FormOld.cshtml" />
+    <Content Include="Views\ImportCargoOut\CForm.cshtml" />
+    <Content Include="Views\ImportCargoOut\Index.cshtml" />
+    <Content Include="Views\CreditNoteEInvoice\Index.cshtml" />
+    <Content Include="Views\ManualCreditNoteEInvoice\Index.cshtml" />
+    <Content Include="Views\ImportSteamerNameupdate\Form.cshtml" />
+    <Content Include="Views\CHPOE07\Index.cshtml" />
+    <Content Include="Views\StuffedList\Index.cshtml" />
+    <Content Include="Views\StuffedList\SForm.cshtml" />
+    <Content Include="Views\ImportUpdateDetails\SSCIndex.cshtml" />
+    <Content Include="Views\ImportGateOut\CForm.cshtml" />
+    <Content Include="Views\OpenSheet\OSBOEForm.cshtml" />
+    <Content Include="Views\DebitNote\Index.cshtml" />
+    <Content Include="Views\DebitNote\CNForm.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\_ResetPasswordPartial.cshtml" />
+    <Content Include="Views\ShutoutCargo\Index.cshtml" />
+    <Content Include="Views\ShutoutCargo\NForm.cshtml" />
+    <Content Include="Views\PreCHAUpdate\Index.cshtml" />
+    <Content Include="Views\PreCHAUpdate\Form.cshtml" />
+    <Content Include="Views\BSInvoice\PGSTForm.cshtml" />
+    <Content Include="Views\BondGodownMaster\Index.cshtml" />
+    <Content Include="Views\BondGodownMaster\Form.cshtml" />
+    <Content Include="Views\BondInformation\Form.cshtml" />
+    <Content Include="Views\BondInformation\Index.cshtml" />
+    <Content Include="Views\BondGateIn\Index.cshtml" />
+    <Content Include="Views\BondGateIn\Form.cshtml" />
+    <Content Include="Views\BondSlabType\Index.cshtml" />
+    <Content Include="Views\BondSlabType\Form.cshtml" />
+    <Content Include="Views\BondSlabMaster\Index.cshtml" />
+    <Content Include="Views\BondSlabMaster\Form.cshtml" />
+    <Content Include="Views\BondSlabMaster\NForm.cshtml" />
+    <Content Include="Views\BondSlabMaster\Copy.cshtml" />
+    <Content Include="Views\BondTariffMaster\Index.cshtml" />
+    <Content Include="Views\BondTariffMaster\Form.cshtml" />
+    <Content Include="Views\ImportInvoice\ImpBillBoSRptXL.cshtml" />
+    <Content Include="Views\OpenSheet\OOCForm.cshtml" />
+    <Content Include="Views\BondInvoice\GSTForm.cshtml" />
+    <Content Include="Views\BondProductGroupMaster\Index.cshtml" />
+    <Content Include="Views\BondProductGroupMaster\Form.cshtml" />
+    <Content Include="Views\ExBondInformation\Index.cshtml" />
+    <Content Include="Views\ExBondInformation\Form.cshtml" />
+    <Content Include="Views\ExBondVehicleTicket\Index.cshtml" />
+    <Content Include="Views\ExBondVehicleTicket\Form.cshtml" />
+    <Content Include="Views\BondContainerOut\Index.cshtml" />
+    <Content Include="Views\BondContainerOut\Form.cshtml" />
+    <Content Include="Views\ExBondVTInvoice\Index.cshtml" />
+    <Content Include="Views\ExBondVTInvoice\GSTForm.cshtml" />
+    <Content Include="Views\BondExBondEInvoice\Index.cshtml" />
+    <Content Include="Views\BondPerformaInvoice\Index.cshtml" />
+    <Content Include="Views\BondPerformaInvoice\GSTForm.cshtml" />
+    <Content Include="Views\BondManualInvoice\Index.cshtml" />
+    <Content Include="Views\BondManualInvoice\GSTForm.cshtml" />
+    <Content Include="Views\BondSearch\Index.cshtml" />
+    <Content Include="Views\OpenSheet\DOVForm.cshtml" />
+    <Content Include="Views\ShutoutVehicleTicket\Index.cshtml" />
+    <Content Include="Views\ShutoutVehicleTicket\Form.cshtml" />
+    <Content Include="Views\ShutoutVehicleTicket\ShutoutCargoDtl.cshtml" />
+    <Content Include="Views\ExportEmptyVT\DForm.cshtml" />
+    <Content Include="Views\ExportEmptyVT\Index.cshtml" />
+    <Content Include="Views\ExportCargoDetained\Index.cshtml" />
+    <Content Include="Views\ExportCargoDetained\Form.cshtml" />
+    <Content Include="Views\ExBondVTProformaInvoice\GSTForm.cshtml" />
+    <Content Include="Views\ExBondVTProformaInvoice\Index.cshtml" />
+    <Content Include="Views\OpenSheet\OSBLForm.cshtml" />
+    <Content Include="Views\InvoiceHSNDetails\Index.cshtml" />
+    <Content Include="Views\HandlingContainerCount\Index.cshtml" />
+    <Content Include="Views\ImportCustomsReport\Index.cshtml" />
+    <Content Include="Views\CreditNoteTypeMaster\Index.cshtml" />
+    <Content Include="Views\CreditNoteTypeMaster\Form.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="assets\img\" />
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Views\BondTariff\" />
+    <Folder Include="Views\CargoDetained\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201402161844035_init.resx">
+      <DependentUpon>201402161844035_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\IGATEIN.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>IGATEIN.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58980</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:1104/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

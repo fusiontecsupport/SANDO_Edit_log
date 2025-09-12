@@ -1,0 +1,138 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.VesselMaster
+
+@{
+    ViewBag.Title = "VesselMaster";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Vessel Master</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/VesselMaster/savedata")" method="post" accept-charset="utf-8" id="vesselmasterform" data-ng-controller="myController" name="vesselmasterform">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="VesselMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.VSLID, new { @class = "form-control  VSLID", @id = "VSLID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.VSLCODE)*@
+                                        @Html.TextBoxFor(model => Model.VSLCODE, new { @class = "form-control VSLCODE", @id = "VSLCODE" })
+                                        <input type="text" value="@Model.VSLCODE" name="i_VSLCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.VSLDESC)*@
+                                        @Html.TextBoxFor(model => Model.VSLDESC, new { @class = "form-control  VSLDESC", @id = "VSLDESC" })
+                                        <input type="text" value="@Model.VSLDESC" name="i_VSLDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DISPSTATUS)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />
+                                    <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />*@
+
+                                <a href="@Url.Action("Index", "VesselMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $('#btnsave').click(function () {
+
+            if ($('#VSLCODE').val() == "") {
+                alert('Please Enter Code !!');
+                $('#VSLCODE').focus();
+                return false;
+            }
+            if ($('#VSLDESC').val() == "") {
+                alert('Please Enter Description !!');
+                $('#VSLDESC').focus();
+                return false;
+            }
+            var pdate = new Date();
+
+            if ($('#VSLID').val() == "") { $('#VSLID').val(0); }
+
+            var tab = {
+                VSLID: $('#VSLID').val(),
+                VSLCODE: $('#VSLCODE').val(),
+                VSLDESC: $('#VSLDESC').val(),
+                DISPSTATUS: $('#DISPSTATUS').val(),
+                CUSRID: "",
+                LMUSRID: 1,
+                PRCSDATE: pdate
+            };
+            $.ajax({
+                //url: "/VesselMaster/savedata",
+                url: "@Url.Action("savedata", "VesselMaster")",
+                data: JSON.stringify(tab),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (status) {
+                    if (status == "Update") {
+                        alert('Vessel Master Details Updated Successfully !! ');
+
+                        var returnurl = "@Url.Action("Index", "VesselMaster")";
+                        window.location.href = returnurl;
+                    }
+                    else if (status == "Success") {
+                        alert('Vessel Master Details Inserted Successfully !! ');
+                        var returnurl = "@Url.Action("Index", "VesselMaster")";
+                        window.location.href = returnurl;
+                    }
+                    else if (status == "Existing") {
+                        alert('Vessel Master Details Already Inserted !! ');
+                        $('#VSLCODE').val("");
+                        $('#VSLDESC').val("");
+                        var returnurl = "@Url.Action("Form", "VesselMaster")";
+                        window.location.href = returnurl;
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
+        });
+    </script>
+}

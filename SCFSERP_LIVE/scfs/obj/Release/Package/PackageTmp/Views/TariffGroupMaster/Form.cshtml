@@ -1,0 +1,163 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.TariffGroupMaster
+
+
+@{
+    ViewBag.Title = "Tariff Group";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Tariff Group</strong>
+
+                </div>
+            </div>
+
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/TariffGroupMaster/savedata")" method="post" accept-charset="utf-8" id="ExportTariffGroupMasterform" data-ng-controller="myController" name="ExportTariffGroupMasterform">
+
+
+                    @Html.ValidationSummary(true)
+
+                    <fieldset id="ExportTariffGroupMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.TGID, new { @class = "form-control  TGID", @id = "TGID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.TGCODE, new { @class = "form-control TGCODE", @id = "TGCODE", @required = true })
+                                        <input type="text" value="@Model.TGCODE" name="i_TGCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => Model.TGDESC, new { @class = "form-control TGDESC", @id = "TGDESC", @required = true })
+                                        <input type="text" value="@Model.TGDESC" name="i_TGDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Soft Dept<span class="required-field"></span></label>
+                                        @Html.DropDownList("SDPTID", null, "Please Select An Option", new { @class = "form-control", @required = "required" })
+                                        @*@Html.TextBoxFor(model => Model.HSNID, new { @class = "form-control  HSNID", @id = "HSNID" })*@
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                <a href="@Url.Action("Index", "TariffGroupMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                @*<input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />*@
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $('#btnsave').click(function () {
+        if ($('#TGCODE').val() == "") {
+            alert('Please Enter Code !!');
+            $('#TGCODE').focus();
+            return false;
+        }
+        if ($('#TGDESC').val() == "") {
+            alert('Please Enter Description !!');
+            $('#TGDESC').focus();
+            return false;
+        }
+        if ($('#SDPTID').val() == "") {
+            alert('Please Select  Department !!');
+            $('#SDPTID').focus();
+            return false;
+        }
+        
+        var pdate = new Date();
+
+        if ($('#TGID').val() == "") { $('#TGID').val(0); } 
+        if ($('#SDPTID').val() == "") { $('#SDPTID').val(0); }
+
+        var tab = {
+            TGID: $('#TGID').val(),
+            TGCODE: $('#TGCODE').val(),
+            TGDESC: $('#TGDESC').val(),
+            SDPTID: $('#SDPTID').val(),
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: 1,
+            PRCSDATE: pdate
+        };
+        $.ajax({
+            url: "/TariffGroupMaster/savedata",
+            data: JSON.stringify(tab),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('Tariff Group Master Details Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "TariffGroupMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('Tariff Group Master Details Inserted Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "TariffGroupMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('Tariff Group Master Details Already Inserted !! ');
+                    $('#TGCODE').val("");
+                    $('#TGDESC').val("");
+                    var returnurl = "@Url.Action("Form", "TariffGroupMaster")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+
+    });
+</script>
+}

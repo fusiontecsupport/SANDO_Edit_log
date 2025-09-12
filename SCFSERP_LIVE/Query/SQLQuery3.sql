@@ -1,0 +1,1 @@
+﻿select CONTNRNO from GATEINDETAIL where VOYNO=1 and IGMNO=1 and VOYNO=1 and CONTNRNO=1

@@ -1,0 +1,1929 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ImportEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="CFSImportEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="pr_SearchBillOfEntry" ReturnType="Collection(ImportEntities.pr_SearchBillOfEntry_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PCompyid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01" EntityType="ImportEntities.VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01" />
+    <EntitySet Name="VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01" EntityType="ImportEntities.VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01" />
+    <FunctionImport Name="pr_Search_Import_RemoteGateIn" ReturnType="Collection(ImportEntities.pr_Search_Import_RemoteGateIn_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Import_RemoteGateInTransfer" ReturnType="Collection(ImportEntities.pr_Search_Import_RemoteGateInTransfer_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN" EntityType="ImportEntities.VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN" />
+    <EntitySet Name="VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN" EntityType="ImportEntities.VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN" />
+    <EntitySet Name="VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN" EntityType="ImportEntities.VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN" />
+    <FunctionImport Name="PR_DORDER_IGMNO_BOE_NO_CTRL_ASSGN_E001" ReturnType="Collection(ImportEntities.PR_DORDER_IGMNO_BOE_NO_CTRL_ASSGN_E001_Result)">
+      <Parameter Name="PIGMNO" Mode="In" Type="String" />
+      <Parameter Name="PGPLNO" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_DeliveryOrder" ReturnType="Collection(ImportEntities.pr_Search_DeliveryOrder_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="PR_DORDER_IGMNO_BILLENTRY_WISE_CONTAINER_FLX_ASSGN" ReturnType="Collection(ImportEntities.PR_DORDER_IGMNO_BILLENTRY_WISE_CONTAINER_FLX_ASSGN_Result)">
+      <Parameter Name="PIGMNO" Mode="In" Type="String" />
+      <Parameter Name="PGPLNO" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN" EntityType="ImportEntities.VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN" />
+    <FunctionImport Name="pr_Search_Import_GateOut" ReturnType="Collection(ImportEntities.pr_Search_Import_GateOut_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PCOMPYID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN" EntityType="ImportEntities.VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN" />
+    <EntitySet Name="VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001" EntityType="ImportEntities.VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001" />
+    <EntitySet Name="VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN" EntityType="ImportEntities.VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN" />
+    <FunctionImport Name="pr_SearchImportLorryHire" ReturnType="Collection(ImportEntities.pr_SearchImportLorryHire_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PCOMPYID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN" EntityType="ImportEntities.VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN" />
+    <EntitySet Name="VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN" EntityType="ImportEntities.VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN" />
+    <FunctionImport Name="pr_Import_Manual_Invoice_Ctrl_Flx_Assgn" ReturnType="Collection(ImportEntities.pr_Import_Manual_Invoice_Ctrl_Flx_Assgn_Result)">
+      <Parameter Name="PTRANMID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_SearchManualOpenSheetGridAssgn" ReturnType="Collection(ImportEntities.pr_SearchManualOpenSheetGridAssgn_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PCompyid" Mode="In" Type="Int32" />
+      <Parameter Name="fcltype" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Import_Performa_Invoice" ReturnType="Collection(ImportEntities.pr_Search_Import_Performa_Invoice_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PREGSTRID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Performa_Invoice_Print_Customer_Detail_Assgn" ReturnType="Collection(ImportEntities.pr_Performa_Invoice_Print_Customer_Detail_Assgn_Result)">
+      <Parameter Name="PTranMID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Import_DO_Invoice_IGMNO_Grid_Assgn" ReturnType="Collection(ImportEntities.pr_Import_DO_Invoice_IGMNO_Grid_Assgn_Result)">
+      <Parameter Name="PDONO" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Import_Container_Stock_Assgn" ReturnType="Collection(ImportEntities.pr_Import_Container_Stock_Assgn_Result)">
+      <Parameter Name="PSDATE" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <EntitySet Name="VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN" EntityType="ImportEntities.VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN" />
+    <FunctionImport Name="pr_Search_Import_TruckOut" ReturnType="Collection(ImportEntities.pr_Search_Import_TruckOut_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PCOMPYID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Import_TruckIn" ReturnType="Collection(ImportEntities.pr_Search_Import_TruckIn_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PCOMPYID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Import_Performa_Invoice_IGMNO_Grid_Assgn" ReturnType="Collection(ImportEntities.pr_Import_Performa_Invoice_IGMNO_Grid_Assgn_Result)">
+      <Parameter Name="PIGMNO" Mode="In" Type="String" />
+      <Parameter Name="PLNO" Mode="In" Type="String" />
+      <Parameter Name="PTRANMID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Import_Invoice" ReturnType="Collection(ImportEntities.pr_Search_Import_Invoice_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PREGSTRID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_ImportManualBill" ReturnType="Collection(ImportEntities.pr_Search_ImportManualBill_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PREGSTRID" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <EntitySet Name="VW_ACCOUNTHEADER_HSNCODE_DETAIL" EntityType="ImportEntities.VW_ACCOUNTHEADER_HSNCODE_DETAIL" />
+    <FunctionImport Name="pr_Get_Import_Slab_Narration_Detail" ReturnType="Collection(ImportEntities.pr_Get_Import_Slab_Narration_Detail_Result)">
+      <Parameter Name="PTranMID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_MANUALOPENSHEET_CONTAINER_FLX_ASSGN" ReturnType="Collection(ImportEntities.SP_MANUALOPENSHEET_CONTAINER_FLX_ASSGN_Result)">
+      <Parameter Name="PIGMNO" Mode="In" Type="String" />
+      <Parameter Name="PGPLNO" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN" EntityType="ImportEntities.VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN" />
+    <FunctionImport Name="pr_Search_Import_CargoIn" ReturnType="Collection(ImportEntities.pr_Search_Import_CargoIn_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PCOMPYID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN" EntityType="ImportEntities.VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN" />
+    <FunctionImport Name="pr_Search_Import_CargoOut" ReturnType="Collection(ImportEntities.pr_Search_Import_CargoOut_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PCOMPYID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN" EntityType="ImportEntities.VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN" />
+    <FunctionImport Name="PR_IMPORT_REMOTEGATEINCONTAINER_DETAILS" ReturnType="Collection(ImportEntities.PR_IMPORT_REMOTEGATEINCONTAINER_DETAILS_Result)">
+      <Parameter Name="PFDT" Mode="In" Type="DateTime" />
+      <Parameter Name="PTDT" Mode="In" Type="DateTime" />
+      <Parameter Name="PSDPTID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="PR_IMPORT_LOADESTUFFTOTCONTAINER_DETAILS" ReturnType="Collection(ImportEntities.PR_IMPORT_LOADESTUFFTOTCONTAINER_DETAILS_Result)">
+      <Parameter Name="PFDT" Mode="In" Type="DateTime" />
+      <Parameter Name="PTDT" Mode="In" Type="DateTime" />
+      <Parameter Name="PSDPTID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Import_EmptyGatein_Detail_Assgn" ReturnType="Collection(ImportEntities.pr_Import_EmptyGatein_Detail_Assgn_Result)">
+      <Parameter Name="PCONTNRNO" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN" EntityType="ImportEntities.VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN" />
+    <EntitySet Name="VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN" EntityType="ImportEntities.VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN" />
+    <FunctionImport Name="pr_Import_Invoice_IGMNO_Grid_Assgn" ReturnType="Collection(ImportEntities.pr_Import_Invoice_IGMNO_Grid_Assgn_Result)">
+      <Parameter Name="PIGMNO" Mode="In" Type="String" />
+      <Parameter Name="PLNO" Mode="In" Type="String" />
+      <Parameter Name="PTRANMID" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="PR_IMPORT_AUTHORIZATION_DETAIL_CTRL_ASSGN" ReturnType="Collection(ImportEntities.PR_IMPORT_AUTHORIZATION_DETAIL_CTRL_ASSGN_Result)">
+      <Parameter Name="PASLMID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_UPDATAE_SSRCHARGES_CONTAINERNo" ReturnType="Collection(ImportEntities.pr_UPDATAE_SSRCHARGES_CONTAINERNo_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="VW_TALLYCHANAME_UPDATE_VIEW_ASSGN" EntityType="ImportEntities.VW_TALLYCHANAME_UPDATE_VIEW_ASSGN" />
+    <FunctionImport Name="pr_Search_Import_GateInGridAssgn" ReturnType="Collection(ImportEntities.pr_Search_Import_GateInGridAssgn_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PCompyid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_UPDATAE_CONTAINERNo" ReturnType="Collection(ImportEntities.pr_UPDATAE_CONTAINERNo_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="PR_IMPORT_GATEIN_CONTAINER_CHK_ASSGN" ReturnType="Collection(ImportEntities.PR_IMPORT_GATEIN_CONTAINER_CHK_ASSGN_Result)">
+      <Parameter Name="PCONTNRNO" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="VW_OPENSHEET_DETAIL_CTRL_ASSGN" EntityType="ImportEntities.VW_OPENSHEET_DETAIL_CTRL_ASSGN" />
+    <EntitySet Name="VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN" EntityType="ImportEntities.VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN" />
+    <FunctionImport Name="pr_BS_Import_Invoice_No_Wise_Grid_Pulses_Assgn" ReturnType="Collection(ImportEntities.pr_BS_Import_Invoice_No_Wise_Grid_Pulses_Assgn_Result)">
+      <Parameter Name="PSBILLNO" Mode="In" Type="String" />
+      <Parameter Name="PTRANMID" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_OPENSHEET_CONTAINER_FLX_ASSGN" ReturnType="Collection(ImportEntities.SP_OPENSHEET_CONTAINER_FLX_ASSGN_Result)">
+      <Parameter Name="PIGMNO" Mode="In" Type="String" />
+      <Parameter Name="PGPLNO" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN" EntityType="ImportEntities.VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN" />
+    <FunctionImport Name="pr_SearchOpenSheetGridAssgn" ReturnType="Collection(ImportEntities.pr_SearchOpenSheetGridAssgn_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PCompyid" Mode="In" Type="Int32" />
+      <Parameter Name="PUsrname" Mode="In" Type="String" />
+      <Parameter Name="fcltype" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Import_DeStuffSlip" ReturnType="Collection(ImportEntities.pr_Search_Import_DeStuffSlip_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Import_LoadSlip" ReturnType="Collection(ImportEntities.pr_Search_Import_LoadSlip_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="PR_ES_GATEIN_CONTAINER_CHK_ASSGN_001" ReturnType="Collection(ImportEntities.PR_ES_GATEIN_CONTAINER_CHK_ASSGN_001_Result)">
+      <Parameter Name="PCONTNRNO" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="PR_ES_GATEIN_CONTAINER_CHK_ASSGN" ReturnType="Collection(Int32)">
+      <Parameter Name="PCONTNRNO" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Import_VehicleTicket" ReturnType="Collection(ImportEntities.pr_Search_Import_VehicleTicket_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PVTTYPE" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Import_GateInBlock" ReturnType="Collection(ImportEntities.pr_Search_Import_GateInBlock_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PCompyid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_SSRCharge_Container_Detail_Assgn" ReturnType="Collection(ImportEntities.pr_SSRCharge_Container_Detail_Assgn_Result)">
+      <Parameter Name="PContnrNo" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="pr_SearchBillOfEntry_Result">
+    <Property Type="DateTime" Name="BILLEMTIME" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="BILLEMNO" Nullable="true" />
+    <Property Type="String" Name="BILLEMDNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="BILLEMNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int32" Name="NOC" Nullable="true" />
+    <Property Type="Int32" Name="BILLEMID" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="SDPTID" />
+      <PropertyRef Name="GINO" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="GIDATE" />
+    </Key>
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="SDPTID" Type="Int32" Nullable="false" />
+    <Property Name="GINO" Type="Int32" Nullable="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="GIDNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IGMNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CONTNRSDESC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BOENO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BOEDATE" Type="DateTime" Precision="3" />
+    <Property Name="LPSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CSEALNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="GINO" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="IGMNO" />
+      <PropertyRef Name="GPLNO" />
+      <PropertyRef Name="CONTNRSDESC" />
+      <PropertyRef Name="BOENO" />
+      <PropertyRef Name="BOEDATE" />
+      <PropertyRef Name="LPSEALNO" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="SDPTID" />
+      <PropertyRef Name="OSDID" />
+      <PropertyRef Name="ASLDID" />
+    </Key>
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="GIDNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GINO" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IGMNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSDESC" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BOENO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BOEDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="LPSEALNO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CSEALNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="SDPTID" Type="Int32" Nullable="false" />
+    <Property Name="OSDID" Type="Int32" Nullable="false" />
+    <Property Name="ASLDID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <ComplexType Name="pr_Search_Import_RemoteGateIn_Result">
+    <Property Type="String" Name="GIDATE" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="GINO" Nullable="true" />
+    <Property Type="String" Name="GIDNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="CONTNRSID" Nullable="true" MaxLength="2" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="IMPRTNAME" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="VSLNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Int32" Name="AGIDID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Import_RemoteGateInTransfer_Result">
+    <Property Type="String" Name="GIDATE" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="GINO" Nullable="true" />
+    <Property Type="String" Name="GIDNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="CONTNRSID" Nullable="true" MaxLength="2" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="IMPRTNAME" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="VSLNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Int32" Name="AGIDID" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN">
+    <Key>
+      <PropertyRef Name="TRANMID" />
+      <PropertyRef Name="IMPRTNAME" />
+    </Key>
+    <Property Name="TRANMID" Type="Int32" Nullable="false" />
+    <Property Name="TRANCSNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TRANIMPADDR1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TRANIMPADDR2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TRANIMPADDR3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TRANIMPADDR4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPCATEADDR1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPCATEADDR2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPCATEADDR3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPCATEADDR4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CHACATEGSTNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IMPCATEGSTNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN">
+    <Key>
+      <PropertyRef Name="OSDID" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="CONTNRNO" />
+    </Key>
+    <Property Name="OSDID" Type="Int32" Nullable="false" />
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IGMNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSDESC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OSMDNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="BOENO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="BOEDATE" Type="DateTime" Precision="0" />
+    <Property Name="DODATE" Type="DateTime" Precision="0" />
+    <Property Name="LSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OOCDATE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN">
+    <Key>
+      <PropertyRef Name="DOMID" />
+      <PropertyRef Name="DODID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="BILLEDID" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="BILLEMID" />
+    </Key>
+    <Property Name="DOMID" Type="Int32" Nullable="false" />
+    <Property Name="DODID" Type="Int32" Nullable="false" />
+    <Property Name="DODREFNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IGMNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSDESC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DOIDATE" Type="DateTime" Precision="0" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="GPWGHT" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="BILLEDID" Type="Int32" Nullable="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DPAIDNO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="DPAIDAMT" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="BILLEMID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <ComplexType Name="PR_DORDER_IGMNO_BOE_NO_CTRL_ASSGN_E001_Result">
+    <Property Type="Int32" Name="COMPYID" Nullable="false" />
+    <Property Type="Int32" Name="SDPTID" Nullable="false" />
+    <Property Type="Int32" Name="BILLEMID" Nullable="false" />
+    <Property Type="String" Name="BILLEMDNO" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="DPAIDNO" Nullable="true" MaxLength="20" />
+    <Property Type="Decimal" Name="DPAIDAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="CHAID" Nullable="false" />
+    <Property Type="String" Name="BILLEMNAME" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_DeliveryOrder_Result">
+    <Property Type="DateTime" Name="DODATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="DONO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="DODREFNAME" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="DOREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DODREFNO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="DODID" Nullable="true" />
+    <Property Type="Int32" Name="DOMID" Nullable="true" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="DODNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="PR_DORDER_IGMNO_BILLENTRY_WISE_CONTAINER_FLX_ASSGN_Result">
+    <Property Type="Int32" Name="BILLEMID" Nullable="false" />
+    <Property Type="Int32" Name="BILLEDID" Nullable="false" />
+    <Property Type="Int32" Name="GIDID" Nullable="false" />
+    <Property Type="Int32" Name="BILLEMNO" Nullable="false" />
+    <Property Type="String" Name="BILLEMDNO" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRNO" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="STRGDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GOTIME" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="DODATE" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="STMRID" Nullable="false" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="false" />
+    <Property Type="Decimal" Name="GPEAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPWGHT" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="GPAAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="STMRNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="IMPRTNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="VSLNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="VOYNO" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="PRDTDESC" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <EntityType Name="VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN">
+    <Key>
+      <PropertyRef Name="ASLDID" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+    </Key>
+    <Property Name="ASLDID" Type="Int32" Nullable="false" />
+    <Property Name="SDPTID" Type="Int32" />
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="IGMNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="pr_Search_Import_GateOut_Result">
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GOTIME" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="GONO" Nullable="true" />
+    <Property Type="String" Name="GODNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CONTNRSCODE" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="VHLNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CHANAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="GDRVNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="VSLNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BOENO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ASLMDNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="VTTYPE" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Int32" Name="GODID" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="VTDNO" />
+      <PropertyRef Name="VTNO" />
+      <PropertyRef Name="COMPYID" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="CHAID" />
+      <PropertyRef Name="CFSNAME" />
+      <PropertyRef Name="GPLNO" />
+      <PropertyRef Name="VHLNO" />
+      <PropertyRef Name="DRVNAME" />
+      <PropertyRef Name="LPSEALNO" />
+      <PropertyRef Name="VTSSEALNO" />
+      <PropertyRef Name="GODID" />
+    </Key>
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VTDNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VTNO" Type="Int32" Nullable="false" />
+    <Property Name="COMPYID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GIDATE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CHANAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CHAID" Type="Int32" Nullable="false" />
+    <Property Name="CFSNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IGMNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VHLNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="DRVNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LPSEALNO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="VTSSEALNO" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="ASLMTYPE" Type="Int16" />
+    <Property Name="GODID" Type="Int32" Nullable="false" />
+    <Property Name="VTSTYPE" Type="Int32" />
+    <Property Name="OOCDATE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="VTNO" />
+      <PropertyRef Name="VTDNO" />
+      <PropertyRef Name="COMPYID" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="GODID" />
+      <PropertyRef Name="LPSEALNO" />
+    </Key>
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VTNO" Type="Int32" Nullable="false" />
+    <Property Name="VTDNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="COMPYID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRSDESC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CHAID" Type="Int32" Nullable="false" />
+    <Property Name="CHANAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CFSNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IGMNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VHLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="DRVNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VTSSEALNO" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="ASLMTYPE" Type="Int16" />
+    <Property Name="GODID" Type="Int32" Nullable="false" />
+    <Property Name="VTSTYPE" Type="Int32" />
+    <Property Name="LPSEALNO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OOCDATE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN">
+    <Key>
+      <PropertyRef Name="TRANMID" />
+      <PropertyRef Name="IMPRTNAME" />
+    </Key>
+    <Property Name="TRANMID" Type="Int32" Nullable="false" />
+    <Property Name="TRANCSNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TRANIMPADDR1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TRANIMPADDR2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TRANIMPADDR3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TRANIMPADDR4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPCATEADDR1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPCATEADDR2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPCATEADDR3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPCATEADDR4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CHACATEGSTNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IMPCATEGSTNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="pr_SearchImportLorryHire_Result">
+    <Property Type="DateTime" Name="GILDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GILTIME" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="GILNO" Nullable="true" />
+    <Property Type="String" Name="GILDNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CONTNRSCODE" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="GILBILLNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CHANAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="TRNSPRTNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="VSLNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Int32" Name="GILDID" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="TRNSPRTNAME" />
+      <PropertyRef Name="TRNSPRTID" />
+    </Key>
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSDESC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IGMNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="TRNSPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TRNSPRTID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="TRNSPRTNAME" />
+      <PropertyRef Name="TRNSPRTID" />
+    </Key>
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSDESC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IGMNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="TRNSPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TRNSPRTID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <ComplexType Name="pr_Import_Manual_Invoice_Ctrl_Flx_Assgn_Result">
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="SBDDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="true" />
+    <Property Type="Int32" Name="STFDID" Nullable="true" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Decimal" Name="STFDNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STFDQTY" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANDID" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDHAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDEAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDPAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="STATETYPE" Nullable="true" />
+    <Property Type="String" Name="STRG_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="HANDL_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="STRG_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANCGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANSGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANIGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_COVID_DISC_AMT" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="pr_SearchManualOpenSheetGridAssgn_Result">
+    <Property Type="DateTime" Name="OSMDATE" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="OSMNO" Nullable="true" />
+    <Property Type="String" Name="OSMDNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="OSMIGMNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="OSMLNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="OSMNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BOENO" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="BOEDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="OSMVSLNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int32" Name="OSMID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Import_Performa_Invoice_Result">
+    <Property Type="DateTime" Name="TRANDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="TRANTIME" Nullable="true" Precision="23" />
+    <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="TRANNO" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="NOC" Nullable="true" />
+    <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int16" Name="GSTAMT" Nullable="true" />
+    <Property Type="String" Name="ACKNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="dono" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Performa_Invoice_Print_Customer_Detail_Assgn_Result">
+    <Property Type="Int32" Name="TRANMID" Nullable="false" />
+    <Property Type="String" Name="OSBILLREFNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CATEADDR1" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CATEADDR2" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CATEADDR3" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CATEADDR4" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CATEGSTNO" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="CATEMAIL" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CATEPHN1" Nullable="false" MaxLength="15" />
+    <Property Type="Int32" Name="TRANREFID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="pr_Import_DO_Invoice_IGMNO_Grid_Assgn_Result">
+    <Property Type="Int32" Name="DONO" Nullable="true" />
+    <Property Type="String" Name="DODNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="DODATE" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="true" />
+    <Property Type="String" Name="CONTNRDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="CHANAME" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="CHAID" Nullable="true" />
+    <Property Type="Int32" Name="TRANBTYPE" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Import_Container_Stock_Assgn_Result">
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IMPRTNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CONTNRTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="NOD" Nullable="true" />
+    <Property Type="Int32" Name="STMRID" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="VTNO" />
+      <PropertyRef Name="VTDNO" />
+      <PropertyRef Name="DRVNAME" />
+      <PropertyRef Name="ASLDID" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="ASEALNO" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="ASLMTYPE" />
+      <PropertyRef Name="GOTRNSPRTNAME" />
+      <PropertyRef Name="VHLNO" />
+    </Key>
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSDESC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRTCODE" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VTNO" Type="Int32" Nullable="false" />
+    <Property Name="VTDNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="OSMNO" Type="Int32" />
+    <Property Name="CHANAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CHAID" Type="Int32" />
+    <Property Name="DRVNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ASLDID" Type="Int32" Nullable="false" />
+    <Property Name="CSEALNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ASEALNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ASLMTYPE" Type="Int16" Nullable="false" />
+    <Property Name="GOTRNSPRTNAME" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="VHLNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="pr_Search_Import_TruckOut_Result">
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GOTIME" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="GONO" Nullable="true" />
+    <Property Type="String" Name="GODNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="VHLNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CHASNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="GDRVNAME" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Int32" Name="GODID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Import_TruckIn_Result">
+    <Property Type="String" Name="GIDATE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="GITIME" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="GINO" Nullable="true" />
+    <Property Type="String" Name="TRANSPORTER" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="VHLNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="7" />
+    <Property Type="String" Name="GIDNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DRVNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Import_Performa_Invoice_IGMNO_Grid_Assgn_Result">
+    <Property Type="Int32" Name="TRANREFID" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BOENO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="BILLEMID" Nullable="true" />
+    <Property Type="Int32" Name="BILLEDID" Nullable="true" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Int32" Name="STMRID" Nullable="true" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="true" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="STRGDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GOTIME" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="DODATE" Nullable="true" Precision="16" />
+    <Property Type="Decimal" Name="NOD" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="WGHT" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="PRDTGID" Nullable="true" />
+    <Property Type="Int32" Name="TRANDID" Nullable="true" />
+    <Property Type="Int16" Name="TRANDOTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TARIFFMID" Nullable="true" />
+    <Property Type="String" Name="DPAIDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="DPAIDAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPEAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPCSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPLBAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPAAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDHAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDEAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDAAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDADONAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="GPETYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPCSTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPLBTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPSTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPWTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPSCNTYPE" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDRATE" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="STATETYPE" Nullable="true" />
+    <Property Type="String" Name="STRG_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="HANDL_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="STRG_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANCGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANSGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANIGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_COVID_DISC_AMT" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Import_Invoice_Result">
+    <Property Type="DateTime" Name="TRANDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="TRANTIME" Nullable="true" Precision="23" />
+    <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="TRANNO" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Decimal" Name="GSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="ACKNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="dono" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_ImportManualBill_Result">
+    <Property Type="DateTime" Name="TRANDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="TRANTIME" Nullable="true" Precision="16" />
+    <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="false" MaxLength="6" />
+    <Property Type="Decimal" Name="GSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="ACKNO" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <EntityType Name="VW_ACCOUNTHEADER_HSNCODE_DETAIL">
+    <Key>
+      <PropertyRef Name="AIGSTEXPRN" />
+      <PropertyRef Name="HSNCODE" />
+      <PropertyRef Name="ACHEADID" />
+      <PropertyRef Name="HSNID" />
+      <PropertyRef Name="ACHEADDESC" />
+    </Key>
+    <Property Name="AIGSTEXPRN" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="HSNCODE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="ACHEADID" Type="Int32" Nullable="false" />
+    <Property Name="HSNID" Type="Int32" Nullable="false" />
+    <Property Name="ACHEADDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="pr_Get_Import_Slab_Narration_Detail_Result">
+    <Property Type="Int32" Name="SLABTID" Nullable="true" />
+    <Property Type="String" Name="SLABNARTN" Nullable="true" MaxLength="250" />
+    <Property Type="Decimal" Name="TranHandlingAmt" Nullable="true" Precision="38" Scale="6" />
+    <Property Type="Decimal" Name="TranAddnlAmt" Nullable="true" Precision="38" Scale="6" />
+  </ComplexType>
+  <ComplexType Name="SP_MANUALOPENSHEET_CONTAINER_FLX_ASSGN_Result">
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="GIDID" Nullable="false" />
+    <Property Type="String" Name="CONTNRNO" Nullable="false" MaxLength="15" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="false" Precision="23" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LPSEALNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CSEALNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="VSLNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="IMPRTNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="STMRNAME" Nullable="false" MaxLength="100" />
+    <Property Type="Int16" Name="GBDID" Nullable="false" />
+    <Property Type="Int32" Name="INS_TYPE" Nullable="false" />
+    <Property Type="Int32" Name="PRDTGID" Nullable="false" />
+    <Property Type="String" Name="VOYNO" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="BLNO" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="BOEDATE" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="PRDTGDESC" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="PRDTGCODE" Nullable="false" MaxLength="25" />
+    <Property Type="String" Name="IGMDATE" Nullable="false" MaxLength="10" />
+  </ComplexType>
+  <EntityType Name="VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="OSDID" />
+      <PropertyRef Name="OSMID" />
+      <PropertyRef Name="BILLEDID" />
+      <PropertyRef Name="BILLEMID" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTGDESC" />
+      <PropertyRef Name="PRDTGID" />
+      <PropertyRef Name="PRDTGCODE" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="INSP_DES" />
+      <PropertyRef Name="Block" />
+      <PropertyRef Name="BILLEMDATE" />
+    </Key>
+    <Property Name="OSDID" Type="Int32" Nullable="false" />
+    <Property Name="OSMID" Type="Int32" Nullable="false" />
+    <Property Name="BILLEDID" Type="Int32" Nullable="false" />
+    <Property Name="BILLEMID" Type="Int32" Nullable="false" />
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="GIDATE" Type="DateTime" Precision="0" />
+    <Property Name="LSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CSEALNO" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="INSPTYPE" Type="Int16" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTGDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTGID" Type="Int32" Nullable="false" />
+    <Property Name="PRDTGCODE" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSID" Type="Int32" Nullable="false" />
+    <Property Name="OSMIGMNO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="OSMLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="INSP_DES" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="Block" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="BILLEMDATE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="pr_Search_Import_CargoIn_Result">
+    <Property Type="DateTime" Name="GIDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GITIME" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="GINO" Nullable="true" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CONTNRSID" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="VHLNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="GIDNO" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN">
+    <Key>
+      <PropertyRef Name="CONTNRSDESC" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VTDATE" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="PRDTGDESC" />
+      <PropertyRef Name="PRDTDESC" />
+    </Key>
+    <Property Name="CONTNRSDESC" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CGIDID" Type="Int32" />
+    <Property Name="GIDNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="VTDATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VHLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTGDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="GPWGHT" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="BGOQTY" Type="Decimal" Precision="19" Scale="4" />
+  </EntityType>
+  <ComplexType Name="pr_Search_Import_CargoOut_Result">
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GOTIME" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="GONO" Nullable="true" />
+    <Property Type="String" Name="GODNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="VHLNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="GDRVNAME" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="GOQTY" Nullable="true" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Int32" Name="GODID" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN">
+    <Key>
+      <PropertyRef Name="CONTNRSDESC" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="GODID" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="VTDATE" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="PRDTGDESC" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="GOQTY" />
+    </Key>
+    <Property Name="CONTNRSDESC" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GODID" Type="Int32" Nullable="false" />
+    <Property Name="CGIDID" Type="Int32" />
+    <Property Name="GIDNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="VTDATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VHLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTGDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="GPWGHT" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="BGOQTY" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="GOQTY" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+  </EntityType>
+  <ComplexType Name="PR_IMPORT_REMOTEGATEINCONTAINER_DETAILS_Result">
+    <Property Type="Int32" Name="Sno" Nullable="true" />
+    <Property Type="String" Name="Descriptn" Nullable="true" MaxLength="250" />
+    <Property Type="Int32" Name="c_20" Nullable="true" />
+    <Property Type="Int32" Name="c_40" Nullable="true" />
+    <Property Type="Int32" Name="c_45" Nullable="true" />
+    <Property Type="Int32" Name="c_tues" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="PR_IMPORT_LOADESTUFFTOTCONTAINER_DETAILS_Result">
+    <Property Type="Int32" Name="Sno" Nullable="true" />
+    <Property Type="String" Name="Descriptn" Nullable="true" MaxLength="250" />
+    <Property Type="Int32" Name="c_20" Nullable="true" />
+    <Property Type="Int32" Name="c_40" Nullable="true" />
+    <Property Type="Int32" Name="c_45" Nullable="true" />
+    <Property Type="Int32" Name="c_tues" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Import_EmptyGatein_Detail_Assgn_Result">
+    <Property Type="Int32" Name="GIDNO" Nullable="true" />
+    <Property Type="String" Name="GIDATE" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="VTDATE" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="ASLMDATE" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <EntityType Name="VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="GITIME" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="CONTNRSDESC" />
+      <PropertyRef Name="GPLNO" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="IGMNO" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="CHANAME" />
+      <PropertyRef Name="LPSEALNO" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="SLOTID" />
+      <PropertyRef Name="ASLMDNO" />
+      <PropertyRef Name="ASLDID" />
+      <PropertyRef Name="VHLNO" />
+      <PropertyRef Name="DRVNAME" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="ASLMTYPE" />
+      <PropertyRef Name="BOENO" />
+      <PropertyRef Name="BOEDATE" />
+      <PropertyRef Name="ASLMDATE" />
+      <PropertyRef Name="ASLMTIME" />
+      <PropertyRef Name="STMRID" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="CONTNRTID" />
+    </Key>
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="GITIME" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="GIDNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSDESC" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="IGMNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CHANAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LPSEALNO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CSEALNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="SLOTID" Type="Int32" Nullable="false" />
+    <Property Name="ASLMDNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ASLDID" Type="Int32" Nullable="false" />
+    <Property Name="VHLNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="DRVNAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ASLMTYPE" Type="Int16" Nullable="false" />
+    <Property Name="BOENO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BOEDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ASLMDATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ASLMTIME" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="STMRID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRSID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRTID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="VHLNO" />
+      <PropertyRef Name="STMRID" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="IMPRTID" />
+      <PropertyRef Name="IMPRTNAME" />
+    </Key>
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="GIDATE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="VHLNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="STMRID" Type="Int32" Nullable="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTID" Type="Int32" Nullable="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="pr_Import_Invoice_IGMNO_Grid_Assgn_Result">
+    <Property Type="Int32" Name="TRANREFID" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BOENO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="BILLEMID" Nullable="true" />
+    <Property Type="Int32" Name="BILLEDID" Nullable="true" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Int32" Name="STMRID" Nullable="true" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="true" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="STRGDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GOTIME" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="DODATE" Nullable="true" Precision="16" />
+    <Property Type="Decimal" Name="NOD" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="WGHT" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="PRDTGID" Nullable="true" />
+    <Property Type="Int32" Name="TRANDID" Nullable="true" />
+    <Property Type="Int16" Name="TRANDOTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TARIFFMID" Nullable="true" />
+    <Property Type="String" Name="DPAIDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="DPAIDAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPEAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPCSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPLBAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPAAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDHAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDEAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDAAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="GPETYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPCSTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPLBTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPSTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPWTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPSCNTYPE" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDRATE" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="STATETYPE" Nullable="true" />
+    <Property Type="String" Name="STRG_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="HANDL_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="STRG_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANCGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANSGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANIGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_COVID_DISC_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANBTYPE" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDADONAMT" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="PR_IMPORT_AUTHORIZATION_DETAIL_CTRL_ASSGN_Result">
+    <Property Type="Int32" Name="ASLMID" Nullable="false" />
+    <Property Type="Int32" Name="ASLDID" Nullable="false" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="true" Precision="23" />
+    <Property Type="String" Name="OSMDNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="BOENO" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="BOEDATE" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="DODATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="LSEALNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SSEALNO" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="String" Name="OSMIGMNO" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="OSMLNO" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="OSDID" Nullable="true" />
+    <Property Type="String" Name="VOYNO" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="VSLNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="STMRNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="IMPRTNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="VTDNO" Nullable="false" MaxLength="15" />
+  </ComplexType>
+  <ComplexType Name="pr_UPDATAE_SSRCHARGES_CONTAINERNo_Result">
+    <Property Type="String" Name="CONTNRNO" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="VW_TALLYCHANAME_UPDATE_VIEW_ASSGN">
+    <Key>
+      <PropertyRef Name="OSMID" />
+    </Key>
+    <Property Name="OSMDATE" Type="DateTime" Precision="0" />
+    <Property Name="OSMID" Type="Int32" Nullable="false" />
+    <Property Name="CHAID" Type="Int32" />
+    <Property Name="OSMNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="pr_Search_Import_GateInGridAssgn_Result">
+    <Property Type="DateTime" Name="GIDATE" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="GINO" Nullable="true" />
+    <Property Type="String" Name="GIDNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSID" Nullable="true" MaxLength="2" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="IMPRTNAME" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="VSLNAME" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="BLNO" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="false" MaxLength="1" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_UPDATAE_CONTAINERNo_Result">
+    <Property Type="String" Name="CONTNRNO" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="PR_IMPORT_GATEIN_CONTAINER_CHK_ASSGN_Result">
+    <Property Type="String" Name="CONTNRNO" Nullable="false" MaxLength="15" />
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GEDATE" Nullable="true" Precision="16" />
+  </ComplexType>
+  <EntityType Name="VW_OPENSHEET_DETAIL_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="OSDID" />
+      <PropertyRef Name="OSMID" />
+      <PropertyRef Name="BILLEDID" />
+      <PropertyRef Name="BILLEMID" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTGDESC" />
+      <PropertyRef Name="PRDTGID" />
+      <PropertyRef Name="PRDTGCODE" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="INSP_DES" />
+      <PropertyRef Name="Block" />
+    </Key>
+    <Property Name="OSDID" Type="Int32" Nullable="false" />
+    <Property Name="OSMID" Type="Int32" Nullable="false" />
+    <Property Name="BILLEDID" Type="Int32" Nullable="false" />
+    <Property Name="BILLEMID" Type="Int32" Nullable="false" />
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="GIDATE" Type="DateTime" Precision="0" />
+    <Property Name="LSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CSEALNO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="INSPTYPE" Type="Int16" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTGDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTGID" Type="Int32" Nullable="false" />
+    <Property Name="PRDTGCODE" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSID" Type="Int32" Nullable="false" />
+    <Property Name="OSMIGMNO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="OSMLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="INSP_DES" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="Block" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="BILLEMDATE" Type="DateTime" Precision="0" />
+    <Property Name="SealNos" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="OSDID" />
+      <PropertyRef Name="OSMID" />
+      <PropertyRef Name="BILLEDID" />
+      <PropertyRef Name="BILLEMID" />
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="CSEALNO" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="PRDTGDESC" />
+      <PropertyRef Name="PRDTGID" />
+      <PropertyRef Name="PRDTGCODE" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="INSP_DES" />
+      <PropertyRef Name="Block" />
+      <PropertyRef Name="OSSID" />
+    </Key>
+    <Property Name="OSDID" Type="Int32" Nullable="false" />
+    <Property Name="OSMID" Type="Int32" Nullable="false" />
+    <Property Name="BILLEDID" Type="Int32" Nullable="false" />
+    <Property Name="BILLEMID" Type="Int32" Nullable="false" />
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="GIDATE" Type="DateTime" Precision="0" />
+    <Property Name="LSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CSEALNO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="INSPTYPE" Type="Int16" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTGDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTGID" Type="Int32" Nullable="false" />
+    <Property Name="PRDTGCODE" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSID" Type="Int32" Nullable="false" />
+    <Property Name="OSMIGMNO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="OSMLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="INSP_DES" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="Block" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="BILLEMDATE" Type="DateTime" Precision="0" />
+    <Property Name="OSSID" Type="Int32" Nullable="false" />
+    <Property Name="SealNos" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <ComplexType Name="pr_BS_Import_Invoice_No_Wise_Grid_Pulses_Assgn_Result">
+    <Property Type="Int32" Name="TRANLMID" Nullable="true" />
+    <Property Type="Int32" Name="TRANREFID" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BOENO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="BILLEMID" Nullable="true" />
+    <Property Type="Int32" Name="BILLEDID" Nullable="true" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Int32" Name="STMRID" Nullable="true" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="true" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="STRGDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GOTIME" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="DODATE" Nullable="true" Precision="16" />
+    <Property Type="Decimal" Name="NOD" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="WGHT" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="PRDTGID" Nullable="true" />
+    <Property Type="Int32" Name="TRANDID" Nullable="true" />
+    <Property Type="Int16" Name="TRANDOTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TARIFFMID" Nullable="true" />
+    <Property Type="String" Name="DPAIDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="DPAIDAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPEAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPCSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPLBAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPAAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDHAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDEAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDAAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="GPETYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPCSTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPLBTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPSTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPWTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPSCNTYPE" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDRATE" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="STATETYPE" Nullable="true" />
+    <Property Type="String" Name="STRG_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="HANDL_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="STRG_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANCGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANSGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANIGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_COVID_DISC_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANBTYPE" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDADONAMT" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="SP_OPENSHEET_CONTAINER_FLX_ASSGN_Result">
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="GIDID" Nullable="false" />
+    <Property Type="String" Name="CONTNRNO" Nullable="false" MaxLength="15" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="false" Precision="23" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LPSEALNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CSEALNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="VSLNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="IMPRTNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="STMRNAME" Nullable="false" MaxLength="100" />
+    <Property Type="Int16" Name="GBDID" Nullable="false" />
+    <Property Type="Int32" Name="PRDTGID" Nullable="false" />
+    <Property Type="String" Name="VOYNO" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="BLNO" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="BOEDATE" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="PRDTGDESC" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="PRDTGCODE" Nullable="false" MaxLength="25" />
+    <Property Type="String" Name="IGMDATE" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="PRDTDESC" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="INSP_DES" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN">
+    <Key>
+      <PropertyRef Name="GIDID" />
+      <PropertyRef Name="GIDATE" />
+      <PropertyRef Name="GITIME" />
+      <PropertyRef Name="GIDNO" />
+      <PropertyRef Name="CONTNRNO" />
+      <PropertyRef Name="VSLNAME" />
+      <PropertyRef Name="VOYNO" />
+      <PropertyRef Name="IMPRTNAME" />
+      <PropertyRef Name="STMRNAME" />
+      <PropertyRef Name="ASLDID" />
+      <PropertyRef Name="PRDTDESC" />
+      <PropertyRef Name="DODID" />
+      <PropertyRef Name="STMRID" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="CONTNRTID" />
+      <PropertyRef Name="ASLOTYPE" />
+      <PropertyRef Name="OPRTYPEDESC" />
+      <PropertyRef Name="OSBILLREFID" />
+    </Key>
+    <Property Name="GIDID" Type="Int32" Nullable="false" />
+    <Property Name="GIDATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="GITIME" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="GIDNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRNO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSDESC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GPLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VSLNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VOYNO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="IGMNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IMPRTNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="STMRNAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LPSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CSEALNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="SLOTID" Type="Int32" />
+    <Property Name="ASLMDNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ASLDID" Type="Int32" Nullable="false" />
+    <Property Name="VHLNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="DRVNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PRDTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ASLMTYPE" Type="Int16" />
+    <Property Name="OSMNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="BOENO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="BOEDATE" Type="DateTime" Precision="0" />
+    <Property Name="DOTYPE" Type="Int16" />
+    <Property Name="DODATE" Type="DateTime" Precision="0" />
+    <Property Name="LSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SSEALNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ASLMDATE" Type="DateTime" Precision="0" />
+    <Property Name="ASLMTIME" Type="DateTime" Precision="3" />
+    <Property Name="DODID" Type="Int32" Nullable="false" />
+    <Property Name="DOMDATE" Type="DateTime" Precision="0" />
+    <Property Name="DODNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="STMRID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRSID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRTID" Type="Int32" Nullable="false" />
+    <Property Name="ASLOTYPE" Type="Int16" Nullable="false" />
+    <Property Name="OPRTYPEDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="OSBILLREFNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="OSBILLREFID" Type="Int32" Nullable="false" />
+    <Property Name="CHAID" Type="Int32" />
+    <Property Name="OOCDATE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="DODATEChr" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="pr_SearchOpenSheetGridAssgn_Result">
+    <Property Type="DateTime" Name="OSMDATE" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="OSMNO" Nullable="true" />
+    <Property Type="String" Name="OSMDNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="OSMIGMNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="OSMLNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="OSMNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BOENO" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="BOEDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="OSMVSLNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int32" Name="OSMID" Nullable="true" />
+    <Property Type="String" Name="OOCNOSTS" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="DOSTS" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Import_DeStuffSlip_Result">
+    <Property Type="DateTime" Name="ASLMDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="ASLMNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="CHANAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BOENO" Nullable="true" MaxLength="25" />
+    <Property Type="DateTime" Name="BOEDATE" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="ASLMID" Nullable="true" />
+    <Property Type="Int32" Name="ASLDID" Nullable="true" />
+    <Property Type="Int32" Name="OSDID" Nullable="true" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="ASLMDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DOSTS" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Import_LoadSlip_Result">
+    <Property Type="DateTime" Name="ASLMDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="ASLMNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="CHANAME" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="BOENO" Nullable="true" MaxLength="25" />
+    <Property Type="DateTime" Name="BOEDATE" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="ASLMID" Nullable="true" />
+    <Property Type="Int32" Name="ASLDID" Nullable="true" />
+    <Property Type="Int32" Name="OSDID" Nullable="true" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="ASLMDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DOSTS" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="PR_ES_GATEIN_CONTAINER_CHK_ASSGN_001_Result">
+    <Property Type="String" Name="CONTNRNO" Nullable="false" MaxLength="15" />
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GEDATE" Nullable="true" Precision="16" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Import_VehicleTicket_Result">
+    <Property Type="DateTime" Name="VTDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="VTDNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="ASLMDNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="VTTYPE" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="VTSTYPE" Nullable="true" />
+    <Property Type="String" Name="CHANAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BOENO" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="IGMNO" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="GPLNO" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="EGIDID" Nullable="false" />
+    <Property Type="Int32" Name="VTDID" Nullable="true" />
+    <Property Type="Int32" Name="GIDId" Nullable="true" />
+    <Property Type="Int32" Name="CGIDID" Nullable="false" />
+    <Property Type="String" Name="VTSSEALNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="GODID" Nullable="false" />
+    <Property Type="String" Name="GOSTS" Nullable="false" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Import_GateInBlock_Result">
+    <Property Type="DateTime" Name="GBDATE" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="GBNO" Nullable="true" />
+    <Property Type="String" Name="GBDNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSID" Nullable="true" MaxLength="2" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="VSLNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="GBTYPE" Nullable="true" MaxLength="13" />
+    <Property Type="String" Name="GPSTYPE" Nullable="true" MaxLength="3" />
+    <Property Type="String" Name="GPSCNTYPE" Nullable="true" MaxLength="3" />
+    <Property Type="Int32" Name="GBDID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_SSRCharge_Container_Detail_Assgn_Result">
+    <Property Type="Int32" Name="GIDID" Nullable="false" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="SDPTID" Nullable="false" />
+    <Property Type="String" Name="CONTNRNO" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="VOYNO" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="IMPRTNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="VSLNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="STMRNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="GPETYPE" Nullable="true" />
+    <Property Type="Decimal" Name="GPEAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPAAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="TRNSPRTNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="VHLNO" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="GPNRNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="TRNSPRTID" Nullable="false" />
+  </ComplexType>
+</Schema>

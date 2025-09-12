@@ -1,0 +1,1768 @@
+﻿@using scfs.Data
+@using scfs_erp.Models;
+@model scfs_erp.Models.ManualOpenSheetMD
+@{
+    ViewBag.Title = "Manual OpenSheet";
+}
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+
+    .box-header {
+        background-color: gainsboro;
+    }
+</style>
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>Manual Open Sheet</strong>
+                        </div>
+                    </div>
+
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ManualOpenSheet/savedataOld")" method="post" accept-charset="utf-8" id="ManualOpenSheetform" data-ng-controller="myController" name="ManualOpenSheetform" onsubmit="return Form_validate()">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="ManualOpenSheetform_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2 hidden">
+                                            <div class="form-group">
+                                                <label>Primary  </label>
+                                                @Html.TextBoxFor(model => model.manualmasterdata[0].OSMID, new { @class = "form-control  OSMID", @id = "OSMID" })
+                                                @*@Html.TextBoxFor(model => model.manualmasterdata[0].BILLEMID, new { @class = "form-control  BILLEMID", @id = "BILLEMID" })*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Date/Time<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMDATE, new { @class = "form-control OSMDATE ", @id = "OSMDATE", @data_Val = false, tabindex = "1", @placeholder = "Please Select Date" })
+                                                @*@Html.TextBoxFor(model => Model.manualmasterdata[0].OSMDATE, new { @class = "form-control datetime OSMDATE ", @id = "OSMDATE", @data_Val = false, tabindex = "1" })*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>No  </label>
+                                                @Html.TextBoxFor(model => model.manualmasterdata[0].OSMNO, new { @class = "form-control  OSMNO", @id = "OSMNO", @readonly = true })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>CHA(Tally) <span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMNAME, new { @class = "form-control OSMNAME", @id = "OSMNAME", data_autocomplete_url = Url.Action("AutoCha", "ManualOpenSheet"), @placeholder = "-----Please Select------", tabindex = "3" })
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].CHAID, new { @class = "hide form-control  CHAID", @id = "CHAID" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>CHA(Licence Name)</label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMLNAME, new { @class = "form-control  OSMLNAME", @id = "OSMLNAME", tabindex = "5", @maxLength = "100" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>CHA Address type </label>
+                                                @Html.DropDownList("OSBCHACATEAID", null, "Select Location", new { @class = "form-control OSBCHACATEAID", @id = "OSBCHACATEAID", @tabindex = "5", @onchange = "GetAddressDetails()" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>CHA GST No</label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBCHACATEAGSTNO, new { @class = "form-control  OSBCHACATEAGSTNO", @id = "OSBCHACATEAGSTNO", tabindex = "-1", @maxLength = "50", @readonly = true })
+                                                @Html.HiddenFor(model => Model.manualmasterdata[0].OSBCHASTATEID, new { @class = "form-control  OSBCHASTATEID", @id = "OSBCHASTATEID", tabindex = "-1" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Address 1 </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBCHAADDR1, new { @class = "form-control  OSBCHAADDR1", @id = "OSBCHAADDR1", tabindex = "-1", @maxLength = "100", @readonly = true })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Address 2 </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBCHAADDR2, new { @class = "form-control  OSBCHAADDR2", @id = "OSBCHAADDR2", tabindex = "-1", @maxLength = "100", @readonly = true })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Address 3 </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBCHAADDR3, new { @class = "form-control  OSBCHAADDR3", @id = "OSBCHAADDR3", tabindex = "-1", @maxLength = "100", @readonly = true })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Address 4 </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBCHAADDR4, new { @class = "form-control  OSBCHAADDR4", @id = "OSBCHAADDR4", tabindex = "-1", @maxLength = "100", @readonly = true })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Billed To  </label>
+                                                @Html.DropDownList("BILLEDTO", null, new { @class = "form-control BILLEDTO", @id = "BILLEDTO", @onclick = "GetVal()", @tabindex = "53" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Billing Name  </label>
+                                                @if (Model.manualmasterdata != null)
+                                                {
+                                                    if (Model.manualmasterdata[0].OSBILLEDTO == 0)
+                                                    {
+                                                        <input type="text" class="TRANCHANAME form-control" name="TRANCHANAME" id="TRANCHANAME" value="@ViewBag.OSBILLREFNAME" data-autocomplete-url=@Url.Action("NewAutoCha", "ManualOpenSheet") />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" class="TRANIMPNAME form-control" name="TRANIMPNAME" id="TRANIMPNAME" value="@ViewBag.OSBILLREFNAME" data-autocomplete-url=@Url.Action("NewAutoImporter", "ManualOpenSheet") />
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" class="TRANCHANAME form-control" name="TRANCHANAME" id="TRANCHANAME" value="@ViewBag.OSBILLREFNAME" data-autocomplete-url=@Url.Action("NewAutoCha", "ManualOpenSheet") />
+                                                    <input type="text" class="TRANIMPNAME form-control" name="TRANIMPNAME" id="TRANIMPNAME" value="@ViewBag.OSBILLREFNAME" data-autocomplete-url=@Url.Action("NewAutoImporter", "ManualOpenSheet") />
+                                                }
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBILLREFNAME, new { @class = "form-control  OSBILLREFNAME hide", @id = "OSBILLREFNAME", @tabindex = "29" })
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBILLREFID, new { @class = "form-control  OSBILLREFID hide", @id = "OSBILLREFID", @tabindex = "30" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Billing Address type </label>
+                                                @Html.DropDownList("OSBBCHACATEAID", null, "Select Location", new { @class = "form-control OSBBCHACATEAID", @id = "OSBBCHACATEAID", @tabindex = "5", @onchange = "GetBillAddressDetails()" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Billing GST No</label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBBCHACATEAGSTNO, new { @class = "form-control  OSBBCHACATEAGSTNO", @id = "OSBBCHACATEAGSTNO", tabindex = "-1", @maxLength = "50", @readonly = true })
+                                                @Html.HiddenFor(model => Model.manualmasterdata[0].OSBBCHASTATEID, new { @class = "form-control  OSBBCHASTATEID", @id = "OSBBCHASTATEID", tabindex = "-1" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Address 1 </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBBCHAADDR1, new { @class = "form-control  OSBBCHAADDR1", @id = "OSBBCHAADDR1", tabindex = "-1", @maxLength = "100", @readonly = true })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Address 2 </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBBCHAADDR2, new { @class = "form-control  OSBBCHAADDR2", @id = "OSBBCHAADDR2", tabindex = "-1", @maxLength = "100", @readonly = true })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Address 3 </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBBCHAADDR3, new { @class = "form-control  OSBBCHAADDR3", @id = "OSBBCHAADDR3", tabindex = "-1", @maxLength = "100", @readonly = true })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Address 4 </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSBBCHAADDR4, new { @class = "form-control  OSBBCHAADDR4", @id = "OSBBCHAADDR4", tabindex = "-1", @maxLength = "100", @readonly = true })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>CHA Staff Name</label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMCNAME, new { @class = "form-control  OSMCNAME", @id = "OSMCNAME", tabindex = "7", })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Labour<span class="required-field"></span></label>
+                                                @*@Html.DropDownList("OSMLCATEID", null, "Please Select an Option", new { @class = "form-control OSMLCATEID", @required = "required", tabindex = "9" })*@
+                                                @Html.DropDownList("OSMLCATEID", null, "Please Select an Option", new { @class = "form-control OSMLCATEID", tabindex = "9" })
+
+                                                @Html.HiddenFor(model => Model.manualmasterdata[0].OSMLCATENAME, new { @class = "form-control  OSMLCATENAME", @id = "OSMLCATENAME", @readonly = true })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>BOE No <span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].BOENO, new { @class = "form-control  BOENO", @id = "BOENO", tabindex = "11", @onchange = "GetBOE()" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>BOE Date</label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].BOEDATE, new { @class = "form-control BOEDATE", @id = "BOEDATE", @data_Val = false, @tabindex = "13", @placeholder = "Please Select Date" })
+                                                @*@Html.TextBoxFor(model => Model.manualmasterdata[0].BOEDATE, new { @class = "form-control datepicker BOEDATE", @id = "BOEDATE", @data_Val = false, tabindex = "13" })*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Via<span class="required-field"></span></label>
+                                                @Html.DropDownList("OSMTYPE", null, "Please Select", new { @class = "form-control", tabindex = "15" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Type</label>
+                                                @Html.DropDownList("OSMLDTYPE", null, new { @class = "form-control", tabindex = "15" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>DO Liner</label>
+                                                @Html.DropDownList("DOTYPE", null, new { @class = "form-control DOTYPE", tabindex = "17", @id = "DOTYPE" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Validity Date</label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].DODATE, new { @class = "form-control datepicker DODATE", @id = "DODATE", @data_Val = false, tabindex = "19" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>DO Issue Date</label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].DOIDATE, new { @class = "form-control datepicker DOIDATE", @id = "DOIDATE", @data_Val = false, tabindex = "21" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>DO No </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].DONO, new { @class = "form-control  DONO", @id = "DONO", tabindex = "22", @maxlength = "15", @onkeydown = "return isAlphaNumberOnlyKey(event);" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Seal No's </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].SCDESC, new { @class = "form-control  SCDESC", @id = "SCDESC", tabindex = "24", @maxlength = "100", @onkeydown = "return isAlphaNumberOnlyKey(event);" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Seal Cut</label>
+                                                @Html.DropDownList("SCTYPE", null, new { @class = "form-control", @onchange = "return sealcut()", tabindex = "26" })
+                                            </div>
+                                        </div>
+                                        <div class="frm_hide" id="F_SCDATE">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Seal Cut Date</label>
+                                                    @Html.TextBoxFor(model => Model.manualmasterdata[0].SCDATE, new { @class = "form-control datetime SCDATE", @id = "SCDATE", @data_Val = false, tabindex = "28" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <label> Cut Time</label>
+                                                    @Html.TextBoxFor(model => Model.manualmasterdata[0].SCTIME, new { @class = "form-control  SCTIME", @id = "SCTIME", @readonly = true, @data_Val = false, tabindex = "30" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Assessable Value<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMAAMT, new { @class = "form-control  OSMAAMT", @id = "OSMAAMT", tabindex = "32", @onkeypress = "return isNumerDecimalOnly(event,this)" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Duty Value<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMDUTYAMT, new { @class = "form-control  OSMDUTYAMT", @id = "OSMDUTYAMT", tabindex = "33", @onkeypress = "return isNumerDecimalOnly(event,this);" })
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Nop<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMNOP, new { @class = "form-control  OSMNOP", @id = "OSMNOP", tabindex = "36", @maxlength = "20", @onkeypress = "return isNumerDecimalOnly(event,this);" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Unit<span class="required-field"></span></label>
+                                                @Html.DropDownList("OSMUNITID", null, "Please select", new { @class = "form-control", tabindex = "38" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Weight<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMWGHT, new { @class = "form-control  OSMWGHT", @id = "OSMWGHT", tabindex = "40", @onkeypress = "return isNumerDecimalOnly(event,this);", @maxlength = "20" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Delivery Status </label>
+                                                @Html.DropDownList("INSP_TYPE", null, new { @class = "form-control  INSP_TYPE", @id = "INSP_TYPE", @onchange = "return delivery_status()", tabindex = "52" })
+                                            </div>
+                                        </div>
+                                        @if (Model.manualmasterdata != null)
+                                        {
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>IGM No </label>
+                                                    @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMIGMNO, new { @class = "form-control  OSMIGMNO", @id = "OSMIGMNO", data_autocomplete_url = Url.Action("AutoIGM", "ManualOpenSheet"), @readonly = true })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Line No </label>
+                                                    <input type="text" id="OSMLNO" name="OSMLNO" class="OSMLNO form-control" value="@Model.manualmasterdata[0].OSMLNO" readonly />
+                                                    @*@Html.DropDownList("OSMLNO", null, "Please Select", new { @class = "form-control  OSMLNO", @id = "OSMLNO", @required = "required", tabindex = "46" })*@
+                                                </div>
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>IGM No<span class="required-field"></span> </label>
+                                                    @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMIGMNO, new { @class = "form-control  OSMIGMNO", @id = "OSMIGMNO", data_autocomplete_url = Url.Action("AutoIGM", "ManualOpenSheet"), @placeholder = "---Please Select----", tabindex = "48" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Line No<span class="required-field"></span> </label>
+                                                    @Html.DropDownList("OSMLNO", null, "Please Select", new { @class = "form-control  OSMLNO", @id = "OSMLNO", tabindex = "50" })
+                                                </div>
+                                            </div>
+
+                                        }
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Product Category </label>
+                                                @Html.DropDownList("T_PRDTGID", null, "Please Select", new { @class = "form-control  T_PRDTGID", @id = "T_PRDTGID", tabindex = "8", @onchange = "ProductCategorgdesc()" })
+                                                <input type="text" class="form-control T_PRDTGDESC hide" id="T_PRDTGDESC" value="" readonly />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Vessel Name </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMVSLNAME, new { @class = "form-control  OSMVSLNAME", @id = "OSMVSLNAME", @readonly = true })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Voyage No </label>
+                                                <input type="text" class="form-control" id="T_VOYNO" value="@ViewBag.VOYNO" readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Importer </label>
+                                                <input type="text" class="form-control" id="T_IMPRTNAME" value="@ViewBag.IMPRTNAME" readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Steamer </label>
+                                                <input type="text" class="form-control" id="T_STMRNAME" value="@ViewBag.STMRNAME" readonly />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-1 hide">
+                                            <div class="form-group">
+                                                <label> NOC 20" </label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMTNOC, new { @class = "form-control  OSMTNOC", @id = "OSMTNOC", tabindex = "42", @onkeypress = "return isNumerDecimalOnly(event,this);", @maxlength = "20" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 hide">
+                                            <div class="form-group">
+                                                <label>NOC 40"</label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMFNOC, new { @class = "form-control  OSMFNOC", @id = "OSMFNOC", tabindex = "44", @onkeypress = "return isNumerDecimalOnly(event,this);", @maxlength = "20" })
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+
+                                    <div class="col-md-12">
+                                       
+                                        
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>BL No<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMBLNO, new { @class = "form-control  OSMBLNO", @id = "OSMBLNO", tabindex = "34", @maxlength = "20", @onkeydown = "return isAlphaNumberOnlyKey(event);" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>BL Date</label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMBLDATE, new { @class = "form-control datepicker OSMBLDATE", @id = "OSMBLDATE", @data_Val = false, tabindex = "35" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>IGM Date</label>
+                                                @Html.TextBoxFor(model => Model.manualmasterdata[0].OSMIGMDATE, new { @class = "form-control datepicker OSMIGMDATE", @id = "OSMIGMDATE", @data_Val = false, tabindex = "-1" })
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="col-md-12">
+                                        @if (Model.manualmasterdata != null)
+                                        {<div class="Del_check hidden">@scfs_erp.Helper.Delete_fun.delete_check1("MANUALOPENSHEET", @Model.manualmasterdata[0].OSMID.ToString())</div>}
+                                        <div class="table_grid" id="table_grid"></div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Remarks </label>
+                                                @Html.TextAreaFor(model => Model.manualmasterdata[0].SCREMRKS, new { @class = "form-control SCREMRKS", @id = "SCREMRKS", tabindex = "62" })
+                                            </div>
+                                        </div>
+                                        <div class="hidden"><input type="text" class="form-control TMP_BOE_CHK" id="TMP_BOE_CHK" readonly /><input type="text" class="form-control TMPBOEID" id="TMPBOEID" name="TMPBOEID" readonly /></div>
+                                    </div>
+
+                                    <div class="col-md-12 box-footer">
+                                        <input type="button" name="back" id="btnback" value="Go Back" class="btn btn-primary btn-xs  pull-left" />
+                                        @*<input type="button" name="back" id="btnback" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                        <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="100" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    <script>
+        //........DATE DIFFERENCE.....................
+        function datdidff(start_date, end_date) {
+            if (start_date.match("/")) { start_date = start_date.split("/"); }
+            else if (start_date.match("-")) { start_date = start_date.split("-"); }
+
+            if (end_date.match("/")) { end_date = end_date.split("/"); }
+            else if (end_date.match("-")) { end_date = end_date.split("-"); }
+            // end_date = end_date.split("/");
+
+
+            start_date = start_date[2] + "-" + start_date[1] + "-" + start_date[0];
+            end_date = end_date[2] + "-" + end_date[1] + "-" + end_date[0];
+
+            var diff = Math.floor((Date.parse(end_date.replace(/-/g, '\/')) - Date.parse(start_date.replace(/-/g, '\/'))) / 86400000);
+
+            return diff;
+
+        }//......end
+
+
+        function GetVal() {
+
+            var BILLEDTO = $(".BILLEDTO option:selected").val();
+            $('#TRANCHANAME').val("");
+            $('#TRANIMPNAME').val("");
+            $('#OSBILLREFID').val("");
+            $('#OSBILLREFNAME').val("");
+            $("#OSBBCHACATEAID option:selected").text("--Select--");
+            //$('#OSBBCHACATEAID').empty();
+            $('#OSBBCHACATEAGSTNO').val("");
+            $('#OSBBCHASTATEID').val("0");
+            $('#OSBBCHAADDR4').val("");
+            $('#OSBBCHAADDR3').val("");
+            $('#OSBBCHAADDR2').val("");
+            $('#OSBBCHAADDR1').val("");
+
+            // alert(BILLEDTO);
+            if (BILLEDTO == 0) {
+                $('#TRANCHANAME').show();
+                $('#TRANIMPNAME').hide();
+            }
+            else {
+                $('#TRANCHANAME').hide();
+                $('#TRANIMPNAME').show();
+
+            }
+        }
+
+        $("#btnback").click(function () {
+            base = window.location.origin;
+
+            window.location.href = base + "/ManualOpenSheet/Index";
+        });
+
+        //-------------CHA TRNCSNAME-------------------
+        $('#TRANCHANAME').blur(function () {
+            var selectedvalue = $('#TRANCHANAME').val();
+            $('#OSBILLREFNAME').val(selectedvalue);
+            $('#OSBILLREFID').val();
+            var CATEID = $('#OSBILLREFID').val();
+            if (CATEID > 0) {
+                Billlocationdetail(CATEID)
+            }
+        });
+
+
+
+        //-------------CHA TRNCSNAME-------------------
+        $('#TRANIMPNAME').blur(function () {
+            var selectedvalue = $('#TRANIMPNAME').val();
+            $('#OSBILLREFNAME').val(selectedvalue);
+            $('#OSBILLREFID').val();
+            var CATEID = $('#OSBILLREFID').val();
+            if (CATEID > 0) {
+                Billlocationdetail(CATEID)
+            }
+         });
+
+        function locationdetail(CATEID) {
+            if ($(".OSMID").val() != "0" || $(".OSMID").val() != "") {
+
+            }
+            else {
+                $(".OSBCHACATEAID").empty();
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("GetCatLocationDetail", "NonPnrInvoice")/?CATEID=' + CATEID,  // we are calling json method
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data != "") {
+                            var count = data.length;
+                            if (count > 1) {
+                                $(".OSBCHACATEAID").append('<option value="0" selected>Select Location</option>');
+                            }
+                            $.each(data, function (i, dataval) {
+                                if (count > 1) {
+                                    $(".OSBCHACATEAID").append('<option value="' + dataval.CATEAID + '">' + dataval.CATEATYPEDESC + '</option>');
+                                }
+                                else {
+                                    $(".OSBCHACATEAID").append('<option value="' + dataval.CATEAID + '" selected>' + dataval.CATEATYPEDESC + '</option>');
+                                }
+                            });
+                        }
+                        else {
+                            $(".OSBCHACATEAID").append('<option value="0">' + "Select Location" + '</option>');
+                        }
+
+                    },
+                    complete: function () {
+                        var CATEAID = $("#OSBCHACATEAID").val();
+                        GetAddressDetails(CATEAID);
+                    },
+                    error: function (ex) {
+                        //alert('Failed to data ' + ex);
+                    }
+                });
+            }
+        }
+
+        function GetAddressDetails(CATEAID) {
+            
+            CATEAID = $("#OSBCHACATEAID").val();
+            //alert(CATEAID);
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetCatAddressDetail", "NonPnrInvoice")/?CATEAID=' + CATEAID, // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    if (data != "") {
+                        $("#OSBCHASTATEID").val(data[0].STATEID);
+                        $("#OSBCHACATEAGSTNO").val(data[0].CATEAGSTNO);
+                        $("#OSBCHAADDR1").val(data[0].CATEAADDR1);
+                        $("#OSBCHAADDR2").val(data[0].CATEAADDR2);
+                        $("#OSBCHAADDR3").val(data[0].CATEAADDR3);
+                        $("#OSBCHAADDR4").val(data[0].CATEAADDR4);
+                    } else {
+
+                        $("#OSBCHASTATEID").val("0");
+                        $("#OSBCHACATEAGSTNO").val("-");
+                        $("#OSBCHAADDR1").val("-");
+                        $("#OSBCHAADDR2").val("-");
+                        $("#OSBCHAADDR3").val("-");
+                        $("#OSBCHAADDR4").val("-");
+                    }
+                },
+                error: function (ex) {
+                    $("#OSBCHASTATEID").val("0");
+                    $("#OSBCHACATEAGSTNO").val("-");
+                    $("#OSBCHAADDR1").val("-");
+                    $("#OSBCHAADDR2").val("-");
+                    $("#OSBCHAADDR3").val("-");
+                    $("#OSBCHAADDR4").val("-");
+                    //alert('Failed to data ' + ex);
+                }
+
+            });
+        }
+
+        function Billlocationdetail(CATEID) {
+            if ($(".OSMID").val() != "0" || $(".OSMID").val() != "") {
+
+            }
+            else {
+                $(".OSBBCHACATEAID").empty();
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("GetCatLocationDetail", "NonPnrInvoice")/?CATEID=' + CATEID,  // we are calling json method
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data != "") {
+                            var count = data.length;
+                            if (count > 1) {
+                                $(".OSBBCHACATEAID").append('<option value="0" selected>Select Location</option>');
+                            }
+                            $.each(data, function (i, dataval) {
+                                if (count > 1) {
+                                    $(".OSBBCHACATEAID").append('<option value="' + dataval.CATEAID + '">' + dataval.CATEATYPEDESC + '</option>');
+                                }
+                                else {
+                                    $(".OSBBCHACATEAID").append('<option value="' + dataval.CATEAID + '" selected>' + dataval.CATEATYPEDESC + '</option>');
+                                }
+                            });
+                        }
+                        else {
+                            $(".OSBBCHACATEAID").append('<option value="0">' + "Select Location" + '</option>');
+                        }
+
+                    },
+                    complete: function () {
+                        var CATEAID = $("#OSBBCHACATEAID").val();
+                        GetBillAddressDetails(CATEAID);
+                    },
+                    error: function (ex) {
+                        // alert('Failed to data ' + ex);
+                    }
+                });
+            }
+        }
+
+        function GetBillAddressDetails(OSBBCHACATEAID) {
+            OSBBCHACATEAID = $("#OSBBCHACATEAID").val();
+            //alert(CATEAID);
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetCatAddressDetail", "NonPnrInvoice")/?CATEAID=' + OSBBCHACATEAID, // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    if (data != "") {
+                        $("#OSBBCHASTATEID").val(data[0].STATEID);
+                        $("#OSBBCHACATEAGSTNO").val(data[0].CATEAGSTNO);
+                        $("#OSBBCHAADDR1").val(data[0].CATEAADDR1);
+                        $("#OSBBCHAADDR2").val(data[0].CATEAADDR2);
+                        $("#OSBBCHAADDR3").val(data[0].CATEAADDR3);
+                        $("#OSBBCHAADDR4").val(data[0].CATEAADDR4);
+                    } else {
+
+                        $("#OSBBCHASTATEID").val("0");
+                        $("#OSBBCHACATEAGSTNO").val("-");
+                        $("#OSBBCHAADDR1").val("-");
+                        $("#OSBBCHAADDR2").val("-");
+                        $("#OSBBCHAADDR3").val("-");
+                        $("#OSBBCHAADDR4").val("-");
+                    }
+                },
+                error: function (ex) {
+                    $("#OSBBCHASTATEID").val("0");
+                    $("#OSBBCHACATEAGSTNO").val("-");
+                    $("#OSBBCHAADDR1").val("-");
+                    $("#OSBBCHAADDR2").val("-");
+                    $("#OSBBCHAADDR3").val("-");
+                    $("#OSBBCHAADDR4").val("-");
+                    //alert('Failed to data ' + ex);
+                }
+
+            });
+        }
+
+
+        function GetBOE() {
+            var boe = $("#BOENO").val();
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetBOEID", "ManualOpenSheet")/' + $("#BOENO").val(), // we are calling json method
+
+                success: function (data) {
+                    //alert(data);
+                    $(".TMPBOEID").val(data);
+                }
+            });
+        }
+        $(document).ready(function () {
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+
+            $('input[id$=OSMDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#OSMDATE").focus();
+                }
+            });
+
+            $('input[id$=BOEDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#BOEDATE").focus();
+                }
+            });
+
+
+            $('input[id$=OSMBLDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#OSMBLDATE").focus();
+                }
+            });
+
+            $('input[id$=SCDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#SCDATE").focus();
+                }
+            });
+
+            $('input[id$=OSMIGMDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#OSMIGMDATE").focus();
+                }
+            });
+
+            $('input[id$=DODATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#DODATE").focus();
+                }
+            });
+
+            $('input[id$=DOIDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#DOIDATE").focus();
+                }
+            }); 
+
+            //------Autocomplete Function-----------------
+            add_autocomplete($("#OSMIGMNO"), "OSMIGMNO");
+            //add_autocomplete($("#OSMNAME"), "OSMNAME,CHAID,OSBILLGSTNO");
+
+            //add_autocomplete($("#TRANCHANAME"), "TRANCHANAME,OSBILLREFID,OSBILLGSTNO");
+            //add_autocomplete($("#TRANIMPNAME"), "TRANIMPNAME,OSBILLREFID,OSBILLGSTNO");
+
+            add_autocomplete_cha($("#OSMNAME"), "OSMNAME,CHAID");
+            add_autocomplete_billingcha($("#TRANCHANAME"), "TRANCHANAME,OSBILLREFID");
+            add_autocomplete_importer($("#TRANIMPNAME"), "TRANIMPNAME,OSBILLREFID");
+
+            //---End
+
+            //-----------DATE CONTROLS----------------//
+            $(".datepicker").removeAttr('GODATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+            //$('.time').timepicker();
+
+            if ($(".OSMID").val() == "0" || $(".OSMID").val() == "") {
+                $(".OSMID").val("0");
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                //console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                //var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                //console.log(hours + ':' + minutes + ':' + seconds);
+
+                var time = hours + ':' + minutes + ':' + seconds;
+                var datetme = time;
+                $(".datepicker").val(date);
+                $(".timepicker").val(datetme);
+
+                $(".OSMDATE").val(date);
+                $(".DODATE").val(date);
+                $(".DOIDATE").val(date);
+                $(".SCDATE").val(date);
+                $(".BOEDATE").val(date);
+                $(".SCTIME").val(time);
+                $(".OSMBLDATE").val(date);
+                $(".OSMIGMDATE").val(date);
+
+                GetVal();
+                sealcut();
+            }
+            else {
+                $(".BOENO").attr("readonly", "readonly"); $(".TMPBOEID").val("0");
+                if ($(".Del_check").html() != "PROCEED") {
+                    alert($(".Del_check").html()); $("#add_detail,#del_detail").addClass("hide");
+                    $("#ManualOpenSheetform input:submit").attr("disabled", "disabled");
+                } else { $("#add_detail,#del_detail").removeClass("hide"); $("#ManualOpenSheetform input:submit").removeAttr("disabled", "disabled"); }
+
+                var IGM_No = $("#OSMIGMNO").val();
+                var Line_No = $("#OSMLNO").val();
+
+                var CHAID = $(".CHAID").val();
+                if (CHAID > 0) {
+                    locationdetail(CHAID);
+                }
+
+                var OSBCHACATEAID = $(".OSBCHACATEAID").val();
+                if (OSBCHACATEAID > 0) {
+                    GetAddressDetails(OSBCHACATEAID);
+                }
+
+                var BCHAID = $(".OSBBCHACATEID").val();
+                if (BCHAID > 0) {
+                    Billlocationdetail(BCHAID);
+                }
+                var OSBBCHACATEAID = $(".OSBBCHACATEAID").val();
+                if (OSBBCHACATEAID > 0) {
+                    GetBillAddressDetails(OSBBCHACATEAID);
+                }
+
+                base = window.location.origin;
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action(" ", "ManualOpenSheet")/' + $("#BOENO").val() + "~" + IGM_No + "~" + Line_No, // we are calling json method
+
+                    success: function (data) {
+                        //alert(data);
+                        $(".TMP_BOE_CHK").val(data);
+                    }
+                });
+                @*var boe = $("#BOENO").val();
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("GetBOEID", "ManualOpenSheet")/' + $("#BOENO").val(), // we are calling json method
+
+                    success: function (data) {
+                        //alert(data);
+                        $(".TMPBOEID").val(data);
+                    }
+                });*@
+
+
+            }
+            //--------------END OF DATE CONTROLS----------//
+
+            //--default value-----
+            if (($("#OSMID").val()) == "") {
+                $("#OSMNO").val("0");
+                $("#OSMTNOC").val("0");
+                $("#OSMFNOC").val("0");
+                sealcut();//-----call to function
+
+            }//---End
+
+
+
+            ////-------------------Duplicate check ---------------------------------
+            //$("#BOENO").blur(function () {
+            //    var boe = $("#BOENO").val();
+
+            //    base = window.location.origin;
+
+
+            //    $.post(base + "/ManualOpenSheet/BOEDetail",
+            //             {
+            //                 BoeNo: boe
+            //              },
+            //         function (data, status) {
+            //             if (data == "") { return false; }
+            //             else { alert(data); $("#BOENO").val(""); $("#BOENO").focus(); }
+            //           })
+            //});//------End of Duplicate Check
+
+
+
+
+            //-------------Labour Name----------------------------
+            $("#OSMLCATEID").change(function () {
+                var osmcatelId = $('#OSMLCATEID option:selected').text();
+                $("#OSMLCATENAME").val(osmcatelId);
+            })//---End of Labour Name
+
+
+
+            //-------------CHA Licence Name-------------------
+            $('#OSMNAME').blur(function () {
+
+                var selectedvalue = $('#OSMNAME').val();
+                var oschaid = $('#CHAID').val();
+
+                $('#OSMLNAME').val(selectedvalue);
+                $('#OSBILLREFNAME').val(selectedvalue);
+                $('#TRANCHANAME').val(selectedvalue);
+                $('#OSBILLREFID').val(oschaid);
+                locationdetail(oschaid);
+                Billlocationdetail($('#OSBILLREFID').val());
+            });//-----End of CHA
+
+            //------------------------------Opensheet Detail Table Edit---------------
+
+            if (($("#OSMID").val()) != "") {
+                sealcut();
+                $(function () {
+
+                    var IGM_No = $("#OSMIGMNO").val();
+                    var Line_No = $("#OSMLNO").val();
+                    base = window.location.origin;
+                    $.ajax({
+                        type: 'get',
+                        url: '@Url.Action("DetailEdit","ManualOpenSheet")/' + $("#OSMID").val(), // we are calling json method
+
+                        success: function (data) {
+
+                            $("#table_grid").html("");
+                            $("#table_grid").html(data);
+                            Container();
+                            delivery_status();
+                            var stmr = $("#STMRNAME").val();
+                            var imprt = $("#IMPRTNAME").val();
+                            var vsl = $("#VSLNAME").val();
+                            var voyno = $("#VOYNO").val();
+                            var PRDTGDESC = $("#PRDTGDESC").val();
+                            var PRDTGID = $("#PRDTGID").val();
+
+                            $("#T_STMRNAME").val(stmr);
+                            $("#T_IMPRTNAME").val(imprt);
+                            $("#T_VOYNO").val(voyno);
+                            $("#T_PRDTGID").val(PRDTGID);
+                            $("#T_PRDTGDESC").val(PRDTGDESC);
+                            //$("#BILLEMID").val($("#FBILLEMID").val());
+                        }
+                    });//---End of Post--------
+
+                    return false;
+                });//----End of function
+
+            }//---------End of If
+
+
+
+        });//---End of Document Ready Event------------------
+
+
+
+        $(function () {
+
+
+            //--------------------------Cascading Dropdown For Line No------------
+
+            $("#OSMIGMNO").on("autocompletechange", function () {
+
+                $("#OSMLNO").empty();
+                id = $("#OSMIGMNO").val();
+
+
+                $.ajax({
+
+                    type: 'get',
+                    url: '@Url.Action("GetLineNo","ManualOpenSheet")?id=' + id, // we are calling json method
+
+                    dataType: 'json',
+
+
+                    success: function (data) {
+                        $("#OSMLNO").append('<option>Please select</option>');
+                        $.each(data, function (i, dataval) {
+                            $("#OSMLNO").append('<option value="' + dataval.GPLNO + '">' + dataval.GPLNO + '</option>');
+
+                        });
+
+                    },
+                    error: function (ex) {
+                        //alert('Failed to data ' + ex);
+                    }
+                });
+                return false;
+
+            });
+            //--------End-----------------------------------------
+
+
+
+
+            //--------------------ManualOpenSheet Detail Table-----------
+            $(".OSMLNO").on("change", function () {
+                var IGM_No = $("#OSMIGMNO").val();
+                var Line_No = $("#OSMLNO").val();
+                var boedate = $("#BOEDATE").val();
+                boedate = boedate.replace("/", "-");
+                boedate = boedate.replace("/", "-");
+                base = window.location.origin;
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("BOECheck", "ManualOpenSheet")/' + $("#BOENO").val() + "~" + IGM_No + "~" + Line_No + "~" + boedate, // we are calling json method
+
+                    success: function (data) {
+                        //alert(data);
+                        $(".TMP_BOE_CHK").val(data);
+                    }
+                });
+
+                $.post(base + "/ManualOpenSheet/Detail",
+                    {
+                        PIGMNO: IGM_No, PGPLNO: Line_No
+                    },
+                    function (data, status) {
+
+                        $("#table_grid").html("");
+                        $("#table_grid").html(data);
+
+                        //   delivery_status();
+
+
+                        var stmr = $("#STMRNAME").val();
+                        var imprt = $("#IMPRTNAME").val();
+                        var vsl = $("#VSLNAME").val();
+                        var voyno = $("#VOYNO").val();
+                        var PRDTGDESC = $('#GIPRDTGDESC').val();
+                        var PRDTGID = $('#PRDTGID').val();
+                        var IGMDATE = $('#GIIGMDATE').val();
+                        var BLNO = $('#GIBLNO').val();
+                        var BLDATE = $('#GIBOEDATE').val();
+
+                        $("#T_STMRNAME").val(stmr);
+                        $("#T_IMPRTNAME").val(imprt);
+                        $("#OSMVSLNAME").val(vsl);
+                        $("#T_VOYNO").val(voyno);
+                        $("#T_PRDTGID").val(PRDTGID);
+                        $("#T_PRDTGDESC").val(PRDTGDESC);
+                        $("#OSMBLDATE").val(BLDATE);
+                        $("#OSMBLNO").val(BLNO);
+                        $("#OSMIGMDATE").val(IGMDATE);
+
+
+
+                        if ($(".OSDID").val() == "") {
+                            $(".OSDID").val("0");
+                        }
+
+                    });//-----End of post
+                return false;
+
+
+            });//----End of blur event
+
+
+
+        });//----End of function
+
+
+        //-----------------seal cut show/hide ---------
+        function sealcut() {
+            if ($("#SCTYPE").val() == 1) {
+                $("#F_SCDATE").removeClass("frm_hide");
+            }
+            else {
+                $("#F_SCDATE").addClass("frm_hide");
+
+            }
+        }//------End of function--
+
+        function add_autocomplete_importer($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                        $("#OSBILLREFID").val(ui.item.id);
+                    });
+
+
+
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            console.log(data);
+                            //alert(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#TRANIMPNAME").focus
+                                $("#OSBILLREFNAME").focus();
+                                $("#OSBILLREFID").val("0");
+                            }
+                            else { }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#TRANIMPNAME").val('');
+                            $("#OSBILLREFNAME").val();
+                            $("#OSBILLREFID").val("0");
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_cha($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                        //$("#CHAID").val(ui.item.id);
+                    });
+
+
+
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            console.log(data);
+                            //alert(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#OSMNAME").focus();
+                                $("#CHAID").val("0");
+                            }
+                            else { }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#OSMNAME").val('');
+                            $("#CHAID").val("0");
+                            if ($('#BILLEDTO').val() == 0) {
+                                $("#OSBILLREFID").val("0")
+                            }
+
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function add_autocomplete_billingcha($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                        $("#OSBILLREFID").val(ui.item.id);
+                    });
+
+
+
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            console.log(data);
+                            //alert(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#TRANCHANAME").focus
+                                $("#OSBILLREFNAME").focus();
+                                $("#OSBILLREFID").val("0");
+                            }
+                            else { }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#TRANCHANAME").val('');
+                            $("#OSBILLREFNAME").val();
+                            $("#OSBILLREFID").val("0");
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        //----------Block value change-----------------
+        function delivery_status() {
+            var i = 0;
+            $("#mytabl tbody tr").each(function () {
+                var InspType = $('#INSP_TYPE option:selected').text();
+                $(".INSPTYPE")[i].value = InspType;
+                
+                i++;
+            })
+        }//-----End of function
+
+
+        //-------Container Description value--------
+        function Container() {
+            var i = 0;
+            $("#mytabl tbody tr").each(function () {
+
+                if ($(".CONTNRSDESC")[i].value == 1) {
+                    $(".CONTNRSDESC")[i].value = "ALL";
+                }
+                else if ($(".CONTNRSDESC")[i].value == 2) {
+                    $(".CONTNRSDESC")[i].value = "NOT REQUIRED";
+                }
+                else if ($(".CONTNRSDESC")[i].value == 3) {
+                    $(".CONTNRSDESC")[i].value = "20'";
+                }
+                else if ($(".CONTNRSDESC")[i].value == 4) {
+                    $(".CONTNRSDESC")[i].value = "40'";
+                }
+                else if ($(".CONTNRSDESC")[i].value == 5) {
+                    $(".CONTNRSDESC")[i].value = "45'";
+                }
+
+                i++;
+            })
+        }//-----End of function
+
+        $(window).bind("load", function () {
+            if ($(".OSMID").val() == "") {
+                $(".OSMID").val("0"); $(".BILLEMID").val("0");
+            }
+            if ($(".OSDID").val() == 0) {
+                $(".OSDID").val("");
+
+            }
+
+        });
+
+        function ProductCategorgdesc() {
+            var seval = $(".T_PRDTGID option:selected").val();
+            var setext = $(".T_PRDTGID option:selected").text();
+            $('#T_PRDTGDESC').val(setext);
+
+        }
+
+        function Form_validate() {
+            var temp1 = $("#CHAID").val();
+            var temp2 = $("#OSBILLREFNAME").val();
+            var temp3 = $("#OSBILLREFID").val();
+            var temp4 = $("#OSMLCATEID").val();
+
+            if ($("#OSMNAME").val() == "") {
+                alert("Please Select CHA Properly");
+                $(".OSMNAME").focus();
+                return false;
+            }
+            else if ($("#CHAID").val() == "" || $("#CHAID").val() == "0") {
+                alert("Please Select CHA Properly");
+                $(".OSMNAME").focus();
+                return false;
+            }
+            //else if (temp2 == "") {
+            //    alert("Please Select the CHA/Import Properly");
+            //    $(".OSBILLREFNAME").focus();
+            //    return false;
+            //}
+            else if (temp3 == 0 || temp3 == "") {
+                alert("Please Select the CHA/Import Properly");
+                $(".OSBILLREFNAME").focus();
+                return false;
+            }
+            else if (temp4 == "") {
+                alert("Please Select the Labour");
+                $(".OSMLCATEID").focus();
+                return false;
+            }
+            else if ($('#BOENO').val() == "")
+            {
+                alert("Please enter BOE No");
+                $("#BOENO").focus();
+                return false;
+            }
+            else if ($('#OSMTYPE').val() == "")
+            {
+                alert("Please select Via");
+                $("#OSMTYPE").focus();
+                return false;
+            }
+            else if ($('#OSMTYPE').val() == "") {
+                alert("Please select Via");
+                $("#OSMTYPE").focus();
+                return false;
+            }
+            else if ($('#OSMAAMT').val() == "") {
+                alert("Please Enter Assessable Value");
+                $("#OSMAAMT").focus();
+                return false;
+            }
+            else if ($('#OSMDUTYAMT').val() == "") {
+                alert("Please Enter Duty Value.");
+                $("#OSMDUTYAMT").focus();
+                return false;
+            }
+            else if ($('#OSMBLNO').val() == "") {
+                alert("Please Enter BL No.");
+                $("#OSMBLNO").focus();
+                return false;
+            }
+            else if ($('#OSMBLDATE').val() == "") {
+                alert("Please Enter BL Date");
+                $(".OSMBLDATE").focus();
+                return false;
+            }
+            else if ($('#OSMNOP').val() == "") {
+                alert("Please Enter Nop.");
+                $("#OSMNOP").focus();
+                return false;
+            }
+            else if ($('#OSMUNITID').val() == "") {
+                alert("Please Enter Unit.");
+                $("#OSMUNITID").focus();
+                return false;
+            }
+            else if ($('#OSMWGHT').val() == "") {
+                alert("Please Enter Weight.");
+                $("#OSMWGHT").focus();
+                return false;
+            }
+            else if ($('#OSMIGMNO ').val() == "") {
+                alert("Please Select IGM No.");
+                $("#OSMIGMNO").focus();
+                return false;
+            }
+            else if ($('#OSMLNO ').val() == "") {
+                alert("Please Select Line No.");
+                $("#OSMLNO").focus();
+                return false;
+            }
+            else if ($('#OSMIGMDATE').val() == "") {
+                alert("Please Enter IGM Date");
+                $(".OSMIGMDATE").focus();
+                return false;
+            }
+            if ($(".DOTYPE").val() == 1) {
+                var start = $(".OSMDATE").val();
+                var end = $(".DODATE").val();
+
+                var s = start.substring(0, 10);
+                var e = end.substring(0, 10);
+
+                var days = datdidff(s, e);
+                if (days < 0) {
+                    alert("Check Your Validity Date..!");
+                    return false;
+                }
+            }
+            if ($("#TMP_BOE_CHK").val() != "PROCEED" && $("#TMP_BOE_CHK").val()!="") {
+                alert($("#TMP_BOE_CHK").val());
+                return false;
+            }
+            var blck = 0;
+            $("#mytabl tr input:text").each(function () {
+                switch (this.id) {
+                    case "BLOCK":
+                        if(this.value=="YES")
+                           blck++;
+                        break;
+                }
+            })
+            if (blck > 0) {
+                alert("Some Of Containers Blocked...So U Can't Update ManualOpenSheet...!");
+                return false;
+            }
+            else {
+                return true;
+            }
+
+           // return false;
+        }
+
+        function currentdate() {
+            var dt = new Date();
+
+            var year = dt.getFullYear();
+            var month = (dt.getMonth() + 1).toString().padStart(2, "0");
+            var day = dt.getDate().toString().padStart(2, "0");
+
+            //var month = dt.getMonth() + 1;
+            //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+            console.log(year + '/' + month + '/' + day);
+
+            var date = day + '/' + month + '/' + year;
+
+            var hours = dt.getHours();
+            var minutes = dt.getMinutes();
+            var seconds = dt.getSeconds();
+
+            if (hours < 10) hours = "0" + hours;
+            if (minutes < 10) minutes = "0" + minutes;
+            if (seconds < 10) seconds = "0" + seconds;
+
+            //var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+            console.log(hours + ':' + minutes + ':' + seconds);
+
+            var time = hours + ':' + minutes + ':' + seconds;
+            var datetme = time;
+            $(".datepicker").val(date);
+            $(".timepicker").val(datetme);
+            $(".datetime").val(date + " " + datetme);
+
+            var dat = (day + "/" + month + "/" + year + " " + hours + ":" + minutes);
+
+
+
+            return dat;
+        }
+
+    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

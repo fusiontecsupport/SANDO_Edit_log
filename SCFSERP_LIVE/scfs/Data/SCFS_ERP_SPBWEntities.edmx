@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SCFS_ERPSPBWEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="pr_Search_Bond_Invoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="PCompyId" Type="int" Mode="In" />
+          <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+          <Parameter Name="PREGSTRID" Type="int" Mode="In" />
+          <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+          <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+        </Function>
+        <Function Name="Z_pr_ExBond_NOP_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PBNDID" Type="int" Mode="In" />
+          <Parameter Name="PEBNDEDATE" Type="smalldatetime" Mode="In" />
+        </Function>
+        <EntityContainer Name="SCFS_ERPSPBWEntitiesStoreContainer" />
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SCFS_ERPSPBWEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SCFS_ERP_SPBWEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="pr_Search_Bond_Invoice" ReturnType="Collection(SCFS_ERPSPBWEntities.pr_Search_Bond_Invoice_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+            <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+            <Parameter Name="PREGSTRID" Mode="In" Type="Int32" />
+            <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+            <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Z_pr_ExBond_NOP_Assgn" ReturnType="Collection(SCFS_ERPSPBWEntities.Z_pr_ExBond_NOP_Assgn_Result)">
+            <Parameter Name="PBNDID" Mode="In" Type="Int32" />
+            <Parameter Name="PEBNDEDATE" Mode="In" Type="DateTime" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="pr_Search_Bond_Invoice_Result">
+          <Property Type="DateTime" Name="TRANDATE" Nullable="true" Precision="16" />
+          <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="25" />
+          <Property Type="Int32" Name="TRANNO" Nullable="true" />
+          <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACKNO" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+          <Property Type="Int16" Name="GSTAMT" Nullable="true" />
+          <Property Type="Int32" Name="TRANMID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Z_pr_ExBond_NOP_Assgn_Result">
+          <Property Type="Int32" Name="BNDID" Nullable="true" />
+          <Property Type="Decimal" Name="EBNDNOP" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SCFS_ERPSPBWEntitiesStoreContainer" CdmEntityContainer="SCFS_ERP_SPBWEntities" >
+          <FunctionImportMapping FunctionImportName="pr_Search_Bond_Invoice" FunctionName="SCFS_ERPSPBWEntities.Store.pr_Search_Bond_Invoice">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SCFS_ERPSPBWEntities.pr_Search_Bond_Invoice_Result">
+                <ScalarProperty Name="TRANDATE" ColumnName="TRANDATE" />
+                <ScalarProperty Name="TRANDNO" ColumnName="TRANDNO" />
+                <ScalarProperty Name="TRANNO" ColumnName="TRANNO" />
+                <ScalarProperty Name="TRANREFNAME" ColumnName="TRANREFNAME" />
+                <ScalarProperty Name="ACKNO" ColumnName="ACKNO" />
+                <ScalarProperty Name="TRANNAMT" ColumnName="TRANNAMT" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="GSTAMT" ColumnName="GSTAMT" />
+                <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Z_pr_ExBond_NOP_Assgn" FunctionName="SCFS_ERPSPBWEntities.Store.Z_pr_ExBond_NOP_Assgn">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SCFS_ERPSPBWEntities.Z_pr_ExBond_NOP_Assgn_Result">
+                <ScalarProperty Name="BNDID" ColumnName="BNDID" />
+                <ScalarProperty Name="EBNDNOP" ColumnName="EBNDNOP" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

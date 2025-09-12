@@ -1,0 +1,159 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.DesignationTypeMaster
+
+@{
+    ViewBag.Title = "Designation Type Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Designation Type</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/DesignationTypeMaster/savedata")" method="post" accept-charset="utf-8" id="DesignationTypeform" data-ng-controller="myController" name="DesignationTypeform">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="CategoryTypeMasterForm_info">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.DSGNTID, new { @class = "form-control  DSGNTID", @id = "DSGNTID" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.DSGNTCODE, new { @class = "form-control DSGNTCODE", @id = "DSGNTCODE" })
+                                        @Html.ValidationMessageFor(model => model.DSGNTCODE, "", new { @class = "text-danger" })
+                                        <input type="text" value="@Model.DSGNTCODE" name="i_DSGNTCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.DSGNTDESC, new { @class = "form-control  DSGNTDESC", @id = "DSGNTDESC" })
+                                        @Html.ValidationMessageFor(model => model.DSGNTDESC, "", new { @class = "text-danger" })
+                                        <input type="text" value="@Model.DSGNTDESC" name="i_DSGNTDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                <a href="@Url.Action("Index", "DesignationTypeMaster")" class="btn btn-primary pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')" tabindex="4012">Go Back</a>
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                @*<input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" onclick="return Validation()" />*@
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />
+                                @*<input type="button" value="Submit" id="btnsubmit" class="btn btn-success btn-xs" />*@
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+
+            if ($(".DSGNTID").val() == "")
+                $(".DSGNTID").val(0);
+
+        });
+
+        function Validation() {
+            flag = true;
+
+            if ($('.DSGNTCODE').val() == "") {
+                alert('Please Enter Code !!');
+                $(".DSGNTCODE").focus();
+                // return false;
+                flag = false;
+            } else if ($('.DSGNTDESC').val() == "") {
+                alert('Please Enter Code !!');
+                $(".DSGNTDESC").focus();
+                // return false;
+                flag = false;
+            }
+            if (flag) {
+                var r = confirm("Are you sure to submit this record ?");
+                if (r == true) {
+                    return true;
+                } else {
+                    $("#TMPSAVE").val("0");
+                    return false;
+
+                }
+            } else {
+                $("#TMPSAVE").val("0");
+                return false;
+            }
+
+        }
+
+
+                //$("#btnsubmit").click(function () {
+
+                //    if ($('.DSGNTCODE').val() == "") {
+                //        alert('Please Enter Code !!');
+                //        $(".DSGNTCODE").focus();
+                //        return false;
+                //    } else if ($('.DSGNTDESC').val() == "") {
+                //        alert('Please Enter Code !!');
+                //        $(".DSGNTDESC").focus();
+                //        return false;
+                //    }
+
+
+                //    var DSGNTID = $(".DSGNTID").val();
+                //    var DSGNTDESC = $(".DSGNTDESC").val();
+                //    var DSGNTCODE = $(".DSGNTCODE").val();
+                //    var CUSRID = "";
+                //    var LMUSRID = "";
+                //    var DISPSTATUS = $(".DISPSTATUS").val();
+                //    var PRCSDATE = "";
+
+
+
+                //    _
+
+
+                //    var tab = {
+                //        "DSGNTID": DSGNTID, "DSGNTDESC": DSGNTDESC,
+                //        "DSGNTCODE": DSGNTCODE, "CUSRID": CUSRID, "LMUSRID": LMUSRID, "PRCSDATE": PRCSDATE
+                //    };
+
+                //    $.post("/DesignationTypeMaster/savedata", tab,
+                //        function (data) { if (data == 0) { location = location.href; } }, 'json');
+
+
+                //});
+
+    </script>
+
+
+}
+

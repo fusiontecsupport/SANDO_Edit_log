@@ -1,0 +1,169 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.ContainerThruMaster
+
+@{
+    ViewBag.Title = "Container Thru Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Container Thru</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/ContainerThruMaster/savedata")" method="post" accept-charset="utf-8" id="containerthrumasterform" data-ng-controller="myController" name="containerthrumasterform">
+
+                    <fieldset id="ContainerthruMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.CONTNRFID, new { @class = "form-control  CONTNRFID", @id = "CONTNRFID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.CONTNRFCODE, new { @class = "form-control CONTNRFCODE", @id = "CONTNRFCODE" })
+                                        <input type="text" value="@Model.CONTNRFCODE" name="i_CONTNRFCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.CONTNRFDESC, new { @class = "form-control  CONTNRFDESC", @id = "CONTNRFDESC" })
+                                        <input type="text" value="@Model.CONTNRFDESC" name="i_CONTNRFDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Type<span class="required-field"></span> </label>
+                                        @Html.DropDownList("CONTNRFTYPE", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />*@
+
+                                <a href="@Url.Action("Index", "ContainerSizeMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $('#btnsave').click(function () {
+        if ($('#CONTNRFCODE').val() == "") {
+            alert('Please Enter Code !!');
+            $('#CONTNRFCODE').focus();
+            return false;
+        }
+        if ($('#CONTNRFDESC').val() == "") {
+            alert('Please Enter Description !!');
+            $('#CONTNRFDESC').focus();
+            return false;
+        }
+        if ($('#CONTNRFTYPE').val() == "") {
+            alert('Please Select Type !!');
+            $('#CONTNRFTYPE').focus();
+            return false;
+        }
+
+        var CONTNRFID = $('#CONTNRFID').val();
+        var CONTNRFCODE = $('#CONTNRFCODE').val();
+        var CONTNRFDESC = $('#CONTNRFDESC').val();
+        var CONTNRFTYPE = $('#CONTNRFTYPE').val();
+        var DISPSTATUS = $('#DISPSTATUS').val();
+        var CUSRID = "";
+        var LMUSRID = "";
+        var pdate = new Date();
+        var PRCSDATE = pdate;
+
+        if ($('#CONTNRFID').val() == "") { $('#CONTNRFID').val(0); }
+
+        var tab = {
+            CONTNRFID: $('#CONTNRFID').val(),
+            CONTNRFCODE: $('#CONTNRFCODE').val(),
+            CONTNRFDESC: $('#CONTNRFDESC').val(),
+            CONTNRFTYPE: $('#CONTNRFTYPE').val(),
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: 1,
+            PRCSDATE: PRCSDATE
+        };
+
+        $.ajax({
+            //url: "/ContainerThruMaster/savedata",
+            url: "@Url.Action("savedata", "ContainerThruMaster")",
+            data: JSON.stringify(tab),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('ContainerThru Details Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "ContainerThruMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('ContainerThru Details Inserted Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "ContainerThruMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('ContainerThru Details Already Inserted !! ');
+                    $('#CONTNRFCODE').val("");
+                    $('#CONTNRFDESC').val("");
+                    var returnurl = "@Url.Action("Form", "ContainerThruMaster")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    });
+
+</script>
+
+
+
+}
+
+
+
+
+

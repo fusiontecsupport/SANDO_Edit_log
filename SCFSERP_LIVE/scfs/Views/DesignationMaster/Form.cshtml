@@ -1,0 +1,98 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.DesignationMaster
+@{
+    ViewBag.Title = "Designation Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Designation</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/DesignationMaster/savedata")" method="post" accept-charset="utf-8" id="designationmasterform" data-ng-controller="myController" name="designationmasterform">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="DesignationMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.DSGNID, new { @class = "form-control  DSGNID", @id = "DSGNID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.DSGNCODE, new { @class = "form-control DSGNCODE", @id = "DSGNCODE" })
+                                        @Html.ValidationMessageFor(model => model.DSGNCODE, "", new { @class = "text-danger" })
+                                        <input type="text" value="@Model.DSGNCODE" name="i_DSGNCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.DSGNDESC, new { @class = "form-control  DSGNDESC", @id = "DSGNDESC" })
+                                        @Html.ValidationMessageFor(model => model.DSGNDESC, "", new { @class = "text-danger" })
+                                        <input type="text" value="@Model.DSGNDESC" name="i_DSGNDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Type </label>
+                                        @Html.DropDownList("DSGNTID", null, "Please select an option", new { @class = "form-control", @id = "DSGNTID", @data_val = "true", @data_val_required = "Field is required" })
+                                        @Html.ValidationMessageFor(model => model.DSGNTID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Days </label>
+                                        @Html.TextBoxFor(model => Model.DSGNEDAYS, new { @class = "form-control DSGNEDAYS", @id = "DSGNEDAYS" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DISPSTATUS, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                <a href="@Url.Action("Index", "DesignationMaster")" class="btn btn-primary pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')" tabindex="4012">Go Back</a>
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}

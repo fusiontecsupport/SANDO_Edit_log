@@ -1,0 +1,68 @@
+
+Controller Name
+
+1. ImportGateIn 
+
+2. ImportManualBill                                          
+
+3. Stuffing
+
+4. ExportSlabMaster
+
+5. ExportShippingBillMaster
+
+6. ExportManualBill 
+
+7. ExportCartingOrder
+
+8. ESealInvoice
+
+9. EmptyVehicleTicket ( Not Created have to create)
+
+10. EmptySlipIn ( Not Created have to create)
+
+11. SealEInvoice 
+
+12. ImportManualEInvoice
+
+13. ManualCreditNote                                       
+
+14. StuffingBill
+
+14. FinanceAdvance
+
+15. CreditNote 
+
+16. ChequeEntry
+
+17. EmptyGateIn ( Not Created have to create) 
+
+18. ImporterUpdate ( Not Created have to create) 
+
+19. ImportTruckIn ( Not Created have to create) 
+
+20. ImportTruckOut ( Not Created have to create) 
+
+21. ImportUpdateDetails ( Not Created have to create) 
+
+22. OpenSheetSealDetails ( Not Created have to create) 
+
+23. Section ( Not Created have to create) 
+
+24. TariffGroupMaster
+
+25. TariffMaster
+
+26. VehicleMaster 
+
+27. VesselMaster
+
+28. NonPnrDeStuffAuthorizationSlip ( [Authorize(Roles = "NonPnrDeStuffSlipCreate")] ) this Role Not Created 
+
+29. NonPnrGateIn ( [Authorize(Roles = "NonPnrGateInCreate")] ) this Role Not Created 
+
+30. NonPnrGateOut ( [Authorize(Roles = "NonPnrGateOutPrint")] ) this Role Not Created 
+
+31. NonPnrGateOut ( [Authorize(Roles = "NonPnrGateOutDelete")] ) this Role Not Created 
+
+

@@ -1,0 +1,4 @@
+select * from TRANSACTION_DAYEND_MASTER
+
+--insert into TRANSACTION_DAYEND_MASTER
+--select 1, 1, '2023-03-31', '2023-03-31'

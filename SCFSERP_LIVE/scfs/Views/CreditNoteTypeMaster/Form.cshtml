@@ -1,0 +1,148 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.CreditNote_TypeMaster
+
+@{
+    ViewBag.Title = "Credit Note Type Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>@ViewBag.Title</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                @*<form action="@Url.Content("~/ContainerSizeMaster/savedata")" method="post" accept-charset="utf-8" id="containersizemasterform" data-ng-controller="myController" name="containersizemasterform">*@
+                <form>
+                    <fieldset id="ContainerSizeMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.CNTID, new { @class = "form-control  CNTID", @id = "CNTID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.CNTDESC, new { @class = "form-control CNTDESC", @id = "CNTDESC" })
+                                        <input type="text" value="@Model.CNTDESC" name="i_CNTDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tally Ledger<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.CNT_LDGR_DESC, new { @class = "form-control  CNT_LDGR_DESC", @id = "CNT_LDGR_DESC" })
+                                               </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                <a href="@Url.Action("Index", "CreditNoteTypeMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                @*<input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />*@
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+    $('#btnsave').click(function () {
+        if ($('#CNTDESC').val() == "") {
+            alert('Please Enter the Description !!');
+            $('#CNTDESC').focus();
+            return false;
+        }
+        if ($('#CNT_LDGR_DESC').val() == "") {
+            alert('Please Enter the Tally Ledger Description !!');
+            $('#CNT_LDGR_DESC').focus();
+            return false;
+        }
+
+        var CNTID = $('#CNTID').val();
+        var CNTDESC = $('#CNTDESC').val();
+        var CNT_LDGR_DESC = $('#CNT_LDGR_DESC').val();
+        var DISPSTATUS = $('#DISPSTATUS').val();
+        var CUSRID = "";
+        var LMUSRID = "";
+        var pdate = new Date();
+        var PRCSDATE = pdate;
+
+        if ($('#CNTID').val() == "") { $('#CNTID').val(0);}
+
+        var tab = {
+            CNTID: $('#CNTID').val(),
+            CNTDESC: $('#CNTDESC').val(),
+            CNT_LDGR_DESC: $('#CNT_LDGR_DESC').val(),
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: 1,
+            PRCSDATE: PRCSDATE
+        };
+        $.ajax({
+            //url: "/ContainerSizeMaster/savedata",
+            url: "@Url.Action("savedata", "CreditNoteTypeMaster")",
+            data: JSON.stringify(tab),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "CreditNoteTypeMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('Created Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "CreditNoteTypeMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('Details Already Inserted !! ');
+                    $('#CNTDESC').val("");
+                    var returnurl = "@Url.Action("Form", "CreditNoteTypeMaster")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+
+    });
+
+    </script>
+
+
+
+}
+

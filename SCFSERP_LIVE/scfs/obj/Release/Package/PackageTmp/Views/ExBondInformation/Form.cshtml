@@ -1,0 +1,640 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.Ex_BondMaster
+
+@{
+    ViewBag.Title = "Ex-Bond Information";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+</style>
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-export"></i>&nbsp;
+                            <strong>@ViewBag.Title</strong>
+                        </div>
+                    </div>@Html.Raw(ViewBag.msg)
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ExBondInformation/SaveData")" method="post" accept-charset="utf-8" id="exbondinformationform" data-ng-controller="myController" name="exbondinformationform" onsubmit="return Form_validate();">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="InBondForm_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3 hidden">
+                                            <div class="form-group">
+                                                <label>Primary</label>
+
+                                                @Html.HiddenFor(model => Model.EBNDID, new { @class = "form-control  EBNDID", @id = "EBNDID", @tabindex = "-1" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Ex Bond No<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.EBNDDNO, new { @class = "form-control  EBNDDNO", @id = "EBNDDNO", tabindex = "1" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>No<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.EBNDNO, new { @class = "form-control  EBNDNO", @id = "EBNDNO", @readonly = true, tabindex = "-1" })
+                                                @Html.ValidationMessageFor(model => model.EBNDNO)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Ex Bond Delivery Date<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.EBNDDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker EBNDDATE", @id = "EBNDDATE", @data_val = false, tabindex = "2", @onchange = "CalcEndDt();" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 hide">
+                                            <div class="form-group">
+                                                <label>Valid Till Date<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.EBNDEDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker EBNDEDATE", @id = "EBNDEDATE", @data_val = false, tabindex = "2" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>CHA Name<span class="required-field"></span> </label>
+                                                <input type="text" id="CHANAME" class="CHANAME form-control" name="CHANAME" value="@ViewBag.CHANAME" data-autocomplete-url=@Url.Action("AutoChaname", "ExBondInformation") placeholder="----Please Select----" tabindex="6" onchange="GetBondNos();">
+                                                @Html.TextBoxFor(model => Model.CHAID, new { @class = "hide form-control CHAID", @id = "CHAID" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Importer Name<span class="required-field"></span> </label>
+
+                                                <input type="text" id="IMPRTRNAME" class="IMPRTRNAME form-control" name="IMPRTRNAME" value="@ViewBag.IMPRTRNAME" data-autocomplete-url=@Url.Action("AutoImporter", "ExBondInformation") onchange="GetBondNos();" placeholder="----Please Select----" tabindex="7">
+                                                @Html.TextBoxFor(model => Model.IMPRTID, new { @class = "hide form-control IMPRTID", @id = "IMPRTID" })
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="col-md-12">
+
+
+
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bond No<span class="required-field"></span> </label>
+                                                @Html.DropDownList("BNDID", null, new { @class = "form-control BNDID", @id = "BNDID", tabindex = "8", @onchange = "GetBondDtl();" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Bond Type<span class="required-field"></span></label>
+                                                @Html.DropDownList("EBNDCTYPE", null, new { @class = "form-control EBNDCTYPE", @id = "EBNDCTYPE", tabindex = "9" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Container Size<span class="required-field"></span></label>
+                                                @Html.DropDownList("CONTNRSID", null, new { @class = "form-control CONTNRSID", @id = "CONTNRSID", tabindex = "10" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>No.of Containers <span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.EBNDNOC, new { @class = "form-control EBNDNOC", @id = "EBNDNOC", tabindex = "11", @maxlength = "50" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Product Category<span class="required-field"></span> </label>
+                                                @Html.DropDownList("PRDTGID", null, "Please Select an Option", new { @class = "form-control", @tabindex = "12" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>BE No<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.EBNDBENO, new { @class = "form-control EBNDBENO", @id = "EBNDBENO", @required = "required", tabindex = "13" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>BE Date<span class="required-field"></span></label>
+
+                                                @Html.TextBoxFor(model => Model.EBNDBEDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker EBNDBEDATE", @id = "EBNDBEDATE", @data_val = false, @required = "required", tabindex = "14" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                  
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>NOP<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.EBNDNOP, new { @class = "form-control  EBNDNOP", @id = "EBNDNOP", @tabindex = "15", @maxlength = "50", @onkeydown = "return isAlphaNumberOnlyKey(event);" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Space<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.EBNDSPC, new { @class = "form-control  EBNDSPC", @id = "EBNDSPC", @tabindex = "16", @maxlength = "15", @onkeydown = "return isAlphaNumberOnlyKey(event);" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Assessable Value<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.EBNDASSAMT, new { @class = "form-control  EBNDASSAMT", @id = "EBNDASSAMT", @tabindex = "17", @maxlength = "15", @onkeydown = "return isAlphaNumberOnlyKey(event);", @onchange = "CalcInsVal();" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Duty Value<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.EBNDDTYAMT, new { @class = "form-control  EBNDDTYAMT", @id = "EBNDDTYAMT", @tabindex = "18", @maxlength = "15", @onkeydown = "return isAlphaNumberOnlyKey(event);", @onchange = "CalcInsVal();" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Insurance Value<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.EBNDINSAMT, new { @class = "form-control  EBNDINSAMT", @id = "EBNDINSAMT", @tabindex = "-1", @maxlength = "15", @onkeydown = "return isAlphaNumberOnlyKey(event);", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bond Type<span class="required-field"></span> </label><br />
+
+                                                @Html.DropDownList("EBNDCTYPE", null, "Select", new { @class = "form-control EBNDCTYPE", @id = "EBNDCTYPE", @tabindex = "19" })
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bal. NOP<span class="required-field"></span></label>
+                                                <input type="text" id="BNDBALNOP" readonly class="BNDBALNOP form-control" name="BNDBALNOP" value="@ViewBag.BNDBALNOP" tabindex="-1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bal. Spc.<span class="required-field"></span></label>
+                                                <input type="text" id="BNDBALSPC" readonly class="BNDBALSPC form-control" name="BNDBALSPC" value="@ViewBag.BNDBALSPC" tabindex="-1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bal. Assessable Value<span class="required-field"></span></label>
+                                                <input type="text" id="BNDBALASSAMT" readonly class="BNDBALASSAMT form-control" name="BNDBALASSAMT" value="@ViewBag.BNDBALASSAMT" tabindex="-1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bal. Duty Value<span class="required-field"></span></label>
+                                                <input type="text" id="BNDBALDTYAMT" readonly class="BNDBALDTYAMT form-control" name="BNDBALDTYAMT" value="@ViewBag.BNDBALDTYAMT" tabindex="-1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bal. Insurance Value<span class="required-field"></span></label>
+                                                <input type="text" id="BNDBALINSAMT" readonly class="BNDBALINSAMT form-control" name="BNDBALINSAMT" value="@ViewBag.BNDBALINSAMT" tabindex="-1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Status<span class="required-field"></span> </label>
+                                                @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS", @tabindex = "20" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 box-footer">
+                                        @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />*@
+                                        <a href="@Url.Action("Index", "ExBondInformation")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')" tabindex="22">Go Back</a>
+                                        <input type="button" name="save2" value="Submit" id="btnsave" class="btn btn-success btn-xs" tabindex="21" />
+                                        @*<input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="100" />*@
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    <script>
+
+        function CalcInsVal() {
+            var assamt = $(".EBNDASSAMT").val();
+            var dtyamt = $(".EBNDDTYAMT").val();
+            if (assamt == "")
+                assamt = 0;
+            if (dtyamt == "")
+                dtyamt = 0;
+            var insamt = eval(assamt) + eval(dtyamt);
+            $(".EBNDINSAMT").val(insamt);
+        }
+
+        function GetBondNos() {
+            chaid = $("#CHAID").val();
+            imprtid = $("#IMPRTID").val();
+
+            $("#BNDID").empty();
+            if (chaid != "" && chaid != "0" && imprtid != "" && imprtid != "0" && chaid != null && imprtid != null) {
+                ids = chaid + "~" + imprtid;
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("GetBondNos", "ExBondInformation")?id=' + ids, // we are calling json method
+
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data, function (i, dataval) {
+                            $("#BNDID").append('<option value="' + dataval.dval + '">' + dataval.dtxt + '</option>');
+                        });
+                    },
+                    complete: function () {
+                        GetBondDtl();
+                    },
+                    error: function (ex) {
+                        alert('Failed to data ' + ex);
+                    }
+                });
+            }
+            //alert(id);
+        }
+
+        function GetBondDtl() {
+            id = $("#BNDID").val();
+            if (id != "" && id != null && id != "0") {
+                //alert(id);
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("GetBondDetail", "BondGateIn")?id=' + id, // we are calling json method
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data, function (i, dataval) {
+                            //$("#BNDDATE").val(dataval.BNDDATE);
+                            //$("#IMPRTID").val(dataval.IMPRTID);
+                            //$("#CHAID").val(dataval.CHAID);
+                            //$("#BNDBENO").val(dataval.BNDBENO);
+                            //$("#BNDBLNO").val(dataval.BNDBLNO);
+                            //$("#IGMNO").val(dataval.BNDIGMNO);
+                            //$("#LINENO").val(dataval.BNDLINENO);
+                            //$("#BND20MAX").val(dataval.BND20);
+                            //$("#BND40MAX").val(dataval.BND40);
+                            //$("#BNDGWGHT").val(dataval.BNDGWGHT);
+                            $("#PRDTGID").val(dataval.PRDTGID);
+                            //$("#PRDTDESC").val(dataval.PRDTDESC);
+                            //$("#PRDTTID").val(dataval.PRDTTID);
+                            //$("#BNDNOP").val(dataval.BNDNOP);
+                            //$("#BNDSPC").val(dataval.BNDSPC);
+                            //$("#BNDBEDATE").val(dataval.BNDBEDATE);
+                            //$("#BNDBLDATE").val(dataval.BNDBLDATE);
+                            //$("#BNDTYPE").val(dataval.BNDTYPEDESC);
+                            //$("#IMPRTNAME").val(dataval.IMPRTRNAME);
+                            //$("#CHANAME").val(dataval.CHANAME);
+                            //$("#BND20BAL").val(dataval.BND20BAL);
+                            //$("#BND40BAL").val(dataval.BND40BAL);
+
+                            $("#BNDBALNOP").val(dataval.BBNDNOP);
+                            $("#BNDBALSPC").val(dataval.BBNDSPC);
+                            $("#BNDBALASSAMT").val(dataval.BBNDCIFAMT);
+                            $("#BNDBALDTYAMT").val(dataval.BBNDDTYAMT);
+                            $("#BNDBALINSAMT").val(dataval.BBNDINSAMT);
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to data ' + ex);
+                    }
+                });
+            }
+        }
+
+        function CalcEndDt() {
+            var tdt = $(".EBNDDATE").val(); //EBNDEDATE
+            $(".EBNDFDATE").val(tdt)
+            $(".EBNDEDATE").val(tdt)
+            String.prototype.replaceAll = function (s1, s2) {
+                return this.replace(
+                    new RegExp(s1.replace(/[.^$*+?()[{\|]/g, '\\$&'), 'g'),
+                    s2
+                );
+            };
+
+            tdt.replaceAll("-", "/");
+            var dtparts = tdt.split("/");
+            //alert(dtparts);
+            //alert(dtparts[1]);
+            var stdt = new Date(dtparts[2] , dtparts[1] , dtparts[0]);
+
+            var rMax = new Date((stdt.getFullYear()) + parseInt(1), stdt.getMonth()-1, stdt.getDate() - 1);
+            $('#EBNDEDATE').val($.datepicker.formatDate('dd/mm/yy', new Date(rMax)));
+            //alert($(".EBNDEDATE").val());
+        }
+
+
+
+
+
+        $("#btnsave").click(function () {
+            flag = true;
+            var bnop = 0;
+            var balnop = 0;
+            var bspc = 0;
+            var balspc = 0;
+            var basval = 0;
+            var balasval = 0;
+            var bdtyval = 0;
+            var baldtyval = 0;
+            var bnop = $('#EBNDNOP').val();
+            var bnoc = $('#EBNDNOC').val();            
+            var balnop = $('#BNDBALNOP').val();
+            var bspc = $('#EBNDSPC').val();
+            var balspc = $('#BNDBALSPC').val();
+            var basval = $('#EBNDASSAMT').val();
+            var balasval = $('#BNDBALASSAMT').val();
+            var bdtyval = $('#EBNDDTYAMT').val();
+            var baldtyval = $('#BNDBALDTYAMT').val();
+
+            if ($('#EBNDDNO').val() == "") {
+                alert('Please Enter ExBond No. !!');
+                flag = false;
+                $('#EBNDDNO').focus();
+            }
+            else if ($('#EBNDDATE').val() == "") {
+                alert('Please Enter ExBond Date !!');
+                flag = false;
+                $('#EBNDDATE').focus();
+            }
+            else if ($('#CHANAME').val() == "") {
+                alert('Please Select CHA Name !!');
+                flag = false;
+                $('#CHANAME').focus();
+            }
+            else if ($('#CHAID').val() == "" || $('#CHAID').val() == "0") {
+                alert('Please Select CHA Name !!');
+                flag = false;
+                $('#CHANAME').focus();
+            }
+            else if ($('#IMPRTRNAME').val() == "") {
+                alert('Please Select Importer Name !!');
+                flag = false;
+                $('#IMPRTRNAME').focus();
+            }
+            else if ($('#IMPRTID').val() == "" || $('#IMPRTID').val() == "0") {
+                alert('Please Select Importer Name !!');
+                flag = false;
+                $('#IMPRTRNAME').focus();
+            }
+            else if ($('#EBNDNOC').val() == "" || $('#EBNDNOC').val() == "0") {
+                alert('Please Enter No of  Containers !!');
+                flag = false;
+                $('#EBNDNOC').focus();
+            }            
+            else if ($('#PRDTGID').val() == "" || $('#PRDTGID').val() == "0") {
+                alert('Please Select Product Category !!');
+                flag = false;
+                $('#PRDTGID').focus();
+            }
+            else if ($('#EBNDBENO').val() == "") {
+                alert('Please Enter BE No !!');
+                flag = false;
+                $('#EBNDBENO').focus();
+            }
+            else if ($('#EBNDBEDATE').val() == "") {
+                alert('Please Enter BE Date !!');
+                flag = false;
+                $('#EBNDBEDATE').focus();
+            }
+            else if ($('#EBNDNOP').val() == "" || $('#EBNDNOP').val() == "0") {
+                alert('Please Enter NOP !!');
+                flag = false;
+                $('#EBNDNOP').focus();
+            }
+            else if (eval(bnop) > eval(balnop)) {
+                alert('Please Enter Valid NOP !!');
+                flag = false;
+                $('#EBNDNOP').focus();
+            }
+            else if ($('#EBNDSPC').val() == "") { //|| $('#EBNDSPC').val() == "0"
+                alert('Please Enter ExBond Space !!');
+                flag = false;
+                $('#EBNDSPC').focus();
+            }
+            else if (eval(bspc) > eval(balspc)) {
+                alert('Please Enter Valid Space !!');
+                flag = false;
+                $('#EBNDSPC').focus();
+            }
+            else if ($('#EBNDASSAMT').val() == "" || $('#EBNDASSAMT').val() == "0") {
+                alert('Please Enter Bond Assessable Value !!');
+                flag = false;
+                $('#EBNDASSAMT').focus();
+            }
+            else if (eval(basval) > eval(balasval)) {
+                alert('Please Enter Valid Bond Assessable Value !!');
+                flag = false;
+                $('#EBNDASSAMT').focus();
+            }
+            else if ($('#EBNDDTYAMT').val() == "" || $('#EBNDDTYAMT').val() == "0") {
+                alert('Please Enter Bond Duty Value !!');
+                flag = false;
+                $('#EBNDDTYAMT').focus();
+            }
+            else if (eval(bdtyval) > eval(baldtyval)) {
+                alert('Please Enter Valid Bond Duty Value !!');
+                flag = false;
+                $('#EBNDDTYAMT').focus();
+            }
+            else if ($('#EBNDINSAMT').val() == "" || $('#EBNDINSAMT').val() == "0") {
+                alert('Please Check Bond Insurance Value !!');
+                flag = false;
+                $('#EBNDINSAMT').focus();
+            }
+            else if ($('#EBNDCTYPE').val() == "" || $('#EBNDCTYPE').val() == "Select") {
+                alert('Please Select Bond Type !!');
+                flag = false;
+                $('#EBNDCTYPE').focus();
+            }
+            if (flag) {
+
+                var tab = ($("#exbondinformationform").serialize());
+                
+                //console.log(tab);
+                var r = confirm("Are you sure to submit this record ?");
+
+                if (r == true) {
+                    $("#btnsave").attr("disabled", "disabled");
+                    //console.log(myfrm);
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Action("SaveData", "ExBondInformation")', // we are calling json method
+                        data: tab,
+                        success: function (data) {
+                            if (data == "Exists") {
+
+                                $('<div></div>').dialog({
+                                    modal: true,
+                                    title: "Alert",
+                                    open: function () {
+                                        var markup = '<b>Ex Bond number already exists ...!!<b>';
+                                        $(this).delay(1200).fadeOut(1000);
+                                        $(this).html(markup);
+                                    },
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                            var returnurl = '@Url.Action("Index", "ExBondInformation")';
+                                            window.location.href = returnurl;
+                                        }
+                                    }
+                                });
+
+                            }
+                            else if (data == "Success") {
+
+
+                                $('<div></div>').dialog({
+                                    modal: true,
+                                    title: "Information",
+                                    open: function () {
+                                        var markup = '<b>Saved Successfully !!<b>';
+                                        $(this).delay(1200).fadeOut(1000);
+                                        $(this).html(markup);
+                                        $("#btnsave").removeAttr("disabled", "disabled");
+                                    },
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                            var returnurl = '@Url.Action("Index", "ExBondInformation")';
+                                            window.location.href = returnurl;
+                                        }
+                                    }
+                                });
+
+                            }
+                            else {
+                                $('<div></div>').dialog({
+                                    modal: true,
+                                    title: "Error",
+                                    open: function () {
+                                        var markup = '<b>' + data + ' !!<b>';
+                                        $(this).delay(1200).fadeOut(1000);
+                                        $(this).html(markup);
+                                        $("#btnsave").removeAttr("disabled", "disabled");
+                                    },
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                           // var returnurl = '@Url.Action("Index", "ExBondInformation")';
+                                            //window.location.href = returnurl;
+                                        }
+                                    }
+                                });
+
+                            }
+                        },
+                        error: function (ex) {
+                            alert('Failed to save data');
+                            $("#btnsave").removeAttr("disabled", "disabled");
+                        }
+                    });
+                }
+            }
+        });
+
+        $(document).ready(function () {
+
+            $("#EBNDDNO").focus();
+            var ebndid = $("#EBNDID").val();
+            if (ebndid != "0" && ebndid != "") {
+                var bnop = $('#EBNDNOP').val();
+                if (bnop == "")
+                    bnop = 0;
+                var balnop = $('#BNDBALNOP').val();
+                var bspc = $('#EBNDSPC').val();
+                if (bspc == "")
+                    bspc = 0;
+                var balspc = $('#BNDBALSPC').val();
+                var basval = $('#EBNDASSAMT').val();
+                if (basval == "")
+                    basval = 0;
+                var balasval = $('#BNDBALASSAMT').val();
+                var bdtyval = $('#EBNDDTYAMT').val();
+                if (bdtyval == "")
+                    bdtyval = 0;
+                var baldtyval = $('#BNDBALDTYAMT').val();
+
+                balnop = eval(balnop + bnop);
+                balspc = eval(balspc + bspc);
+                balasval = eval(balasval + basval);
+                baldtyval = eval(baldtyval + bdtyval);
+                $('#BNDBALNOP').val(balnop);
+                $('#BNDBALSPC').val(balspc);
+                $('#BNDBALASSAMT').val(balasval);
+                $('#BNDBALDTYAMT').val(baldtyval);
+            }
+            
+
+            CalcInsVal();
+
+            $(".datepicker").removeAttr('EBNDDATE').removeClass('hasDatepicker');
+            $(".datepicker").removeAttr('EBNDFDATE').removeClass('hasDatepicker');
+            $(".datepicker").removeAttr('EBNDEDATE').removeClass('hasDatepicker');
+            $(".datepicker").removeAttr('EBNDEDATE').removeClass('hasDatepicker');
+            $(".datepicker").removeAttr('EBNDBEDATE').removeClass('hasDatepicker');
+            $(".datepicker").removeAttr('EBNDBLDATE').removeClass('hasDatepicker');
+
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+
+            $(function () {
+
+                add_autocomplete($("#IMPRTRNAME"), "IMPRTRNAME,IMPRTID");   //---AutoComplete function for IMPORTER-----
+                add_autocomplete($("#CHANAME"), "CHANAME,CHAID");           //---AutoComplete function for CHANAME-----
+
+                $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+
+                $('.datetime').datetimepicker({
+                    dateFormat: 'dd/mm/yy',
+                    timeFormat: 'hh:mm'
+                });
+
+            });
+
+        });
+
+    </script>
+
+
+}

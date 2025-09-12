@@ -1,0 +1,3 @@
+select * From TRANSACTION_MODE_MASTER
+--insert into TRANSACTION_MODE_MASTER
+--select 6 , 'CREDIT A/C'

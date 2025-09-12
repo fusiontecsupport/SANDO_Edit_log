@@ -1,0 +1,139 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.Import_Seal_Master
+
+@{
+    ViewBag.Title = "Import Seal Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Import Seal Master Form</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/ImportSealMaster/savedata")" method="post" accept-charset="utf-8" id="importsealmaster" data-ng-controller="myController" name="importsealmaster" onsubmit="return Validate()">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ImportSealMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-4 hidden">
+                                <div class="form-group">
+                                    <label>Primary</label>
+                                    @Html.TextBoxFor(model => model.SEALMID, new { @class = "form-control  SEALMID", @id = "SEALMID" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>From</label>
+                                    <input type="text" id="FROM" class="form-control" name="FROM">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>To</label>
+                                    <input type="text" id="TO" class="form-control TO" name="TO">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Date<span class="required-field"></span></label>
+                                    <input type="text" id="FMDATE" class="form-control datetime FMDATE " name="FMDATE" value="@DateTime.Now">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table_grid" id="table_grid"></div>
+                        <div class="col-md-12 box-footer">
+                            <div class="col-md-12 ">
+                                @*<div class="form-group">*@
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs pull-right" />
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="Javascript: history.back()" />
+                                @*</div>*@
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        $(function () {
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+            $('.datetime').datetimepicker({
+
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+
+
+            });
+
+            //-----------Change Event To Get seal_No
+            $("#FROM,#TO,#FMDATE").change(function () {
+                var frm = parseInt($("#FROM").val());
+                var To = parseInt($("#TO").val());
+                var Date = $("#FMDATE").val();
+
+                // Validate();
+
+                base = window.location.origin;
+                if (((To == "") || (frm == "") || (Date == ""))) {
+                    return false;
+                }
+                if (To >= frm) {
+                    $.post(base + "/ImportsealMaster/seal_No",
+                        {
+                            FMVAL: frm, TOVAL: To, DATE: Date
+                        },
+                        function (data, status) {
+                            $("#table_grid").html(data);
+
+                        });
+
+                }//--End of  If---
+                else {
+                    $("#table_grid").empty();
+                }//--End of else
+
+            })//---End of Change Event---
+
+        });
+
+
+        //-------------Validation
+        function Validate() {
+            if ($('#FMDATE').val() == "") {
+                alert('Please select Date !!');
+                return false;
+            }
+
+            var Start_Val = parseInt($("#FROM").val());
+            var To_Val = parseInt($("#TO").val());
+            var Date = $("#FMDATE").val();
+
+            if (To_Val < Start_Val) {
+                alert("Please Enter maximum number in 'To' Column");
+                return false;
+            }
+            else if (To_Val > Start_Val) {
+                return true;
+            }
+            else {
+                alert("Please fill the values");
+                return false;
+            }
+
+
+
+        }//---End of Validation
+    </script>
+}

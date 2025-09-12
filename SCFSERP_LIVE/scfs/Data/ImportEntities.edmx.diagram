@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="938da54c220f4f239d9830da9f2058cd" Name="Diagram1" ZoomLevel="46" >
+        <EntityTypeShape EntityType="ImportEntities.VW_ASL_GIGMNO_CONTAINER_CBX_ASSGN_01" Width="1.5" PointX="2.625" PointY="0.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_ASL_IGMNO_CONTAINER_CBX_ASSGN_01" Width="1.5" PointX="4.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_IMPORT_TRANSACTION_ADDRESS_DETAIL_ASSGN" Width="1.5" PointX="0.75" PointY="5.25" />
+        <EntityTypeShape EntityType="ImportEntities.VW_IMPORT_IGMNO_CONTAINER_CBX_ASSGN" Width="1.5" PointX="2.625" PointY="5.25" />
+        <EntityTypeShape EntityType="ImportEntities.VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN" Width="1.5" PointX="4.375" PointY="5.625" />
+        <EntityTypeShape EntityType="ImportEntities.VW_VEHICLETICKET_IMPORT_CONTAINER_CBX_ASSGN" Width="1.5" PointX="6.125" PointY="0.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN" Width="1.5" PointX="8" PointY="0.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_IMPORT_GATEOUT_DETAIL_CTRL_ASSGN_001" Width="1.5" PointX="8" PointY="6.625" />
+        <EntityTypeShape EntityType="ImportEntities.VW_IMPORT_PERFORMA_TRANSACTION_ADDRESS_DETAIL_ASSGN" Width="1.5" PointX="9.875" PointY="0.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_IMPORT_LORRYHIRE_DETAIL_CTRL_ASSGN" Width="1.5" PointX="0.75" PointY="9.125" />
+        <EntityTypeShape EntityType="ImportEntities.VW_IMPORT_LORRYHIRE_DETAIL_CTRL_MOD_ASSGN" Width="1.5" PointX="9.875" PointY="4.5" />
+        <EntityTypeShape EntityType="ImportEntities.VW_IMPORT_GATEOUT_CONTAINER_CBX_CHNG_ASSGN" Width="1.5" PointX="3.375" PointY="11.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_ACCOUNTHEADER_HSNCODE_DETAIL" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_MANUALOPENSHEET_DETAIL_CTRL_ASSGN" Width="1.5" PointX="12.375" PointY="3.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_CARGOIN_CONTAINER_GATEINDETAILS_ASSGN" Width="1.5" PointX="12.375" PointY="10.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_CARGOOUT_CONTAINER_GATEOUTDETAILS_ASSGN" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_NONPNR_VEHICLETICKET_CONTAINER_CTRL_ASSGN" Width="1.5" PointX="7.375" PointY="13.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_IMPORT_EMPTYGATEIN_CONTAINER_DEATILS_ASSGN" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_TALLYCHANAME_UPDATE_VIEW_ASSGN" Width="1.5" PointX="14.375" PointY="4.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_OPENSHEET_SEAL_DETAIL_CTRL_ASSGN" Width="1.5" PointX="14.375" PointY="14.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_VEHICLETICKET_IMPORT_CONTAINER_CTRL_ASSGN" Width="1.5" PointX="9.375" PointY="13.75" />
+        <EntityTypeShape EntityType="ImportEntities.VW_OPENSHEET_DETAIL_CTRL_ASSGN" Width="1.5" PointX="11.375" PointY="15.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

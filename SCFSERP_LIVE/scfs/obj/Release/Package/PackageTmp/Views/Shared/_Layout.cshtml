@@ -1,0 +1,1460 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Fusiontec Software</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/fullcalendarcss")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/fonts/opensansfont.css" rel="stylesheet" />
+    @*<link href="~/Content/summernote.css" rel="stylesheet" />*@
+    <link href="~/Content/themes/base/theme.css" rel="stylesheet" />
+    <link href="~/assets/css/font-awesome.css" rel="stylesheet" />
+    @*<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">*@
+    @*<link href="~/Content/jquery-ui.css" rel="stylesheet" />*@
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">*@
+    <link href="~/Content/themes/base/base.css" rel="stylesheet" />
+    <link href="~/Content/jquery.ui.dialog.css" rel="stylesheet" />
+    <link href="~/Content/ui.multiselect.css" rel="stylesheet" />
+    <link href="~/Content/jquery.datetimepicker.css" rel="stylesheet" />
+
+    <link href="~/Content/ui.multiselect.css" rel="stylesheet" />
+    <script src="~/Scripts/ui.multiselect.js"></script>
+    <link href="~/Content/jquery.dataTables_themeroller.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.min.js"></script>
+    @*<script src="~/Scripts/summernote.js"></script>
+        <script src="~/Scripts/script-custom-editor.js"></script>*@
+    <link href="~/Content/sweetalert2.min.css" rel="stylesheet" />
+    @*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>*@
+<style>
+
+        html, body {
+            height: 100%;
+        }
+
+        .wrapper {
+            min-height: 100%;
+            height: auto !important;
+            height: 100%;
+            margin: 0 auto -4em;
+        }
+
+        .footer, .push {
+            height: 4em;
+            position: fixed;
+            margin-bottom: 10px;
+        }
+
+        #sidebar {
+            width: 260px;
+            height: 100%;
+        }
+
+        #main-content {
+            margin-left: 10px;
+        }
+
+        #ajaxSpinnerContainer {
+            height: 1px;
+        }
+
+        #ajaxSpinnerImage {
+            display: none;
+        }
+
+        #fade {
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: #ababab;
+            z-index: 1001;
+            -moz-opacity: 0.8;
+            opacity: .70;
+            filter: alpha(opacity=80);
+        }
+
+        #modal {
+            display: none;
+            position: absolute;
+            top: 45%;
+            left: 45%;
+            width: 84px;
+            height: 84px;
+            padding: 30px 15px 0px;
+            border: 3px solid #ababab;
+            box-shadow: 1px 1px 10px #ababab;
+            border-radius: 20px;
+            background-color: white;
+            z-index: 1002;
+            text-align: center;
+            overflow: auto;
+        }
+
+    .finyr {
+        color: red;
+        font-size: x-large;
+        margin-left: -5%;
+    }
+
+        
+</style>
+    <script>
+
+        // jQuery plugin to prevent double submission of forms
+        saving_record = 0; //set variable to show if form is in submission
+        $(document).ready(function () {
+            $("#submitval").val("0");            
+            $('form').on('submit', function (e) {
+                var saving_record = $("#submitval").val();
+                if (saving_record == "0") { //If not submitted yet, submit form
+                    saving_record = "1";
+                    $("#submitval").val(saving_record); //Set variable to show form is in submission
+                    $(this).find("input[type='submit']").prop('disabled', true);
+                    $.ajax({
+                        success: function (data) {
+                            saving_record = "0"; //Reset variable to allow record update
+                            $("#submitval").val(saving_record);
+                            $(this).find("input[type='submit']").prop('disabled', false);
+                        },
+                        error: function (data) {
+                            saving_record = "0"; //Reset variable to allow record update in case of error
+                            $("#submitval").val(saving_record);
+                            $(this).find("input[type='submit']").prop('disabled', false);
+                        }
+                    })
+                }
+                //else {
+                //    $(this).find("input[type='submit']").prop('disabled', true);
+                //    e.preventDefault();
+                //}
+                saving_record = "0"; //Reset variable to allow record update in case of error
+                $("#submitval").val(saving_record);
+                $(this).find("input[type='submit']").prop('disabled', false);
+            });
+        });
+
+
+        function isValidDate(txtDate) {
+            //return txtDate instanceof Date && !isNaN(date.getTime());
+            var currVal = txtDate;            
+            var dtVal = txtDate.split('/');
+            if (dtVal == null)
+                dtVal = txtDate.split('-');
+            //Declare Regex  
+
+            //var rxDatePattern = /^[0-9,1-9][/ | -][0-9,1-9][/ | -][0000-9999]*$/; ///^(d{1,2})(/ | -)(d{ 1, 2 }) (/|-)(d{4})$/;
+            var rxDatePattern = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
+            var dtArray = currVal.match(rxDatePattern); // is format OK?
+            //alert(dtVal);
+            //alert(dtArray);
+            //Checks for mm/dd/yyyy format.
+            dtMonth = eval(dtVal[1]);
+            dtDay = eval(dtVal[0]);
+            dtYear = eval(dtVal[2]);
+            //alert(dtMonth);
+            if (currVal == '' || dtArray == null)
+                return false;
+            else if (dtMonth < 1 || dtMonth > 12)
+                return false;
+            else if (dtDay < 1 || dtDay > 31)
+                return false;
+            else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31)
+                return false;
+            else if (dtMonth == 2) {
+                var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+                if (dtDay > 29 || (dtDay == 29 && !isleap))
+                    return false;
+            }
+            else
+                return true;
+        }
+        //jQuery.fn.preventDoubleSubmission = function () {
+        //    $(this).on('submit', function (e) {
+        //        var $form = $(this);
+
+        //        if ($form.data('submitted') === true) {
+
+        //            // Previously submitted - don't submit again
+        //            e.preventDefault();
+        //        } else {
+        //            // Mark it so that the next submit can be ignored
+        //            $form.data('submitted', true);
+        //            $(this).find("input[type='submit'],input[type='button']").prop('disabled', true);
+        //        }
+        //    });
+
+        //    // Keep chainability
+        //    return this;
+        //};
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        
+        $(function () {
+
+
+            session_menu = "";
+            //$('form').preventDoubleSubmission(); //Normal forms double submission check
+            //$('form:not(.js-allow-double-submission)').preventDoubleSubmission(); //AJAX forms that should be allowed to submit multiple times per page load
+
+            count = 0; ss = 0;
+            $.each(localStorage, function (key, value) {
+
+                // key magic
+                // value magic
+
+                // if (s == value) { alert("erwe");}
+
+                session_menu = session_menu + '<li><a href="' + value + '"><i class="fa fa-dashboard"></i> ' + key + '</a></li>';
+
+                count++;
+                if (count > 10)
+                    return false;
+
+            });
+
+
+            $('.session_menu').html('<ul class="nav" id="main-menu"><li class="hide"><a href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>' + session_menu + '</ul>');
+
+
+
+            $(".dropdown-menu a").click(function () {
+                var text = $(this).text();
+                url = this.href;
+
+                var my = new Object();
+                my.count = 10;
+                my.val = text;
+
+                localStorage.setItem(text, url);
+                var s = localStorage.getItem(text, url);
+                //alert(s);
+            });
+
+
+            if ($.session.get("LeftContent") == "out") {
+
+                $('#main-content').css('margin-left', 0);
+
+                $('#sidebar').css('display', 'none');
+            }
+
+
+            $('.navbar_me').on('click', function () {
+
+                // alert("ss");
+                if ($.session.get("LeftContent") == "out") {
+
+                    $.session.set("LeftContent", "in");
+
+                }
+                else {
+
+                    $.session.set("LeftContent", "out");
+                }
+
+                $('#main-content').animate({
+                    'margin-left': $('#main-content').css('margin-left') == '0px' ? '260px' : '0px'
+                });
+
+                $('#sidebar').toggle('slide', { direction: 'left' }, 260);;
+
+
+            });
+            //$.session.set("myVar", "value");
+            //alert($.session.get("myVar"));
+        });
+
+
+
+    </script>
+
+</head>
+<body>
+    <div id="SubmitChk" class="hide"><input type="text" id="submitval" class="hide submitval" value="0" /></div>
+    <div class="navbar  navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*@Html.ActionLink("FusionPro 1.0 (CFS)", "Index", "Home", null, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li style="width:20px">
+                        <a class="navbar_me"><i class="fa fa-bars fa-fw"></i></a>
+                    </li>
+                    @if ((Session["Group"].ToString() == "SuperAdmin") || (Session["Group"].ToString() == "Admin"))
+                    {
+
+                        <li class="hidden">@Html.ActionLink("Home", "Index", "Home")</li>
+
+
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import<b class="caret"></b></a>
+                            <div class="dropdown-menu">
+                                <ul class="multi-column-dropdown" role="menu">
+                                    <li>@Html.ActionLink("Remote Gate In", "Index", "ImportRemoteGateIn") </li>
+                                    <li>@Html.ActionLink("Gate In Transfer", "GIndex", "ImportRemoteGateIn") </li>
+                                    <li>@Html.ActionLink("Gate In", "Index", "ImportGateIn")</li>
+                                    <li>@Html.ActionLink("Truck In", "TIIndex", "ImportTruckIn")</li>
+                                    <li>
+                                        @Html.ActionLink("Open Sheet", "Index", "OpenSheet")
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("BOE", "Index", "BillOfEntry")
+                                    </li>
+                                    <li>@Html.ActionLink("DeStuff Slip", "Index", "ImportDeStuff")</li>
+                                    <li>@Html.ActionLink("Load Slip", "Index", "ImportLoadSlip")</li>
+                                    <li>@Html.ActionLink("Vehicle Ticket (Imp)", "Index", "ImportVehicleTicket")</li>
+                                    <li>@Html.ActionLink("Gate Out (Imp)", "Index", "ImportGateOut")</li>
+                                    <li>@Html.ActionLink("Truck Out", "TOIndex", "ImportTruckOut")</li>
+                                    <li>@Html.ActionLink("Gate In Block", "Index", "ImportGateInBlock")</li>
+                                    <li class="divider" style="background-color:#fff"></li>
+
+                                    <li>@Html.ActionLink("Delivery Order", "Index", "DeliveryOrder")</li>
+
+                                    <li>@Html.ActionLink("Invoice", "Index", "ImportInvoice")</li>
+                                    <li class="hide">@Html.ActionLink("S.Invoice", "Index", "SupplementaryInvoice")</li>
+                                    <li class="hide">@Html.ActionLink("Outside Destuff", "Index", "OutsideDestuff")</li>
+                                    <li>@Html.ActionLink("Manual Bill", "Index", "ImportManualBill") </li>
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    <li>@Html.ActionLink("Invoice (BS)", "Index", "BSInvoice")</li>
+                                    @*<li>@Html.ActionLink("Manual Bill(BS)", "Index", "BSImportManualBill") </li>*@
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    <li>@Html.ActionLink("Proforma Invoice", "Index", "PerformaInvoice")</li>
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    <li>@Html.ActionLink("Lorry Hire", "Index", "ImportLorryHire")</li>
+                                    <li>
+                                        @Html.ActionLink("Manual Open Sheet", "Index", "ManualOpenSheet")
+                                    </li>
+                                </ul>
+                            </div>
+
+
+
+
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Non-PNR<b class="caret"></b></a>
+                            <div class="dropdown-menu">
+                                <ul class="multi-column-dropdown" role="menu">
+                                    <li>@Html.ActionLink("Gate In", "Index", "NonPnrGateIn")</li>
+                                    <!-- Code modified to change the order of display for Destuff / Load Slips - by Rajesh on 16-Jul-2021 -->
+                                    <li>@Html.ActionLink("Load Slip", "Index", "NonPnrLoadAuthorizationSlip")</li>
+                                    <li>@Html.ActionLink("DeStuff Slip", "Index", "NonPnrDeStuffAuthorizationSlip")</li>
+                                    <li>@Html.ActionLink("Vehicle Ticket", "Index", "NonPnrVehicleTicket")</li>
+                                    <li>@Html.ActionLink("Gate Out", "Index", "NonPnrGateOut")</li>
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    <li>@Html.ActionLink("Invoice", "Index", "NonPnrInvoice")</li>
+                                    @*<li>@Html.ActionLink("Advance (NPnr)", "Index", "NonPnrAdvance")</li>*@
+                                    @*<li>@Html.ActionLink("DeStuff Slip", "Index", "LCLDeStuffSlip")</li>
+                        <li>@Html.ActionLink("Cargo In", "Index", "LCLGateIn")</li>
+                        <li>@Html.ActionLink("Vehicle Ticket (LCL)", "Index", "LCLVehicleTicket")</li>
+                        <li class="divider" style="background-color:#fff"></li>
+                        <li>@Html.ActionLink("LCL-Invoice", "Index", "LCLInvoice")</li>*@
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="dropdown hide">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import-LCL<b class="caret"></b></a>
+                            <ul class="dropdown-menu multi-column" role="menu">
+                                <li>@Html.ActionLink("Open Sheet", "Index", "LCLOpenSheet")</li>
+                                <li>@Html.ActionLink("DeStuff Slip", "Index", "LCLDeStuffSlip")</li>
+                                <li>@Html.ActionLink("Cargo In", "Index", "LCLGateIn")</li>
+                                <li>@Html.ActionLink("Vehicle Ticket (LCL)", "Index", "LCLVehicleTicket")</li>
+                                <li class="divider" style="background-color:#fff"></li>
+
+                                <li>@Html.ActionLink("LCL-Invoice", "Index", "LCLInvoice")</li>
+
+                            </ul>
+
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Export
+                                <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <ul class="multi-column-dropdown" role="menu">
+                                    <li>@Html.ActionLink("Gate In", "Index", "ExportGateIn")</li>
+                                    <li>@Html.ActionLink("Carting Order", "Index", "ExportCartingOrder") </li>
+                                    <li>@Html.ActionLink("Shipping Bill", "Index", "ExportShippingBillMaster") </li>
+                                    <li>@Html.ActionLink("Shipping Admission", "SAIndex", "ExportCartingOrder") </li>
+                                    <li>@Html.ActionLink("Cargo Detained", "Index", "ExportCargoBlock")</li>
+                                    <li>@Html.ActionLink("Stuffing Detail", "Index", "Stuffing")</li>
+                                    <li>@Html.ActionLink("Seal Detail", "Index", "Seal") </li>
+
+                                    <li class="">@Html.ActionLink("Load Slip", "Index", "ExportLoadSlip")</li>
+                                    <li>@Html.ActionLink("Vehicle Ticket", "Index", "ExportVehicleTicket")</li>
+                                    <li>@Html.ActionLink("Gate Out", "Index", "ExportGateOut")</li>
+                                    <li>@Html.ActionLink("Truck Out", "Index", "ExportTruckOut")</li>
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    @*<li>@Html.ActionLink("Advance(Exp)", "Index", "ExportAdvance")</li>*@
+                                    <li>@Html.ActionLink("Stuffing Invoice", "Index", "StuffingBill") </li>
+                                    <li>@Html.ActionLink("Seal Invoice", "Index", "SealBill") </li>
+                                    <li class="hide">@Html.ActionLink("Shut Out Invoice", "Index", "ShutOutInvoice") </li>
+                                    <li>@Html.ActionLink("Manual Bill", "Index", "ExportManualBill") </li>
+
+                                    <li class="divider" style="background-color:#fff"></li>
+
+                                    <li>@Html.ActionLink("Stuffing Invoice (BS)", "Index", "BSStuffingBill") </li>
+                                    <li>@Html.ActionLink("Seal Invoice (BS)", "Index", "BSSealBill") </li>
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    <li>@Html.ActionLink("Shutout Cargo Detail", "Index", "ShutoutCargo") </li>
+                                    <li>@Html.ActionLink("Shutout VT", "Index", "ShutOutVehicleTicket")</li>
+                                    <li>@Html.ActionLink("Empty Container VT", "Index", "ExportEmptyVT")</li>
+
+                                    @*<li class="divider" style="background-color:#fff"></li>
+
+        <li>@Html.ActionLink("Lorry Hire", "Index", "ExportLorryHire")</li>*@
+
+
+                                </ul>
+                            </div>
+
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">E-Seal <b class="caret"></b></a>
+                            <div class="dropdown-menu">
+                                <ul class="multi-column-dropdown" role="menu">
+                                    <li>@Html.ActionLink("Gate In", "Index", "ESealGateIn") </li>
+                                    <li>@Html.ActionLink("Vehicle Ticket", "Index", "ESealVehicleTicket") </li>
+                                    <li>@Html.ActionLink("Gate Out", "Index", "ESealGateOut") </li>
+                                    <li>@Html.ActionLink("Invoice", "Index", "ESealInvoice") </li>
+                                </ul>
+                            </div>
+
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import-Empty <b class="caret"></b></a>
+                            <div class="dropdown-menu">
+                                <ul class="multi-column-dropdown">
+
+                                    <li>@Html.ActionLink("Empty Gate In", "Index", "EmptyGateIn") </li>
+                                    <li>@Html.ActionLink("Empty Slip", "Index", "EmptySlipIn") </li>
+                                    <li>@Html.ActionLink("Empty VT", "Index", "EmptyVehicleTicket")</li>
+                                    <li>@Html.ActionLink("Empty Container Stock", "Index", "EmptyContainerStockCheck")</li>
+
+                                </ul>
+                            </div>
+
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Finance <b class="caret"></b></a>
+
+                            <div class="dropdown-menu">
+                                <ul class="multi-column-dropdown">
+
+                                    <li>@Html.ActionLink("Credit Note", "Index", "CreditNote") </li>
+                                    <li>@Html.ActionLink("Manual Credit Note", "Index", "ManualCreditNote") </li>
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    <li>@Html.ActionLink("Debit Note", "Index", "DebittNote") </li>
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    <li>@Html.ActionLink("Advance", "Index", "FinanceAdvance") </li>
+                                    <li>@Html.ActionLink("Cheque Entry", "Index", "ChequeEntry") </li>
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Export SCMTR<b class="caret"></b></a>
+                            <ul class="dropdown-menu multi-column" role="menu">
+
+                                <li>@Html.ActionLink("CHPOE07 File List", "Index", "CHPOE07")</li>
+                                <li>@Html.ActionLink("Stuffed List", "Index", "StuffedList")</li>
+                            </ul>
+
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">E-Invoice<b class="caret"></b></a>
+                            <div class="dropdown-menu">
+                                <ul class="multi-column-dropdown" role="menu">
+                                    <li>@Html.ActionLink("Import E-Invoice", "Index", "ImportEInvoice")</li>
+                                    <li>@Html.ActionLink("Import Manual E-Invoice", "Index", "ImportManualEInvoice")</li>
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    <li>@Html.ActionLink("Stuffing E-Invoice", "Index", "StuffingEInvoice")</li>
+                                    <li>@Html.ActionLink("Seal E-Invoice", "Index", "SealEInvoice")</li>
+                                    <li>@Html.ActionLink("Export Manaul E-Invoice", "Index", "ExportManualEInvoice")</li>
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    <li>@Html.ActionLink("Bond E-Invoice", "Index", "BondEInvoice")</li>
+                                    <li>@Html.ActionLink("Bond/ExBond E-Invoice", "Index", "BondExBondEInvoice")</li>
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    <li>@Html.ActionLink("Credit Note E-Invoice", "Index", "CreditNoteEInvoice")</li>
+                                    <li>@Html.ActionLink("Manual Credit Note E-Invoice", "Index", "ManualCreditNoteEInvoice")</li>
+
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search <b class="caret"></b></a>
+
+                            <ul class="dropdown-menu multi-column columns-2">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <ul class="multi-column-dropdown">
+                                            <li><h2>Import</h2></li>
+                                            <li class="hidden1">@Html.ActionLink("Container Stock(Imp)", "Index", "ImportContainerStockCheck") </li>
+                                            <li>@Html.ActionLink("Storage Calc", "GSTForm", "ContainerCalc") </li>
+                                            @*<li>@Html.ActionLink("OpenSheet Report", "Index", "OpenSheetDetailQuery") </li>*@
+                                            <li>@Html.ActionLink("Container-Wise Details", "Index", "ContainerDetails") </li>
+                                            <li>@Html.ActionLink("IGM-No & Line-No Wise Details", "Index", "IgmLineNoWiseDetails") </li>
+                                            <li>@Html.ActionLink("BOE-Wise Details", "Index", "BOESearchDetails") </li>
+                                            <li>@Html.ActionLink("BL-Wise Details", "Index", "BLSearchDetails") </li>
+                                            <li class="hidden">@Html.ActionLink("Cheque No-Search", "Index", "ChequeEntrySearch") </li>
+                                            <li class="hidden">@Html.ActionLink("IGM/L. No Search", "Index", "GateOutSearch") </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <ul class="multi-column-dropdown">
+                                            <li><h2>Export</h2> </li>
+                                            <li>@Html.ActionLink("Gate In", "Index", "ExportGateIn") </li>
+                                            <li>@Html.ActionLink("Container Stock", "Index", "ContainerStockCheck") </li>
+                                            <li>@Html.ActionLink("Container-Wise Details", "Index", "ExportContainerDetails") </li>
+
+                                            <li>@Html.ActionLink("Shipping Bill-Wise Details", "SBSearch", "ExportContainerDetails") </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <ul class="multi-column-dropdown">
+                                            <li><h2>Bond</h2> </li>
+                                            <li>@Html.ActionLink("Bond / ExBond Search", "Index", "BondSearch") </li>                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Update <b class="caret"></b></a>
+                            <div class="dropdown-menu">
+                                <ul class="multi-column-dropdown">
+
+                                    <li>@Html.ActionLink("Section_48 Update", "Form", "Section")</li>
+                                    <li>@Html.ActionLink("Importer Name Update", "Form", "ImporterUpdate")</li>
+                                    <li>@Html.ActionLink("Steamer Name Update", "Form", "ImportSteamerNameupdate")</li>
+                                    <li>@Html.ActionLink("Line No Update", "Index", "ImportUpdateDetails")</li>
+                                    <li>@Html.ActionLink("Product Update", "PIndex", "ImportUpdateDetails")</li>
+                                    <li>@Html.ActionLink("Weight Update", "WIndex", "ImportUpdateDetails")</li>
+                                    <li>@Html.ActionLink("ROW & SLOT Update", "RSIndex", "ImportUpdateDetails")</li>
+                                    <li>@Html.ActionLink("Transpoter Name", "TRANSIndex", "ImportUpdateDetails")</li>
+                                    <li>@Html.ActionLink("SSR Charges", "SSCIndex", "ImportUpdateDetails")</li>
+                                    <li>@Html.ActionLink("Pre CHA Name Update", "Form", "PreCHAUpdate")</li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    }
+                    else
+                    {
+                        var tmpcusrid = Session["CUSRID"].ToString();
+                        scfs_erp.Models.ApplicationDbContext db = new scfs_erp.Models.ApplicationDbContext();
+                        var links = (from item in db.MenuRoleMaster.Where(x => x.Roles == tmpcusrid).OrderBy(x => x.MenuGId).OrderBy(x => x.MenuGIndex).ToList()
+                                         //  where item.Roles.Equals("fusion")
+                                     select item).ToList();
+                        if (links.Any(x => x.MenuGId == 11))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Import
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    @foreach (var link in links)
+                                    {
+                                        if (link.MenuGId == 11)
+                                        {
+                                            @*if (link.ControllerName == "ChequeEntry" || link.ControllerName == "BSInvoice" || link.ControllerName == "PerformaInvoice" || link.ControllerName == "ImportLorryHire")
+                                {
+                                    <li class="divider" style="background-color:#fff"></li>
+                                }
+                                <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>*@
+
+                                            if (link.ControllerName == "BSInvoice" || link.ControllerName == "PerformaInvoice" || link.ControllerName == "ImportLorryHire")
+                                            {
+                                                <li class="divider" style="background-color:#fff"></li>
+                                            }
+                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                        }
+                                    }
+
+
+                                </ul>
+                            </li>
+                        }
+
+
+
+
+                        if (links.Any(x => x.MenuGId == 22))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Non-PNR
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    @foreach (var link in links)
+                                    {
+                                        if (link.MenuGId == 22)
+                                        {
+                                            if (link.ControllerName == "NonPnrGateOut" || link.ControllerName == "NonPnrInvoice")
+                                            {
+                                                <li class="divider" style="background-color:#fff"></li>
+                                            }
+                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+                                        }
+                                    }
+
+
+
+                                </ul>
+                            </li>
+                        }
+                        if (links.Any(x => x.MenuGId == 12))
+                        {
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Export
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    @foreach (var link in links)
+                                    {
+                                        @*if (link.MenuGId == 12)
+            {
+                if (link.ControllerName == "Advance")
+                {
+                    <li class="divider" style="background-color:#fff"></li>
+                }
+                <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+
+            }*@
+
+                                        if (link.MenuGId == 12)
+                                        {
+
+                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+
+                                        }
+                                        if (link.LinkText == "Shutout Cargo")
+                                        {
+                                            <li>@Html.ActionLink("Shutout VT", "Index", "ShutOutVehicleTicket")</li>
+
+                                            <li>@Html.ActionLink("Empty Container VT", "Index", "ExportEmptyVT")</li>
+                                        }
+                                        if (link.LinkText == "Shipping Admission")
+                                        {
+                                            <li>@Html.ActionLink("Cargo Detained", "Index", "ExportCargoBlock")</li>
+                                        }
+                                        
+                                        //if (link.LinkText.ToUpper().Contains("GATE IN (EXP)"))
+                                        //{
+
+
+                                        //}
+
+                                    }
+
+
+                                </ul>
+                            </li>
+                        }
+                        if (links.Any(x => x.MenuGId == 23))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    E-Seal
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    @foreach (var link in links)
+                                    {
+                                        if (link.MenuGId == 23)
+                                        {
+                                            if (link.ControllerName == "ESealInvoice")
+                                            {
+                                                <li class="divider" style="background-color:#fff"></li>
+                                            }
+                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                        }
+                                    }
+
+
+                                </ul>
+                            </li>
+                        }
+                        if ((links.Any(x => x.MenuGId == 12)) && (Session["Group"].ToString() != "GroupAdmin"))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Export SCMTR<b class="caret"></b></a>
+                                <ul class="dropdown-menu multi-column" role="menu">
+
+                                    <li>@Html.ActionLink("CHPOE07 File List", "Index", "CHPOE07")</li>
+                                    <li>@Html.ActionLink("Stuffed List", "Index", "StuffedList")</li>
+                                </ul>
+
+                            </li>
+                        }
+
+                        if (links.Any(x => x.MenuGId == 13))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Empty
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    @foreach (var link in links)
+                                    {
+                                        if (link.MenuGId == 13)
+                                        {
+
+                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                        }
+                                    }
+
+
+                                </ul>
+                            </li>
+                        }
+
+                        if (links.Any(x => x.MenuGId == 26))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Cargo
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    @foreach (var link in links)
+                                    {
+                                        if (link.MenuGId == 26)
+                                        {
+
+                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                        }
+                                    }
+
+
+                                    @*<li>@Html.ActionLink("Cargo In", "Index", "ImportCargoIn")</li>
+                        <li>@Html.ActionLink("Cargo Out", "Index", "ImportCargoOut")</li>*@
+
+                                </ul>
+                            </li>
+                        }
+
+                        if (links.Any(x => x.MenuGId == 28))
+                        {
+                            var mcnt = 0;
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Bond
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    @foreach (var link in links)
+                                    {
+                                        if (link.MenuGId == 28)
+                                        {
+                                            if (mcnt == 2)
+                                            {
+                                                <li> @Html.ActionLink("In-Bond Container OUT", "Index", "BondContainerOut")</li>
+                                            }
+                                            if (mcnt == 3)
+                                            {
+                                                <li> @Html.ActionLink("In-Bond Manual Invoice", "Index", "BondManualInvoice")</li>
+                                                <li> @Html.ActionLink("In-Bond Proforma Invoice", "Index", "BondPerformaInvoice")</li>
+
+                                                <li class="divider" style="background-color:#fff"></li>
+
+                                            }
+                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+                                            mcnt++;
+                                        }
+
+
+                                    }
+                                    <li> @Html.ActionLink("Ex-Bond Vehicle Ticket", "Index", "ExBondVehicleTicket")</li>
+                                    <li> @Html.ActionLink("Ex-Bond VT Proforma Invoice", "Index", "ExBondVTProformaInvoice")</li>
+                                    <li> @Html.ActionLink("Ex-Bond VT Invoice", "Index", "ExBondVTInvoice")</li>
+                                    <li class="divider" style="background-color:#fff"></li>
+                                    <li> @Html.ActionLink("Bond Reports", "Index", "BondReport")</li>
+
+
+                                </ul>
+                            </li>
+                        }
+
+                        if (links.Any(x => x.MenuGId == 24))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Finance
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    @foreach (var link in links)
+                                    {
+                                        if (link.MenuGId == 24)
+                                        {
+                                            @*if (link.ControllerName == "")
+                                {
+                                    <li class="divider" style="background-color:#fff"></li>
+                                }*@
+                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                        }
+                                    }
+
+
+                                </ul>
+                            </li>
+                        }
+                        if ((links.Any(x => x.MenuGId == 11)) && (Session["Group"].ToString() == "GroupAdmin"))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Export SCMTR<b class="caret"></b></a>
+                                <ul class="dropdown-menu multi-column" role="menu">
+
+                                    <li>@Html.ActionLink("CHPOE07 File List", "Index", "CHPOE07")</li>
+                                    <li>@Html.ActionLink("Stuffed List", "Index", "StuffedList")</li>
+                                </ul>
+
+                            </li>
+                        }
+
+
+                        if (links.Any(x => x.MenuGId == 25))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    E-Invoice
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    @foreach (var link in links)
+                                    {
+                                        if (link.MenuGId == 25)
+                                        {
+                                            if (link.ControllerName == "StuffingEInvoice")
+                                            {
+                                                <li class="divider" style="background-color:#fff"></li>
+                                            }
+                                            if (link.ControllerName == "BondEInvoice" || link.ControllerName == "CreditNoteEInvoice")
+                                            {
+                                                <li class="divider" style="background-color:#fff"></li>
+                                            }
+
+                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                        }
+                                    }
+                                    @*<li class="divider" style="background-color:#fff"></li>
+        <li>@Html.ActionLink("Credit Note e-Invoice", "Index", "CreditNoteEInvoice") </li>
+        <li>@Html.ActionLink("Manual Credit Note E-Invoice", "Index", "ManualCreditNoteEInvoice")</li>*@
+                                    <li>@Html.ActionLink("Bond/ExBond E-Invoice", "Index", "BondExBondEInvoice")</li>
+                                </ul>
+
+                            
+                            </li>
+                        }
+                        if (links.Any(x => x.MenuGId == 11) || links.Any(x => x.MenuGId == 22) || links.Any(x => x.MenuGId == 12) || links.Any(x => x.MenuGId == 23) || links.Any(x => x.MenuGId == 13) || links.Any(x => x.MenuGId == 24))
+                        {
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search <b class="caret"></b></a>
+
+                                <ul class="dropdown-menu multi-column columns-2">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <ul class="multi-column-dropdown">
+                                                <li><h2>Import</h2></li>
+                                                <li class="hidden1">@Html.ActionLink("Container Stock(Imp)", "Index", "ImportContainerStockCheck") </li>
+                                                <li class="hidden">@Html.ActionLink("Storage Calc", "GSTForm", "ContainerCalc") </li>
+                                                @*<li>@Html.ActionLink("OpenSheet Report", "Index", "OpenSheetDetailQuery") </li>*@
+                                                <li>@Html.ActionLink("Container-Wise Details", "Index", "ContainerDetails") </li>
+                                                <li>@Html.ActionLink("IGM-No & Line-No Wise Details", "Index", "IgmLineNoWiseDetails") </li>
+                                                <li>@Html.ActionLink("BOE-Wise Details", "Index", "BOESearchDetails") </li>
+                                                <li>@Html.ActionLink("BL-Wise Details", "Index", "BLSearchDetails") </li>
+                                                <li class="hidden">@Html.ActionLink("Cheque No-Search", "Index", "ChequeEntrySearch") </li>
+                                                <li class="hidden">@Html.ActionLink("IGM/L. No Search", "Index", "GateOutSearch") </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <ul class="multi-column-dropdown">
+                                                <li><h2>Export</h2> </li>
+                                                <li>@Html.ActionLink("Gate In", "Index", "ExportGateIn") </li>
+                                                <li>@Html.ActionLink("Container Stock", "Index", "ContainerStockCheck") </li>
+                                                <li>@Html.ActionLink("Container-Wise Details", "Index", "ExportContainerDetails") </li>
+
+                                                <li>@Html.ActionLink("Shipping Bill-Wise Details", "SBSearch", "ExportContainerDetails") </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <ul class="multi-column-dropdown">
+                                                <li><h2>Bond</h2> </li>
+                                                <li>@Html.ActionLink("Bond / ExBond Search", "Index", "BondSearch") </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </li>
+
+
+                        }
+                        if (links.Any(x => x.MenuGId == 11))
+                        {
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Update <b class="caret"></b></a>
+                                <div class="dropdown-menu">
+                                    <ul class="multi-column-dropdown">
+                                        <li>@Html.ActionLink("Section_48 Update", "Form", "Section")</li>
+                                        <li>@Html.ActionLink("Importer Name Update", "Form", "ImporterUpdate")</li>
+                                        <li>@Html.ActionLink("Steamer Name Update", "Form", "ImportSteamerNameupdate")</li>
+                                        <li>@Html.ActionLink("Line No Update", "Index", "ImportUpdateDetails")</li>
+                                        <li>@Html.ActionLink("Product Update", "PIndex", "ImportUpdateDetails")</li>
+                                        <li>@Html.ActionLink("Weight Update", "WIndex", "ImportUpdateDetails")</li>
+                                        <li>@Html.ActionLink("ROW & SLOT Update", "RSIndex", "ImportUpdateDetails")</li>
+                                        <li>@Html.ActionLink("Transpoter Name", "TRANSIndex", "ImportUpdateDetails")</li>
+                                        <li>@Html.ActionLink("SSR Charges", "SSCIndex", "ImportUpdateDetails")</li>
+                                        <li>@Html.ActionLink("Pre CHA Name Update", "Form", "PreCHAUpdate")</li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                        }
+
+                    }
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right" @*style="margin-top:-3.5%"*@>
+                    @if ((Session["Group"].ToString() == "SuperAdmin") || (Session["Group"].ToString() == "Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Masters<b class="caret"></b></a>
+                            <ul class="dropdown-menu multi-column columns-3">
+                                <div class="row" style="overflow-y:scroll;height:500px;width:800px">
+                                    <div class="col-sm-4">
+                                        <ul class="multi-column-dropdown">
+                                            <li><h2>General </h2></li>
+                                            <li>@Html.ActionLink("Booked", "Index", "BookedMaster")</li>
+                                            <li>@Html.ActionLink("Category Type", "Index", "CategoryTypeMaster")</li>
+                                            <li>@Html.ActionLink("Category", "Index", "CategoryMaster")</li>
+                                            <li>@Html.ActionLink("Charge", "Index", "ChargeMaster")</li>
+                                            <li>@Html.ActionLink("Condition", "Index", "ConditionMaster")</li>
+                                            <li>@Html.ActionLink("Cost Factor", "Index", "CostFactorMaster")</li>
+                                            <li>@Html.ActionLink("Department", "Index", "DepartmentMaster")</li>
+                                            <li>@Html.ActionLink("Designation Type", "Index", "DesignationTypeMaster")</li>
+                                            <li>@Html.ActionLink("Designation", "Index", "DesignationMaster")</li>
+                                            <li>@Html.ActionLink("Location", "Index", "LocationMaster")</li>
+                                            <li>@Html.ActionLink("Grade", "Index", "GradeMaster")</li>
+                                            <li>@Html.ActionLink("Place", "Index", "PlaceMaster")</li>
+                                            <li>@Html.ActionLink("Product", "Index", "ProductGroupMaster")</li>
+                                            <li>@Html.ActionLink("Row", "Index", "RowMaster")</li>
+                                            <li>@Html.ActionLink("Slot", "Index", "SlotMaster")</li>
+                                            <li>@Html.ActionLink("Vehicle", "Index", "VehicleMaster")</li>
+                                            <li>@Html.ActionLink("Unit", "Index", "UnitMaster")</li>
+                                            <li>@Html.ActionLink("State", "Index", "StateMaster")</li>
+                                            <li>@Html.ActionLink("HSNCode", "Index", "HSNCodeMaster")</li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <ul class="multi-column-dropdown">
+                                            <li><h2>Account </h2></li>
+
+                                            <li>@Html.ActionLink("Account Group", "Index", "AccountGroupMaster")</li>
+                                            <li>@Html.ActionLink("Account Head", "Index", "AccountHeadMaster")</li>
+                                            <li>@Html.ActionLink("Bank", "Index", "BankMaster")</li>
+                                            <li>@Html.ActionLink("Company Details", "Index", "CompanyMaster")</li>
+                                            <li><h2>Import </h2></li>
+
+                                            <li>@Html.ActionLink("Slab Type", "Index", "SlabTypeMaster")</li>
+                                            <li>@Html.ActionLink("Slab", "Index", "SlabMaster")</li>
+                                            <li>@Html.ActionLink("Slab Narration", "Index", "ImportSlabNarration")</li>
+                                            <li>@Html.ActionLink("Tariff Group", "Index", "TariffGroupMaster")</li>
+                                            <li>@Html.ActionLink("Tariff", "Index", "TariffMaster")</li>
+                                            <li>@Html.ActionLink("Import Seal", "Index", "ImportSealMaster")</li>
+                                            <li>@Html.ActionLink("Empty Component Code", "Index", "EmptyComponentCodeMaster")</li>
+                                            <li>@Html.ActionLink("Empty Damage Code", "Index", "EmptyDamageCodeMaster")</li>
+                                            <li>@Html.ActionLink("Empty Location Code", "Index", "EmptyLocationCodeMaster")</li>
+                                            <li>@Html.ActionLink("Empty Repair Code", "Index", "EmptyRepairCodeMaster")</li>
+                                            <li>@Html.ActionLink("Empty Slab Type", "Index", "EmptySlabTypeMaster")</li>
+                                            <li>@Html.ActionLink("Container Thru", "Index", "ContainerThruMaster")</li>
+
+                                            <li><h2>Import-LCL </h2></li>
+                                            <li>@Html.ActionLink("Tariff", "Index", "LCLTariffMaster")</li>
+                                            <li>@Html.ActionLink("Slab Type", "Index", "LCLSlabTypeMaster")</li>
+                                            <li>@Html.ActionLink("Slab", "Index", "LCLSlabMaster")</li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <ul class="multi-column-dropdown">
+                                            <li><h2>Export </h2></li>
+                                            <li>@Html.ActionLink("Export Tariff Group", "Index", "ExportTariffGroupMaster")</li>
+                                            <li>@Html.ActionLink("Export Tariff Type", "Index", "ExportTariffTypeMaster")</li>
+                                            <li>@Html.ActionLink("Export Tariff Master", "Index", "ExportTariffMaster")</li>
+                                            <li>@Html.ActionLink("Export Slab Type", "Index", "ExportSlabType")</li>
+                                            <li>@Html.ActionLink("Export Slab Master", "Index", "ExportSlabMaster")</li>
+                                            <li>@Html.ActionLink("Container Size", "Index", "ContainerSizeMaster")</li>
+                                            <li>@Html.ActionLink("Container Type", "Index", "ContainerTypeMaster")</li>
+                                            <li>@Html.ActionLink("Container Status", "Index", "ContainerStatusMaster")</li>
+                                            <li>@Html.ActionLink("Export Operation Type", "Index", "Export_OperationTypeMaster")</li>
+                                            <li>@Html.ActionLink("Endorsement Charge Type", "Index", "EndorsementChargeType")</li>
+                                            <li>@Html.ActionLink("Endorsement Charge", "Index", "EndorsementCharge")</li>
+                                            <li>@Html.ActionLink("Endorsement Rate Card", "Index", "Export_Endorsement_Rate_Master")</li>
+                                            <li>@Html.ActionLink("GoDown (Column)", "Index", "GoDownMaster")</li>
+                                            <li>@Html.ActionLink("Stag (Row)", "Index", "StagMaster")</li>
+                                            <li>@Html.ActionLink("Vessel", "Index", "VesselMaster")</li>
+                                            <li>@Html.ActionLink("Yard", "Index", "YardMaster")</li>
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown hide">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports <span class="caret"></span></a>
+                            <ul class="dropdown-menu multi-column columns-2" role="menu">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <ul class="multi-column-dropdown">
+                                            <li><h2>Import</h2></li>
+                                            <li>@Html.ActionLink("General", "Index", "ImportRpt")</li>
+                                            <li>@Html.ActionLink("Gate-In", "Form", "ImportRpt")</li>
+                                            <li>@Html.ActionLink("Gate-Out", "Index", "ImportGateOutRpt")</li>
+                                            <li>@Html.ActionLink("Import MIS", "Index", "Diary")</li>
+                                            <li>@Html.ActionLink("Import Stock(Excel)", "Index", "ImportStockRpt")</li>
+                                            <li>@Html.ActionLink("LCL-CargoStock (Excel)", "Index", "LCLCargoStock")</li>
+                                            <li>@Html.ActionLink("OpenSheet", "Index", "OpenSheetRpt")</li>
+                                            <li>@Html.ActionLink("DeStuff Slip", "Index", "DestuffSlipRpt")</li>
+                                            <li>@Html.ActionLink("Load Slip", "Index", "LoadSlipRpt")</li>
+                                            <li>@Html.ActionLink("Vehicle Ticket", "Index", "VehicleTicketRpt")</li>
+                                            <li>@Html.ActionLink("Lorry Hire", "Index", "LorryHireRpt")</li>
+                                            <li>@Html.ActionLink("Seal", "Index", "SealRpt")</li>
+                                            <li>@Html.ActionLink("SEC-48 Notification", "NIndex", "ImportBillQuery")</li>
+                                            <li>@Html.ActionLink("IGM NO. & Line No wise Bill", "Index", "ImportBillQuery")</li>
+                                            <li>@Html.ActionLink("IGM NO. & Line No wise Container", "CIndex", "ImportBillQuery")</li>
+                                            <li>@Html.ActionLink("MIS", "Index", "ImportMIS")</li>
+
+                                        </ul>
+                                    </div>
+
+
+                                    <div class="col-sm-6">
+                                        <ul class="multi-column-dropdown">
+
+                                            <li><h2>Export</h2></li>
+                                            <li>@Html.ActionLink("General", "Index", "ExportGenRpt")</li>
+                                            <li>@Html.ActionLink("Gate In", "Index", "ExportRpt")</li>
+                                            <li>@Html.ActionLink("Gate Out", "Index", "ExportGateOutRpt")</li>
+                                            <li class="hidden1">@Html.ActionLink("Stuff/Seal", "SIndex", "ExportRpt")</li>
+                                            <li class="hidden">@Html.ActionLink("Cargo Stock-Carting Order", "Index", "CargoStockRpt") </li>
+                                            <li>@Html.ActionLink("Cargo Stock-GateIn", "Index", "GateInCargoStockRpt") </li>
+                                            <li>@Html.ActionLink("Export Vehicle Ticket", "Index", "ExportVTRpt")</li>
+                                            <li>@Html.ActionLink("Carting Order", "Index", "CartingOrderRpt")</li>
+                                            <li>@Html.ActionLink("MIS", "Index", "ExportMIS")</li>
+                                            <li><h2>Empty</h2></li>
+                                            <li>@Html.ActionLink("Stock", "Index", "EmptyStockRpt")</li>
+                                            <li>@Html.ActionLink("Export Stock", "ExportStock", "EmptyStockRpt")</li>
+                                            <li><h2>Import Update</h2></li>
+                                            <li>@Html.ActionLink("Section_48 Update", "Form", "Section")</li>
+                                            <li>@Html.ActionLink("Importer Name Update", "Form", "ImporterUpdate")</li>
+                                            <li>@Html.ActionLink("Line No Update", "Index", "ImportUpdateDetails")</li>
+                                            <li>@Html.ActionLink("Product Update", "PIndex", "ImportUpdateDetails")</li>
+                                            <li>@Html.ActionLink("Weight Update", "WIndex", "ImportUpdateDetails")</li>
+                                            <li>@Html.ActionLink("SSR & CS Update", "SForm", "ImportSSRUpdateDetails")</li>
+                                            <li>@Html.ActionLink("DPD Update", "Form", "DPDUpdate")</li>
+                                            <li>@Html.ActionLink("Billing Name Update", "Form", "BillingNameUpdate")</li>
+                                            <li>@Html.ActionLink("Pre CHA Name Update", "Form", "PreCHAUpdate")</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ul>
+
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Manage Accounts
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("Add User", "Index", "Account")</li>
+                                <li>@Html.ActionLink("Add Group", "Index", "Groups")</li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+
+                        var tmpcusrid = Session["CUSRID"].ToString();
+                        scfs_erp.Models.ApplicationDbContext db = new scfs_erp.Models.ApplicationDbContext();
+                        var links = (from item in db.MenuRoleMaster.Where(x => x.Roles == tmpcusrid).ToList()
+                                         //  where item.Roles.Equals("fusion")
+                                     select item).ToList();
+                        @:
+                        if (links.Any(x => x.MenuGId == 1 || x.MenuGId == 2 || x.MenuGId == 3 || x.MenuGId == 4 || x.MenuGId == 5))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Masters<b class="caret"></b></a>
+                                <ul class="dropdown-menu multi-column columns-3">
+                                    <div class="row">
+                                        @if (links.Any(x => x.MenuGId == 1))
+                                        {
+                                            <div class="col-sm-4">
+                                                <ul class="multi-column-dropdown">
+                                                    <li><h2>General </h2></li>
+                                                    @foreach (var link in links)
+                                                    {
+                                                        if (link.MenuGId == 1)
+                                                        {
+
+                                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                                        }
+                                                    }
+                                                </ul>
+                                            </div>}
+                                        @if (links.Any(x => x.MenuGId == 2) || links.Any(x => x.MenuGId == 3))
+                                        {
+
+                                            <div class="col-sm-4">
+                                                <ul class="multi-column-dropdown">
+                                                    <li><h2>Account</h2></li>
+                                                    @foreach (var link in links)
+                                                    {
+                                                        if (link.MenuGId == 2)
+                                                        {
+
+                                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                                        }
+                                                    }
+                                                    @if (links.Any(x => x.MenuGId == 3))
+                                                    {
+
+                                                        <li><h2>Import </h2></li>
+                                                        foreach (var link in links)
+                                                        {
+                                                            if (link.MenuGId == 3)
+                                                            {
+
+                                                                <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                                            }
+                                                        }
+                                                    }
+                                                </ul>
+
+                                            </div>}
+
+                                        @if (links.Any(x => x.MenuGId == 4))
+                                        {
+
+                                            <div class="col-sm-4">
+                                                <ul class="multi-column-dropdown">
+                                                    <li><h2>Export </h2></li>
+                                                    @foreach (var link in links)
+                                                    {
+                                                        if (link.MenuGId == 4)
+                                                        {
+
+                                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                                        }
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }
+                                        @if (links.Any(x => x.MenuGId == 5))
+                                        {
+
+                                            <div class="col-sm-4">
+                                                <ul class="multi-column-dropdown">
+                                                    <li><h2>Bond </h2></li>
+                                                    @foreach (var link in links)
+                                                    {
+                                                        if (link.MenuGId == 5)
+                                                        {
+
+                                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                                        }
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }
+                                    </div>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown hide">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports <span class="caret"></span></a>
+                                <ul class="dropdown-menu multi-column columns-2" role="menu">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <ul class="multi-column-dropdown">
+                                                <li><h2>Import</h2></li>
+                                                <li>@Html.ActionLink("General", "Index", "ImportRpt")</li>
+                                                <li>@Html.ActionLink("Gate-In", "Form", "ImportRpt")</li>
+                                                <li>@Html.ActionLink("Gate-Out", "Index", "ImportGateOutRpt")</li>
+                                                <li>@Html.ActionLink("Import MIS", "Index", "Diary")</li>
+                                                <li>@Html.ActionLink("Import Stock(Excel)", "Index", "ImportStockRpt")</li>
+                                                <li>@Html.ActionLink("LCL-CargoStock (Excel)", "Index", "LCLCargoStock")</li>
+                                                <li>@Html.ActionLink("OpenSheet", "Index", "OpenSheetRpt")</li>
+                                                <li>@Html.ActionLink("DeStuff Slip", "Index", "DestuffSlipRpt")</li>
+                                                <li>@Html.ActionLink("Load Slip", "Index", "LoadSlipRpt")</li>
+                                                <li>@Html.ActionLink("Vehicle Ticket", "Index", "VehicleTicketRpt")</li>
+                                                <li>@Html.ActionLink("Lorry Hire", "Index", "LorryHireRpt")</li>
+                                                <li>@Html.ActionLink("Seal", "Index", "SealRpt")</li>
+                                                <li>@Html.ActionLink("SEC-48 Notification", "NIndex", "ImportBillQuery")</li>
+                                                <li>@Html.ActionLink("IGM NO. & Line No wise Bill", "Index", "ImportBillQuery")</li>
+                                                <li>@Html.ActionLink("IGM NO. & Line No wise Container", "CIndex", "ImportBillQuery")</li>
+
+                                            </ul>
+                                        </div>
+
+
+                                        <div class="col-sm-6">
+                                            <ul class="multi-column-dropdown">
+
+                                                <li><h2>Export</h2></li>
+                                                <li>@Html.ActionLink("General", "Index", "ExportGenRpt")</li>
+                                                <li>@Html.ActionLink("Gate In", "Index", "ExportRpt")</li>
+                                                <li>@Html.ActionLink("Gate Out", "Index", "ExportGateOutRpt")</li>
+                                                <li class="hidden1">@Html.ActionLink("Stuff/Seal", "SIndex", "ExportRpt")</li>
+                                                <li class="hidden">@Html.ActionLink("Cargo Stock-Carting Order", "Index", "CargoStockRpt") </li>
+                                                <li>@Html.ActionLink("Cargo Stock-GateIn", "Index", "GateInCargoStockRpt") </li>
+                                                <li>@Html.ActionLink("Export Vehicle Ticket", "Index", "ExportVTRpt")</li>
+
+                                                <li><h2>Empty</h2></li>
+                                                <li>@Html.ActionLink("Stock", "Index", "EmptyStockRpt")</li>
+                                                <li>@Html.ActionLink("Export Stock", "ExportStock", "EmptyStockRpt")</li>
+                                                @if (links.Any(x => x.MenuGId == 21))
+                                                {
+
+                                                    <li><h2>Import Update</h2></li>
+                                                    foreach (var link in links)
+                                                    {
+                                                        if (link.MenuGId == 21)
+                                                        {
+
+
+                                                            <li> @Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+
+                                                        }
+                                                    }
+                                                }
+                                                @*<li><h2>Import Update</h2></li>
+                                                    <li>@Html.ActionLink("Section_48 Update", "Form", "Section")</li>
+                                                    <li>@Html.ActionLink("Importer Name Update", "Form", "ImporterUpdate")</li>
+                                                    <li>@Html.ActionLink("Line No Update", "Index", "ImportUpdateDetails")</li>
+                                                    <li>@Html.ActionLink("Product Update", "PIndex", "ImportUpdateDetails")</li>
+                                                    <li>@Html.ActionLink("Weight Update", "WIndex", "ImportUpdateDetails")</li>*@
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </ul>
+
+                            </li>
+
+                        }
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Manage Credentials
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("Change Password", "Index", "Account")</li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            @Html.Partial("_LoginPartial")
+                        </li>
+                    }
+
+                    <li><a href="#"> &nbsp;</a></li>
+
+
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-2" id="sidebar">
+                <nav class="navbar-default-side navbar-side" role="navigation">
+
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-primary hide">
+                            <div class="panel-heading navbar-default">
+                                <h4 class="panel-title">
+                                    <a data-parent="#accordion" href="#collapseTwo">
+                                        <span class="glyphicon glyphicon-th btn-xs"></span>Quick Menu
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="session_menu"></div>
+                                    @*<div>@Session["compyid"]---></div>*@
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </nav>
+            </div>
+
+            <div id="1wrapper">
+                @*<span class="fa-align-center"> <a class="finyr"> Fin.Year: @Session["GYrDesc"]</a></span>*@
+
+                <div id="page-wrapper">
+                    <span class="fa-align-center pull-right"> <a class="finyr"> Fin.Year: @Session["GYrDesc"]</a></span>
+                    @RenderBody()
+                </div>
+            </div>
+
+            @*<section id="page-wrapper">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="row">
+                                @RenderBody()
+
+                            </div>
+                        </div>
+                    </div>
+                </section>*@
+        </div>
+    </div>
+
+
+
+    <div class="container-fluid navbar-default " style="padding:10px;color:#e4e4e4;font-size:11px">
+        <div class="col-sm-3 col-md-9 ">
+
+            <footer>
+                <p>&copy; @Session["GYrDesc"] - FusionApp</p>
+            </footer>
+        </div>
+
+
+        <div class="col-sm-3 col-md-3">
+
+            <footer>
+                <p style="text-align:right">Developed by Fusiontec Software</p>
+            </footer>
+        </div>
+
+    </div>
+
+
+    @*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">*@
+
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ft-min.js"></script>
+    <script src="~/Scripts/respond.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.datetimepicker.js"></script>
+    @*<script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>*@
+    @*<script src="~/Scripts/bootstrap.js"></script>*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @*@Scripts.Render("~/bundles/fullcalendarjs")*@
+    <script src="~/Scripts/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/Scripts/datatables/jquery.dataTables.js"></script>
+    @*<script src="~/Scripts/jquery.ui.dialog.js"></script>*@
+    <script src="~/Scripts/datatables/ZeroClipboard.js"></script>
+    <script src="~/Scripts/datatables/TableTools_orig.js"></script>
+    <script src="~/Scripts/datatables/TableTools.js"></script>
+    <script src="~/Scripts/fusion.js"></script>
+    <script src="~/Scripts/ui.multiselect.js"></script>
+    <script src="~/Scripts/jquery.session.js"></script>
+    @*<script src="~/Scripts/jsapi.js"></script>*@
+    <script src="~/Scripts/sweetalert2.all.min.js"></script>
+    @*<script src="~/Scripts/sweetalert2.min.js"></script>*@
+    @*<link href="~/Content/fullcalendar.css" rel="stylesheet" />*@
+
+    @RenderSection("scripts", required: false)
+
+    <script>
+
+        function openModal() {
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('fade').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('fade').style.display = 'none';
+        }
+        $('.dropdown-toggle').dropdown();
+        function stopRKey(evt) {
+            var evt = (evt) ? evt : ((event) ? event : null);
+            var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+            if ((evt.keyCode == 13) && (node.type == "text")) { return false; }
+        }
+
+        document.onkeypress = stopRKey;
+
+
+    </script>
+
+
+    <script>
+        $("input:text").keyup(function () {//...capitalize each
+            if (window.location.href.toLowerCase().indexOf("/account/") > -1 || window.location.href.toLowerCase().indexOf("/roles/") > -1 || window.location.href.toLowerCase().indexOf("/groups/") > -1) {
+                $(this).val($(this).val());
+            }
+            else
+                $(this).val($(this).val().toUpperCase());
+        });
+
+    </script>
+
+
+
+
+
+</body>
+</html>

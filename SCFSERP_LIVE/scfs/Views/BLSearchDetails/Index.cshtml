@@ -1,0 +1,778 @@
+﻿@using scfs_erp.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewBag.Title = "BL Wise Container Details";
+}
+
+<style>
+    #TDETAIL {
+    }
+
+
+    .small {
+        border: 0;
+        width: 30px;
+        max-width: 25%;
+        background: none;
+    }
+
+    .stk {
+        background: #0f367d;
+        color: #fff;
+    }
+
+    .sm-1 {
+        max-width: 50px;
+    }
+
+    .TRANGAMT, .TRANNAMT, .TRANROAMT {
+        max-width: 150px;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>BL Wise Container Details</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/ContainerCalc/showrpt")" method="post" accept-charset="utf-8" id="frm" data-ng-controller="myController" name="frm" onsubmit="return Validate()" target="_blank">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ExportCartingOrder_info">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-md-2 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+
+                                        @*<input class="GIDID" name="GIDID" id="GIDID" type="text" />*@
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>BL No</label>
+                                        <input type="text" id="SBLNO" class="form-control SBLNO" name="SBLNO" @*data-autocomplete-url="@Url.Action("GetContnrno", "ContainerCalc")"*@ />
+                                        @*@Html.TextBoxFor(model => Model.masterdata[0].TRANNO, new { @class = "form-control  TRANNO", @id = "TRANNO"})*@
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <br />
+                                        <input type="button" id="search" name="search" value="Search" onclick="GetContainerNo()" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Container No</label>
+                                        @Html.DropDownList("GIDID", null, "Select Container No", new { @onchange = "GetDetails()", @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <label>IGM No </label>
+                                        <input type="text" class="OSMIGMNO form-control" name="OSMIGMNO" id="OSMIGMNO" readonly tabindex="6" />
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <label>Line No </label>
+                                        <input type="text" class="OSMLNO form-control" name="OSMLNO" id="OSMLNO" readonly tabindex="7" />
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <label>Voy No </label>
+                                        <input type="text" class="VOYNO form-control" name="VOYNO" id="VOYNO" readonly tabindex="6" />
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>In Date</label>
+                                        <input type="text" class="GIDATE form-control" name="GIDATE" id="GIDATE" readonly tabindex="6" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>In Time</label>
+                                        <input type="text" class="GITIME form-control" name="GITIME" id="GITIME" tabindex="6" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <label>Size </label>
+                                        <input type="text" class="CONTNRSDESC form-control" name="CONTNRSDESC" id="CONTNRSDESC" readonly tabindex="6" />
+                                        <input type="text" class="CONTNRSID hidden form-control" name="CONTNRSID" id="CONTNRSID" tabindex="6" />
+                                        <input type="text" class="TRANGAMT hidden form-control" name="TRANGAMT" id="TRANGAMT" tabindex="6" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <label>Vessel</label>
+                                        <input type="text" class="VSLNAME form-control" name="VSLNAME" id="VSLNAME" readonly tabindex="6" />
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <label>Steamer </label>
+                                        <input type="text" class="STMRNAME form-control" name="STMRNAME" id="STMRNAME" readonly tabindex="6" />
+                                        <input type="text" class="STMRID hidden form-control" name="STMRID" id="STMRID" readonly tabindex="6" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Importer  </label>
+                                        <input type="text" class="IMPTNAME form-control" name="IMPTNAME" id="IMPTNAME" readonly tabindex="6" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Cargo  </label>
+                                        <input type="text" class="PRDTDESC form-control" name="PRDTDESC" id="PRDTDESC" readonly tabindex="6" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Weight  </label>
+                                        <input type="text" class="GPWGHT form-control" name="GPWGHT" id="GPWGHT" readonly tabindex="6" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Out Date  </label>
+                                        <input type="text" class="GODATE form-control" name="GODATE" id="GODATE" readonly tabindex="6" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Out Time  </label>
+                                        <input type="text" class="GOTIME form-control" name="GOTIME" id="GOTIME" readonly tabindex="6" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>BOE NO  </label>
+                                        <input type="text" class="BOENO form-control" name="BOENO" id="BOENO" readonly tabindex="6" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>BOE Date  </label>
+                                        <input type="text" class="BOEDATE form-control" name="BOEDATE" id="BOEDATE" readonly tabindex="6" />
+                                        <input type="text" class="BILLEDID form-control hidden" name="BILLEDID" id="BILLEDID" readonly tabindex="6" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>BL NO  </label>
+                                        <input type="text" class="BLNO form-control" name="BLNO" id="BLNO" readonly tabindex="6" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <label>Row/Slot</label>
+                                        <input type="text" class="RWDESC form-control" name="RWDESC" id="RWDESC" readonly tabindex="6" />
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+
+                                    <div class="form-group">
+                                        <label>S.Amend</label>
+                                        <input type="text" class="AMND form-control" name="AMND" id="AMND" readonly tabindex="6" />
+                                        <input type="text" class="GPSTYPE hidden form-control" name="GPSTYPE" id="GPSTYPE" readonly tabindex="6" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+
+                                    <div class="form-group">
+                                        <label>Escort </label>
+                                        <input type="text" class="ESCRT form-control" name="ESCRT" id="ESCRT" readonly tabindex="6" />
+
+                                        <input type="text" class="GPETYPE hidden form-control" name="GPETYPE" id="GPETYPE" readonly tabindex="6" />
+                                        <input type="text" class="GPSCNTYPE hidden form-control" name="GPSCNTYPE" id="GPSCNTYPE" readonly tabindex="6" />
+                                        <input type="text" class="GPSCNTYPEAMT hidden form-control" name="GPSCNTYPEAMT" id="GPSCNTYPEAMT" readonly tabindex="6" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Weighment  </label>
+                                        <input type="text" class="WGMNT form-control" name="WGMNT" id="WGMNT" readonly tabindex="6" />
+                                        <input type="text" class="GPWTYPE hidden form-control" name="GPWTYPE" id="GPWTYPE" readonly tabindex="6" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Blocked  </label>
+                                        <input type="text" class="BLCK form-control" name="BLCK" id="BLCK" readonly tabindex="6" />
+                                    </div>
+                                </div>
+                                <br />
+
+
+                                <div class="col-lg-12">
+                                    <h5><strong> OpenSheet Details</strong></h5>
+                                    <div class="col-md-1">
+
+                                        <div class="form-group">
+                                            <label>No</label>
+                                            <input type="text" class="OSMNO form-control" name="OSMNO" id="OSMNO" readonly tabindex="6" />
+                                            <input type="text" class="OSDID form-control hidden" name="OSDID" id="OSDID" readonly tabindex="6" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Date </label>
+                                            <input type="text" class="OSMDATE form-control" name="OSMDATE" id="OSMDATE" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>Time  </label>
+                                            <input type="text" class="OSMTIME form-control" name="OSMTIME" id="OSMTIME" readonly tabindex="6" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>CHA Name  </label>
+                                            <input type="text" class="CHANAME form-control" name="CHANAME" id="CHANAME" readonly tabindex="6" />
+                                            <input type="text" class="CHAID form-control hidden" name="CHAID" id="CHAID" readonly tabindex="6" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+
+                                        <div class="form-group">
+                                            <label>CHA Staff Name</label>
+                                            <input type="text" class="CHASNAME form-control" name="CHASNAME" id="CHASNAME" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>DO Date </label>
+                                            <input type="text" class="DODATE form-control" id="DODATE" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h5><strong> DeStuff Slip Details</strong></h5>
+                                    <div class="col-md-1">
+
+                                        <div class="form-group">
+                                            <label>No</label>
+                                            <input type="text" class="DSNO form-control" name="DSNO" id="DSNO" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Date </label>
+                                            <input type="text" class="DSDATE form-control" name="DSDATE" id="DSDATE" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>Time  </label>
+                                            <input type="text" class="DSTIME form-control" name="DSTIME" id="DSTIME" readonly tabindex="6" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Labour Name  </label>
+                                            <input type="text" class="LBRNAME form-control" name="LBRNAME" id="LBRNAME" readonly tabindex="6" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Destuff Type </label>
+                                            <input type="text" class="DSTYPE form-control" id="DSTYPE" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Labour Type </label>
+                                            <input type="text" class="LBRTYPE form-control" id="LBRTYPE" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Operation Type </label>
+                                            <input type="text" class="DSOPTYPE form-control" id="DSOPTYPE" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h5><strong> Load Slip Details</strong></h5>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>No</label>
+                                            <input type="text" class="LDNO form-control" name="LDNO" id="LDNO" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Date </label>
+                                            <input type="text" class="LDDATE form-control" name="LDDATE" id="LDDATE" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Time  </label>
+                                            <input type="text" class="LDTIME form-control" name="LDTIME" id="LDTIME" readonly tabindex="6" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Driver Name  </label>
+                                            <input type="text" class="DRVNAME form-control" name="DRVNAME" id="DRVNAME" readonly tabindex="6" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label><span style="color:red">Trailor No. </span></label>
+                                            <input type="text" class="VHLNO form-control" id="VHLNO" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h5><strong> Vehicle Ticket Details</strong></h5>
+                                    <div class="col-md-1">
+
+                                        <div class="form-group">
+                                            <label>No</label>
+                                            <input type="text" class="VTDNO form-control" name="VTDNO" id="VTDNO" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Date </label>
+                                            <input type="text" class="VTDATE form-control" name="VTDATE" id="VTDATE" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>Time  </label>
+                                            <input type="text" class="VTTIME form-control" name="VTTIME" id="VTTIME" readonly tabindex="6" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Driver Name  </label>
+                                            <input type="text" class="VTDRVNAME form-control" name="VTDRVNAME" id="VTDRVNAME" readonly tabindex="6" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Vehicle No</label>
+                                            <input type="text" class="VTVHLNO form-control" name="VTVHLNO" id="VTVHLNO" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>SANCO Seal No </label>
+                                            <input type="text" class="VTSSEALNO form-control" id="VTSSEALNO" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+
+                                        <div class="form-group">
+                                            <label>BY</label>
+                                            <input type="text" class="VTSTYPE form-control" id="VTSTYPE" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+
+                                        <div class="form-group">
+                                            <label>Qty</label>
+                                            <input type="text" class="VTQTY form-control" id="VTQTY" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h5><strong> Delivery Order Details</strong></h5>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>No</label>
+                                            <input type="text" class="DODNO form-control" name="DODNO" id="DODNO" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Date </label>
+                                            <input type="text" class="DOMDATE form-control" name="DOMDATE" id="DOMDATE" readonly tabindex="6" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Time  </label>
+                                            <input type="text" class="DOMTIME form-control" name="DOMTIME" id="DOMTIME" readonly tabindex="6" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>CHA Name  </label>
+                                            <input type="text" class="DOREFNAME form-control" name="DOREFNAME" id="DOREFNAME" readonly tabindex="6" />
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    <h5><strong> Invoice Details</strong></h5>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <th>S.No</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Bill No</th>
+                                                <th>Name</th>
+                                                <th>Cheque No</th>
+                                                <th>Cheque Date</th>
+
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="SBILLDIV"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 center-block box-footer">
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs center-block" onclick="JavaScript:history.back()" />
+
+                                @*<input type="submit" name="submit" value="Print" class="btn btn-success btn-xs  " id="save" tabindex="5010" />*@
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            //-----date controls-------------
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', });
+            $('.datetime').datetimepicker({
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+            });
+            //$('.time').timepicker();
+
+
+            // if ($("#TRANMID").val() == 0) {
+            var dt = new Date();
+            var month = dt.getMonth() + 1;
+            var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+            var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+            var datetme = time;
+            $(".GIDATE,.TRANEDATE").val(date + " " + datetme);
+
+            //  }
+            //...End of date contrl..
+
+        });
+
+        //...............Window bind..........................//
+
+        function GetContainerNo() {
+         //   alert("call");
+            url = "/BLSearchDetails/GetContainerNo/" + $(".SBLNO").val();
+            $("#GIDID").empty();
+            $.ajax({
+                url: url,
+                success: function (data) {
+                  //  alert(data);
+
+                    $.each(data, function (key, value) {
+                        $("#GIDID").append("<option value=" + value.GIDID + ">" + value.CONTNRNO + "</option>")
+                    })
+                    GetDetails();
+                }
+            });
+        }
+
+        //........get detail row.....................//
+        function GetDetails() {
+
+            url = "/BLSearchDetails/GetDetail/" + $("#GIDID").val();
+
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    $(".CONTNRSDESC").val(data[0].CONTNRSDESC);
+                    $(".OSMIGMNO").val(data[0].IGMNO);
+                    $(".OSMLNO").val(data[0].GPLNO);
+                    $(".VOYNO").val(data[0].VOYNO);
+                    $(".GIDATE").val(GetFormattedDate(data[0].GIDATE));
+
+                    if(data[0].GODATE!=null) $(".GODATE").val(GetFormattedDate(data[0].GODATE));
+                    if (data[0].GOTIME != null) $(".GOTIME").val(GetFormattedDateTime(data[0].GOTIME));
+                    $(".GITIME").val(GetFormattedDateTime(data[0].GITIME));
+                    $(".PRDTDESC").val((data[0].PRDTDESC));
+                    $(".VSLNAME").val(data[0].VSLNAME);
+                    $(".STMRNAME").val(data[0].STMRNAME);
+                    $(".IMPTNAME").val(data[0].IMPRTNAME);
+                    $(".BLNO").val(data[0].BLNO);
+                    $(".BOENO").val(data[0].BILLEMDNO);
+                    $(".BILLEDID").val(data[0].BILLEDID);
+                    $(".RWDESC").val(data[0].ROWDESC+" / "+data[0].SLOTDESC);
+                    if (data[0].BOEDATE != null) $(".BOEDATE").val(GetFormattedDate(data[0].BILLEMDATE));
+                    //$(".GPEAMT").val(data[0].GPEAMT);
+                    //$(".GPAAMT").val(data[0].GPAAMT);
+                    //$(".GPSCNTYPE").val(data[0].GPSCNTYPE);
+                    if (data[0].GPSTYPE == 1)
+                        $(".AMND").val("YES");
+                    if (data[0].GPSTYPE == 0)
+                        $(".AMND").val("NO");
+                    $(".STMRID").val(data[0].STMRID);
+                    if (data[0].GPETYPE == 1)
+                        $(".ESCRT").val("YES");
+                    if (data[0].GPETYPE == 0)
+                        $(".ESCRT").val("NO");
+                    if (data[0].GPWTYPE == 1)
+                        $(".WGMNT").val("YES");
+                    if (data[0].GPWTYPE == 0)
+                        $(".WGMNT").val("NO");
+                    $(".CONTNRNODESC").val(data[0].CONTNRNO);
+                    if (data[0].GBDID == 1)
+                        $(".BLCK").val("YES");
+                    if (data[0].GBDID == 0)
+                        $(".BLCK").val("NO");
+                    $(".GPWGHT").val(data[0].GPWGHT);
+
+
+                }
+
+            });//---End of Post--------
+            url2 = "/BLSearchDetails/GetOpensheetDet/" + $("#GIDID").val();
+
+            $.ajax({
+                url: url2,
+                success: function (data) {
+                    $(".OSDID").val(data[0].OSDID);
+                    $(".OSMNO").val(data[0].OSMDNO);
+                    $(".CHANAME").val(data[0].OSMNAME);
+                    $(".CHASNAME").val(data[0].OSMCNAME);
+                    $(".CHAID").val(data[0].CHAID);
+
+                    $(".OSMDATE").val(GetFormattedDate(data[0].OSMDATE));
+                    $(".DODATE").val(GetFormattedDate(data[0].DODATE));
+                    $(".OSMTIME").val(GetFormattedDateTime(data[0].OSMTIME));
+
+                    //----------Destuff Slip
+                    url4 = "/BLSearchDetails/GetDestuffDet/" + $(".OSDID").val();
+
+                    $.ajax({
+                        url: url4,
+                        success: function (data) {
+
+                            $(".DSNO").val(data[0].ASLMDNO);
+                            $(".LBRNAME").val(data[0].CATENAME);
+                            $(".DSOPTYPE").val(data[0].OPRTYPEDESC);
+                            if (data[0].ASLLTYPE == 1) $(".LBRTYPE").val("CHA");
+                            else $(".LBRTYPE").val("SANCO");
+                            if (data[0].ASLDTYPE == 1) $(".DSTYPE").val("MECHANICAL");
+                            else $(".DSTYPE").val("MANUAL");
+                            $(".DSDATE").val(GetFormattedDate(data[0].ASLMDATE));
+                            $(".DSTIME").val(GetFormattedDateTime(data[0].ASLMTIME));
+                        }
+
+                    });//end of ds
+                    //----------LoadSlip
+                    url5 = "/BLSearchDetails/GetLoadSlipDet/" + $(".OSDID").val();
+
+                    $.ajax({
+                        url: url5,
+                        success: function (data) {
+
+                            $(".LDNO").val(data[0].ASLMDNO);
+                            $(".DRVNAME").val(data[0].DRVNAME);
+                            $(".VHLNO").val(data[0].VHLNO);
+
+                            $(".LDDATE").val(GetFormattedDate(data[0].ASLMDATE));
+                            $(".LDTIME").val(GetFormattedDateTime(data[0].ASLMTIME));
+                        }
+
+                    });//end of ld
+
+
+                    //..............................bill detail
+                    $("#SBILLDIV").html("");
+                  $.ajax({
+                      url: "/BLSearchDetails/GetBillDet/" + $("#GIDID option:selected").val() + ";" + $(".CHAID").val(),
+            async:false,
+            success: function (data) {
+                $("#SBILLDIV").html(data);
+            }
+
+        });
+                }
+            });
+            ////----------vehicle ticket
+            url3 = "/BLSearchDetails/GetVehicleDet/" + $("#GIDID").val();
+
+            $.ajax({
+                url: url3,
+                success: function (data) {
+
+                    $(".VTDNO").val(data[0].VTDNO);
+                    $(".VTVHLNO").val(data[0].VHLNO);
+                    $(".VTDRVNAME").val(data[0].DRVNAME);
+                    $(".VTSSEALNO").val(data[0].VTSSEALNO);
+                    $(".VTQTY").val(data[0].VTQTY);
+                    $(".VTDATE").val(GetFormattedDate(data[0].VTDATE));
+                    $(".VTTIME").val(GetFormattedDateTime(data[0].VTTIME));
+                    if (data[0].VTSTYPE == 1) $(".VTSTYPE").val("FULL");
+                    else $(".VTSTYPE").val("PART");
+                }
+
+            });//end of vt
+
+            ////----------DO
+            url6 = "/BLSearchDetails/GetDODet/" + $(".BILLEDID").val();
+
+            $.ajax({
+                url: url6,
+                success: function (data) {
+
+                    $(".DODNO").val(data[0].DODNO);
+                    $(".DOREFNAME").val(data[0].DOREFNAME);
+                    $(".DOMDATE").val(GetFormattedDate(data[0].DODATE));
+                    $(".DOMTIME").val(GetFormattedDateTime(data[0].DOTIME));
+                }
+
+            });//end of do
+
+
+
+        }
+
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                        (
+                             parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                        );
+            var dat = value1.getDate() +
+                                   "/" +
+                       eval(value1.getMonth() + 1) +
+                                   "/" +
+                   value1.getFullYear();
+            return dat;
+        }
+
+        function GetFormattedDateTime(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                        (
+                             parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                        );
+            var dat = value1.getHours() + ":" + value1.getMinutes();
+            return dat;
+        }
+    </script>
+}

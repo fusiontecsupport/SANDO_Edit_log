@@ -1,0 +1,423 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.OpenSheetMaster
+
+@{
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Form";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    .ui-autocomplete {
+        position: absolute;
+        cursor: default;
+        z-index: 4000 !important;
+    }
+</style>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form id="Opensheettchaform" class="Opensheettchaform" method="post" action="@Url.Action("OpenSheet","tchasavedata")" autocomplete="on">
+            <div class="modal-header">                
+                <h4 class="modal-title">Tally CHA Name Update</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="TRANMID" class="TRANMID hide form-control" name="TRANMID" value="@ViewBag.TRANMID">
+                <input type="text" id="OSMID" class="OSMID hide form-control" name="OSMID" value="@ViewBag.OSMID">
+
+
+                <div class="form-group col-lg-12">
+                   
+                    <div class="form-group col-lg-6">
+
+                        <label>CHA(Tally) Name  </label>
+
+                        <input type="text" class="OSMNAME form-control" name="OSMNAME" id="OSMNAME" value="@ViewBag.OSMNAME" data-autocomplete-url=@Url.Action("NewAutoCha", "OpenSheet") />
+                        <input type="text" class="CHAID form-control hide" name="CHAID" id="CHAID"  value="@ViewBag.CHAID" />
+
+
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Cha Address Type<span class="required-field"></span> </label>
+
+                        @Html.DropDownList("OSBCHACATEAID", null, "Select Location", new { @class = "form-control OSBCHACATEAID", @id = "OSBCHACATEAID", @tabindex = "4", @onchange = "GetBillAddressDetails()" })
+                        <input type="text" id="OSBCHA_CATEAID" class="OSBCHA_CATEAID hide form-control" name="OSBCHA_CATEAID" value="@ViewBag.OSBCHA_CATEAID">
+
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Cha GST No</label>
+                        <input type="text" id="OSBCHACATEAGSTNO" class="OSBCHACATEAGSTNO form-control" name="OSBCHACATEAGSTNO" value="@ViewBag.OSBCHACATEAGSTNO" readonly="readonly">
+                        <input type="text" id="OSBCHASTATEID" class="OSBCHASTATEID hide form-control" name="OSBCHASTATEID" value="@ViewBag.OSBCHASTATEID">
+
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Address 1 </label>
+                        <input type="text" id="OSBCHAADDR1" class="OSBCHAADDR1 form-control" name="OSBCHAADDR1" value="@ViewBag.OSBCHAADDR1" readonly="readonly">
+
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Address 2 </label>
+                        <input type="text" id="OSBCHAADDR2" class="OSBCHAADDR2 form-control" name="OSBCHAADDR2" value="@ViewBag.OSBCHAADDR2" readonly="readonly">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Address 3 </label>
+                        <input type="text" id="OSBCHAADDR3" class="OSBCHAADDR3 form-control" name="OSBCHAADDR3" value="@ViewBag.OSBCHAADDR3" readonly="readonly">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Address 4 </label>
+                        <input type="text" id="OSBCHAADDR4" class="OSBCHAADDR4 form-control" name="OSBCHAADDR4" value="@ViewBag.OSBCHAADDR4" readonly="readonly">
+                    </div>
+                    <div class="col-md-5">
+                        <label>State</label>
+                        <div class="form-group">
+                            <input type="text" id="txtstate" name="STATE" class="form-control STATE" value="@ViewBag.STATEDESC" readonly="readonly" />
+                            <input type="text" id="txtstatetype" name="STATETYPE" class="form-control hide STATETYPE" value="@ViewBag.STATETYPE" />
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="clearfix"> </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="btnclose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="btnsave">Update</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        add_autocomplete_cha($("#OSMNAME"), "OSMNAME,CHAID");
+
+
+        if ($('#OSBCHA_CATEAID').val() > 0) {
+            $(".OSBCHACATEAID option:selected").val($('#OSBCHA_CATEAID').val());
+        }
+        else {
+            var CHAID = $(".CHAID").val();
+            if (CHAID > 0) {
+                Billlocationdetail(CHAID);
+            }
+        }
+
+        var OSBCHACATEAID = $(".OSBCHACATEAID option:selected").val();
+        if (OSBCHACATEAID > 0) {
+            GetBillAddressDetails();
+        }
+
+    });
+
+    function add_autocomplete_cha($obj, controls) {
+        var oldFn = $.ui.autocomplete.prototype._renderItem;
+        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+            var re = new RegExp(this.term, "i");
+            var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+            return $("<li></li>")
+                .data("item.autocomplete", item)
+                .append("<a>" + t + "</a>")
+                .appendTo(ul);
+        };
+
+        $obj.autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: $obj.data("autocomplete-url"),
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            count = 0;
+                            item_str = "";
+                            var jsonArg = new Object();
+                            count = 0;
+                            $.each(item, function (i, data) {
+                                switch (count) {
+                                    case 0:
+                                        jsonArg.label = data;
+                                        jsonArg.value = data;
+                                        break;
+                                    case 1:
+                                        jsonArg.id = data;
+                                        break;
+                                    case 2:
+                                        jsonArg.desc = data;
+                                        break;
+                                    case 3:
+                                        jsonArg.xparam1 = data;
+                                        break;
+                                    case 4:
+                                        jsonArg.xparam2 = data;
+                                        break;
+                                    case 5:
+                                        jsonArg.xparam3 = data;
+                                        break
+                                }
+                                count++
+                            });
+                            return jsonArg
+                        }))
+                    }
+                })
+            },
+            search: function () {
+                count = 0;
+                $.each(controls.split(','), function (index, value) {
+                    switch (count) {
+                        case 0: break;
+                        default:
+                            $("#" + value).val(""); break;
+                    } count++;
+                })
+                var term = extractLast(this.value);
+                if (term.length < 2) {
+                    return false
+                }
+            },
+            select: function (event, ui) {
+                $(this).val(ui.item.label);
+                count = 0;
+                $.each(controls.split(','), function (index, value) {
+                    switch (count) {
+                        case 1:
+                            $("#" + value).val(ui.item.id);
+                            break;
+                        case 2:
+                            $("#" + value).val(ui.item.desc);
+                            break;
+                        case 3:
+                            $("#" + value).val(ui.item.xparam1);
+                            break;
+                        case 4:
+                            $("#" + value).val(ui.item.xparam2);
+                            break;
+                        case 5:
+                            $("#" + value).val(ui.item.xparam3);
+                            break
+                    }
+                    count++
+                    $("#CHAID").val(ui.item.id);
+                });
+                var CATEID = $("#CHAID").val();
+                Billlocationdetail(CATEID);
+
+
+                return false
+            },
+            change: function (event, ui) {
+                //debugger;
+                var opt = $(this).val();
+                var crntval = event.currentTarget.value;
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    url: $obj.data("autocomplete-url"),
+                    data: "{'term':'" + crntval + "'}",
+                    dataType: 'json',
+                    success: function (data) {
+                        //debugger;
+                        console.log(data);
+                        //alert(data);
+                        if (data.length == 0) {
+                            // $(event.currentTarget).val('');
+                            alert('Select item from the list.');
+
+                            $("#OSMNAME").focus();
+                            $("#CHAID").val("0");
+                        }
+                        else { }
+                    },
+                    error: function (data) {
+                        $(event.currentTarget).val('');
+
+                        $("#OSMNAME").val();
+                        $("#CHAID").val("0");
+                        console.log('Error retrieving options.');
+                    }
+                });
+            },
+            messages: {
+                noResults: "",
+                results: ""
+            }
+        })
+    }
+
+    function Billlocationdetail(CATEID) {
+        $(".OSBCHACATEAID").empty();
+        $.ajax({
+            type: 'get',
+            url: '@Url.Action("GetCatLocationDetail", "OpenSheet")/?CATEID=' + CATEID,  // we are calling json method
+            dataType: 'json',
+            success: function (data) {
+                if (data != "") {
+                    var count = data.length;
+                    if (count > 1) {
+                        $(".OSBCHACATEAID").append('<option value="0" selected>Select Location</option>');
+                    }
+                    $.each(data, function (i, dataval) {
+                        if (count > 1) {
+                            $(".OSBCHACATEAID").append('<option value="' + dataval.CATEAID + '">' + dataval.CATEATYPEDESC + '</option>');
+                        }
+                        else {
+                            $(".OSBCHACATEAID").append('<option value="' + dataval.CATEAID + '" selected>' + dataval.CATEATYPEDESC + '</option>');
+                        }
+                    });
+                }
+                else {
+                    $(".OSBCHACATEAID").append('<option value="0">' + "Select Location" + '</option>');
+                }
+
+            },
+            complete: function () {
+                var CATEAID = $(".OSBCHACATEAID").val();
+                GetBillAddressDetails(CATEAID);
+            },
+            error: function (ex) {
+                // alert('Failed to data ' + ex);
+            }
+        });
+    }
+
+    var OSBCHACATEAID = $(".OSBCHACATEAID option:selected").val();
+    //alert(OSBCHACATEAID);
+    if (OSBCHACATEAID > 0) {
+        GetBillAddressDetails();
+    }
+
+    function GetBillAddressDetails() {
+        OSBCHACATEAID = $(".OSBCHACATEAID option:selected").val();
+        var url = '@Url.Action("GetCatAddressDetail", "OpenSheet")/?CATEAID=' + OSBCHACATEAID;
+        //alert(url);
+        $.ajax({
+            type: 'get',
+            url: url, // we are calling json method
+            dataType: 'json',
+            success: function (data) {
+                if (data != "") {
+                    $("#OSBCHASTATEID").val(data[0].STATEID);
+                    $("#OSBCHACATEAGSTNO").val(data[0].CATEAGSTNO);
+                    $("#OSBCHAADDR1").val(data[0].CATEAADDR1);
+                    $("#OSBCHAADDR2").val(data[0].CATEAADDR2);
+                    $("#OSBCHAADDR3").val(data[0].CATEAADDR3);
+                    $("#OSBCHAADDR4").val(data[0].CATEAADDR4);
+                } else {
+
+                    $("#OSBCHASTATEID").val("0");
+                    $("#OSBCHACATEAGSTNO").val("-");
+                    $("#OSBCHAADDR1").val("-");
+                    $("#OSBCHAADDR2").val("-");
+                    $("#OSBCHAADDR3").val("-");
+                    $("#OSBCHAADDR4").val("-");
+                }
+            },
+            error: function (ex) {
+                $("#OSBCHASTATEID").val("0");
+                $("#OSBCHACATEAGSTNO").val("-");
+                $("#OSBCHAADDR1").val("-");
+                $("#OSBCHAADDR2").val("-");
+                $("#OSBCHAADDR3").val("-");
+                $("#OSBCHAADDR4").val("-");
+                //alert('Failed to data ' + ex);
+            }
+
+        });
+    }
+
+    $('#btnsave').click(function () {
+        var flag = true;
+        if ($("#OSMNAME").val() == "") {
+            alert('Please Enter Cha Name !!');
+            $("#OSMNAME").focus();
+            flag = false;
+
+        }
+        else if ($("#CHAID").val() == "" || $("#CHAID").val() == "0") {
+            alert('Please Enter Cha Name !!');
+            $("#OSMNAME").focus();
+            flag = false;
+
+        }
+        else if ($("#OSBCHACATEAID option:selected").val() == "" || $("#OSBCHACATEAID option:selected").val() == "0") {
+            alert('Please Select Cha Address Type');
+            $("#OSBCHACATEAID").focus();
+            flag = false;
+
+        }
+
+        if (flag) {
+
+            tab = {
+                TRANMID: $("#TRANMID").val(),
+                OSMID: $("#OSMID").val(),
+                OSMNAME: $("#OSMNAME").val(),
+                CHAID: $("#CHAID").val(),
+                OSBCHACATEAID: $("#OSBCHACATEAID option:selected").val(),
+
+                OSBCHACATEAGSTNO: $("#OSBCHACATEAGSTNO").val(),
+                OSBCHASTATEID: $("#OSBCHASTATEID").val(),
+                OSBCHAADDR1: $("#OSBCHAADDR1").val(),
+                OSBCHAADDR2: $("#OSBCHAADDR2").val(),
+                OSBCHAADDR3: $("#OSBCHAADDR3").val(),
+                OSBCHAADDR4: $("#OSBCHAADDR4").val()
+            }
+            console.log(tab);
+            var r = confirm("Are you sure to update?");
+            if (r == true) {
+                $.ajax({
+                    type: 'post',
+                    url: '@Url.Action("tchasavedata", "OpenSheet")', // we are calling json method
+                    data: tab,
+                    success: function (data) {
+                        if (data == "saved") {
+
+                            var returnurl = '@Url.Action("Index", "OpenSheet")';
+                            window.location.href = returnurl;
+
+                            SwalSucMsg('Tally CHA is Updated Successfully!!');
+
+                        }
+                        else {
+                            SwalSucMsg('Tally CHA is NOT Updated as Acknowledegement is generated!!');
+
+                            var returnurl = '@Url.Action("Index", "OpenSheet")';
+                            window.location.href = returnurl;
+
+                        }
+                    }
+                });
+
+            } else {
+
+                return false;
+
+            }
+        }
+    });
+
+
+    $('#btnclose').click(function () {
+        base = window.location.origin;
+        var url = base + "/OpenSheet/Index";
+        window.location.href = url;
+    });
+
+</script>

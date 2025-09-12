@@ -1,0 +1,100 @@
+﻿
+@model IEnumerable<scfs_erp.Models.GodownMaster>
+
+@{
+    ViewBag.Title = "Godown Master";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+                </div>
+                <div class="box-icons">
+                    <button onclick="parent.location = '@Url.Action("Form","GoDownMaster")'; return false;" class="btn-success"> Create New </button>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content no-padding">
+                <br />
+                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.GDWNCODE)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.GDWNDESC)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.DISPSTATUS)
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "GoDownMaster")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "" },
+                    { "sName": " ", "sClass": "action" },
+                    {
+                        "sName": "", "sClass": "action",
+
+                    },
+                    {
+                        "sClass": "col-sm-2 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "GoDownMaster")/' +
+                                oObj.aData[3] + '\" title="Modify"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger btn-xs del" href="#" id="' + oObj.aData[3] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+            //------------Delete Record--------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/GodownMaster/Del",
+                        {
+                            id: idx, fld: "GODOWN"
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted Successfully ...")
+                                location.replace(base + "/GodownMaster");
+                        });
+                }
+                return false;
+            });//End
+        });
+    </script>
+}
+
+

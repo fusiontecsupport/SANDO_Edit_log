@@ -1,0 +1,197 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.CostFactorMaster
+
+
+@{
+    ViewBag.Title = "Cost Factor Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="fa fa-search"></i>
+                            <strong>Cost Factor</strong>
+                        </div>
+                    </div>
+                    <div class="box-content" data-ng-app="myModule">
+                        @*<form action="@Url.Content("~/CostFactorMaster/savedata")" method="post" accept-charset="utf-8" id="costfactormasterform" data-ng-controller="myController" name="costfactormasterform">*@
+                        <form>
+                            @Html.ValidationSummary(true)
+                            <fieldset id="CostFactorMasterForm_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4 hidden">
+                                            <div class="form-group">
+                                                <label>Primary  </label>
+                                                @Html.TextBoxFor(model => Model.CFID, new { @class = "form-control  CFID", @id = "CFID" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Description<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.CFDESC, new { @class = "form-control  CFDESC", @id = "CFDESC" })
+                                                <input type="text" value="@Model.CFDESC" name="i_CFDESC" hidden>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Accounted to<span class="required-field"></span> </label>
+                                                @Html.DropDownList("ACHEADID", null, "Please select an option", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Calculated On </label>
+                                                @Html.DropDownList("CFOPTN", null, "Please select", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Mode </label>
+                                                @Html.DropDownList("CFMODE", null, "Please select", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>As </label>
+                                                @Html.DropDownList("CFTYPE", null, new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Value </label>
+                                                @Html.TextBoxFor(model => Model.CFEXPR, new { @class = "form-control CFEXPR", @id = "CFEXPR" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Belongs To </label>
+                                                @Html.DropDownList("DORDRID", null, "Please select an option", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>On </label>
+                                                @Html.DropDownList("CFNATR", null, new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Status </label>
+                                                @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 box-footer">
+                                        @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+                                            <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />*@
+                                        <a href="@Url.Action("Index", "CostFactorMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                        <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+    $('#btnsave').click(function () {
+        if ($('#CFDESC').val() == "") {
+            alert('Please Enter Description !!');
+            $('#CFDESC').focus();
+            return false;
+        }
+        if ($('#ACHEADID').val() == "") {
+            alert('Please Enter Accounted to !!');
+            $('#ACHEADID').focus();
+            return false;
+        }
+
+        var pdate = new Date();
+
+        if ($('#CFID').val() == "") { $('#CFID').val(0); }
+
+
+        var tab = {
+            CFID: $('#CFID').val(),
+            CFDESC: $('#CFDESC').val(),
+            ACHEADID: $('#ACHEADID').val(),
+            CFOPTN: $('#CFOPTN').val(),
+            CFMODE: $('#CFMODE').val(),
+            CFTYPE: $('#CFTYPE').val(),
+            CFEXPR: $('#CFEXPR').val(),
+            DORDRID: $('#DORDRID').val(),
+            CFNATR: $('#CFNATR').val(),
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: 1,
+            PRCSDATE: pdate
+        };
+        $.ajax({
+            url: "/CostFactorMaster/savedata",
+            data: JSON.stringify(tab),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('Cost Factor Master Details Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "CostFactorMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('Cost Factor Master Details Inserted Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "CostFactorMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('Cost Factor Master Details Already Inserted !! ');
+                    $('#CFDESC').val("");
+                    $('#ACHEADID').val("");
+                    $('#CFOPTN').val("");
+                    $('#CFTYPE').val("");
+                    $('#CFEXPR').val("");
+                    $('#DORDRID').val("");
+                    $('#CFNATR').val("");
+                    var returnurl = "@Url.Action("Form", "CostFactorMaster")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+
+    });
+
+
+    </script>
+}
+

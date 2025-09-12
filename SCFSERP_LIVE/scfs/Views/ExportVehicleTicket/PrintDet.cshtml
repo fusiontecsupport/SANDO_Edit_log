@@ -1,0 +1,62 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.TransactionMD
+
+
+@{
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">SHipping Bill Detail</h4>
+
+</div>
+<form method="post" action="@Url.Action("Printview","ExportVehicleTicket")" id="batchfrm">
+
+
+
+
+    <div class="msg" hidden style="margin-left:0;margin-right:0"> </div>
+    <div class="msg_error" hidden style="margin-left:0;margin-right:0"> </div>
+
+    <div class="col-lg-12">
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Seal No.</label>
+                <input class="form-control F_VTDID" id="F_VTDID" name="F_VTDID" value="@ViewBag.VTDID" hidden>
+
+                <input class="form-control F_VTSSEALNO" id="F_VTSSEALNO" name="F_VTSSEALNO" value="@ViewBag.VTSSEALNO" required>
+
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <label>Qty</label>
+                <input class="form-control F_VTQTY" id="F_VTQTY" name="F_VTQTY" value="@ViewBag.VTQTY" required>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="clearfix"> </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id="print">Print</button>
+    </div>
+
+
+</form>
+
+
+
+
+<div class="modal-body"><div class="te"></div></div>
+
+
+<script>
+    $("#print").click(function () { window.open("/ExportVehicleTicket/printview/" + $(".F_VTDID").val() + "-" + $(".F_VTSSEALNO").val() + "-" + $(".F_VTQTY").val()) });
+
+</script>
+

@@ -1,0 +1,157 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.SlabNarrationMaster
+
+@{
+    ViewBag.Title = "Slab Narration Master";
+}
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>@ViewBag.Title</strong>
+                        </div>
+                    </div>
+
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ImportSlabNarration/savedata")" method="post" accept-charset="utf-8" id="slabnarrationmasterform" data-ng-controller="myController" name="slabnarrationmasterform" onsubmit="return Validate();">
+                            @Html.ValidationSummary(true)
+                            <div class="msg" hidden style="margin-left:0;margin-right:0"> </div>
+                            <div class="msg_error" hidden style="margin-left:0;margin-right:0"> </div>
+                            <fieldset id="slabmaster_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4 hidden">
+                                            <div class="form-group">
+                                                <label> primary </label>
+                                                @Html.TextBoxFor(model => Model.SLABNID, new { @class = "form-control SLABNID", @id = "SLABNID" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Type</label>
+                                                @Html.DropDownList("SDPTTYPEID", null, "Please select an option", new { @class = "form-control SDPTTYPEID", @id = "SDPTTYPEID", @data_val = "true", @data_val_required = "Field is required" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Tariff</label>
+                                                @Html.DropDownList("TARIFFMID", null, "Please select an option", new { @class = "form-control  TARIFFMID", @id = "TARIFFMID", @data_val = "true", @data_val_required = "Field is required", @onchange = "show()" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Slab Type</label>
+                                                @Html.DropDownList("SLABTID", null, "Please select an option", new { @class = "form-control  SLABTID", @id = "SLABTID", @data_val = "true", @data_val_required = "Field is required" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Bill Type</label>
+                                                @Html.DropDownList("CHRGETYPE", null, "Please select an option", new { @class = "form-control CHRGETYPE", @id = "CHRGETYPE", @data_val = "true", @data_val_required = "Field is required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Slab Narration</label>
+                                                @Html.TextAreaFor(model => Model.SLABNARTN, new { @class = "form-control SLABNARTN", @id = "SLABNARTN", @maxLength = "250" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 box-footer">
+                                    <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+
+                                    <input type="button" name="save" value="Save" class="btn btn-success btn-xs hide" id="save" />
+                                    <input type="submit" name="Save" value="Save" class="btn btn-success btn-xs" id="savecont" />
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+
+    <script>
+        $('.msg').delay(1200).fadeOut(1000);
+    </script>
+    <script>
+
+        $(document).ready(function () {
+            if ($('#SLABNID').val() == "") {
+                $('#SLABNID').val("0");
+            }
+
+        });
+
+        //------Duplicate record check----//
+        $("#save").click(function () {
+
+            var formdata = ($("#slabnarrationmasterform").serialize());
+            var bad = 0;
+            
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("Checkdata", "ImportSlabNarration")', // we are calling json method
+                data: formdata,
+                success: function (data) {
+                    //alert(data);
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Action("savedata", "ImportSlabNarration")', // we are calling json method
+                        data: formdata,
+                        success: function (data) { if (data == "Saved") location.replace("/ImportSlabNarration/Index"); }
+                    });
+                },
+                error: function (ex) {
+                    //alert('Failed to save data ' + ex);
+                }
+            });
+
+        });//-----End of function
+             
+
+        function Validate() {
+            var TARIFFMID = $("#TARIFFMID").val(); 
+            var SLABTID = $("#SLABTID").val(); 
+            var CHRGETYPE = $("#CHRGETYPE").val(); 
+            var SLABNARTN = $("#SLABNARTN").val(); 
+            if (TARIFFMID == "") {
+                alert("Please select Tariff");
+                $("#TARIFFMID").focus();
+                return false;
+            }
+            if (SLABTID == "") {
+                alert("Please select Slab Type");
+                $("#SLABTID").focus();
+                return false;
+            }
+            if (CHRGETYPE == "") {
+                alert("Please select Bill Type");
+                $("#CHRGETYPE").focus();
+                return false;
+            }
+            if (SLABNARTN == "") {
+                alert("Please enter Slab Narration");
+                $("#SLABNARTN").focus();
+                return false;
+            }
+        }
+               
+       
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

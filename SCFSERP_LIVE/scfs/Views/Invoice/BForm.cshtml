@@ -1,0 +1,346 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.TransactionMaster
+
+@{
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Form";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    .ui-autocomplete {
+        position: absolute;
+        cursor: default;
+        z-index: 4000 !important;
+    }
+</style>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form id="InvoicePrint" method="post" action="@Url.Action("InvoiceUpdate","ImportInvoice")" autocomplete="on">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Invoice Billing Name Update</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="FTRANMID" class="FTRANMID hide form-control" name="FTRANMID" value="@ViewBag.id">
+
+
+                <div class="form-group col-lg-12">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="TRANNAME" class="TRANCSNAME  form-control" name="TRANCSNAME" readonly="readonly" value="@ViewBag.TRANCSNAME" data-autocomplete-url=@Url.Action("AutoCha", "ImportInvoice")>
+                            <input type="text" id="TRANCSNAME" class="TRANCSNAME  form-control hide" name="TRANCSNAME" value="@ViewBag.TRANCSNAME" data-autocomplete-url=@Url.Action("AutoCha", "ImportInvoice")>
+                            <input type="text" id="TRANBILLREFID" class="TRANBILLREFID hide form-control" name="TRANBILLREFID">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group col-lg-12">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Billed To  </label>
+                            @Html.DropDownList("BILLEDTO", null, new { @class = "form-control BILLEDTO", @id = "BILLEDTO", @onclick = "GetNewVal()", @tabindex = "24" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label>Billing Name  </label>
+                            <input type="text" class="TRANCHANAME form-control" name="TRANCHANAME" id="TRANCHANAME" value="@ViewBag.OSBILLREFNAME" data-autocomplete-url=@Url.Action("NewAutoCha", "OpenSheet") />
+                            <input type="text" class="TRANIMPNAME form-control" name="TRANIMPNAME" id="TRANIMPNAME" value="@ViewBag.OSBILLREFNAME" data-autocomplete-url=@Url.Action("NewAutoImporter", "OpenSheet") />
+
+                            <input type="text" class="OSBILLREFNAME form-control" name="OSBILLREFNAME" id="OSBILLREFNAME" value="@ViewBag.OSBILLREFNAME" data-autocomplete-url=@Url.Action("NewAutoCha", "OpenSheet") />
+                            <input type="text" class="OSBILLREFID form-control" name="OSBILLREFID" id="OSBILLREFID" value="@ViewBag.OSBILLREFID" />
+                            <label>GST No.  </label>
+                            <input type="text" class="OSBILLGSTNO form-control" name="OSBILLGSTNO" id="OSBILLGSTNO" value="@ViewBag.OSBILLGSTNO"  readonly="readonly"  tabindex="31" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"> </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="Print">Update</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+        GetNewVal();
+      //  add_autocomplete($("#IMPRTNAME"), "IMPRTNAME,IMPRTID");//---AutoComplete function for IMPORTER-----
+        //add_autocomplete($("#TRANCSNAME"), "TRANCSNAME,TRANBILLREFID");//---AutoComplete function for CHANAME-----
+        add_autocomplete($("#TRANCHANAME"), "TRANCHANAME,OSBILLREFID,OSBILLGSTNO");
+        add_autocomplete($("#TRANIMPNAME"), "TRANIMPNAME,OSBILLREFID,OSBILLGSTNO");
+
+    });
+
+
+
+        function stuffing_autocomplete($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break;
+                        }
+                        count++
+                    });
+
+                    return false;
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }////......end
+
+
+    function GetVal() {
+        $(".rpttype_f").val("0");
+    }
+
+    function GetBillVal() {
+        $(".brpttype_f").val("0");
+        $('#TRANBILLREFID').hide();
+        url = '@Url.Action("AFormAddr", "ImportInvoice")/' + $(".FTRANMID").val() + '~' + '0' ;
+
+        $.ajax({
+            type: 'post',
+            url: url, // we are calling json method
+          //  data: $("#InvoicePrint").serialize(),
+
+            success: function (data) {
+
+                if (data.length != 0) {
+                    $(".TRANCSNAME").val(data[0].TRANCSNAME);
+                    $(".TRANIMPADDR1").val(data[0].TRANIMPADDR1);
+                    $(".TRANIMPADDR2").val(data[0].TRANIMPADDR2);
+                    $(".TRANIMPADDR3").val(data[0].TRANIMPADDR3);
+                    $(".TRANIMPADDR4").val(data[0].TRANIMPADDR4);
+                    $(".GSTNO").val(data[0].CHACATEGSTNO);
+                }
+                else {
+                    $("#TRANCSNAME").val("");
+                    $("#TRANIMPADDR1").val("");
+                    $("#TRANIMPADDR2").val("");
+                    $("#TRANIMPADDR3").val("");
+                    $("#TRANIMPADDR4").val("");
+                    $(".GSTNO").val("");
+                }
+
+
+            }
+        })
+
+    }
+
+    function GetgrpVal() {
+        $(".rpttype_f").val("1");
+    }
+
+    function GetBillgrpVal() {
+        $(".brpttype_f").val("1");
+        $('#TRANBILLREFID').show();
+        url = '@Url.Action("AFormAddr", "ImportInvoice")/' + $(".FTRANMID").val() + '~' + '1';
+
+        $.ajax({
+            type: 'post',
+            url: url, // we are calling json method
+            //  data: $("#InvoicePrint").serialize(),
+
+            success: function (data) {
+                if (data.length != 0)
+                {
+                    $(".TRANCSNAME").val(data[0].IMPRTNAME);
+                    $(".TRANIMPADDR1").val(data[0].IMPCATEADDR1);
+                    $(".TRANIMPADDR2").val(data[0].IMPCATEADDR2);
+                    $(".TRANIMPADDR3").val(data[0].IMPCATEADDR3);
+                    $(".TRANIMPADDR4").val(data[0].IMPCATEADDR4);
+                    $(".GSTNO").val(data[0].IMPCATEGSTNO);
+                }
+                else
+                {
+                    $("#TRANCSNAME").val("");
+                    $("#TRANIMPADDR1").val("");
+                    $("#TRANIMPADDR2").val("");
+                    $("#TRANIMPADDR3").val("");
+                    $("#TRANIMPADDR4").val("");
+                    $(".GSTNO").val("");
+                }
+            }
+        })
+
+
+    }
+
+
+
+
+    function GetNewVal() {
+
+        var BILLEDTO = $(".BILLEDTO option:selected").val();
+        $('#TRANCHANAME').val("");
+        $('#TRANIMPNAME').val("");
+        $('#OSBILLREFID').val("");
+        $('#OSBILLREFNAME').val("");
+        $('#OSBILLGSTNO').val("");
+
+        // alert(BILLEDTO);
+        if (BILLEDTO == 0) {
+            $('#TRANCHANAME').show();
+            $('#TRANIMPNAME').hide();
+        }
+        else {
+            $('#TRANCHANAME').hide();
+            $('#TRANIMPNAME').show();
+
+        }
+    }
+
+    //-------------CHA TRNCSNAME-------------------
+    $('#TRANCHANAME').blur(function () {
+        var selectedvalue = $('#TRANCHANAME').val();
+        $('#OSBILLREFNAME').val(selectedvalue);
+
+    });
+
+
+
+    //-------------CHA TRNCSNAME-------------------
+    $('#TRANIMPNAME').blur(function () {
+        var selectedvalue = $('#TRANIMPNAME').val();
+        $('#OSBILLREFNAME').val(selectedvalue);
+    });
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('fade').style.display = 'none';
+    }
+
+
+    $("#Print").click(function () {
+        if ($(".OSBILLREFNAME").val() == "") { alert("Kindly Enter CHA/Importer Name...!"); $(".BILLEDTO").focus(); return false; }
+        if ($(".OSBILLGSTNO").val() == "") { alert("Please update the GSTIN No...!"); $(".OSBILLGSTNO").focus(); return false; }
+
+
+        url = '@Url.Action("UpdateBillingName", "ImportInvoice")/' + $(".FTRANMID").val();
+
+        $.ajax({
+            type: 'post',
+            url: url, // we are calling json method
+            data: $("#InvoicePrint").serialize(),
+
+            success: function (data) {
+
+                if (data == "Saved") {
+                    window.location.reload();
+                    //window.open("/Invoice/PrintView/" + $(".FTRANMID").val() + ";" + $(".rpttype_f").val() + ";" + $(".FGSTAMT").val() + ";" + $(".brpttype_f").val() + ";" + $(".Tmp_handling").val());
+                   // window.open("/Invoice/PrintView/data?=" + $("#InvoicePrint").serialize());
+
+                }
+            }
+            })
+
+
+    });
+
+</script>
+

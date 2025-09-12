@@ -1,0 +1,483 @@
+﻿@using scfs.Data
+@using scfs_erp.Models;
+@model scfs_erp.Models.DeliveryOrderMD
+@{
+    ViewBag.Title = "Delivery Order";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>Delivery Order</strong>
+                        </div>
+                    </div>@Html.Raw(ViewBag.msg)
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/DeliveryOrder/savedata")" method="post" accept-charset="utf-8" id="DeliveryOrderform" data-ng-controller="myController" name="DeliveryOrderform" onsubmit="return Form_validate()">
+                            <fieldset id="GateInForm_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3 hidden">
+                                            <div class="form-group">
+                                                <label>Primary</label>
+                                                @Html.TextBoxFor(model => model.masterdata.DOMID, new { @class = "form-control DOMID", @id = "DOMID" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Date<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.masterdata.DODATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker DODATE ", @id = "DODATE", @data_Val = false, tabindex = "1" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Time<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.GITIME)*@
+                                                @Html.TextBoxFor(model => Model.masterdata.DOTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker DOTIME ", @id = "DOTIME", @data_Val = false, tabindex = "1" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 hidden">
+                                            <div class="form-group">
+                                                <label>No<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.masterdata.DONO, new { @class = "form-control  DONO", @id = "DONO", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Tariff Group<span class="required-field"></span></label>
+                                                @Html.DropDownList("TARIFFGID", null, "Select Tariff Group", new { @class = "form-control TARIFFGID", @id = "TARIFFGID", tabindex = "3", @onchange = "GetTariff()" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Tariff <span class="required-field"></span></label>
+                                                @Html.DropDownList("TARIFFMID", null, "Select Tariff", new { @class = "form-control TARIFFMID", @id = "TARIFFMID", tabindex = "5" })
+                                            </div>
+                                        </div>
+                                        @if (Model.masterdata != null)
+                                        {
+
+                                            <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                    <label>IGM No </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMIGMNO)*@
+                                                    <input type="text" class="OSMIGMNO form-control" name="OSMIGMNO" id="OSMIGMNO" value="@ViewBag.IGMNO" readonly />
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                    <label>Line No </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMLNO)*@
+                                                    <input type="text" class="OSMLNO form-control" name="OSMLNO" id="OSMLNO" value="@ViewBag.GPLNO" readonly />
+
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                    <label>IGM No <span class="required-field"></span></label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMIGMNO)*@
+                                                    <input type="text" class="OSMIGMNO form-control" name="OSMIGMNO" id="OSMIGMNO" placeholder="---Enter IGMNO----" tabindex="6" />
+                                                    @*@Html.TextBox("OSMIGMNO", new { @class = "form-control  OSMIGMNO", @id = "OSMIGMNO", @placeholder = "---Please Type IGMNO----", tabindex = "48", @required = "required" })*@
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+
+                                                <div class="form-group">
+                                                    <label>Line No <span class="required-field"></span></label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMLNO)*@
+                                                    <input type="text" class="OSMLNO form-control" name="OSMLNO" id="OSMLNO" placeholder="---Enter Line No----" tabindex="7" />
+                                                    @*@Html.TextBox("OSMLNO", new { @class = "form-control  OSMLNO", @id = "OSMLNO", @required = "required", tabindex = "50", @placeholder = "---Please Type Line No----" })*@
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+
+                                                <div class="form-group">
+                                                    <br />
+                                                    <input type="button" name="search" value="search" class="btn btn-success btn-xs  " id="search" onclick="GetCHADetail()" tabindex="8" />
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>CHA <span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMNAME)*@
+                                                @Html.TextBoxFor(model => Model.masterdata.DOREFNAME, new { @class = "form-control DOREFNAME", @id = "DOREFNAME", @readonly = "readonly", })
+                                                @Html.TextBoxFor(model => Model.masterdata.DOREFID, new { @class = "hide form-control  DOREFID", @id = "DOREFID" })
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-2">
+
+                                            <div class="form-group">
+                                                <label>Duty Paid No.</label>
+                                                <input type="text" class="form-control F_DPAIDNO" id="F_DPAIDNO" value="@ViewBag.DPAIDNO" name="F_DPAIDNO" tabindex="12" />
+                                                <input type="text" class="BILLEMID hide form-control" name="BILLEMID" id="BILLEMID" readonly value="@ViewBag.BILLEMID" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                            <div class="form-group">
+                                                <label>Amount</label>
+                                                <input type="text" class="form-control F_DPAIDAMT" id="F_DPAIDAMT" value="@ViewBag.DPAIDAMT" name="F_DPAIDAMT" tabindex="14" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Validity Date <span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.detaildata[0].DOVDATE, new { @class = "form-control datepicker DOVDATE", @id = "DOVDATE", tabindex = "18" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    @*<div class="col-md-12">
+                                        <div class=" col-md-2">
+                                            <div class="form-group">
+                                                <label>OOC Number</label>
+                                                @Html.TextBoxFor(model => Model.masterdata.OOCNO, new { @class = "form-control  OOCNO", @id = "OOCNO", @data_Val = false, tabindex = "5005" })
+                                            </div>
+                                        </div>
+                                        <div class=" col-md-2">
+                                            <div class="form-group">
+                                                <label>OOC Date</label>
+                                                @Html.TextBoxFor(model => Model.masterdata.OOCDATE, "{0:dd/MM/yyyy}", new { @class = "form-control  OOCDATE", @id = "OOCDATE", @data_val = false, tabindex = "5006" })
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                    <div class="col-md-12">
+                                        <div class="table_grid" id="table_grid">
+                                            @if (Model.detailedit != null)
+                                            {
+                                                <div class='panel-heading navbar-inverse' style=color:white>DO Details</div>
+                                                <table id=mytabl class='table table-striped table-bordered bootstrap-datatable'>
+                                                    <thead><tr> <th>BOE NO</th><th>Container No</th><th> Size</th><th>InDate</th><th>Vessel</th> <th> Voy No </th><th>Product</th><th>Weight</th></tr> </thead>
+                                                    <tbody>
+                                                        @foreach (VW_DELIVERY_ORDER_DETAIL_GRID_ASSGN rslt in Model.detailedit)
+                                                        {
+                                                            <tr><td class=hide><input type=text id='DODID' class='DODID' name='DODID' value="@rslt.DODID"></td><td class=hide><input type=text id=F_GIDID value="@rslt.GIDID" class=F_GIDID name=F_GIDID hidden></td><td class=hide><input type=text id=STMRNAME value="@rslt.STMRNAME" class=STMRNAME name=STMRNAME></td><td class=hide><input type=text id=IMPRTNAME value="@rslt.IMPRTNAME" class=IMPRTNAME name=IMPRTNAME hidden></td><td><input type=text value="@rslt.DODREFNO" id='BILLEMDNO' class='form-control BILLEMDNO' name='BILLEMDNO' readonly><input type=text value="@rslt.BILLEDID" id='BILLEDID' class='hide form-control BILLEDID' name='BILLEDID' readonly></td><td><input type=text id=CONTNRNO value="@rslt.CONTNRNO" class=CONTNRNO name=CONTNRNO readonly></td><td><input type=text value="@rslt.CONTNRSDESC" id=CONTNRSDESC class=CONTNRSDESC name=CONTNRSDESC style=width:45px readonly></td><td><input type=text id=GIDATE value="@rslt.GIDATE" class=GIDATE name=GIDATE readonly></td><td><input type=text value="@rslt.VSLNAME" id='VSLNAME' class='VSLNAME form-control' name='VSLNAME' readonly></td><td><input type=text id='VOYNO' value="@rslt.VOYNO" class='VOYNO form-control' name='VOYNO' readonly></td><td><input type=text id='PRDTDESC' value="@rslt.PRDTDESC" class='PRDTDESC form-control' name='PRDTDESC' readonly></td><td><input type=text id='GPWGHT' value="@rslt.GPWGHT" class='GPWGHT form-control' name='GPWGHT' readonly></td><td class=hide><input type=text id='BILLEMID_MOD' value="@rslt.BILLEMID" class='BILLEMID_MOD form-control' name='BILLEMID_MOD'><input type=text id='IGMNO_MOD' value="@rslt.IGMNO" class='IGMNO_MOD form-control' name='IGMNO_MOD'><input type=text id='GPLNO_MOD' value="@rslt.GPLNO" class='GPLNO_MOD form-control' name='GPLNO_MOD'><input type=text id='DPAIDNO_MOD' value="@rslt.DPAIDNO" class='DPAIDNO_MOD form-control' name='DPAIDNO_MOD'><input type=text id='DPAIDAMT_MOD' value="@rslt.DPAIDAMT" class='DPAIDAMT_MOD form-control' name='DPAIDAMT_MOD'></td></tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class=" col-md-2">
+                                            <div class="form-group">
+                                                <label>Mode<span class="required-field"></span></label>
+                                                <br />
+                                                @Html.DropDownList("DOMODE", null, "Select", new { @class = "form-control DOMODE", @id = "DOMODE", @onchange = "ModeChange()", tabindex = "5000" })
+                                                @Html.TextBoxFor(model => Model.masterdata.DOMODEDETL, new { @class = "hide form-control  DOMODEDETL", @id = "DOMODEDETL" })
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class=" col-md-2">
+                                            <div class="form-group">
+                                                <label>Number</label>
+                                                @Html.TextBoxFor(model => Model.masterdata.DOREFNO, new { @class = "form-control  DOREFNO", @id = "DOREFNO", @data_Val = false, tabindex = "5003" })
+                                            </div>
+                                        </div>
+                                        <div class=" col-md-2">
+                                            <div class="form-group">
+                                                <label>Date</label>
+                                                @Html.TextBoxFor(model => Model.masterdata.DOREFDATE, "{0:dd/MM/yyyy}", new { @class = "form-control  datepicker DOREFDATE", @id = "DOREFDATE", @data_val = false, tabindex = "5004" })
+                                            </div>
+                                        </div>
+
+                                        <div class=" col-md-2">
+                                            <div class="form-group">
+                                                <label>Amount<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.masterdata.DOREFAMT, new { @class = "form-control  DOREFAMT", @id = "DOREFAMT", tabindex = "5006", @Value = "0.00" })
+                                            </div>
+                                        </div>
+                                        <div class=" col-md-4">
+                                            <div class="form-group">
+                                                <label>Bank</label>
+                                                @Html.DropDownList("BANKMID", null, "Please Select an Option", new { @class = "form-control BANKMID", @id = "BANKMID", tabindex = "5008" })
+
+                                                @Html.TextBoxFor(model => Model.masterdata.DOREFBNAME, new { @class = "hide form-control  DOREFBNAME", @id = "DOREFBNAME" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-12 box-footer">
+                                        <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+
+                                        <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" tabindex="6000" />
+
+                                    </div>
+                                </div>
+</fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section Scripts{
+
+    <script>
+        function ModeChange() {
+            var modeval = $("#DOMODE").val();
+            if ($("#DOMID").val() == "0") {
+                var DOMODEVAL = $("#DOMODE option:selected").text();
+                $(".DOMODEDETL").val(DOMODEVAL);
+                $("#DOREFNO").val("");
+                $("#DOREFDATE").val("");
+                $("#BANKMID").val("");
+            }
+            if (modeval != 2 && modeval != 3) {
+                $("#DOREFNO").attr('disabled', true);
+                $("#DOREFDATE").attr('disabled', true);
+                $("#BANKMID").attr('disabled', true);
+            }
+            else {
+                $("#DOREFNO").attr('disabled', false);
+                $("#DOREFDATE").attr('disabled', false);
+                $("#BANKMID").attr('disabled', false);
+            }
+        }
+
+        function GetTariff() {
+            $("#TARIFFMID").empty();
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetTariff", "DeliveryOrder")/' + $("#TARIFFGID option:selected").val(), // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    $("#TARIFFMID").append('<option>Select Tariff</option>');
+                    $.each(data, function (i, dataval) {
+                        $("#TARIFFMID").append('<option value="' + dataval.TARIFFMID + '">' + dataval.TARIFFMDESC + '</option>');
+
+                    });
+
+                },
+                error: function (ex) {
+                    alert('Failed to data ' + ex);
+                }
+            });
+        }
+
+        function GetCHADetail() {
+            var IGM_No = $("#OSMIGMNO").val();
+            var Line_No = $("#OSMLNO").val();
+            base = window.location.origin;
+           // url = base + "/DeliveryOrder/GetCHADetail/" + IGM_No + ";" + Line_No;
+            url = base + "/DeliveryOrder/GetCHADetail";
+
+            $.ajax({
+                type: 'get',
+                url: url,
+                data: {id:IGM_No + ";" + Line_No},
+                success: function (data, status) {
+                    if (data != "") {
+                        $("#DOREFID").val(data[0].CHAID);
+                        $("#DOREFNAME").val(data[0].BILLEMNAME);
+                        $("#F_DPAIDNO").val(data[0].DPAIDNO);
+                        $("#F_DPAIDAMT").val(data[0].DPAIDAMT);
+                        $("#BILLEMID").val(data[0].BILLEMID);
+                    }
+                }
+            });//-----End of post
+            //return false;
+
+            $("#table_grid").html("");
+
+            url1 = base + "/DeliveryOrder/Detail";
+            $.ajax({
+                type: 'get', url: url1,
+                data: { id: IGM_No + ";" + Line_No },
+                success: function (data, status) {
+                    $("#table_grid").html(data);
+                    if ($("#mytabl tbody tr").length == 0) { $("#table_grid").html("<p style='color:red'>There is no OpenSheet Record for Given IGMNO & LineNo</p>"); }
+                    else {
+
+                        $("#table_grid").html(data);
+                    }
+                }
+            });//-----End of post
+            return false;
+        }
+        $(document).ready(function () {
+
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+            //-----------DATE CONTROLS----------------//
+            
+            $(".datepicker").removeAttr('DODATE').removeClass('hasDatepicker');
+            $(".datepicker").removeAttr('OOCDATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date() });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+            if ($(".DOMID").val() == "") {
+                $(".DOMID").val("0");
+            }
+
+            if ($(".DOMID").val() == "0" || $(".DOMID").val() == "") {
+                var dt = new Date();
+                var month = dt.getMonth() + 1;
+                var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                var datetme = time;
+
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = (dt.getMonth() + 1).toString();
+                var day = dt.getDate().toString();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+               
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                //var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                console.log(hours + ':' + minutes + ':' + seconds);
+
+                var time = hours + ':' + minutes + ':' + seconds;
+                var datetme = date + " " + time;
+                $(".datepicker").val(date);
+                $(".timepicker").val(time);
+                $(".datepicker").val(date)
+                $(".DOTIME").val(time);
+                $("#DOVDATE").val(date);
+
+
+            }
+            //--------------END OF DATE CONTROLS----------//
+
+
+
+
+            //------------------------------Opensheet Detail Table Edit---------------
+
+            if (($("#DOMID").val()) != 0) {
+
+                ModeChange();
+            }//---------End of If
+
+
+
+        });//---End of Document Ready Event------------------
+
+
+
+
+        $(window).bind("load", function () {
+            if ($(".DOMID").val() == "") {
+                $(".DOMID").val("0");
+            }
+            if ($(".OSDID").val() == 0) {
+                $(".OSDID").val("");
+
+            }
+            //count = 500;
+            //$('.DODID').each(function (k) {
+
+            //    $("#TDETAIL #STFDIDS,#TRANEDATE").attr('tabindex', count++);
+            //});
+
+        });
+
+
+        function Form_validate() {
+            if ($("#DODATE").val() == "") {
+                alert("Please Enter Date");
+                $("#DODATE").focus();
+                return false;
+            }
+            if ($("#DOTIME").val() == "") {
+                alert("Please Enter Time");
+                $("#DOTIME").focus();
+                return false;
+            }
+            if ($("#TARIFFGID").val() == "" || $("#TARIFFGID option:selected").text() == "Select Tariff Group") {
+                alert("Please Select Tariff Group Properly");
+                $("#TARIFFGID").focus();
+                return false;
+            }
+            if ($("#TARIFFMID").val() == "" || $("#TARIFFMID option:selected").text() == "Select Tariff") {
+                alert("Please Select Tariff Properly");
+                $("#TARIFFID").focus();
+                return false;
+            }
+            if ($("#OSMIGMNO").val() == "") {
+                alert("Please Enter IGM No Properly");
+                $("#OSMIGMNO").focus();
+                return false;
+            }
+            if ($("#OSMLNO").val() == "") {
+                alert("Please Enter Line No Properly");
+                $("#OSMLNO").focus();
+                return false;
+            }
+            if ($("#DOREFID").val() == "") {
+                alert("Please Check CHA Details of Searched IGM No / Line No ");
+                $("#OSMLNO").focus();
+                return false;
+            }
+            if ($("#DOVDATE").val() == "") {
+                alert("Please Enter Validate Date Properly");
+                $("#DOVDATE").focus();
+                return false;
+            }
+
+            if ($("#table_grid").html() == "There is no OpenSheet Record for Given IGMNO & LineNo") { return false; }
+            if ($("#DOMODEDETL").val() == "" || $("#DOMODEDETL option:selected").text() == "Select") {
+                alert("Please Select Mode");
+                $("#DOMODEDETL").focus();
+                return false;
+            }
+            if ($("#DOREFAMT").val() == "") {
+                alert("Please Enter Amount");
+                $("#DOREFAMT").focus();
+                return false;
+            }
+        }
+    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

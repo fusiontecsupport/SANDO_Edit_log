@@ -1,0 +1,112 @@
+﻿@using scfs_erp.Models;
+
+
+@model scfs_erp.Models.AccountHeadMaster
+
+
+@{
+    ViewBag.Title = "Account Head Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Account Head Master form</strong>
+                </div>
+            </div>
+
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/AccountHeadMaster/savedata")" method="post" accept-charset="utf-8" id="accountheadmasterform" data-ng-controller="myController" name="accountheadmasterform">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="AccountHeadMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.ACHEADID, new { @class = "form-control  ACHEADID", @id = "ACHEADID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span>  </label>
+                                        @Html.TextBoxFor(model => Model.ACHEADCODE, new { @class = "form-control ACHEADCODE", @id = "ACHEADCODE" })
+                                        <input type="text" value="@Model.ACHEADCODE" name="i_ACHEADCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span>  </label>
+                                        @Html.TextBoxFor(model => Model.ACHEADDESC, new { @class = "form-control  ACHEADDESC", @id = "ACHEADDESC" })
+                                        <input type="text" value="@Model.ACHEADDESC" name="i_ACHEADDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Account Group<span class="required-field"></span>  </label>
+                                        @Html.DropDownList("ACHEADGID", null, "Please select", new { @class = "form-control  ACHEADGID", @data_val = "true", @data_val_required = "Field is required", @id = "ACHEADGID" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>HSN Code<span class="required-field"></span>  </label>
+                                        @Html.DropDownList("HSNID", null, new { @class = "form-control  HSNID", @data_val = "true", @data_val_required = "Field is required", @id = "HSNID" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                <a href="@Url.Action("Index", "AccountHeadMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />
+
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

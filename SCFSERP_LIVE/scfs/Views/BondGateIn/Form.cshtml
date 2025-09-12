@@ -1,0 +1,784 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.BondGateInDetail
+
+@{
+    ViewBag.Title = "In-Bond Gate IN";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+</style>
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-export"></i>&nbsp;
+                            <strong>@ViewBag.Title</strong>
+                        </div>
+                    </div>@Html.Raw(ViewBag.msg)
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/BondGateIn/SaveData")" method="post" accept-charset="utf-8" id="bondgateinform" data-ng-controller="myController" name="bondgateinform" onsubmit="return Form_validate();">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="BondGateInForm_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3 hidden">
+                                            <div class="form-group">
+                                                <label>Primary</label>
+
+                                                @Html.HiddenFor(model => Model.GIDID, new { @class = "form-control  GIDID", @id = "GIDID", @tabindex = "-1" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bond No<span class="required-field"></span> </label>
+                                                <input type="text" id="BNDDNO" class="BNDDNO form-control" name="BNDDNO" value="@ViewBag.BNDDNO" data-autocomplete-url=@Url.Action("AutoBondNo", "BondGateIn") onchange="GetBondDtl();" placeholder="----Please Select----" tabindex="1">
+                                                @Html.HiddenFor(model => Model.BNDID, new { @class = "form-control  BNDID", @id = "BNDID", @tabindex = "-1" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>No<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.GINO, new { @class = "form-control  GINO", @id = "GINO", @readonly = true, @tabindex = "-1" })
+                                                @Html.ValidationMessageFor(model => model.GINO)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>GI Date<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.GIDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker GIDATE", @id = "GIDATE", @data_val = false, @tabindex = "2" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>In Time<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.GITIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker  GITIME", @id = "GITIME", @data_val = false, @placeholder = "HH:mm", @tabindex = "3" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>CHA Name<span class="required-field"></span> </label>
+                                                <input type="text" id="CHANAME" class="CHANAME form-control" name="CHANAME" readonly value="@ViewBag.CHANAME" data-autocomplete-url=@Url.Action("AutoChaname", "BondGateIn") placeholder="----Please Select----" tabindex="-1">
+                                                @Html.TextBoxFor(model => Model.CHAID, new { @class = "hide form-control CHAID", @id = "CHAID" })
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Importer Name<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.IMPRTNAME, new { @class = "form-control IMPRTNAME", @readonly = "readonly", @id = "IMPRTNAME", data_autocomplete_url = Url.Action("AutoImporter", "BondGateIn"), @data_val = "true", @data_val_required = "Field is required", @placeholder = "----Please Select----", @tabindex = "-1" })
+                                                @Html.TextBoxFor(model => Model.IMPRTID, new { @class = "hide form-control IMPRTID", @id = "IMPRTID" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>BE No</label>
+                                                <input type="text" id="BNDBENO" readonly class="BNDBENO form-control" name="BNDBENO" tabindex="-1">
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>BE Date</label>
+                                                <input type="text" id="BNDBEDATE" readonly class="BNDBEDATE form-control" name="BNDBEDATE" tabindex="-1">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>BL Number </label>
+                                                <input type="text" id="BNDBLNO" readonly class="BNDBLNO form-control" name="BNDBLNO" tabindex="-1">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>BL Date<span class="required-field"></span> </label>
+                                                <input type="text" id="BNDBLDATE" readonly class="BNDBLDATE form-control" name="BNDBLDATE" tabindex="-1">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+
+                                        
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bond Type </label>
+                                                <input type="text" id="BNDTYPE" readonly class="BNDTYPE form-control" name="BNDTYPE" tabindex="-1">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>20" </label>
+                                                <input type="text" id="BND20MAX" readonly class="BND20MAX form-control" name="BND20MAX" tabindex="-1">
+                                                <input type="text" id="BND20BAL" readonly class="BND20BAL hide form-control" name="BND20BAL" tabindex="-1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>40" </label>
+                                                <input type="text" id="BND40MAX" readonly class="BND40MAX form-control" name="BND40MAX" tabindex="-1">
+                                                <input type="text" id="BND40BAL" readonly class="BND40BAL hide form-control" name="BND40BAL" tabindex="-1">
+
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bond Grs.Weight</label>
+                                                <input type="text" id="BNDGWGHT" readonly class="BNDGWGHT form-control" name="BNDGWGHT" tabindex="-1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bond NOP</label>
+                                                <input type="text" id="BNDNOP" readonly class="BNDNOP form-control" name="BNDNOP" tabindex="-1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bond Space<span class="required-field"></span></label>
+                                                <input type="text" id="BNDSPC" readonly class="BNDSPC form-control" name="BNDSPC" tabindex="-1">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Driver Name<span class="required-field"></span>  </label>
+                                                @Html.TextBoxFor(model => Model.DRVNAME, new { @class = "form-control  DRVNAME", @id = "DRVNAME", @maxlength = "100", @tabindex = "4" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Transporter Name<span class="required-field"></span> </label>
+
+                                                @Html.TextBoxFor(model => Model.TRNSPRTNAME, new { @class = "form-control TRNSPRTNAME", @id = "TRNSPRTNAME", data_autocomplete_url = Url.Action("AutoTransporter", "BondGateIn"), @data_val = "true", @data_val_required = "Field is required", @placeholder = "----Please Select----", @tabindex = "5" })
+                                                @Html.TextBoxFor(model => Model.TRNSPRTID, new { @class = "form-control hide  TRNSPRTID", @id = "TRNSPRTID" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Vehicle No<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.VHLNO, new { @class = "form-control  VHLNO", @id = "VHLNO", @maxlength = "15", @onkeydown = "return isAlphaNumberOnlyKey(event);", tabindex = "6" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Steamer Name<span class="required-field"></span> </label>
+
+                                                <input type="text" id="STMRNAME" class="STMRNAME form-control" name="STMRNAME" value="@ViewBag.STMRNAME" data-autocomplete-url=@Url.Action("AutoSteamer", "BondGateIn") placeholder="----Please Select----" tabindex="7">
+                                                @Html.TextBoxFor(model => Model.STMRID, new { @class = "hide form-control STMRID", @id = "STMRID" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>IGM No.<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.IGMNO, new { @class = "form-control IGMNO", @id = "IGMNO", tabindex = "8", @maxlength = "-1", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Line No<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.GPLNO, new { @class = "form-control  GPLNO", @id = "GPLNO", @required = "required", tabindex = "8", @maxlength = "15" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 contfrm">
+                                            <div class="form-group">
+                                                <label>Container No<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.CONTNRNO, new { @class = "form-control  CONTNRNO", @id = "CONTNRNO", @required = "required", tabindex = "9", @maxlength = "15" }) @*@onchange = "CheckContr(CONTNRNO,this)",*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 contfrm">
+                                            <div class="form-group">
+                                                <label>Container Size<span class="required-field"></span> </label>
+                                                @Html.DropDownList("CONTNRSID", null, "Select", new { @class = "form-control CONTNRSID", @id = "CONTNRSID", @tabindex = "10" })
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-2 contfrm">
+                                            <div class="form-group">
+                                                <label>Container Type<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.CONTNRTID)*@
+                                                @Html.DropDownList("CONTNRTID", null, "Select", new { @class = "form-control CONTNRTID", @id = "CONTNRTID", @tabindex = "11" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Cargo Received From <span class="required-field"></span> </label>
+                                                @Html.DropDownList("CONTNRRCVFRM", null, "Please Select", new { @class = "form-control CONTNRRCVFRM", @tabindex = 12, @id = "CONTNRRCVFRM" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-12 crgrecoth">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label> Received From (If Others) </label>
+                                                @Html.TextBoxFor(model => Model.CONTNRRCVFRMOTH, new { @class = "form-control  CONTNRRCVFRMOTH", @id = "CONTNRRCVFRMOTH", tabindex = "13", @maxlength = "100" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 hide">
+                                            <div class="form-group">
+                                                <label>Vessel Name<span class="required-field"></span> </label>
+                                                @Html.DropDownList("VSLNAME", null, "Please Select Vessel", new { @class = "form-control VSLNAME", @id = "VSLNAME", @tabindex = "-1" , @value="1"}) @*, @onchange="CheckVsl();"*@
+                                                @Html.TextBoxFor(model => Model.VSLID, new { @class = "hide form-control VSLID", @id = "VSLID", @value = "1" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 hide">
+                                            <div class="form-group">
+                                                <label>Voyage No </label>
+                                                @Html.TextBoxFor(model => Model.VOYNO, new { @class = "form-control  VOYNO", @id = "VOYNO", @tabindex = "-1", @value ="-",@maxlength = "10", @onkeydown = "return isAlphaNumberOnlyKey(event);" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Product Category<span class="required-field"></span> </label>
+                                                @Html.DropDownList("PRDTGID", null, "Please Select an Option", new { @class = "form-control", @tabindex = "14" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-12">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Cargo Description<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => model.PRDTDESC, new { @class = "form-control  PRDTDESC", @readonly= "readonly", @id = "PRDTDESC", @maxlength = "100", @tabindex = "15" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Nop<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.GPNOP, new { @class = "form-control number GPNOP", @id = "GPNOP", @onkeypress = "return isNumberCommaDot(event)", @tabindex = "16", @maxlength = "15" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Weight (in MT)<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.GPWGHT, new { @class = "form-control wgtnumber  GPWGHT", @id = "GPWGHT", @onkeypress = "return isNumberCommaDot(event)", @tabindex = "17", @maxlength = "15" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Cargo Type<span class="required-field"></span> </label>
+                                                @Html.DropDownList("PRDTTID", null, "Please Select", new { @class = "form-control", @tabindex = "18" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>Remarks  </label>
+                                                @Html.TextBoxFor(model => Model.GIREMKRS, new { @class = "form-control  GIREMKRS", @id = "GIREMKRS", tabindex = "19", @maxlength = "50" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Status<span class="required-field"></span> </label>
+                                                @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS", @tabindex = "20" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 box-footer">
+
+                                        <a href="@Url.Action("Index", "BondGateIn")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')" tabindex="22">Go Back</a>
+                                        <input type="button" name="save2" value="Submit" id="btnsave" class="btn btn-success btn-xs" tabindex="21" />
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    <script>
+
+        function CheckVsl() {
+            var VSLID = $('#VSLNAME').val();
+            $('#VSLID').val(VSLID);
+        }
+        $(".CONTNRRCVFRM").change(function () {
+            CargoRecvdChange();
+
+
+        });
+
+        function CargoRecvdChange() {
+            var crgrcdfrm = $(".CONTNRRCVFRM").val();
+            if (crgrcdfrm == "2") {
+                $(".crgrecoth").show();
+            }
+            else
+            {
+                $(".crgrecoth").val("-");
+                $(".crgrecoth").hide();
+            }
+
+        }
+
+        function GetBondDtl() {
+            id = $("#BNDID").val();
+            if (id != "" && id != null && id != "0") {
+                //alert(id);
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("GetBondDetail", "BondGateIn")?id=' + id, // we are calling json method
+
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data, function (i, dataval) {
+                            $("#BNDDATE").val(dataval.BNDDATE);
+                            $("#IMPRTID").val(dataval.IMPRTID);
+                            $("#CHAID").val(dataval.CHAID);
+                            $("#BNDBENO").val(dataval.BNDBENO);
+                            $("#BNDBLNO").val(dataval.BNDBLNO);
+                            $("#IGMNO").val(dataval.BNDIGMNO);
+                            $("#LINENO").val(dataval.BNDLINENO);
+                            $("#BND20MAX").val(dataval.BND20);
+                            $("#BND40MAX").val(dataval.BND40);
+                            $("#BNDGWGHT").val(dataval.BNDGWGHT);
+                            $("#PRDTGID").val(dataval.PRDTGID);
+                            $("#PRDTDESC").val(dataval.PRDTDESC);
+                            $("#PRDTTID").val(dataval.PRDTTID);
+                            $("#BNDNOP").val(dataval.BNDNOP);
+                            $("#BNDSPC").val(dataval.BNDSPC);
+                            $("#BNDBEDATE").val(dataval.BNDBEDATE);
+                            $("#BNDBLDATE").val(dataval.BNDBLDATE);
+                            $("#BNDTYPE").val(dataval.BNDTYPEDESC);
+                            $("#IMPRTNAME").val(dataval.IMPRTRNAME);
+                            $("#CHANAME").val(dataval.CHANAME);
+                            $("#BND20BAL").val(dataval.BND20BAL);
+                            $("#BND40BAL").val(dataval.BND40BAL);
+                            if (dataval.BNDTYPEDESC != 'FCL') {
+
+                                $(".CONTNRNO").val('-');
+                                $(".CONTNRSID").val(2);
+                                $(".CONTNRTID").val(1);
+
+                                $(".contfrm").hide();
+                            }
+                            else {
+                                $(".contfrm").show();
+                            }
+                            $("#GIDATE").focus();
+
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to data ' + ex);
+                    }
+                });
+            }
+        }
+
+        $(".CONTNRNO").on("change", function () {
+            var bndids = $(".BNDID").val();
+            //alert(bndids);
+            if (bndids = "" || bndids == "0") {
+                alert('Please select Bond First');
+                $(".CONTNRNO").val("");
+                $(".BNDID").focus();
+            }
+
+            else if ($(".CONTNRNO").is(":visible")) // Condition added by Rajesh on 29-07-2021
+            {
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("CheckBondContainerDuplicate", "BondGateIn")/' + $(".CONTNRNO").val() + "~" + $(".BNDID").val(), // we are calling json method
+
+                    success: function (data) {
+
+                        if (data != "PROCEED") {
+                            //alert(data);
+                            $(".CONTNRNO").val("");
+                            $(".CONTNRNO").focus();
+                        }
+                    },
+                    error: function (ex) {
+                        alert('Failed to data ' + ex);
+                    }
+                });
+            }
+        });
+
+
+        function GetGodownDtl() {
+            $("#GWNID").empty();
+
+            id = $("#GDWNTYPE").val();
+
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetGodownDtl", "BondGateIn")?id=' + id, // we are calling json method
+
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, dataval) {
+
+                        $("#GWNID").append('<option value="' + dataval.GWNID + '">' + dataval.GWNDESC + '</option>');
+
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to data ' + ex);
+                }
+            });
+        }
+        $("#btnsave").click(function () {
+            flag = true;
+            var b20mx = $('#BND20MAX').val(); var b20bl = eval($('#BND20BAL').val());
+            var b40mx = $('#BND40MAX').val(); var b40bl = eval($('#BND40BAL').val());
+            var contnrsid = $('#CONTNRSID').val();
+            if (((b20bl <= 0 && contnrsid == 3) || (b40bl <= 0 && contnrsid > 3) ) )
+            {
+                alert('Please Check Container Size, Number of containers exceeded than Bond Containers Limit!!');
+                flag = false;
+                $('#CONTNRSID').focus();
+            }
+            else if ($('#BNDDNO').val() == "") {
+                alert('Please Enter Bond No. !!');
+                flag = false;
+                $('#BNDDNO').focus();
+            }
+            else if ($('#GIDATE').val() == "") {
+                alert('Please Enter Gate In Date !!');
+                flag = false;
+                $('#GIDATE').focus();
+            }
+            else if ($('#GITIME').val() == "") {
+                alert('Please Enter Gate IN Time !!');
+                flag = false;
+                $('#GITIME').focus();
+            }
+            else if ($('#DRVNAME').val() == "") {
+                alert('Please Enter Driver Name !!');
+                flag = false;
+                $('#DRVNAME').focus();
+            }
+            else if ($('#TRNSPRTNAME').val() == "") {
+                alert('Please Select Transporter Name !!');
+                flag = false;
+                $('#TRNSPRTNAME').focus();
+            }
+            else if ($('#TRNSPRTID').val() == "" || $('#TRNSPRTID').val() == "0") {
+                alert('Please Select Transporter Name !!');
+                flag = false;
+                $('#TRNSPRTNAME').focus();
+            }
+            else if ($('#CHANAME').val() == "") {
+                alert('Please Select CHA Name !!');
+                flag = false;
+                $('#CHANAME').focus();
+            }
+            else if ($('#CHAID').val() == "" || $('#CHAID').val() == "0") {
+                alert('Please Select CHA Name !!');
+                flag = false;
+                $('#CHANAME').focus();
+            }
+            else if ($('#IMPRTNAME').val() == "") {
+                alert('Please Select Importer Name !!');
+                flag = false;
+                $('#IMPRTNAME').focus();
+            }
+            else if ($('#IMPRTID').val() == "" || $('#IMPRTID').val() == "0") {
+                alert('Please Select Importer Name !!');
+                flag = false;
+                $('#IMPRTNAME').focus();
+            }
+            else if ($('#STMRNAME').val() == "") {
+                alert('Please Select Steamer Name !!');
+                flag = false;
+                $('#STMRNAME').focus();
+            }
+            else if ($('#STMRID').val() == "" || $('#STMRID').val() == "0") {
+                alert('Please Select Steamer Name !!');
+                flag = false;
+                $('#STMRNAME').focus();
+            }
+            else if ($('#CNTNRSID').val() == "" || $('#CNTNRSID').val() == "0") {
+                alert('Please Select Container Size !!');
+                flag = false;
+                $('#CNTNRSID').focus();
+            }
+            else if ($('#CNTNRNO').val() == "") {
+                alert('Please Enter Container No !!');
+                flag = false;
+                $('#CNTNRNO').focus();
+            }
+            else if ($('#CONTNRTID').val() == "") {
+                alert('Please Select Container Type !!');
+                flag = false;
+                $('#CONTNRTID').focus();
+            }
+            else if ($('#CONTNRRCVFRM').val() == "") {
+                alert('Please Select Container Received From !!');
+                flag = false;
+                $('#CONTNRRCVFRM').focus();
+            }
+            //else if ($('#VSLNAME').val() == "") {
+            //    alert('Please Select Vessel !!');
+            //    flag = false;
+            //    $('#VSLNAME').focus();
+            //}
+            //else if ($('#VOYNO').val() == "") {
+            //    alert('Please Select Voyage No !!');
+            //    flag = false;
+            //    $('#VOYNO').focus();
+            //}
+            else if ($('#PRDTGID').val() == "") {
+                alert('Please Select Cargo Category !!');
+                flag = false;
+                $('#PRDTGID').focus();
+            }
+            else if ($('#PRDTDESC').val() == "") {
+                alert('Please Enter Cargo Description !!');
+                flag = false;
+                $('#PRDTDESC').focus();
+            }
+            else if ($('#GPNOP').val() == "") {
+                alert('Please Enter NOP !!');
+                flag = false;
+                $('#GPNOP').focus();
+            }
+            else if ($('#GPWGHT').val() == "") {
+                alert('Please Enter Weight !!');
+                flag = false;
+                $('#GPWGHT').focus();
+            }
+            else if ($('#PRDTTID').val() == "") {
+                alert('Please Select Cargo Type !!');
+                flag = false;
+                $('#PRDTTID').focus();
+            }
+            //else if ($('#BNDBEDATE').val() == "") {
+            //    alert('Please Enter BE Date !!');
+            //    flag = false;
+            //    $('#BNDBEDATE').focus();
+            //}
+            //else if ($('#BNDBLNO').val() == "") {
+            //    alert('Please Enter BL No !!');
+            //    flag = false;
+            //    $('#BNDBLNO').focus();
+            //}
+            //else if ($('#BNDBLDATE').val() == "") {
+            //    alert('Please Enter BL Date !!');
+            //    flag = false;
+            //    $('#BNDBLDATE').focus();
+            //}
+            //else if ($('#BNDIGMNO').val() == "") {
+            //    alert('Please Enter IGM No !!');
+            //    flag = false;
+            //    $('#BNDIGMNO').focus();
+            //}
+            //else if ($('#BNDTYPE').val() == "") {
+            //    alert('Please Select Bond Type !!');
+            //    flag = false;
+            //    $('#BNDTYPE').focus();
+            //}
+
+
+            //else if (($('#BND20').val() == "" && $('#BND40').val() == "") || ($('#BND20').val() == "0" && $('#BND40').val() == "0"))
+            //{
+            //    alert('Please Enter No of 20" or 40" Containers !!');
+            //    flag = false;
+            //    $('#BND20').focus();
+            //}
+
+            else if ($('#GPNOP').val() == "" || $('#GPNOP').val() == "0") {
+                alert('Please Enter NOP !!');
+                flag = false;
+                $('#GPNOP').focus();
+            }
+            else if ($('#GPWGHT').val() == "" || $('#GPWGHT').val() == "0") {
+                alert('Please Enter Weight !!');
+                flag = false;
+                $('#GPWGHT').focus();
+            }
+            else if ($('#GWNID').val() == "" || $('#GWNID').val() == "0") {
+                alert('Please Enter Godown !!');
+                flag = false;
+                $('#GWNID').focus();
+            }
+            else if ($('#PRDTGID').val() == "" || $('#PRDTGID').val() == "0") {
+                alert('Please Select Product Category !!');
+                flag = false;
+                $('#PRDTGID').focus();
+            }
+            else if ($('#PRDTDESC').val() == "") {
+                alert('Please Enter Product Description !!');
+                flag = false;
+                $('#PRDTDESC').focus();
+            }
+            else if ($('#PRDTTID').val() == "" || $('#PRDTTID').val() == "0") {
+                alert('Please Select Cargo Type !!');
+                flag = false;
+                $('#PRDTTID').focus();
+            }
+
+            if (flag) {
+
+                var tab = ($("#bondgateinform").serialize());
+                //console.log(tab);
+                var r = confirm("Are you sure to submit this record ?");
+
+                if (r == true) {
+                    $("#btnsave").attr("disabled", "disabled");
+                    //console.log(myfrm);
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Action("SaveData", "BondGateIn")', // we are calling json method
+                        data: tab,
+                        success: function (data) {
+                            if (data == "Exists") {
+
+                                $('<div></div>').dialog({
+                                    modal: true,
+                                    title: "Alert",
+                                    open: function () {
+                                        var markup = '<b>Container number already exists ...!!<b>';
+                                        $(this).delay(1200).fadeOut(1000);
+                                        $(this).html(markup);
+                                    },
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                            var returnurl = '@Url.Action("Index", "BondGateIn")';
+                                            window.location.href = returnurl;
+                                        }
+                                    }
+                                });
+
+                            }
+                            else if (data == "Success") {
+
+
+                                $('<div></div>').dialog({
+                                    modal: true,
+                                    title: "Information",
+                                    open: function () {
+                                        var markup = '<b>Saved Successfully !!<b>';
+                                        $(this).delay(1200).fadeOut(1000);
+                                        $(this).html(markup);
+                                        $("#btnsave").removeAttr("disabled", "disabled");
+                                    },
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                            var returnurl = '@Url.Action("Index", "BondGateIn")';
+                                            window.location.href = returnurl;
+                                        }
+                                    }
+                                });
+
+                            }
+                            else {
+                                $('<div></div>').dialog({
+                                    modal: true,
+                                    title: "Error",
+                                    open: function () {
+                                        var markup = '<b>' + data + ' !!<b>';
+                                        $(this).delay(1200).fadeOut(1000);
+                                        $(this).html(markup);
+                                        $("#btnsave").removeAttr("disabled", "disabled");
+                                    },
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                           // var returnurl = '@Url.Action("Index", "BondGateIn")';
+                                            //window.location.href = returnurl;
+                                        }
+                                    }
+                                });
+
+                            }
+                        },
+                        error: function (ex) {
+                            alert('Failed to save data');
+                            $("#btnsave").removeAttr("disabled", "disabled");
+                        }
+                    });
+                }
+            }
+        });
+
+        $(document).ready(function () {
+
+            $("#BNDDNO").focus();
+            if ($("#BNDID").val() != "" && $("#BNDID").val() != "0") { GetBondDtl(); }
+
+
+            $(".datepicker").removeAttr('GIDATE').removeClass('hasDatepicker');
+
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+
+            $(function () {
+                add_autocomplete($("#BNDDNO"), "BNDDNO,BNDID");   //---AutoComplete function for BOND INFORMATION-----
+                add_autocomplete($("#IMPRTNAME"), "IMPRTNAME,IMPRTID");   //---AutoComplete function for IMPORTER-----
+                add_autocomplete($("#CHANAME"), "CHANAME,CHAID");           //---AutoComplete function for CHANAME-----
+                add_autocomplete($("#STMRNAME"), "STMRNAME,STMRID");   //---AutoComplete function for Steamer-----
+                add_autocomplete($("#TRNSPRTNAME"), "TRNSPRTNAME,TRNSPRTID");           //---AutoComplete function for Transporter-----
+
+                $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+
+                $('.datetime').datetimepicker({
+                    dateFormat: 'dd/mm/yy',
+                    timeFormat: 'hh:mm'
+                });
+
+            });
+        });
+
+    </script>
+
+
+}

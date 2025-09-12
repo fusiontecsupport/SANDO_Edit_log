@@ -1,0 +1,112 @@
+﻿@model IEnumerable<scfs_erp.Models.ExportTariffMaster>
+@{
+    ViewBag.Title = "Export Tariff Master";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+                </div>
+                <div class="box-icons">
+                    <button onclick="parent.location = '@Url.Action("Form","ExportTariffMaster")'; return false;" class=" btn-success"> Create New </button>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content no-padding">
+                <br />
+                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>
+                                Code
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Status
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('hidden.bs.modal', function (e) {
+                var target = $(e.target);
+                // location.reload();
+                target.removeData('bs.modal')
+                    .find(".modal-content").html('');
+            });
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ExportTariffMaster")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+
+                    { "sName": "" },
+
+                    { "sName": " ", "sClass": "action" },
+
+                    { "sName": "" },
+                    {
+                        "sClass": "col-md-2 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-primary btn-xs"  href="@Url.Action("Edit","ExportTariffMaster")/' +
+                                oObj.aData[3] + '\"  " title="Modify"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;' +
+                                @*'<a class="btn btn-warning btn-xs" href="@Url.Action("TForm","ExportTariffMaster")/' +
+                                oObj.aData[3] + '\"  " data-toggle="modal" data-target="#myModal" title="Operation Type">T</a>  &nbsp;&nbsp;' +*@
+                                '<a  class="btn btn-danger btn-xs del" href="#" id="' +
+                                oObj.aData[3] + '\"><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+
+            //-------------Delete record------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ExportTariffMaster/Del",
+                        {
+                            id: idx, fld: ""
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted Successfully ...")
+                                location.replace(base + "/ExportTariffMaster");
+                        });
+                }
+                return false;
+            });//End
+        });
+    </script>
+}<!-- Modal -->
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+</div>
+
+<!-- /.modal -->

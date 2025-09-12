@@ -1,0 +1,141 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.UnitMaster
+
+
+@{
+    ViewBag.Title = "Unit Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Unit Master</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                @*<form action="@Url.Content("~/UnitMaster/savedata")" method="post" accept-charset="utf-8" id="unitmasterform" data-ng-controller="myController" name="unitmasterform">*@
+                <form>
+                    @Html.ValidationSummary(true)
+                    <fieldset id="unitMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.UNITID, new { @class = "form-control  UNITID", @id = "UNITID" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.UNITCODE)*@
+                                        @Html.TextBoxFor(model => Model.UNITCODE, new { @class = "form-control UNITCODE", @id = "UNITCODE" })
+                                        <input type="text" value="@Model.UNITCODE" name="i_UNITCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span> </label>@*@Html.ValidationMessageFor(model => model.UNITDESC)*@
+                                        @Html.TextBoxFor(model => Model.UNITDESC, new { @class = "form-control  UNITDESC", @id = "UNITDESC" })
+                                        <input type="text" value="@Model.UNITDESC" name="i_UNITDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DISPSTATUS)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                <a href="@Url.Action("Index", "UnitMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                @*<input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />*@
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $('#btnsave').click(function () {
+        if ($('#UNITCODE').val() == "") {
+            alert('Please Enter Code !!');
+            $('#UNITCODE').focus();
+            return false;
+        }
+        if ($('#UNITDESC').val() == "") {
+            alert('Please Enter Description !!');
+            $('#UNITDESC').focus();
+            return false;
+        }
+
+        var pdate = new Date();
+
+        if ($('#UNITID').val() == "") { $('#UNITID').val(0); }
+
+        var tab = {
+            UNITID: $('#UNITID').val(),
+            UNITCODE: $('#UNITCODE').val(),
+            UNITDESC: $('#UNITDESC').val(),
+            STATETYPE: $('#STATETYPE').val(),
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: 1,
+            PRCSDATE: pdate
+        };
+        $.ajax({
+            url: "/UnitMaster/savedata",
+            data: JSON.stringify(tab),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('Unit Master Details Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "UnitMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('Unit Master Details Inserted Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "UnitMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('Unit Master Details Already Inserted !! ');
+                    $('#UNITCODE').val("");
+                    $('#UNITDESC').val("");
+                    var returnurl = "@Url.Action("Form", "UnitMaster")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+
+    });
+</script>
+
+
+}

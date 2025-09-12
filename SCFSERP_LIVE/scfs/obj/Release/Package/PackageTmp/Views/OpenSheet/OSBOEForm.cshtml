@@ -1,0 +1,174 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.OpenSheetMaster
+
+@{
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Form";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    .ui-autocomplete {
+        position: absolute;
+        cursor: default;
+        z-index: 4000 !important;
+    }
+</style>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form id="Opensheettchaform" class="Opensheettchaform" method="post" action="@Url.Action("OpenSheet","boenosavedata")" autocomplete="on">
+            <div class="modal-header">
+                
+                <h4 class="modal-title">BOE No Update</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="TRANMID" class="TRANMID hide form-control" name="TRANMID" value="@ViewBag.TRANMID">
+                <input type="text" id="OSMID" class="OSMID hide form-control" name="OSMID" value="@ViewBag.OSMID">
+
+
+                <div class="form-group col-lg-12">
+
+                    <div class="form-group col-lg-6">
+
+                        <label>CHA(Tally) Name  </label>
+
+                        <input type="text" class="OSMNAME form-control" name="OSMNAME" id="OSMNAME" value="@ViewBag.OSMNAME" readonly />
+                        <input type="text" class="CHAID form-control hide" name="CHAID" id="CHAID" value="@ViewBag.CHAID" />
+
+
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Date<span class="required-field"></span> </label>
+
+
+                        <input type="text" id="OSMDATE" class="OSMDATE form-control" name="OSMDATE" value="@ViewBag.OSMDATE" readonly>
+
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Opensheet No</label>
+                        <input type="text" id="OSMDNO" class="OSMDNO form-control" name="OSMDNO" value="@ViewBag.OSMDNO" readonly="readonly">
+
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Old BOE No</label>
+                        <input type="text" id="OLDBOENO" class="OLDBOENO form-control" name="OLDBOENO" value="@ViewBag.OSP_BOENO" readonly="readonly">
+
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>New BOE No</label>
+                        <input type="number" id="BOENO" class="BOENO form-control" name="BOENO" value="" maxlength="10">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>New BOE Date</label>
+                        <input type="text" id="BOEDATE" class="BOEDATE form-control" name="BOEDATE" value="@ViewBag.BOEDATE" maxlength="15">
+                        @*@Html.TextBox("DODATE", "", new { @class = "form-control  DODATE", @value = ViewBag.DODATE,  @id = "DODATE", @data_val = false })*@
+                    </div>
+
+
+
+                </div>
+
+                <div class="clearfix"> </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="btnclose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="btnsave">Update</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[id$=BOEDATE]').datepicker({
+            dateFormat: 'dd/mm/yy',
+            autoclose: true,
+            endDate: "today",
+            //maxDate: new Date()+90,
+            onClose: function (dateText, inst) {
+                $("#BOEDATE").focus();
+            }
+        });
+        $('.BOEDATE').removeClass('hasDatepicker');
+        $(".datepicker").datepicker({
+            dateFormat: 'dd/mm/yy',
+            maxDate: new Date()
+        });
+
+        $('#btnsave').click(function () {
+            var flag = true;
+            if ($("#BOENO").val() == "") {
+                alert('Please Enter BOE Number !!');
+                $("#BOENO").focus();
+                flag = false;
+
+            }
+            if ($("#BOEDATE").val() == "") {
+                alert('Please Select BOE Date !!');
+                $("#BOEDATE").focus();
+                flag = false;
+
+            }
+
+            if (flag) {
+
+                tab = {
+                    OSMID: $("#OSMID").val(),
+                    BOENO: $("#BOENO").val(),
+                    BOEDATE: $("#BOEDATE").val()
+
+                }
+                console.log(tab);
+                var r = confirm("Are you sure to update?");
+                if (r == true) {
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Action("boenosavedata", "OpenSheet")', // we are calling json method
+                        data: tab,
+                        success: function (data) {
+                            if (data == "saved") {
+
+                                var returnurl = '@Url.Action("Index", "OpenSheet")';
+                                window.location.href = returnurl;
+
+                                SwalSucMsg('BOE No is Updated Successfully!!');
+
+                            }
+                            else {
+                                SwalSucMsg('You are not authorize to Update BOE No !!');
+
+                                var returnurl = '@Url.Action("Index", "OpenSheet")';
+                                window.location.href = returnurl;
+
+                            }
+                        }
+                    });
+
+                } else {
+
+                    return false;
+
+                }
+            }
+        });
+
+
+        $('#btnclose').click(function () {
+            base = window.location.origin;
+            var url = base + "/OpenSheet/Index";
+            window.location.href = url;
+        });
+    });
+
+</script>

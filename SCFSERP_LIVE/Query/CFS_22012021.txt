@@ -1,0 +1,415 @@
+
+TABLES
+------
+
+1. TRANSACTIONMASTER
+   -----------------
+
+IRNNO	varchar(100)	Checked
+ACKNO	varchar(50)	Checked
+ACKDT	datetime	Checked
+QRCODEPATH	varchar(MAX)	Checked
+
+
+VIEWS
+-----
+
+
+PROCEDURE
+---------
+
+1.
+
+
+USE [SPBW]
+GO
+/****** Object:  StoredProcedure [dbo].[pr_Search_Bond_Invoice]    Script Date: 22/01/2021 22:56:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[pr_Search_Bond_Invoice]  /* CHANGE */
+ @FilterTerm nvarchar(250) = NULL --parameter to search all columns by
+        , @SortIndex INT = 1 -- a one based index to indicate which column to order by
+        , @SortDirection CHAR(4) = 'ASC' --the direction to sort in, either ASC or DESC
+        , @StartRowNum INT = 1 --the first row to return
+        , @EndRowNum INT = 10 --the last row to return
+        , @TotalRowsCount INT OUTPUT
+        , @FilteredRowsCount INT OUTPUT
+        , @PCompyId INT
+		,@PTRANBTYPE int
+		,@PREGSTRID int
+        , @PSDate Smalldatetime
+        , @PEDate Smalldatetime
+ 
+AS BEGIN
+
+Declare @LCompyId int,@LTRANBTYPE int,@LREGSTRID int,@LSDate Smalldatetime, @LEDate Smalldatetime
+set @LCompyId = @PCompyId
+set @LTRANBTYPE=@PTRANBTYPE
+set @LREGSTRID=@PREGSTRID
+set @LSDate = @PSDate
+set @LEDate = @PEDate
+
+    --Wrap filter term with % to search for values that contain @FilterTerm
+    SET @FilterTerm = '%' + @FilterTerm + '%'
+
+
+    DECLARE @TableMaster TABLE
+    (
+      TRANDATE SMALLDATETIME
+    , TRANDNO  VARCHAR(25)
+    , TRANNO  int
+    , TRANREFNAME VARCHAR(100)
+	, ACKNO VARCHAR(50)
+	, TRANNAMT numeric(18,2)
+	,DISPSTATUS smallint
+	,GSTAMT smallint
+	, TRANMID INT
+    , RowNum INT
+    )
+    INSERT INTO @TableMaster(TRANDATE, TRANDNO , TRANNO,TRANREFNAME,ACKNO,TRANNAMT,DISPSTATUS, GSTAMT,TRANMID, RowNum)
+  
+    SELECT   TRANDATE,   
+   TRANDNO, TRANNO, TRANREFNAME, ACKNO ,TRANNAMT,DISPSTATUS, (CASE WHEN len(IRNNO) > 0 THEN 1 ELSE 0 END), TRANMID
+
+            , Row_Number() OVER (
+            ORDER BY
+            
+            /*VARCHAR, NVARCHAR, CHAR ORDER BY*/
+            
+            CASE @SortDirection
+                 WHEN 'ASC'  THEN
+                      CASE @SortIndex
+           				
+			  			  WHEN 2 then TRANDNO
+			  			  WHEN 3 then TRANREFNAME
+						  WHEN 4 then ACKNO
+						  WHEN 5 then TRANNAMT
+					   END             
+				 END ASC,
+            CASE @SortDirection
+              WHEN 'DESC' THEN 
+                   CASE @SortIndex
+           			  
+			  		      WHEN 2 then TRANDNO
+			  			  WHEN 3 then TRANREFNAME
+						  WHEN 4 then ACKNO
+						  WHEN 5 then TRANNAMT
+                    END
+               END DESC,
+            
+            CASE @SortDirection
+              WHEN 'ASC'  THEN
+                   CASE @SortIndex
+                     WHEN 0 THEN TRANDATE
+                   END             
+            END ASC,
+            CASE @SortDirection
+              WHEN 'DESC' THEN 
+                CASE @SortIndex
+                  WHEN 0 THEN TRANDATE
+                END
+            END DESC,
+            
+            CASE @SortDirection
+              WHEN 'ASC'  THEN
+                   CASE @SortIndex
+                     WHEN 1 THEN TRANNO
+                   END             
+            END ASC,
+            CASE @SortDirection
+              WHEN 'DESC' THEN 
+                CASE @SortIndex
+                  WHEN 1 THEN TRANNO
+                END
+            END DESC            
+            ) AS RowNum
+            
+FROM       TRANSACTIONMASTER
+
+WHERE /*(dbo.TRANSACTIONMASTER.COMPYID = @LCompyId) and */ (TRANSACTIONMASTER.REGSTRID=@LREGSTRID) and (TRANSACTIONMASTER.TRANBTYPE IN(1, 4)) and
+(TRANDATE BETWEEN @LSDate AND @LEDate)  AND (@FilterTerm IS NULL 
+             OR TRANDATE LIKE @FilterTerm
+              OR TRANDNO  LIKE @FilterTerm
+              OR TRANNO    LIKE @FilterTerm
+			  OR ACKNO    LIKE @FilterTerm
+              oR TRANREFNAME LIKE @FilterTerm
+              OR TRANNAMT    LIKE @FilterTerm
+             )
+			   
+            
+    SELECT TRANDATE, TRANDNO , TRANNO,TRANREFNAME,ACKNO,TRANNAMT,
+	      case DISPSTATUS when 0 then '' when 1 then 'C' end as DISPSTATUS, GSTAMT, TRANMID
+    FROM    @TableMaster
+    WHERE   RowNum BETWEEN @StartRowNum AND @EndRowNum
+    ORDER BY TRANNO DESC 
+
+SELECT    @TotalRowsCount = COUNT(*)
+FROM       TRANSACTIONMASTER
+
+WHERE /*(dbo.TRANSACTIONMASTER.COMPYID = @LCompyId) and */ (TRANSACTIONMASTER.REGSTRID=@LREGSTRID) and (TRANSACTIONMASTER.TRANBTYPE IN(1, 4)) and
+(TRANDATE BETWEEN @LSDate AND @LEDate) AND (TRANSACTIONMASTER.SDPTID=1)
+
+    
+    SELECT @FilteredRowsCount = COUNT(*)
+    FROM   @TableMaster
+        
+END
+
+
+2.
+
+
+USE [SPBW]
+GO
+
+/****** Object:  View [dbo].[Z_BOND_EINVOICE_DETAILS]    Script Date: 23/01/2021 00:47:05 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE VIEW [dbo].[Z_BOND_EINVOICE_DETAILS]
+AS
+SELECT        dbo.TRANSACTIONMASTER.TRANMID, dbo.TRANSACTIONMASTER.TRANDATE, dbo.TRANSACTIONMASTER.TRANNO, dbo.TRANSACTIONMASTER.TRANDNO, '33AAACS7690F1ZB' AS COMPGSTNO, 
+                         dbo.COMPANYMASTER.COMPNAME, '# 592,' AS COMPADDR1, 'ENNORE EXPRESS HIGH ROAD,' AS COMPADDR2, 'CHENNAI' AS COMPLOCTDESC, '600057' AS COMPPINCODE, '33' AS COMPSTATECODE, 
+                         dbo.COMPANYMASTER.COMPPHN1, dbo.COMPANYMASTER.COMPMAIL, '12' AS COMPPOS, 'Nos' AS UNITCODE, dbo.TRANSACTIONMASTER.TRANREFNAME, dbo.CATEGORYMASTER.CATEADDR1 AS TRANIMPADDR1, 
+                         dbo.CATEGORYMASTER.CATEADDR2 AS TRANIMPADDR2, dbo.CATEGORYMASTER.CATEADDR3 AS TRANIMPADDR3, dbo.CATEGORYMASTER.CATEADDR4 AS TRANIMPADDR4, 
+                         dbo.CATEGORYMASTER.CATEGSTNO AS CATEBGSTNO, dbo.STATEMASTER.STATECODE, dbo.CATEGORYMASTER.CATEPHN1, dbo.VW_SERVICE_TAX_RPT_01.CGSTAMT, dbo.VW_SERVICE_TAX_RPT_01.SGSTAMT, 
+                         dbo.VW_SERVICE_TAX_RPT_01.IGSTAMT, dbo.TRANSACTIONMASTER.TRANGAMT, dbo.TRANSACTIONMASTER.TRANSAMT, dbo.TRANSACTIONMASTER.TRANHAMT, dbo.TRANSACTIONMASTER.TRANIAMT, 
+                         dbo.TRANSACTIONMASTER.TRANNAMT
+FROM            dbo.TRANSACTIONMASTER INNER JOIN
+                         dbo.CATEGORYMASTER ON dbo.TRANSACTIONMASTER.BILLREFID = dbo.CATEGORYMASTER.CATEID INNER JOIN
+                         dbo.COMPANYACCOUNTINGDETAIL ON dbo.TRANSACTIONMASTER.COMPYID = dbo.COMPANYACCOUNTINGDETAIL.COMPYID INNER JOIN
+                         dbo.COMPANYMASTER ON dbo.COMPANYACCOUNTINGDETAIL.COMPID = dbo.COMPANYMASTER.COMPID INNER JOIN
+                         dbo.STATEMASTER ON dbo.CATEGORYMASTER.STATEID = dbo.STATEMASTER.STATEID INNER JOIN
+                         dbo.VW_SERVICE_TAX_RPT_01 ON dbo.TRANSACTIONMASTER.TRANMID = dbo.VW_SERVICE_TAX_RPT_01.TRANMID
+
+GO
+
+
+
+
+3.
+
+USE [SPBW]
+GO
+/****** Object:  StoredProcedure [dbo].[pr_IRN_Bond_Transaction_Update_Assgn]    Script Date: 23/01/2021 00:49:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[pr_IRN_Bond_Transaction_Update_Assgn] @PTranMID int, @PIRNNO varchar(100), @PACKNO varchar(50),
+@PACKDT DATETIME
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	Update TRANSACTIONMASTER Set
+	IRNNO = @PIRNNO,
+	ACKNO = @PACKNO,
+	ACKDT = @PACKDT
+	Where TRANMID = @PTranMID
+
+
+END
+
+
+
+
+4.
+
+
+USE [SPBW]
+GO
+/****** Object:  StoredProcedure [dbo].[pr_EInvoice_Bond_Transaction_Detail_Assgn]    Script Date: 23/01/2021 00:45:47 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[pr_EInvoice_Bond_Transaction_Detail_Assgn] @PTranMID int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    DECLARE @TableMaster TABLE
+    ( 
+	   PrdDesc  varchar(50),
+	   HsnCd varchar(15),
+	   Qty int,
+	   UnitCode varchar(15),
+	   UnitPrice numeric(18,2),
+	   TotAmt  numeric(18,2),
+	   AssAmt numeric(18,2),
+	   GstRt numeric(18,2),
+	   IgstAmt numeric(18,2),
+	   CgstAmt numeric(18,2),
+	   SgstAmt numeric(18,2),
+	   TotItemVal numeric(18,2)	
+
+
+    )
+
+	Insert into @TableMaster(PrdDesc, HsnCd, Qty, UnitCode, UnitPrice, TotAmt, AssAmt, GstRt, IgstAmt, CgstAmt, SgstAmt, TotItemVal)
+	Select 'Storage/Insurance/Handling Charges', '996711' as STRG_HSNCODE, 1, 'Nos', TRANGAMT, TRANGAMT, TRANGAMT, 18, IGSTAMT, CGSTAMT,
+	SGSTAMT, TRANGAMT + CGSTAMT + SGSTAMT + IGSTAMT
+	from Z_BOND_EINVOICE_DETAILS Where TRANGAMT > 0 And TRANMID = @PTranMID
+
+	--Insert into @TableMaster(PrdDesc, HsnCd, Qty, UnitCode, UnitPrice, TotAmt, AssAmt, GstRt, IgstAmt, CgstAmt, SgstAmt, TotItemVal)
+	--Select 'Handling Charges',HANDL_HSNCODE, 1, 'Nos', HANDL_TAXABLE_AMT, HANDL_TAXABLE_AMT, HANDL_TAXABLE_AMT, 18, HANDL_IGST_AMT, HANDL_CGST_AMT,
+	--HANDL_SGST_AMT, HANDL_TAXABLE_AMT + HANDL_IGST_AMT + HANDL_SGST_AMT + HANDL_SGST_AMT  
+	--from Z_IMPORT_EINVOICE_DETAILS Where HANDL_TAXABLE_AMT > 0 And TRANMID = @PTranMID
+
+	Select * From @TableMaster
+
+END
+
+
+5.
+
+
+USE [SPBW]
+GO
+/****** Object:  StoredProcedure [dbo].[pr_Transaction_QrCode_Path_Update_Assgn]    Script Date: 23/01/2021 00:50:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[pr_Bond_Transaction_QrCode_Path_Update_Assgn] @PTranMID int, @PPath varchar(max)
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+	Update TRANSACTIONMASTER Set QRCODEPATH = @PPath Where TRANMID = @PTranMID
+
+END
+
+
+6.
+
+USE [SCFS]
+GO
+
+/****** Object:  View [dbo].[Z_EXPORT_MANUAL_EINVOICE_DETAILS]    Script Date: 23/01/2021 11:39:56 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER VIEW [dbo].[Z_EXPORT_MANUAL_EINVOICE_DETAILS]
+AS
+SELECT        dbo.TRANSACTIONMASTER.TRANMID, dbo.TRANSACTIONMASTER.TRANREFNAME, dbo.CATEGORYMASTER.CATEDNAME AS CATENAME, dbo.CATEGORYMASTER.CATEADDR, dbo.TRANSACTIONMASTER.TRANDATE, 
+                         dbo.TRANSACTIONMASTER.TRANTIME, dbo.TRANSACTIONMASTER.TRANNO, dbo.TRANSACTIONMASTER.TRANDNO, RIGHT(dbo.TRANSACTIONMASTER.TRANTIME, 8) AS TIME, dbo.COMPANYMASTER.COMPPDESC1, 
+                         dbo.COMPANYMASTER.COMPPDESC2, dbo.CATEGORYMASTER.CATEMAIL, dbo.CATEGORYMASTER.CATEPHN1, dbo.COMPANYMASTER.COMPGSTNO, dbo.CATEGORYMASTER.CATEBGSTNO, 
+                         dbo.STATEMASTER.STATEDESC AS STATEDESC111, dbo.STATEMASTER.STATECODE AS STATECODE11, dbo.TRANSACTIONMASTER.STRG_HSNCODE, dbo.TRANSACTIONMASTER.HANDL_HSNCODE, 
+                         dbo.TRANSACTIONMASTER.STRG_TAXABLE_AMT, dbo.TRANSACTIONMASTER.HANDL_TAXABLE_AMT, dbo.TRANSACTIONMASTER.STRG_CGST_EXPRN, dbo.TRANSACTIONMASTER.STRG_SGST_EXPRN, 
+                         dbo.TRANSACTIONMASTER.STRG_IGST_EXPRN, dbo.TRANSACTIONMASTER.STRG_CGST_AMT, dbo.TRANSACTIONMASTER.STRG_SGST_AMT, dbo.TRANSACTIONMASTER.STRG_IGST_AMT, 
+                         dbo.TRANSACTIONMASTER.HANDL_CGST_EXPRN, dbo.TRANSACTIONMASTER.HANDL_SGST_EXPRN, dbo.TRANSACTIONMASTER.HANDL_IGST_EXPRN, dbo.TRANSACTIONMASTER.HANDL_CGST_AMT, 
+                         dbo.TRANSACTIONMASTER.HANDL_SGST_AMT, dbo.TRANSACTIONMASTER.HANDL_IGST_AMT, dbo.TRANSACTIONMASTER.STRG_CGST_AMT + dbo.TRANSACTIONMASTER.HANDL_CGST_AMT AS CGST_AMT, 
+                         dbo.TRANSACTIONMASTER.STRG_SGST_AMT + dbo.TRANSACTIONMASTER.HANDL_SGST_AMT AS SGST_AMT, dbo.TRANSACTIONMASTER.STRG_IGST_AMT + dbo.TRANSACTIONMASTER.HANDL_IGST_AMT AS IGST_AMT, 
+                         dbo.TRANSACTIONMASTER.TRANCSNAME, dbo.VW_EXPORT_INVOICE_DOSPRINT_07.STFBILLREFNAME, dbo.VW_EXPORT_INVOICE_DOSPRINT_07.CATEAADDR1 AS TRANIMPADDR1, 
+                         dbo.VW_EXPORT_INVOICE_DOSPRINT_07.CATEAADDR2 AS TRANIMPADDR2, dbo.VW_EXPORT_INVOICE_DOSPRINT_07.CATEAADDR3 AS TRANIMPADDR3, 
+                         dbo.VW_EXPORT_INVOICE_DOSPRINT_07.CATEAADDR4 AS TRANIMPADDR4, dbo.VW_EXPORT_INVOICE_DOSPRINT_07.CATEAGSTNO, dbo.VW_EXPORT_INVOICE_DOSPRINT_07.STATEDESC, 
+                         dbo.VW_EXPORT_INVOICE_DOSPRINT_07.STATECODE, dbo.TRANSACTIONMASTER.TRANNARTN, dbo.TRANSACTIONMASTER.TRANRMKS, dbo.CATEGORYMASTER.CATELICNO, dbo.TRANSACTIONMASTER.IRNNO, 
+                         dbo.TRANSACTIONMASTER.ACKNO, dbo.TRANSACTIONMASTER.ACKDT, '# 592,' AS COMPADDR1, 'ENNORE EXPRESS HIGH ROAD,' AS COMPADDR2, 'CHENNAI' AS COMPLOCTDESC, '600057' AS COMPPINCODE, 
+                         '33' AS COMPSTATECODE, dbo.COMPANYMASTER.COMPPHN1, dbo.COMPANYMASTER.COMPMAIL, '12' AS COMPPOS, 'Nos' AS UNITCODE, 
+                         dbo.TRANSACTIONMASTER.HANDL_TAXABLE_AMT + dbo.TRANSACTIONMASTER.HANDL_IGST_AMT + dbo.TRANSACTIONMASTER.HANDL_CGST_AMT + dbo.TRANSACTIONMASTER.HANDL_SGST_AMT AS TOTALITEMVAL, 
+                         SUM(dbo.TRANSACTIONDETAIL.TRANDSAMT) AS STRG_AMT, 
+                         SUM(dbo.TRANSACTIONDETAIL.TRANDHAMT + dbo.TRANSACTIONDETAIL.TRANDEAMT + dbo.TRANSACTIONDETAIL.TRANDFAMT + dbo.TRANSACTIONDETAIL.TRANDAAMT + dbo.TRANSACTIONMASTER.TRANAHAMT) 
+                         AS HANDL_AMT, dbo.TRANSACTIONMASTER.TRANNAMT, dbo.COMPANYMASTER.COMPNAME
+FROM            dbo.TRANSACTIONMASTER INNER JOIN
+                         dbo.CATEGORYMASTER ON dbo.TRANSACTIONMASTER.TRANREFID = dbo.CATEGORYMASTER.CATEID INNER JOIN
+                         dbo.COMPANYACCOUNTINGDETAIL ON dbo.TRANSACTIONMASTER.COMPYID = dbo.COMPANYACCOUNTINGDETAIL.COMPYID INNER JOIN
+                         dbo.COMPANYMASTER ON dbo.COMPANYACCOUNTINGDETAIL.COMPID = dbo.COMPANYMASTER.COMPID INNER JOIN
+                         dbo.TRANSACTIONDETAIL ON dbo.TRANSACTIONMASTER.TRANMID = dbo.TRANSACTIONDETAIL.TRANMID LEFT OUTER JOIN
+                         dbo.VW_EXPORT_INVOICE_DOSPRINT_07 ON dbo.TRANSACTIONMASTER.TRANMID = dbo.VW_EXPORT_INVOICE_DOSPRINT_07.TRANMID LEFT OUTER JOIN
+                         dbo.STATEMASTER ON dbo.CATEGORYMASTER.STATEID = dbo.STATEMASTER.STATEID
+GROUP BY dbo.TRANSACTIONMASTER.TRANMID, dbo.CATEGORYMASTER.CATEDNAME, dbo.CATEGORYMASTER.CATEADDR, dbo.TRANSACTIONMASTER.TRANDATE, dbo.TRANSACTIONMASTER.TRANTIME, 
+                         dbo.TRANSACTIONMASTER.TRANNO, dbo.TRANSACTIONMASTER.TRANDNO, RIGHT(dbo.TRANSACTIONMASTER.TRANTIME, 8), dbo.COMPANYMASTER.COMPPDESC1, dbo.COMPANYMASTER.COMPPDESC2, 
+                         dbo.CATEGORYMASTER.CATEMAIL, dbo.CATEGORYMASTER.CATEPHN1, dbo.COMPANYMASTER.COMPGSTNO, dbo.CATEGORYMASTER.CATEBGSTNO, dbo.STATEMASTER.STATEDESC, dbo.STATEMASTER.STATECODE, 
+                         dbo.TRANSACTIONMASTER.STRG_HSNCODE, dbo.TRANSACTIONMASTER.HANDL_HSNCODE, dbo.TRANSACTIONMASTER.STRG_TAXABLE_AMT, dbo.TRANSACTIONMASTER.HANDL_TAXABLE_AMT, 
+                         dbo.TRANSACTIONMASTER.STRG_CGST_EXPRN, dbo.TRANSACTIONMASTER.STRG_SGST_EXPRN, dbo.TRANSACTIONMASTER.STRG_IGST_EXPRN, dbo.TRANSACTIONMASTER.STRG_CGST_AMT, 
+                         dbo.TRANSACTIONMASTER.STRG_SGST_AMT, dbo.TRANSACTIONMASTER.STRG_IGST_AMT, dbo.TRANSACTIONMASTER.HANDL_CGST_EXPRN, dbo.TRANSACTIONMASTER.HANDL_SGST_EXPRN, 
+                         dbo.TRANSACTIONMASTER.HANDL_IGST_EXPRN, dbo.TRANSACTIONMASTER.HANDL_CGST_AMT, dbo.TRANSACTIONMASTER.HANDL_SGST_AMT, dbo.TRANSACTIONMASTER.HANDL_IGST_AMT, 
+                         dbo.TRANSACTIONMASTER.STRG_CGST_AMT + dbo.TRANSACTIONMASTER.HANDL_CGST_AMT, dbo.TRANSACTIONMASTER.STRG_SGST_AMT + dbo.TRANSACTIONMASTER.HANDL_SGST_AMT, 
+                         dbo.TRANSACTIONMASTER.STRG_IGST_AMT + dbo.TRANSACTIONMASTER.HANDL_IGST_AMT, dbo.TRANSACTIONMASTER.TRANCSNAME, dbo.VW_EXPORT_INVOICE_DOSPRINT_07.STFBILLREFNAME, 
+                         dbo.VW_EXPORT_INVOICE_DOSPRINT_07.CATEAADDR1, dbo.VW_EXPORT_INVOICE_DOSPRINT_07.CATEAADDR2, dbo.VW_EXPORT_INVOICE_DOSPRINT_07.CATEAADDR3, 
+                         dbo.VW_EXPORT_INVOICE_DOSPRINT_07.CATEAADDR4, dbo.VW_EXPORT_INVOICE_DOSPRINT_07.CATEAGSTNO, dbo.VW_EXPORT_INVOICE_DOSPRINT_07.STATEDESC, 
+                         dbo.VW_EXPORT_INVOICE_DOSPRINT_07.STATECODE, dbo.TRANSACTIONMASTER.TRANNARTN, dbo.TRANSACTIONMASTER.TRANRMKS, dbo.CATEGORYMASTER.CATELICNO, dbo.TRANSACTIONMASTER.IRNNO, 
+                         dbo.TRANSACTIONMASTER.ACKNO, dbo.TRANSACTIONMASTER.ACKDT, dbo.COMPANYMASTER.COMPPHN1, dbo.COMPANYMASTER.COMPMAIL, 
+                         dbo.TRANSACTIONMASTER.HANDL_TAXABLE_AMT + dbo.TRANSACTIONMASTER.HANDL_IGST_AMT + dbo.TRANSACTIONMASTER.HANDL_CGST_AMT + dbo.TRANSACTIONMASTER.HANDL_SGST_AMT, 
+                         dbo.TRANSACTIONMASTER.TRANREFNAME, dbo.TRANSACTIONMASTER.TRANNAMT, dbo.COMPANYMASTER.COMPNAME
+
+GO
+
+
+
+
+
+7.
+
+
+USE [SCFS]
+GO
+/****** Object:  StoredProcedure [dbo].[pr_EInvoice_Export_Manual_Transaction_Detail_Assgn]    Script Date: 23/01/2021 11:32:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[pr_EInvoice_Export_Manual_Transaction_Detail_Assgn] @PTranMID int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    DECLARE @TableMaster TABLE
+    ( 
+	   PrdDesc  varchar(50),
+	   HsnCd varchar(15),
+	   Qty int,
+	   UnitCode varchar(15),
+	   UnitPrice numeric(18,2),
+	   TotAmt  numeric(18,2),
+	   AssAmt numeric(18,2),
+	   GstRt numeric(18,2),
+	   IgstAmt numeric(18,2),
+	   CgstAmt numeric(18,2),
+	   SgstAmt numeric(18,2),
+	   TotItemVal numeric(18,2)	
+
+
+    )
+
+	Insert into @TableMaster(PrdDesc, HsnCd, Qty, UnitCode, UnitPrice, TotAmt, AssAmt, GstRt, IgstAmt, CgstAmt, SgstAmt, TotItemVal)
+	Select 'Storage Charges',STRG_HSNCODE, 1, 'Nos', STRG_TAXABLE_AMT, STRG_TAXABLE_AMT, STRG_TAXABLE_AMT, 18, STRG_IGST_AMT, STRG_CGST_AMT,
+	STRG_SGST_AMT, STRG_TAXABLE_AMT + STRG_IGST_AMT + STRG_CGST_AMT + STRG_SGST_AMT   
+	from Z_EXPORT_MANUAL_EINVOICE_DETAILS Where STRG_TAXABLE_AMT > 0 And TRANMID = @PTranMID
+
+	Insert into @TableMaster(PrdDesc, HsnCd, Qty, UnitCode, UnitPrice, TotAmt, AssAmt, GstRt, IgstAmt, CgstAmt, SgstAmt, TotItemVal)
+	Select 'Handling Charges',HANDL_HSNCODE, 1, 'Nos', HANDL_TAXABLE_AMT, HANDL_TAXABLE_AMT, HANDL_TAXABLE_AMT, 18, HANDL_IGST_AMT, HANDL_CGST_AMT,
+	HANDL_SGST_AMT, HANDL_TAXABLE_AMT + HANDL_IGST_AMT + HANDL_SGST_AMT + HANDL_SGST_AMT  
+	from Z_EXPORT_MANUAL_EINVOICE_DETAILS Where HANDL_TAXABLE_AMT > 0 And TRANMID = @PTranMID
+
+	Select * From @TableMaster
+
+END
+
+
+8.
+
+
+http://10.10.1.12/einvcfs/ExportManualBill/CInvoice/489304

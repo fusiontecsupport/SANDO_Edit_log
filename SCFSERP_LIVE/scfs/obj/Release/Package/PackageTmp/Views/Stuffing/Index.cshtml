@@ -1,0 +1,225 @@
+﻿@model IEnumerable<scfs_erp.Models.StuffingMaster>
+
+@{
+    ViewBag.Title = "Stuffing Details";
+}
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-export"></i>@ViewBag.Title
+                                <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("NForm", "Stuffing")"><i class="fa fa-plus-square "></i> Add New </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-1"> </div>
+                        <div class="col-xs-10">
+                            <form action="#" method="post" accept-charset="utf-8" id="exportstuffingdetailsform" data-ng-controller="myController" name="exportstuffingdetailsform">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="col-md-2">
+                                            <label for="from">From</label>
+                                            <div class="form-group">
+                                                <input type="text" id="from" name="from" class="form-control from" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="from">To</label>
+                                            <div class="form-group">
+                                                <input type="text" id="to" name="to" class="form-control to" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <label for="from"></label>
+                                            <div class="form-group">
+                                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2 hide">
+                                            <label for="from" style="font-weight:bold;color:black">Total Shipping Bill</label>
+                                            <div class="form-group">
+                                                <input type="text" id="txttesbs" name="txttesbs" style="border-width: 0px;background-color:#c4e5fb;font-weight:bold;color:black" class="form-control txttesbs" value="@System.Web.HttpContext.Current.Session["ESBSD"]" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th style="width:auto;">Date</th>
+                                <th style="width:auto;">No</th>
+                                <th style="width:auto;">CHA&nbsp;Name</th>
+                                <th style="width:auto;">Ref&nbsp;No</th>
+                                <th style="width:auto;">C.Order</th>
+                                <th style="width:auto;">Container&nbsp;No</th>
+                                <th style="width:auto;">NOP</th>
+                                <th style="width:auto;">S</th>
+                                <th style="width:auto;">Action</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "Stuffing")",
+                "bProcessing": true,
+                "bStateSave": true,
+
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-4" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": " ", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+
+                            return '<a   class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "Stuffing")/' +
+                                oObj.aData[8] + '\"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("PrintView", "Seal")/' +
+                                oObj.aData[8] + '\"  target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[8] + '-' + oObj.aData[9] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                        @*"fnRender": function (oObj) {
+                            return ' <a class="btn btn-primary btn-xs" href="@Url.Action("Edit", "Stuffing")/' +
+                                oObj.aData[8] + '\"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a class="btn btn-warning btn-xs" href="@Url.Action("Eform", "Stuffing")/' +
+                                oObj.aData[8] + '\">E<i class="hidden glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("PrintView", "Stuffing")/' +
+                                oObj.aData[8] + '\"  target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[8] + '-' + oObj.aData[9] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }*@
+                    }
+
+                ]
+            });
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+
+            GetContainerDetails();
+            //----------------Delete Record event----------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+
+                    $.post(base + "/Stuffing/Del",
+                        {
+                            id: idx, fld: "STUFFING"
+                        },
+                        function (data, status) {
+                            if (data == "") {
+                                alert("You are not Authorized to Delete....!");
+                            }
+                            else if (data != "Deleted successfully...") {
+                                alert(data);
+                                location.replace(base + "/Stuffing/Index");
+                            }
+                            else {
+                                alert(data);
+                                location.replace(base + "/Stuffing/Index");
+                            }
+                        });
+                }
+                return false;
+            });//End of delete
+        });
+
+         function GetContainerDetails() {
+             var fromdate = $("#from").val();
+             var todate = $("#to").val(); var sdptid = 1;
+
+            if (fromdate == "") {
+                alert('Please Enter From Date !!')
+                $("#from").focus();
+                return false;
+            }
+
+            if (todate == "") {
+                alert('Please Enter To Date !!')
+                $("#to").focus();
+                return false;
+            }
+
+            url = '@Url.Action("TotalContainerDetails", "Stuffing")';
+
+            $.ajax({
+                type: 'post',
+                url: url, // we are calling json method
+                data: { fromdate: fromdate, todate: todate, sdptid: sdptid },
+                dataType:'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.length != 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            //alert(data[i].Sno);
+                            if ((data[i].Sno == 1) && (data[i].Descriptn == "EXPORT STUFFF")) {
+
+                                var gi20 = data[i].stuff_sb;
+                                //alert(gi20);
+
+                                $('.txttesbs').val(gi20);
+                              
+
+                            }
+
+                        }
+
+                    }
+
+                },
+
+            });
+
+
+        }
+    </script>
+}

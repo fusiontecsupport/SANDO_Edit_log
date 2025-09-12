@@ -1,0 +1,175 @@
+﻿
+@model IEnumerable<scfs_erp.Models.SlabMaster>
+
+
+@{
+    ViewBag.Title = "Slab Master";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+                </div>
+                <div class="box-icons">
+                    <button onclick="parent.location = '@Url.Action("NForm", "SlabMaster")'; return false;" class=" btn-warning">Transfer</button>
+                    <button onclick="parent.location = '@Url.Action("Form", "SlabMaster")'; return false;" class=" btn-success"> Create New </button>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content no-padding">
+                <br />
+                <div class="row">
+                    <div class="col-xs-1"> </div>
+                    <div class="col-lg-12">
+                        <form action="#" method="post" accept-charset="utf-8" id="exportgateinform" data-ng-controller="myController" name="exportgateinform">
+                            <table class="table">
+                                <tr>
+                                    <td>Type</td>
+                                    <td>
+                                        @Html.DropDownList("AASDPTTYPEID", null, new { @class = "form-control AASDPTTYPEID" })
+                                    </td>
+                                    <td>Tariff</td>
+                                    <td>
+                                        @Html.DropDownList("TARIFFMID", null, new { @class = "form-control", @onchange = "GetStreamer()" })
+                                    </td>
+                                    <td class="CHA_LBL">Steamer</td>
+                                    <td>
+                                        <div class="chaid">
+                                            <input type="text" name="STMRDESC" id="STMRDESC" value="@Session["FSTMRNAME"]" class="form-control STMRDESC" data-autocomplete-url="/SlabMaster/AutoStreamer" placeholder="Select Steamer" />
+                                            <input type="text" class="hide form-control  STMRID" id="STMRID" name="STMRID" value="@Session["FSTMRID"]" />
+
+                                        </div>
+                                    </td>
+
+                                    <td>Charge Type</td>
+                                    <td>
+                                        @Html.DropDownList("CHRGETYPE", null, new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </td>
+                                    <td>Slab Type</td>
+                                    <td>
+                                        @Html.DropDownList("SLABTID", null, new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </td>
+                                    <td><input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" /></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                    <thead>
+                        <tr>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.SLABMDATE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CONTNRSID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.YRDTYPE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SDTYPE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.HTYPE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.WTYPE)
+                                <div class="hide">
+                                    @Html.DisplayNameFor(model => model.SDPTTYPEID)
+                                </div>
+                            </th>                            
+                            <th>
+                                Min
+                            </th>
+                            <th>
+                                Max
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SLABAMT)
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            GetStreamer(); add_autocomplete($("#STMRDESC"), "STMRDESC,STMRID");
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "SlabMaster")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "" },
+                    { "sName": " " },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": " " },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": " " },
+                    { "sName": "" },
+                    {
+                        "sClass": "col-md-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-primary hide btn-xs"   href="@Url.Action("Edit", "SlabMaster")/' +
+                                oObj.aData[9] + '\"  " Title=Copy" ><i class="glyphicon glyphicon-C"></i>C</a>  &nbsp;&nbsp;<a  class="btn btn-danger btn-xs del" href="#" id="' +
+                                oObj.aData[9] + '\" ><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+
+
+            //----------------Delete button click event--------
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/SlabMaster/Del",
+                        {
+                            id: idx, fld: ""
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted Successfully ...") location.reload();
+                            //location.replace(base + "/SlabMaster");
+                        });
+                }
+                return false;
+            });//----End of delete
+        });
+
+        function GetStreamer() {
+            if (($('#TARIFFMID').val() == 4) || ($('#TARIFFMID').val() == 6)) {
+                $(".chaid,.CHA_LBL").show();
+                var Sel_text = $('#TARIFFMID option:selected').val();
+                $("#STMRID").val(Sel_text);
+            }
+            else {
+                $('.chaid,.CHA_LBL').hide();
+                $("#STMRID").val(0);
+            }
+        }
+    </script>
+}

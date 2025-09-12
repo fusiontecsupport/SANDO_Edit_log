@@ -1,0 +1,876 @@
+﻿@using scfs.Data;
+@model scfs_erp.Models.AuthorizationSlipMD
+@{
+    ViewBag.Title = "Export Load Slip";
+}
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+<section id="main-content">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-export"></i>
+                            <strong>Export Load Slip</strong>
+                        </div>
+                    </div>
+
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ExportLoadSlip/savedata")" method="post" accept-charset="utf-8" id="Loadform" data-ng-controller="myController" name="Loadform" onsubmit="return Validate();">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="ExportCartingOrder_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2 hidden">
+                                            <div class="form-group">
+                                                <label>Primary  </label>
+                                                @Html.TextBoxFor(model => Model.masterdata[0].ASLMID, new { @class = "form-control  ASLMID", @id = "ASLMID" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>No</label>
+                                                @Html.TextBoxFor(model => Model.masterdata[0].ASLMNO, new { @class = "form-control  ASLMNO", @id = "ASLMNO", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Date<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.masterdata[0].ASLMDATE, "{0:dd/MM/yyyy}", new { @class = "form-control ASLMDATE", @id = "ASLMDATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+                                                @*@Html.TextBoxFor(model => Model.masterdata[0].ASLMDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker ASLMDATE", @id = "ASLMDATE", @data_val = false, tabindex = "1" })*@
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Time<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.masterdata[0].ASLMTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker ASLMTIME", @id = "ASLMTIME", @data_val = false, tabindex = "1" })
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Type  </label>
+                                                @Html.DropDownList("ASLMTYPE", null, new { @class = "form-control ASLMTYPE" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Stuffing/Seal Date</label>
+                                                @Html.TextBox("MSTFMDATE", "{0:dd/MM/yyyy}", new { @class = "form-control MSTFMDATE", @readonly = "readonly", @id = "MSTFMDATE", @name = "MSTFMDATE" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 hide">
+                                            <div class="form-group">
+                                                <label>Cargo  </label>
+                                                <input type="text" value="" id="CARGONO" class="form-control CARGONO" name="CARGONO" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 hide">
+                                            <div class="form-group">
+                                                <label>Custom Seal No</label>
+                                                <input type="text" value="" id="CustomNO" class="form-control CustomNO" name="CustomNO" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 hide">
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Agent Seal No </label>
+                                                <input type="text" value="" id="AgentNO" class="form-control AgentNO" name="AgentNO" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 hide">
+                                            <div class="form-group">
+                                                <label>Exporter</label>
+                                                <input type="text" value="" id="ExporterNO" class="form-control ExporterNO" name="ExporterNO" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 hide">
+                                            <div class="form-group">
+                                                <label>CHA </label>
+                                                <input type="text" value="" id="CHANO" class="form-control CHANO" name="CHANO" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="panel-heading navbar-inverse" style="color:white">
+                                            Load Slip Details
+                                            <a class="navbar-right  btn-primary" id="add_detail" style="margin-top:-3px;">
+                                                <i class="glyphicon  glyphicon-plus-sign  well-sm"></i>
+                                            </a>
+                                        </div>
+                                        <input type="text" id="TDETAIL_IDX" value="0" name="TDETAIL_IDX[]" class="TDETAIL_IDX" style="display:none" />
+                                        <table class='table table-striped table-bordered bootstrap-datatable' id="TDETAIL">
+                                            <thead><tr><th>Container No</th><th>Size</th><th>In Date</th><th>S.Bill No</th><th>Stuff No</th><th class="hide">Driver Name</th><th>Seal Type</th><th>Customs Seal No.</th><th>Liner Seal No</th><th class="hide">Trailor No</th><th></th></tr> </thead>
+
+                                            <tbody class="TDETAIL_BODY" id="TDETAIL_BODY">
+                                                @if (Model.detaildata != null)
+                                                {
+                                                    foreach (VW_EXPORT_ASL_DETAIL_CTRL_ASSGN_MODS details in Model.viewdetail)
+                                                    {
+                                                        <tr class="item-row">
+                                                            <td class="hide">
+                                                                <input type="text" value="@details.ASLDID" id="ASLDID" class="ASLDID" name="ASLDID" />
+                                                            </td>
+                                                            <td>
+
+                                                                <input type="text" value="@details.STFDID" id="STFDID" class="hide STFDID" name="STFDID" />
+                                                                <input type="text" value="@details.CONTNRNO" id="CONTNRNO" class="CONTNRNO" name="CONTNRNO" style="width:150px" readonly />
+                                                            </td>
+                                                            <td class=" col-md-1">
+                                                                <input type="text" value="@details.CONTNRSDESC" id="CONTNRSDESC" class="form-control CONTNRSDESC" name="CONTNRSDESC" readonly />
+
+                                                            </td>
+                                                            <td class="col-md-2">
+                                                                <input type="text" value="@details.GIDATE" id="SBDDATE" class="form-control SBDDATE" name="SBDDATE" readonly />
+
+                                                            </td>
+
+                                                            <td class=" col-md-2">
+                                                                <input type="text" value="@details.STFDSBNO" id="STFDSBNO" class="form-control STFDSBNO" name="STFDSBNO" readonly />
+
+                                                            </td>
+                                                            <td class="col-md-2">
+                                                                <input type="text" value="@details.STFDSBDNO" id="STFDSBDNO" class="form-control STFDSBDNO" name="STFDSBDNO" readonly />
+                                                            </td>
+                                                            <td class=" col-md-4  hide">
+                                                                <input type="text" value="@details.DRVNAME" id="DRVNAME" class="form-control DRVNAME" name="DRVNAME" />
+                                                            </td>
+                                                            <td class="col-md-2">
+                                                                <input type="text" value="@details.SLTID" id="SLTID" class="form-control SLTID hide" name="SLTID" />
+                                                                <input type="text" value="@details.SLTDESC" id="SLTDESC" class="form-control SLTDESC" name="SLTDESC" readonly="readonly" />
+
+                                                                @*@Html.DropDownListFor(model => model.detaildata[0].SLTID, new SelectList(ViewBag.SLTID, "value", "text", @details.SLTID), "Select Seal Tye", new { @class = "form-control SLTID", @id = "SLTID", @onchange = "Chkval()" })*@
+
+                                                            </td>
+
+                                                            <td class="col-md-2">
+                                                                <input type="text" value="@details.CSEALNO" id="CSEALNO" class="form-control CSEALNO" name="CSEALNO" />
+
+                                                            </td>
+                                                            <td class="col-md-2">
+                                                                <input type="text" value="@details.ASEALNO" id="ASEALNO" class="form-control ASEALNO" name="ASEALNO"  />
+
+                                                            </td>
+                                                            <td class="col-md-2  hide">
+                                                                <input type="text" value="@details.VHLNO" id="VHLNO" class="form-control VHLNO" name="VHLNO" style="width:110px" />
+                                                            </td>
+                                                            <td><a class="" id="del_detail"> <i class="glyphicon glyphicon-trash" style="color:#ff0000;font-size:large"></i></a></td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr class="item-row">
+                                                        <td class="hide">
+                                                            <input type="text" value="0" id="ASLDID" class="ASLDID" name="ASLDID" />
+                                                        </td>
+                                                        <td class=" col-md-2">
+                                                            <input type="text" value="" id="CONTNRNO" class="form-control CONTNRNO" name="CONTNRNO" maxlength="15" data-autocomplete-url="@Url.Action("AutoContainer", "ExportLoadSlip")/" tabindex="5" placeholder="--Please Select Container No-" />
+                                                            <input type="text" value="0" id="STFDID" class="hide form-control STFDID" name="STFDID" />
+                                                            @*@Html.DropDownList("STFDID", null, "Select Container", new { @class = "form-control STFDID", @style = "width:150px" })*@
+                                                            <input type="text" value="0" id="GIDID" class="hide GIDID" name="GIDID" />
+                                                        </td>
+                                                        <td class=" col-md-1">
+                                                            <input type="text" value="0" id="CONTNRSDESC" class="form-control CONTNRSDESC" name="CONTNRSDESC" readonly />
+
+                                                        </td>
+                                                        <td class="col-md-2">
+                                                            <input type="text" value="" id="SBDDATE" class="form-control SBDDATE" name="SBDDATE" readonly />
+
+                                                        </td>
+
+                                                        <td class=" col-md-2">
+                                                            <input type="text" value="" id="STFDSBNO" class="form-control STFDSBNO" name="STFDSBNO" readonly />
+
+                                                        </td>
+                                                        <td class="col-md-2">
+                                                            <input type="text" value="" id="STFDSBDNO" class="form-control STFDSBDNO" name="STFDSBDNO" readonly />
+                                                        </td>
+                                                        <td class=" col-md-2 hide">
+                                                            <input type="text" value="" id="DRVNAME" class="form-control DRVNAME" name="DRVNAME" />
+                                                        </td>
+                                                        <td class="col-md-2">
+                                                            @Html.DropDownList("SLTID", null, "Select Seal Type", new { @class = "form-control SLTID", @style = "width:150px" })
+                                                        </td>
+                                                        <td class="col-md-1">
+                                                            <input type="text" value="0" id="CSEALNO" class="form-control CSEALNO" name="CSEALNO" style="width:80px" />
+
+                                                        </td>
+                                                        <td class="col-md-1">
+                                                            <input type="text" value="0" id="ASEALNO" class="form-control ASEALNO" name="ASEALNO" style="width:80px" />
+
+                                                        </td>
+                                                        <td class="col-md-2 hide">
+                                                            <input type="text" value="" id="VHLNO" class="form-control VHLNO" name="VHLNO" style="width:110px" />
+                                                        </td>
+                                                        <td><a class="" id="del_detail"> <i class="glyphicon glyphicon-trash" style="color:#ff0000;font-size:large"></i></a></td>
+                                                    </tr>
+                                                }
+
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 box-footer">
+                                    <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+                                    <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden " hidden />
+                                    <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />
+
+                                </div>
+
+                            </fieldset>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    <script>
+
+        var base = window.location.origin;
+        $(window).bind("load", function () {
+            if ($(".ASLMID").val() == "") {
+                $(".ASLMID").val("0");
+            }
+            count = 500;
+            $('.ASLDID').each(function (k) {
+
+                $("#TDETAIL input:text,#TDETAIL Select,#TDETAIL a").attr('tabindex', count++);
+                $("#TDETAIL #SBDDATE,#CONTNRSDESC,#STFDSBNO,#STFDSBDNO").removeAttr("tabindex");
+
+            });
+        });
+
+        $(document).ready(function () {
+
+            $('input[id$=ASLMDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                autoclose: true,
+                endDate: "today",
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#ASLMDATE").focus();
+                }
+            });
+            $('.ASLMDATE').removeClass('hasDatepicker');
+            //-----------DATE CONTROLS----------------//
+
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', maxDate: new Date() });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+            //$('.time').timepicker();
+            //  GetDetail();
+
+            if ($(".ASLMID").val() == "") {
+                $(".ASLMID").val("0");
+            }
+
+            if ($(".ASLMID").val() == "0") {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                //console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                var time = hours + ':' + minutes + ':' + seconds;
+
+                $(".ASLMDATE").val(date);
+                $(".ASLMTIME").val(time);
+            }
+            else {
+                var murl = base + "/ExportLoadSlip/StuffEMaxDate/" + $(".ASLMID").val();
+                $.ajax({
+                    type: 'get',
+                    url: murl,
+                    success: function (result) {
+                        //alert(result[0].OSMDATE);
+                        var osdate = result[0].STFMDATE;
+
+                        if (osdate != "") {
+                            var osmdate = new Date(osdate);
+                            var inDate = result[0].STFMDATE; //Wed Feb 09 2011 15:41:41 GMT+0530 (India Standard Time)
+                            var JavaScriptDate = new Date(parseInt(inDate.substr(6))); //to js format
+                            var dt = new Date(JavaScriptDate); //Date object
+
+                            var year = dt.getFullYear();
+                            var month = dt.getMonth() + 1;
+                            var day = dt.getDate();
+
+                            if (month < 10) month = "0" + month;
+                            if (day < 10) day = "0" + day;
+
+                            $(".MSTFMDATE").val(day + "/" + month + "/" + year);
+                        }
+
+                    }
+                });
+            }
+
+            var rowcount = $('#TDETAIL tbody tr').length;
+
+            $("#TDETAIL_IDX").val(rowcount);
+            add_autocomplete_grid($("#CONTNRNO"), "CONTNRNO,STFDID");
+            //----------------------------------insert/delete row-----------------------------------------//
+
+            $("#add_detail").click(function () {
+
+                if ($("#TDETAIL_IDX").val() != 0) {
+
+
+                    var $tableBody = $('#TDETAIL').find("tbody"),
+                        $trLast = $tableBody.find("tr:last");
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+                    //$trNew.find("td:eq(1)").html("<select id='STFDID' class='STFDID form-control' name='STFDID' tabindex=500><option>Select Container</option> </select><input type='text' class='hide form-control GIDID' id='GIDID' value='' > ");
+                    $trNew.find('#SBDDATE').val("");
+                    $trNew.find('.ASLDID').val("0");
+                    $trNew.find('#CONTNRSDESC').val("0");
+                    $trNew.find('#ASEALNO').val("0");
+                    $trNew.find('.CSEALNO').val("0");
+                    $trNew.find('.SLTID').val("0");
+                    $trNew.find('.GIDID').val("0");
+                    $trNew.find('.DRVNAME').val("-");
+                    $trNew.find('.VHLNO').val("-");
+                    $trNew.find("#SBDDATE").val("");
+                    $trNew.find("#STFDSBNO").val("");
+                    $trNew.find("#STFDSBDNO").val("");
+
+                    add_autocomplete_grid($trNew.find("#CONTNRNO"), "CONTNRNO,STFDID");
+
+                    //var url = "/ExportLoadSlip/Container/";
+
+                    //$.getJSON(url, function (data) {
+                    //    $.each(data, function (key, val) {
+                    //        var CONTNRNO = val.CONTNRNO
+                    //        var STFDID = val.STFDID;
+                    //        var GIDID = val.GIDID;
+                    //        $trNew.find("#GIDID").va(GIDID);
+
+                    //        //$trNew.find("#STFDID").append('<option value="' + STFDID + '"  >' + CONTNRNO + '</option>');
+
+                    //    });
+                    //});
+
+
+                    //$trNew.find(".CONTNRNO").on("change", function () {
+                    //    var STFDID = $trNew.find("#STFDID").val();
+                    //    base = window.location.origin;
+
+                    //    var url = "/ExportLoadSlip/Slipdetails/" + STFDID;
+
+                    //    $.getJSON(url, function (data) {
+
+
+                    //        $.each(data, function (key, val) {
+                    //            var MyDate_String_Value = val.GIDATE;
+                    //            var f_value = new Date
+                    //                (
+                    //                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                    //                );
+                    //            var month = parseInt(f_value.getMonth()) + 1;
+                    //            var dat = f_value.getDate() +
+                    //                "/" + month +
+
+                    //                "/" +
+
+                    //                f_value.getFullYear();
+
+
+                    //            var GIDID = val.GIDID;
+                    //            var STFDSBNO = val.STFDSBNO;
+                    //            var STFDSBDNO = val.STFDSBDNO;
+                    //            var CONTNRSDESC = val.CONTNRSDESC;
+                    //            $trNew.find("#GIDID").val(GIDID);
+                    //            $trNew.find("#SBDDATE").val(dat);
+                    //            $trNew.find("#STFDSBNO").val(STFDSBNO);
+                    //            $trNew.find("#STFDSBDNO").val(STFDSBDNO);
+                    //            $trNew.find("#CONTNRSDESC").val(CONTNRSDESC);
+                    //        });
+                    //    });
+                    //});
+
+                    var row_idx = parseInt($("#TDETAIL_IDX").val());
+
+                    $("#TDETAIL_IDX").val(row_idx + 1);
+
+                    $("#TDETAIL_BODY").show();
+
+                }
+                else {
+
+                    $('#TDETAIL_IDX').val("1");
+                    $("#TDETAIL_BODY").show();
+
+                }
+            });
+
+            //delete event
+
+
+            $(document).on("click", "#del_detail", function () {
+
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+
+
+                    //  idx = $(this).parent().parent().index();
+                    idx = $("#TDETAIL_IDX").val();
+
+                    if (idx == 1) {
+
+                        $("#TDETAIL_BODY").hide();
+
+                        $("#TDETAIL_IDX").val(0);
+
+
+                        var $tableBody = $('#TDETAIL').find("tbody")
+
+                        $trCur = $tableBody.find("tr:eq(0)");
+                        $('#SBDDATE').val("");
+                        $("#GIDID").val("0");
+                        $('.ASLDID').val("0");
+                        $('#CONTNRSDESC').val("0");
+                        $("#STFDSBNO").val("0");
+                        $("#STFDSBDNO").val("0");
+                        $('#ASEALNO').val("0");
+                        $('.CSEALNO').val("0");
+                        $('.DRVNAME').val("-");
+                        $('.VHLNO').val("-");
+
+
+
+                    }
+                    else {
+                        $("#TDETAIL_BODY").show();
+                        var row = this.parentNode.parentNode;
+                        $(this).parents('.item-row').remove();
+
+                        $("#TDETAIL_IDX").val($("#TDETAIL_IDX").val() - 1);
+
+                    }
+                }
+            });
+
+        });
+
+        function add_autocomplete_grid($obj, controls) {
+            //var sdptid = $("#SDPTID option:selected").val()
+            //var tranrefid = $("#TRANREFID").val();
+            //alert(sdptid);
+            //alert(tranrefid);
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+            var row_idx = $("#TDETAIL_IDX").val();
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        max: 10,
+                        scrollable: true,
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    var term = extractLast(this.value);
+                    if (term.length < 1) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    var $tr = $obj.closest('tr');
+                    var myRow = $tr.index();
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("." + value)[myRow].value = ui.item.id;
+                                break;
+                            case 2:
+                                $("." + value)[myRow].value = ui.item.desc;
+                                break;
+                            case 3:
+                                $("." + value)[myRow].value = ui.item.xparam1;
+                                break;
+                            case 4:
+                                $("." + value)[myRow].value = ui.item.xparam2;
+                                break;
+                            case 5:
+                                $("." + value)[myRow].value = ui.item.xparam3;
+                                break
+
+                        }
+
+
+                        count++
+                    });
+
+                    var STFDID = $tr.find('#STFDID').val();
+
+                    var url = "/ExportLoadSlip/Slipdetails/" + STFDID;
+
+                    $.ajax({
+                        url: url,
+                        async: false,
+                        success: function (data) {
+                            if (data != "") {
+
+                                var MyDate_String_Value = data[0].GIDATE;
+                                var f_value = new Date
+                                    (
+                                        parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                                    );
+                                var month = parseInt(f_value.getMonth()) + 1;
+                                var dat = f_value.getDate() +
+                                    "/" + month +
+
+                                    "/" +
+
+                                    f_value.getFullYear();
+
+                                $tr.find('#GIDID').val(data[0].GIDID);
+
+                                $tr.find('#SBDDATE').val(dat);
+                                $tr.find('#STFDSBNO').val(data[0].STFDSBNO);
+                                $tr.find('#STFDSBDNO').val(data[0].STFDSBDNO);
+                                $tr.find('#CONTNRSDESC').val(data[0].CONTNRSDESC);
+
+
+                            }
+                            else {
+                                $tr.find('#GIDID').val("0");
+
+                                $tr.find('#SBDDATE').val("-");
+                                $tr.find('#STFDSBNO').val("0");
+                                $tr.find('#STFDSBDNO').val("-");
+                                $tr.find('#CONTNRSDESC').val("-");
+
+                            }
+
+                        }
+                    });
+
+                    var murl = base + "/ExportLoadSlip/StuffMaxDate/" + STFDID;
+                    $.ajax({
+                        type: 'get',
+                        url: murl,
+                        success: function (result) {
+                            //alert(result[0].OSMDATE);
+                            var osdate = result[0].STFMDATE;
+
+                            if (osdate != "") {
+                                var osmdate = new Date(osdate);
+                                var inDate = result[0].STFMDATE; //Wed Feb 09 2011 15:41:41 GMT+0530 (India Standard Time)
+                                var JavaScriptDate = new Date(parseInt(inDate.substr(6))); //to js format
+                                var dt = new Date(JavaScriptDate); //Date object
+
+                                var year = dt.getFullYear();
+                                var month = dt.getMonth() + 1;
+                                var day = dt.getDate();
+
+                                if (month < 10) month = "0" + month;
+                                if (day < 10) day = "0" + day;
+
+                                $(".MSTFMDATE").val(day + "/" + month + "/" + year);
+                            }
+
+                        }
+                    });
+
+                    //alert(url);
+
+                    return false
+
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+
+        $(function () {
+
+            //-----date controls-------------
+            $('input[id$=ASLMDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#ASLMDATE").focus();
+                }
+            });
+
+            //-----------DATE CONTROLS----------------//
+            $(".datepicker").removeAttr('ASLMDATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+            //$('.time').timepicker();
+            //  GetDetail();
+            if ($(".ASLMID").val() == 0) {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                //console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                var time = hours + ':' + minutes + ':' + seconds;
+
+                $(".ASLMDATE").val(date);
+                $(".ASLMTIME").val(time);
+
+
+                //$('#DODATE').on("change", function () {
+                //    var odt = $(".OSMDATE").val();
+                //    var ss = $(".DODATE").val();
+                //    var start = new Date(odt);
+
+                //    var end = new Date(ss);
+                //    alert(start.getDate());
+                //    var days = (end.getDate() - start.getDate()) / 1000 / 60 / 60 / 24;
+                //    alert(days);
+                //});
+
+            }
+            //--------------End---------
+
+
+
+
+            $(".STFDID").on("change", function () {
+                var STFDID = $("#STFDID").val();
+                base = window.location.origin;
+
+                var url = "/ExportLoadSlip/Slipdetails/" + STFDID;
+
+                $.getJSON(url, function (data) {
+
+
+                    $.each(data, function (key, val) {
+                        var MyDate_String_Value = val.GIDATE;
+                        var f_value = new Date
+                            (
+                                parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                            );
+                        var month = parseInt(f_value.getMonth()) + 1;
+                        var dat = f_value.getDate() +
+                            "/" + month +
+
+                            "/" +
+
+                            f_value.getFullYear();
+
+
+                        var GIDID = val.GIDID;
+                        var STFDSBNO = val.STFDSBNO;
+                        var STFDSBDNO = val.STFDSBDNO;
+                        var CONTNRSDESC = val.CONTNRSDESC;
+                        var DRVNAME = val.DRVNAME;
+                        var LPSEALNO = val.LPSEALNO;
+                        var CSEALNO = val.CSEALNO;
+                        var EXPRTNAME = val.EXPRTNAME;
+                        var CHANAME = val.CHANAME;
+                        $("#GIDID").val(GIDID);
+                        $("#SBDDATE").val(dat);
+                        $("#STFDSBNO").val(STFDSBNO);
+                        $("#STFDSBDNO").val(STFDSBDNO);
+                        $("#CONTNRSDESC").val(CONTNRSDESC);
+                        $("#DRVNAME").val(DRVNAME);
+                        $("#CSEALNO").val(LPSEALNO);
+                        $("#ASEALNO").val(CSEALNO);
+                        $("#ExporterNO").val(EXPRTNAME);
+                        $("#CHANO").val(CHANAME);
+
+                    });
+                });
+            });
+        });
+
+        //-----------------------Form Validation-------------------------//
+        function Validate() {
+            flag = true;
+            var i = 0;
+            if ($('#ASLMDATE').val() == "") {
+                alert('Please Enter Date !!');
+                $('#ASLMDATE').focus();
+                flag = false;
+                return flag;
+            }
+            else if ($('#ASLMTIME').val() == "") {
+                alert('Please Enter Time !!');
+                $('#ASLMTIME').focus();
+                flag = false;
+                return flag;
+            }
+            else if ($('#ASLMDATE').val() != "" && $('.MSTFMDATE').val() != "") {
+                var slipdate = Splitthedate($('#ASLMDATE').val());
+                var ssdate = Splitthedate($('.MSTFMDATE').val());
+
+                if ((slipdate < ssdate)) {
+                    alert("Slip Date Grater Than Stuffing/Seal Date !! ");
+                    $("#ASLMDATE").focus();
+                    flag = false;
+                    return flag;
+                }
+            }
+            if (flag) {
+                $('#TDETAIL_BODY tr').each(function () {
+
+                    if ($('.TDETAIL_BODY tr .STFDID')[i].value == "" || $('.TDETAIL_BODY tr .STFDID')[i].value == "0" || $('.TDETAIL_BODY tr .STFDID')[i].value == "Select Container") {
+                        alert("Please enter Container No !!");
+                        $('.TDETAIL_BODY tr .STFDID')[i].focus();
+                        flag = false;
+                        return flag;
+                    }
+                    else if ($('.TDETAIL_BODY tr .SLTID')[i].value == "") {
+                        alert("Please select Seal Type!!");
+                        $('.TDETAIL_BODY tr .SLTID')[i].focus();
+                        flag = false;
+                        return flag;
+                    }
+                    else if ($('.TDETAIL_BODY tr .CSEALNO')[i].value == "") {
+                        alert("Please select Customs Seal No !!");
+                        $('.TDETAIL_BODY tr .CSEALNO')[i].focus();
+                        flag = false;
+                        return flag;
+                    }
+                    else if ($('.TDETAIL_BODY tr .ASEALNO')[i].value == "") {
+                        alert("Please enter Liner Seal No !!");
+                        $('.TDETAIL_BODY tr .ASEALNO')[i].focus();
+                        flag = false;
+                        return flag;
+                    }
+                    //else if ($('.TDETAIL_BODY tr .VHLNO')[i].value == "") {
+                    //    alert("Please enter Trailor No !!");
+                    //    $('.TDETAIL_BODY tr .VHLNO')[i].focus();
+                    //    flag = false;
+                    //    return flag;
+                    //}
+
+                    i++;
+                });
+
+                if (flag) {
+                    var r = confirm("Are you sure to submit this record ?");
+                    if (r == true) {
+                        return true;
+                    } else {
+
+                        return false;
+
+                    }
+                } else {
+
+                    return false;
+                }
+            }
+
+        }//End of validation
+
+    </script>
+}

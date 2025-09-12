@@ -1,0 +1,254 @@
+﻿@model IEnumerable<scfs_erp.Models.GateOutDetail>
+
+@{
+    ViewBag.Title = "Export Gate Out";
+}
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-export"></i>Export Gate Out
+                                <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("Form", "ExportGateOut")"><i class="fa fa-plus-square "></i> Add New </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2"> </div>
+                        <div class="col-xs-10">
+                            <form action="#" method="post" accept-charset="utf-8" id="remotegateinform" data-ng-controller="myController" name="remotegateinform">
+                                <div class="col-md-12">
+
+                                    <div class="col-md-2">
+                                        <label for="from">From</label>
+                                        <div class="form-group">
+                                            <input type="text" id="from" name="from" class="form-control" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="from">To</label>
+                                        <div class="form-group">
+                                            <input type="text" id="to" name="to" class="form-control" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <label for="from"></label>
+                                        <div class="form-group">
+                                            <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label for="from" style="font-weight:bold;color:black">Total 20</label>
+                                        <div class="form-group">
+                                            <input type="text" id="txtgi20" name="txtgi20" style="border-width: 0px;background-color:#c4e5fb;font-weight:bold;color:black" class="form-control txtgi20" value="@System.Web.HttpContext.Current.Session["EGO20"]" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="from" style="font-weight:bold;color:black">Total 40</label>
+                                        <div class="form-group">
+                                            <input type="text" id="txtgi40" name="txtgi40" style="border-width: 0px;background-color:#cbcbed;font-weight:bold;color:black" class="form-control txtgi40" value="@System.Web.HttpContext.Current.Session["EGO40"]" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <label for="from" style="font-weight:bold;color:black">Total 45</label>
+                                        <div class="form-group">
+                                            <input type="text" id="txtgi45" name="txtgi45" style="border-width: 0px;background-color:#f7eddc;font-weight:bold;color:black" class="form-control txtgi45" value="@System.Web.HttpContext.Current.Session["EGO45"]" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label for="from" style="font-weight:bold;color:black">TUES</label>
+                                        <div class="form-group">
+                                            <input type="text" id="txtgitu" name="txtgitu" style="border-width: 0px;background-color:#efd8d1;font-weight:bold;color:black" class="form-control txtgitu" value="@System.Web.HttpContext.Current.Session["EGOTTU"]" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Number
+                                </th>
+                                <th>
+                                    Container No
+                                </th>
+                                <th>
+                                    Size
+                                </th>
+                                <th>
+                                    CHA Name
+                                </th>
+                                <th>
+                                    Vehicle No
+                                </th>
+
+                                <th>
+                                    Driver
+                                </th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ExportGateOut")",
+                "bProcessing": true,
+                "bStateSave": true,
+                //"aaSorting": [[1, "asc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-md-2" },
+                    { "sName": "", "sClass": "col-md-1" },
+                    { "sName": "", "sClass": "col-md-2" },
+                    { "sName": "", "sClass": "col-md-1" },
+                    { "sName": "", "sClass": "col-md-2" },
+                    { "sName": "", "sClass": "col-md-2" },
+                    { "sName": "", "sClass": "col-md-2" },
+                    {
+                        "sClass": "col-md-2 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "ExportGateOut")/' +
+                                oObj.aData[7] + '\"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("PrintView", "ExportGateOut")/' +
+                                oObj.aData[7] + '\"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[7] + ";" + oObj.aData[8] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+
+            GetContainerDetails();
+            //------------Delete Record-------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ExportGateOut/Del",
+                        {
+                            id: idx, fld: "EXPORT_GATEOUT"
+                        },
+                        function (data, status) {
+                            if (data == "") {
+                                alert("You are not Authorized to Delete....!");
+                            }
+                            else if (data != "Deleted successfully...") {
+                                alert(data);
+                            }
+                            else {
+                                alert(data);
+                                location.replace(base + "/ExportGateOut");
+                            }
+                        });
+                }
+                return false;
+            });//End
+        });
+
+        function GetContainerDetails() {
+            var fromdate = $("#from").val();
+            var todate = $("#to").val(); var sdptid = 1;
+
+            if (fromdate == "") {
+                alert('Please Enter From Date !!')
+                $("#from").focus();
+                return false;
+            }
+
+            if (todate == "") {
+                alert('Please Enter To Date !!')
+                $("#to").focus();
+                return false;
+            }
+
+            url = '@Url.Action("TotalContainerDetails", "ExportGateOut")';
+
+            $.ajax({
+                type: 'post',
+                url: url, // we are calling json method
+                data: { fromdate: fromdate, todate: todate, sdptid: sdptid },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.length != 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            //alert(data[i].Sno);
+                            if ((data[i].Sno == 3) && (data[i].Descriptn == "EXPORT - GATEOUT")) {
+
+                                var gi20 = data[i].c_20;
+                                //alert(gi20);
+
+                                $('.txtgi20').val(gi20);
+                                $('.txtgi40').val(data[i].c_40);
+                                $('.txtgi45').val(data[i].c_45);
+                                $('.txtgitu').val(data[i].c_tues);
+
+
+                            }
+
+                        }
+
+                    }
+
+                },
+
+            });
+
+
+        }
+    </script>
+}

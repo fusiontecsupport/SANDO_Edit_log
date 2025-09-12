@@ -1,0 +1,173 @@
+﻿using scfs_erp;
+using scfs_erp.Context;
+using scfs_erp.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using scfs.Data;
+
+namespace scfs_erp.Controllers.Search
+{
+    [SessionExpire]
+    public class ContainerDetailsController : Controller
+    {
+        // GET: ContainerDetails
+        SCFSERPContext context  = new SCFSERPContext();
+        //[Authorize(Roles = "ContainerDetailsView")]
+        public ActionResult Index()
+        {
+            if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
+            ViewBag.GIDID = new SelectList("");
+            return View();
+        }
+
+        public JsonResult GetContnrno(string term)
+        {
+            var data = (from r in context.gateindetails.Where(x => x.SDPTID == 1)
+                        where r.CONTNRNO.Contains(term.ToLower())
+                        select new { r.CONTNRNO, r.GIDID }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult GetIGMno(string id)
+        {
+            
+            var data = (from r in context.gateindetails.Where(x => x.CONTNRNO == id && x.CONTNRSID > 2 && x.SDPTID == 1).OrderByDescending(d => d.GIDATE)
+                            //    where r.CONTNRNO.Contains(term.ToLower())
+                        select new { r.CONTNRNO, r.GIDID, r.IGMNO }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult GetDetail(int id)
+        {
+            var data = context.Database.SqlQuery<VW_IMPORT_CONTAINER_DETAIL_QUERY_ASSGN>("SELECT * FROM VW_IMPORT_CONTAINER_DETAIL_QUERY_ASSGN WHERE  GIDID=" + id + "").ToList();
+            //var data = (from r in context.gateindetails.Where(x => x.CONTNRNO == id)
+            //            join c in context.containersizemasters on r.CONTNRSID equals c.CONTNRSID
+            //            select new { r.GIDID, r.GIDATE, r.VOYNO, r.VSLID, r.VSLNAME, r.IMPRTID, r.IMPRTNAME, r.STMRID, r.STMRNAME, r.CONTNRNO, r.GPLNO, r.IGMNO,c.CONTNRSID, c.CONTNRSCODE, r.GPETYPE, r.GPEAMT, r.GPWTYPE, r.GPAAMT,r.GPSTYPE,r.GPSCNTYPE }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetOpensheetDet(int id)
+        {
+            //  var data = context.Database.SqlQuery<OpenSheetMaster>("SELECT * FROM OpenSheetMaster inner join OpenSheetDetail on OpenSheetMaster.OSMID=OpenSheetDetail.OSMID WHERE  GIDID=" + id + "").ToList();
+            var data = (from r in context.opensheetmasters
+                        join c in context.opensheetdetails on r.OSMID equals c.OSMID
+                        where c.GIDID == id
+                        select new { r.OSMID, c.OSDID, r.OSMDNO, r.OSMDATE, r.DODATE, r.OSMTIME, r.OSMNAME, r.OSMCNAME, r.CHAID }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        //public JsonResult GetDestuffDet(int id)
+        //{
+
+        //    var data = (from r in context.authorizatioslipmaster.Where(x => x.SDPTID == 1 && x.ASLMTYPE == 2)
+        //                join c in context.authorizationslipdetail.Where(X => X.OSDID == id) on r.ASLMID equals c.ASLMID
+        //                join ct in context.categorymasters.Where(x => x.CATETID == 6) on c.LCATEID equals ct.CATEID
+        //                join ot in context.ImportDestuffSlipOperation on c.ASLOTYPE equals ot.OPRTYPE
+        //                select new { r.ASLMID, c.ASLDID, r.ASLMDNO, r.ASLMDATE, r.ASLMTIME, ct.CATENAME, ot.OPRTYPEDESC, c.ASLLTYPE, c.ASLDTYPE }).ToList();
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+        //}
+
+        public JsonResult GetDestuffDet(int id)
+        {
+
+            var data = (from r in context.authorizatioslipmaster.Where(x => x.SDPTID == 1 && x.ASLMTYPE == 2 && x.DISPSTATUS ==0)
+                        join c in context.authorizationslipdetail.Where(X => X.OSDID == id) on r.ASLMID equals c.ASLMID
+                        join ct in context.categorymasters.Where(x => x.CATETID > 0) on c.LCATEID equals ct.CATEID
+                        join ot in context.ImportDestuffSlipOperation on c.ASLOTYPE equals ot.OPRTYPE
+                        select new { r.ASLMID, c.ASLDID, r.ASLMDNO, r.ASLMDATE, r.ASLMTIME, ct.CATENAME, ot.OPRTYPEDESC, c.ASLLTYPE, c.ASLDTYPE }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetEmptyDestuffDet(string CONTNRNO)
+        {
+
+            var data = context.Database.SqlQuery<pr_Import_EmptyGatein_Detail_Assgn_Result>("exec  pr_Import_EmptyGatein_Detail_Assgn @PCONTNRNO = '" + CONTNRNO + "'").ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetLoadSlipDet(int id)
+        {
+
+            var data = (from r in context.authorizatioslipmaster.Where(x => x.SDPTID == 1 && x.ASLMTYPE == 1 && x.DISPSTATUS == 0)
+                        join c in context.authorizationslipdetail.Where(X => X.OSDID == id) on r.ASLMID equals c.ASLMID
+                        select new { r.ASLMID, c.ASLDID, r.ASLMDNO, r.ASLMDATE, r.ASLMTIME, c.VHLNO, c.DRVNAME }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetVehicleDet(int id)
+        {
+            var data = context.Database.SqlQuery<VehicleTicketDetail>("SELECT * FROM VehicleTicketDetail WHERE VTSTYPE = 1 AND  GIDID=" + id + "").ToList();
+            if (data.Count == 0)
+            {
+               var tdata = context.Database.SqlQuery<int>("SELECT isnull(max(vtdid),0) FROM VehicleTicketDetail WHERE VTSTYPE = 0 AND  GIDID=" + id + "").ToList();
+
+                data = context.Database.SqlQuery<VehicleTicketDetail>("SELECT * FROM VehicleTicketDetail WHERE VTSTYPE = 0 AND  VTDID=" + tdata[0] + " AND  GIDID=" + id + "").ToList();
+            }
+                
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetDODet(int id)
+        {
+            if (id > 0)
+            {
+                var data = (from r in context.DeliveryOrderMasters.Where(x => x.SDPTID == 1)
+                            join c in context.DeliveryOrderDetails.Where(X => X.BILLEDID == id) on r.DOMID equals c.DOMID
+                            select new { r.DODNO, r.DOREFNAME, r.DODATE, r.DOTIME }).ToList();
+                return Json(data, JsonRequestBehavior.AllowGet);
+
+                //var data = context.Database.SqlQuery<VW_IMPORT_DELIVERYORDER_TRACKING>("SELECT * FROM VW_IMPORT_DELIVERYORDER_TRACKING WHERE BILLEDID  = " + id).ToList();
+                //return Json(data, JsonRequestBehavior.AllowGet);             
+            }
+            else
+            {
+                var data = "";
+                return Json(data, JsonRequestBehavior.AllowGet);
+
+            }
+            //var data = (from r in context.DeliveryOrderMasters.Where(x => x.SDPTID == 1)
+            //            join c in context.DeliveryOrderDetails.Where(X => X.BILLEDID == id) on r.DOMID equals c.DOMID
+            //            select new { r.DODNO, r.DOREFNAME, r.DODATE, r.DOTIME }).ToList();
+            //return Json(data, JsonRequestBehavior.AllowGet);
+
+            //var data = context.Database.SqlQuery<DeliveryOrderMaster>("SELECT * FROM DeliveryOrderMaster WHERE  GIDID=" + id + "").ToList();
+
+            //return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public string GetBillDet(string id)//...bill DETAIL
+        {
+
+            var param = id.Split(';');
+            var gidid = Convert.ToInt32(param[0]);
+            var chaid = Convert.ToInt32(param[1]);
+            //var data = context.Database.SqlQuery<TransactionMaster>("select * from TransactionMaster inner join TransactionDetail on TransactionMaster.TRANMID=TransactionDetail.TRANMID  where TransactionDetail.TRANDREFID=" + gidid + " AND TransactionMaster.TRANREFID=" + chaid + "").ToList();
+            var data = context.Database.SqlQuery<TransactionMaster>("select * from TransactionMaster inner join TransactionDetail on TransactionMaster.TRANMID=TransactionDetail.TRANMID  where TransactionDetail.TRANDREFID=" + gidid + "").ToList();
+
+
+            string html = "";
+
+
+
+            int i = 1;
+
+            foreach (var rst in data)
+            {
+
+
+                html = html + "<tr><td>" + i + "</td><td>" + rst.TRANDATE.ToString("dd/MM/yyyy") + "<input style='display:none' type=text name=STFDSBNO id='STFDSBNO' class='STFDSBNO'  onchange='total()' value='" + rst.TRANDATE + "'>";
+                html = html + "</td><td>" + rst.TRANTIME.ToString("hh:mm tt") + "<input style='display:none' type=text name=STFDSBDATE id='STFDSBDATE' class='STFDSBDATE'  onchange='total()' value='" + rst.TRANDATE + "'>";
+                html = html + "</td><td>" + rst.TRANDNO + "<input style='display:none' type=text name=STFDSBDNO id='STFDSBDNO' class='STFDSBDNO'  onchange='total()' value='" + rst.TRANDATE + "'>";
+                html = html + "</td><td>" + rst.TRANREFNAME + "<input style='display:none' type=text name=STFDSBDDATE id='STFDSBDDATE' class='STFDSBDDATE'  onchange='total()' value='" + rst.TRANDATE + "'>";
+                html = html + "</td><td>" + rst.TRANREFNO + "<input style='display:none' type=text name=PRDTDESC id='PRDTDESC' class='PRDTDESC'  onchange='total()' value='" + rst.TRANDATE + "'>";
+                html = html + "</td><td>" + rst.TRANREFDATE + "<input style='display:none' type=text name=STFDNOP id='STFDNOP' class='STFDNOP'  onchange='total()' value='" + rst.TRANDATE + "'>";
+                html = html + "</td><td>" + rst.TRANNAMT + "<input style='display:none' type=text name=STFDQTY id='STFDQTY' class='STFDQTY'  onchange='total()' value='" + rst.TRANDATE + "'></td></tr>";
+                i++;
+            }
+            if (data.Count == 0)
+                html = html + "<tr><td colspan=8>No Records Found</td></tr>";
+            return html;
+
+
+        }
+    }
+}

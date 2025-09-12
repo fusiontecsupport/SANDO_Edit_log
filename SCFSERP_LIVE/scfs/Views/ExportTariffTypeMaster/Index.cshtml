@@ -1,0 +1,101 @@
+﻿@model IEnumerable<scfs_erp.Models.ExportTariffTypeMaster>
+@{
+    ViewBag.Title = "Export Tariff Type";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+                </div>
+                <div class="box-icons">
+                    <button onclick="parent.location = '@Url.Action("Form","ExportTarifftypeMaster")'; return false;" class="btn-success"> Create New </button>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content no-padding">
+                <br />
+                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TARIFFTMDESC)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TARIFFTMCODE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DISPSTATUS)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ExportTariffTypeMaster")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+
+                    { "sName": "" },
+
+                    { "sName": " ", "sClass": "action" },
+
+                    { "sName": "" },
+
+                    {
+                        "sClass": "col-md-2 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-primary btn-xs"  href="@Url.Action("Edit","ExportTarifftypeMaster")/' +
+                                oObj.aData[3] + '\"  " title="Modify"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger btn-xs del" href="#" id="' +
+                                oObj.aData[3] + '\"><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+                ]
+            });
+
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    //alert(idx);
+                    base = window.location.origin;
+                    $.post(base + "/ExportTariffTypeMaster/Del",
+                        {
+                            id: idx, fld: ""
+                            //"EXPORTTARIFF"
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted Successfully ...")
+                                location.replace(base + "/ExportTariffTypeMaster");
+                        });
+                }
+                return false;
+            });//End
+        });
+    </script>
+}
+
+

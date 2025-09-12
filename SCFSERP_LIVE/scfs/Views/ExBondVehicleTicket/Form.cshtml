@@ -1,0 +1,426 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.ExBondVehicleTicket
+
+@{
+    ViewBag.Title = "Ex-Bond Vehicle Ticket Details - Cargo";
+}
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>@ViewBag.Title</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/ExBondVehicleTicket/savedata")" method="post" accept-charset="utf-8" id="ExBondVTForm" data-ng-controller="myController" name="ExBondVTForm" onsubmit="return  Form_validate()">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ExportDirectVT_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => model.VTDID, new { @class = "form-control  VTDID", @id = "VTDID" })
+                                        @Html.TextBoxFor(model => model.VTNO, new { @class = "form-control  VTNO", @id = "VTNO", @data_val = false })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Date<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => model.VTDATE, new { @class = "form-control VTDATE", @id = "VTDATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+                                        @*@Html.TextBoxFor(model => model.vtdetail.VTDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker VTDATE ", @id = "VTDATE", @data_val = false, tabindex = "1" })*@
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Time<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.VTTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker VTTIME ", @id = "VTTIME", @data_Val = false, tabindex = "2" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>No </label>
+                                        @Html.TextBoxFor(model => model.VTDNO, new { @class = "form-control VTDNO ", @id = "VTDNO", @data_val = false, @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Ex Bond No<span class="required-field"></span></label>
+                                        @Html.DropDownList("EBNDID", null, "--Select Ex-Bond No--", new { @class = "form-control  EBNDID", @id = "EBNDID", @required = "required", @tabindex = "3", @onchange = "GetExBondDtl();" })
+                                        <input type="text" id="F_EBNDDNO" class="F_EBNDDNO hide form-control" name="F_EBNDDNO" value="@ViewBag.EBNDDNO" data-autocomplete-url=@Url.Action("AutoExBondNo", "ExBondVehicleTicket") onchange="GetExBondDtl();" placeholder="----Please Select----" tabindex="3">
+                                        @*@Html.HiddenFor(model => Model.EBNDID, new { @class = "form-control  EBNDID", @id = "EBNDID", @tabindex = "-1" })*@
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Cargo</label>
+                                        @Html.TextBoxFor(model => model.VTDESC, new { @class = "form-control VTDESC", @id = "VTDESC", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Bond No </label>
+                                        <input type="text" value="" id="BNDDNO" class=" form-control BNDDNO" name="BNDDNO" readonly="readonly" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 ">
+                                    <div class="form-group">
+                                        <label>CHA Name</label>
+                                        <input type="text" value="" id="CHANAME" class=" form-control CHANAME" name="CHANAME" readonly="readonly" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Importer</label>
+                                        <input type="text" value="" id="IMPRTRNAME" class=" form-control IMPRTRNAME" name="IMPRTRNAME" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Ex Bond NOP</label>
+                                        <input type="text" value="" id="EBNDNOP" class=" form-control EBNDNOP" name="EBNDNOP" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2 hide">
+                                    <div class="form-group">
+                                        <label>Ex Bond Bal NOP</label>
+                                        <input type="text" value="" id="BALEBNDNOP" class=" form-control BALEBNDNOP" name="BALEBNDNOP" readonly="readonly" />
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Vehicle No<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.VHLNO, new { @class = "form-control VHLNO", @id = "VHLNO", @required = "required", @tabindex = "4" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Driver Name<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.DRVNAME, new { @class = "form-control DRVNAME", @id = "DRVNAME", @tabindex = "5" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>NOP<span class="required-field"></span></label>
+
+                                        @Html.TextBoxFor(model => model.VTQTY, new { @class = "form-control VTQTY", @id = "VTQTY", @required = "required", @tabindex = "6", @onkeypress = "return isNumberCommaDot(event)" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label> Space</label>
+                                        @Html.TextBoxFor(model => model.VTAREA, new { @class = "form-control VTAREA", @id = "VTAREA", @required = "required", @tabindex = "7", @onkeypress = "return isNumberCommaDot(event)" })
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Container Size<span class="required-field"></span></label>
+                                        @Html.DropDownList("CONTNRSID", null, new { @class = "form-control CONTNRSID", @id = "CONTNRSID", tabindex = "10" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>No.of Containers <span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.EBVTNOC, new { @class = "form-control EBVTNOC", @id = "EBVTNOC", tabindex = "11", @maxlength = "50" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    @Html.TextAreaFor(model => model.VTREMRKS, new { @class = "form-control VTREMRKS", @id = "VTREMRKS", @tabindex = "8" })
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 box-footer">
+                            <div class="col-md-12 box-footer">
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" tabindex="10" />
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="9" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+    {
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    <script>
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getDate() +
+                "/" +
+                eval(value1.getMonth() + 1) +
+                "/" +
+                value1.getFullYear();
+            return dat;
+        }
+
+
+
+        function GetExBondDtl() {
+            id = $("#EBNDID").val();
+            if (id != "" && id != null && id != "0") {
+                //alert(id);
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("GetExBondDetail", "ExBondInformation")?id=' + id, // we are calling json method
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data, function (i, dataval) {
+                            $("#BNDDNO").val(dataval.BNDDNO);
+                            $("#IMPRTID").val(dataval.IMPRTID);
+                            $("#CHAID").val(dataval.CHAID);
+                            //$("#BNDBENO").val(dataval.BNDBENO);
+                            //$("#BNDBLNO").val(dataval.BNDBLNO);
+                            //$("#IGMNO").val(dataval.BNDIGMNO);
+                            //$("#LINENO").val(dataval.BNDLINENO);
+                            //$("#BND20MAX").val(dataval.BND20);
+                            //$("#BND40MAX").val(dataval.BND40);
+                            //$("#BNDGWGHT").val(dataval.BNDGWGHT);
+                            $("#PRDTGID").val(dataval.EBPRDTGID);
+                            $("#VTDESC").val(dataval.EBPRDTDESC);
+                            //$("#PRDTTID").val(dataval.PRDTTID);
+                            //$("#BNDNOP").val(dataval.BNDNOP);
+                            //$("#BNDSPC").val(dataval.BNDSPC);
+                            //$("#BNDBEDATE").val(dataval.BNDBEDATE);
+                            //$("#BNDBLDATE").val(dataval.BNDBLDATE);
+                            //$("#BNDTYPE").val(dataval.BNDTYPEDESC);
+                            $("#IMPRTRNAME").val(dataval.IMPRTRNAME);
+                            $("#CHANAME").val(dataval.CHANAME);
+                            $("#EBNDNOP").val(dataval.BNDNOP);
+                            //$("#BND40BAL").val(dataval.BND40BAL);
+
+                            $("#BALEBNDNOP").val(dataval.BEBNOP);
+                            
+                            //$("#BALEBNDSPC").val(dataval.BEBSPC);
+
+
+                        });
+                    },
+                    complete: function () {
+
+                        EdBal();
+                    },
+                    error: function (ex) {
+                        alert('Failed to data ' + ex);
+                    }
+                });
+            }
+        }
+
+        $(window).bind("load", function () {
+            if ($(".VTDID").val() == "") {
+                $(".VTDID").val("0");
+            }
+              //---AutoComplete function for BOND INFORMATION-----
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+
+            if ($("#VTDID").val() == "") {
+                $("#VTDID").val("0");
+            }
+            $('input[id$=VTDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#VTDATE").focus();
+                }
+            });
+
+            $('input[id$=EVSDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#EVSDATE").focus();
+                }
+            });
+
+            $('input[id$=EVLDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#EVLDATE").focus();
+                }
+            });
+
+            $('input[id$=ELRDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#ELRDATE").focus();
+                }
+            });
+
+            $(".datepicker").removeAttr('VTDATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+
+            if ($("#VTDID").val() == 0) {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                //console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                var datetme = hours + ':' + minutes + ':' + seconds;
+
+                $(".VTDATE").val(date);
+                $(".VTTIME").val(datetme);
+            }
+            else {
+                if ($(".VTDID").val() != 0) {
+                    GetExBondDtl();
+
+                }
+            }
+        });
+
+        function EdBal() {
+            var VTDid = $("#VTDID").val();
+            if (VTDid != "0" && VTDid != "") {
+                var bnop = $('#VTQTY').val();                
+                if (bnop == "")
+                    bnop = 0;
+                var balnop = $('#BALEBNDNOP').val();
+                if (balnop == "")
+                    balnop = 0;
+
+                balnop = eval(balnop) + eval(bnop);
+                $('#BALEBNDNOP').val(balnop);
+                
+                
+            }
+        }
+
+        function Form_validate() {
+            if ($("#VTDATE").val() == "") {
+                alert("Please enter Date !!");
+                $(".VTDATE").focus();
+                return false;
+            }
+            else if ($("#VTTIME").val() == "") {
+                alert("Please enter Time !!");
+                $(".VTTIME").focus();
+                return false;
+            }
+            var temp8 = $("#VHLNO").val();
+            if (temp8 == "") {
+                alert("Please enter vehicle no !!");
+                $("#VHLNO").focus();
+                return false;
+            }
+            else if ($("#DRVNAME").val() == "") {
+                alert("Please enter driver name !!");
+                $(".DRVNAME").focus();
+                return false;
+            }
+            var temp3 = $("#VTQTY").val();
+            if (temp3 == "") {
+                alert("Please enter NOP !!");
+                $(".VTQTY").focus();
+                return false;
+            }
+
+            var bnop = $('#VTQTY').val();
+            if (bnop == "")
+                bnop = 0;            
+            var balnop = $('#BALEBNDNOP').val();
+            if (balnop == "")
+                balnop = 0;
+            
+            //if (eval(bnop) > eval(balnop)) {
+            //    alert("Please enter Valid NOP !!");
+            //    $(".VTQTY").focus();
+            //    return false;
+            //}
+            var temp4 = $("#CONTNRSID").val();
+            if (temp4 == "") {
+                alert("Please enter Container Size !!");
+                $(".CONTNRSID").focus();
+                return false;
+            }
+            var temp4 = $("#EBVTNOC").val();
+            if (temp4 == "") {
+                alert("Please enter No. of Containers!!");
+                $(".EBVTNOC").focus();
+                return false;
+            }
+        }
+
+        $(document).ready(function () {
+            $(function () {
+                add_autocomplete($("#EBNDDNO"), "EBNDDNO,EBNDID");
+                $(".datepicker").removeAttr('VTDATE').removeClass('hasDatepicker');
+
+                $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+                $('.timepicker').datetimepicker({
+                    datepicker: false,
+                    format: 'H:i'
+                });
+            });
+            $("#EBNDDNO").focus();
+            EdBal();
+            
+        });
+
+    </script>
+}
+@Scripts.Render("~/bundles/jqueryval")
+}

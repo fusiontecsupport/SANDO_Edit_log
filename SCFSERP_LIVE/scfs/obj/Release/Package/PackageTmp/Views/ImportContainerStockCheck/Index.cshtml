@@ -1,0 +1,191 @@
+﻿@model IEnumerable<scfs.Data.pr_Import_Container_Stock_Assgn_Result>
+@{
+    ViewBag.Title = "Import Container Stock";
+}
+<style>
+    div.DTTT_container {
+        float: none;
+        text-align: center;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+                </div>
+                @*<div class="box-icons">
+                        <button onclick="parent.location = '@Url.Action("Form", "ContainerStockCheck")'; return false;" class="btn-success"> Create New </button>
+                    </div>*@
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content no-padding">
+                <br />
+                <div class="row">
+
+                    <form action="#" method="post" accept-charset="utf-8" id="ContainerStockCheckform" data-ng-controller="myController" name="ContainerStockCheckform">
+                        <div class="col-xs-3"> </div>
+                        <div class="col-xs-6">
+                            <label for="from">As On</label>
+                            <input type="text" id="from" name="from" value="@Session["SDATE"]">
+                            <input type="text" id="to" name="to" value="@Session["EDATE"]" class="hidden">
+                            <input type="submit" name="submit" value="Search" class="btn btn-success btn-xs" />
+                        </div>
+                    </form>
+                    <form action="@Url.Action("Showrpt", "ContainerStockCheck")" method="post" accept-charset="utf-8" id="ContainerStockCheckfrm" data-ng-controller="myController" name="ContainerStockCheckfrm">
+                        <div class="col-lg-12">
+                            <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                                <thead>
+                                    <tr>
+
+                                        <th>
+                                            In Date
+                                        </th>
+
+                                        <th>
+                                            Container No
+                                        </th>
+                                        <th>Size</th>
+
+
+                                        <th>Steamer</th>
+                                        <th>Importer</th>
+                                        <th>IGM No.</th>
+                                        <th>L.No</th>
+                                        <th>Cargo</th>
+                                        <th>Type</th>
+                                        <th>Dwell</th>
+
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+
+                                            <td>@item.GIDATE.Value.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.CONTNRNO</td>
+                                            <td>@item.CONTNRSDESC</td>
+                                            <td>
+                                                @item.STMRNAME
+                                            </td>
+                                            <td>@item.IMPRTNAME</td>
+                                            <td>@item.IGMNO</td>
+                                            <td>
+                                                @item.GPLNO
+                                            </td>
+                                            <td class="col-lg-3">@item.PRDTDESC</td>
+                                            <td>@item.CONTNRTDESC</td>
+                                            <td>@item.NOD</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="9" style="text-align:center"></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="clearfix"> </div>
+                        <div class="col-lg-12">
+                            <div class="col-xs-1"> </div>
+
+                            <br />
+
+
+
+
+                        </div>
+                        <br />
+                    </form>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+
+
+        $(document).ready(function () {
+          //  $('#dataTables-example').dataTable();
+            $('#dataTables-example').dataTable({
+                //  "sDom": 'T<"clear">lfrtip',
+                "sDom": "<'row'<'col-sm-4'l><'col-sm-4'T><'col-sm-4'f>>R" +
+     "<'row'<'col-sm-12'tr>>" +
+     "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                "oTableTools": {
+                    "sSwfPath": "Content/DataTables-1.9.4/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
+                    "aButtons": [
+                          "xls",
+                    ]
+                }
+     //           "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+
+     //               var TNOS = 0; var FNOS = 0; var TUES = 0;
+
+     //               /*
+     //                * Calculate the total market share for all browsers in this table (ie inc. outside
+     //                * the pagination)
+     //                */
+
+     //               //alert(aiDisplay.length + "//" + nRow);
+     //               //for (var i = 0 ; i < aaData.length ; i++) {
+     //               //    // alert(aaData[4]);
+
+     //               //}
+
+
+
+     //               /* Calculate the market share for browsers on this page */
+
+     //               for (var i = 0 ; i < aaData.length; i++) {
+     //                   //alert("2" + aaData[aiDisplay[i]][3]);
+     //                   if (aaData[aiDisplay[i]][2] == 20) TNOS++;
+     //                   if (aaData[aiDisplay[i]][2] == 40) FNOS++;
+     //                   TUES = eval(TNOS) + eval(2 * FNOS);
+     //                   //  iPageMarket += aaData[aiDisplay[i]][4] * 1;
+     //               }
+
+     //               /* Modify the footer row to match what we want */
+     //               var nCells = nRow.getElementsByTagName('th'); nCells[0].innerHTML = '<span style="color:red">20":</span>' + eval(TNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<span style="color:red">40":</span>' + eval(FNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<span style="color:red">TUES:</span>' + eval(TUES)
+
+
+     //           }
+          });
+
+
+
+            //------------datecontrols-------------------
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true, changeYear: true,
+                //  numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                //onClose: function (selectedDate) {
+                //    $("#to").datepicker("option", "minDate", selectedDate);
+                //}
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });//-----End of datecontrol-------
+
+
+
+        });//-----End of ready function
+    </script>
+}

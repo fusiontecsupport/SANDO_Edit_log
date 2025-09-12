@@ -1,0 +1,403 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.GateInDetail
+
+@{
+    ViewBag.Title = "SSR Charges Update";
+}
+
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>@ViewBag.Title</strong>
+                        </div>
+                    </div>
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ImportUpdateDetails/SSRCHargesUpdate")" method="post" accept-charset="utf-8" id="frm" data-ng-controller="myController" name="frm" onsubmit="return Validate()">
+
+                            <fieldset id="ExportCartingOrder_info">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="col-md-3">
+
+                                            <div class="form-group">
+                                                <label>Container No </label>
+                                                @Html.TextBoxFor(model => Model.CONTNRNO, new { @class = "form-control CONTNRNO", @id = "CONTNRNO", @required = "required", tabindex = "1", data_autocomplete_url = Url.Action("SSRChargesAutoContainer", "ImportUpdateDetails"), @placeholder = "---Please Select----" })
+                                                @Html.TextBoxFor(model => Model.GIDID, new { @class = "hide form-control GIDID", @id = "GIDID" })
+                                                @*<input type="text" class="CONTNRNO form-control" name="CONTNRNO" id="CONTNRNO" placeholder="--Enter Container No-" tabindex="1" />*@
+                                                @*<input type="text" class="CONTNRNO form-control" name="CONTNRNO" id="CONTNRNO"  data_autocomplete_url='@Url.Action("AutoContainer","ImportUpdateDetails")' placeholder="--Enter Container No-" tabindex="1" autocomplete="off" />*@
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+
+                                            <div class="form-group">
+                                                <br />
+                                                <input type="button" name="search" value="Search" class="btn btn-success btn-xs" id="search" onclick="GetDetail()" tabindex="8" />
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <input type="text" id="pd_index" value="0" style="display:none">
+
+                                    <div style="float:right">
+                                    </div>
+                                    <div style="clear:both"> </div>
+                                </div>
+
+                                <div class="panel-heading navbar-inverse" style="color:white"> Details</div>
+
+                                <table class="table table-striped table-bordered bootstrap-datatable TDETAIL" id="TDETAIL">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>In Date</th>
+                                            <th>Size</th>
+                                            <th>IGM No</th>
+                                            <th>Line No</th>
+                                            <th>Container No</th>
+                                            <th>Voyage No</th>
+                                            <th>Viseal Name</th>
+                                            <th>Importer</th>
+                                            <th>Steamer</th>
+                                            <th>SSR/Escort</th>
+                                            <th>SSR/Escort Amount </th>
+                                            <th>Addtnl. Amount</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="job_list"></tbody>
+                                </table>
+                                <div class="col-md-12" style="color:mediumvioletred;font-weight:bold">
+                                    Please Update the SSR Charges Before Invoice
+                                </div>
+                                <br />
+                                <div class="col-md-12">
+                                    
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>SSR/Escort</label>@*@Html.ValidationMessageFor(model => model.GPETYPE)*@
+                                            @Html.DropDownList("GPETYPE", null, new { @class = "form-control", tabindex = "1" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>SSR/Escort Amount </label>
+                                            @Html.TextBoxFor(model => Model.GPEAMT, new { @class = "form-control  GPEAMT", @id = "GPEAMT", tabindex = "2", @onkeypress = "return isNumberCommaDot(event)" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Addtnl. Amount </label>
+                                            @Html.TextBoxFor(model => Model.GPAAMT, new { @class = "form-control  GPAAMT", @id = "GPAAMT", tabindex = "3", @onkeypress = "return isNumberCommaDot(event)" })
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+
+
+                                <div class="col-md-12 box-footer">
+                                    <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+
+                                    <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs hide" id="save" tabindex="5010" />
+                                    <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" tabindex="5010" />
+
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    <script>
+        $(function () {
+            add_autocomplete_Containerno($("#CONTNRNO"), "CONTNRNO,GIDID");
+
+        });
+
+        $(document).ready(function () {
+
+            add_autocomplete_Containerno($("#CONTNRNO"), "CONTNRNO,GIDID");
+
+
+        });//.......end of bind
+
+       
+      
+        $("#btnsave").click(function () {
+            var flag = true;
+            if ($("#CONTNRNO").val() == "") {
+                alert('Please Enter Container No !!');
+                $("#CONTNRNO").focus();
+                flag = false;
+            }
+            else if ($("#GPETYPE").val() == "") {
+                alert('Please Select SSR/Escort Name !!');
+                $("#GPETYPE").focus();
+                flag = false;
+            }
+            else if ($("#GPEAMT").val() == "") {
+                alert('Please Enter SSR/Escort Amount !!');
+                $("#GPEAMT").focus();
+                flag = false;
+            }
+            else if ($("#GPAAMT").val() == "") {
+                alert('Please Enter Vehicle No !!');
+                $("#GPAAMT").focus();
+                flag = false;
+            }
+            if (flag) {
+                if ($("#GPEAMT").val() == "") {
+                    $("#GPEAMT").val("0");
+                }
+                if ($("#GPAAMT").val() == "") {
+                    $("#GPAAMT").val("0");
+                }
+                var tab = {
+                    GPETYPE: $("#GPETYPE").val(),
+                    GPEAMT: $("#GPEAMT").val(),
+                    GPAAMT: $("#GPAAMT").val(),
+                    GIDID: $("#GIDID").val()
+                }
+                console.log(tab);
+
+                //var r = confirm("Are you sure to update?");
+                //if (r == true) {
+                $.ajax({
+                    type: 'post',
+                    url: '@Url.Action("SSRCHargesUpdate", "ImportUpdateDetails")', // we are calling json method
+                    data: tab,
+                    success: function (data) {
+
+                        if (data == "saved") {
+                            var returnurl = '@Url.Action("SSCIndex", "ImportUpdateDetails")';
+                            window.location.href = returnurl;
+                            alert('Update Successfully');
+                            $("#GPEAMT").val("0");
+                            $("#GPAAMT").val("0");
+                        }
+                    },
+
+                    error: function (ex) {
+                        //alert('Failed to save data ' + ex);
+                    }
+                });
+
+                //    return true;
+                //} else {
+
+                //    return false;
+
+                //}
+
+            }
+
+        });
+
+        function add_autocomplete_Containerno($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+
+                    });
+
+
+                    var CONTNRNO = $('#CONTNRNO').val();
+
+                    url = "/ImportUpdateDetails/SSRChargeDetail/" + CONTNRNO;
+
+                    //alert(url);
+
+
+                    $.ajax({
+                        url: url,
+                        success: function (data) {
+                            //alert(data);
+                            $("#job_list").html("");
+                            $("#job_list").html(data);
+
+                        }
+
+                    });
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            //console.log(data);
+                            //alert(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#CONTNRNO").focus();
+                                $("#GIDID").val("0");
+                            }
+                            else { }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#CONTNRNO").val('');
+                            $("#GIDID").val("0");
+                            //console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+
+
+        function GetDetail() {
+            // alert("SS");
+
+            var CONTNRNO = $('#CONTNRNO').val();
+            //alert(CONTNRNO);
+            //var SLOTID = $("#SLOTID").val();
+
+            if (CONTNRNO == "") {
+                alert('Please Enter Container No');
+                $("#CONTNRNO").focus();
+                return false;
+
+            }
+
+            url = "/ImportUpdateDetails/SSRChargeDetail/" + CONTNRNO;
+
+            //alert(url);
+
+
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    
+                    //alert(data);
+                    $("#job_list").html("");
+                    $("#job_list").html(data);
+                    //alert($('.SGIDID').val());
+                    $("#GIDID").val($('.SGIDID').val());
+                    
+                }
+
+            });//---End of Post--------
+
+        }
+    </script>
+}

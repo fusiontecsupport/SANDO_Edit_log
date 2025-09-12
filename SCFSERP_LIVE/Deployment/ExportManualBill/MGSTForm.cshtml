@@ -1,0 +1,1442 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.TransactionMD
+@{
+    ViewBag.Title = "Export Manual Bill";
+}
+<style>
+    #TDETAIL {
+    }
+
+    /*#TDETAIL td input {
+      width:50%;
+    }*/
+
+    .TRANDAID {
+        min-width: 200px;
+    }
+
+    .TRANDREFNAME {
+        min-width: 250px;
+    }
+
+    /*.TRANDREFNO {
+        max-width: 100%;
+    }*/
+
+    .TDETAILBANK td {
+        text-align: center;
+    }
+
+    .small {
+        border: 0;
+        width: 30px;
+        max-width: 25%;
+        background: none;
+    }
+
+    .stk {
+        background: #0f367d;
+        color: #fff;
+    }
+
+    .sm-1 {
+        max-width: 50px;
+    }
+
+    .TRANGAMT, .TRANNAMT, .TRANROAMT {
+        max-width: 150px;
+    }
+
+    .gross {
+        min-width: 800px;
+    }
+
+    .frm_hide {
+        display: none;
+    }
+
+    .small {
+        border: 0;
+        width: 30px;
+        max-width: 25%;
+        background: none;
+    }
+
+    .medium {
+        border: 0;
+        width: 50px;
+        max-width: 55%;
+        background: none;
+    }
+</style>
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <div class="box-name">
+                                    <i class="glyphicon glyphicon-export"></i>
+                                    <strong>Export Manual Bill</strong>
+                                </div>
+                            </div>
+                            <div class="box-content" data-ng-app="myModule">
+                                <form action="@Url.Content("~/ExportManualBill/msavedata")" method="post" accept-charset="utf-8" id="frm" data-ng-controller="myController" name="frm" onsubmit="return Validate()">
+                                    @Html.ValidationSummary(true)
+                                    <fieldset id="ExportManualBill_info">
+                                        <div class="row">
+                                            <div class="col-md-2 hidden">
+                                                <div class="form-group">
+                                                    <label>Primary  </label>
+                                                    @Html.TextBoxFor(model => model.masterdata[0].TRANMID, new { @class = "form-control  TRANMID", @id = "TRANMID" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 hide">
+                                                <div class="form-group">
+                                                    <label>Tax Type <span class="required-field"></span> </label>
+                                                    @Html.DropDownList("TRANBTYPE", null, new { @class = "form-control TRANBTYPE", @id = "TRANBTYPE", tabindex = "-1", @value = "0" })
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Bill Type <span class="required-field"></span></label>
+                                                    @if (Model.masterdata != null)
+                                                    {
+
+                                                        //@Html.DropDownListFor(model => model.masterdata[0].REGSTRID, new SelectList(ViewBag.REGSTRID, "value", "text"), "Select", new { @class = "form-control REGSTRID", @id = "REGSTRID", @disabled = "disabled", @value = "@model.masterdata[0].REGSTRID" })
+                                                        @Html.DropDownList("REGSTRID", null, new { @class = "form-control REGSTRID", @id = "REGSTRID", tabindex = "1", @onchange = "chktax()", @readonly = "readonly" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownList("REGSTRID", null, new { @class = "form-control REGSTRID", @id = "REGSTRID", tabindex = "1", @onchange = "chktax()" })
+                                                    }
+
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>No</label>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANNO, new { @class = "form-control  TRANNO", @id = "TRANNO", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 hide">
+                                                <div class="form-group">
+                                                    <label>Date/Time </label>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANTIME, new { @class = "form-control datetime  TRANTIME", @id = "TRANTIME", @data_val = false, @onblur = "test()", tabindex = "2" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 hide">
+                                                <div class="form-group">
+                                                    <label>S.Tax  </label>
+                                                    @Html.DropDownList("STAX", null, new { @class = "form-control STAX", @id = "STAX", @tabindex = "-1", @value = "0" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>CHA  <span class="required-field"></span> </label>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANREFNAME, new { @class = "form-control  TRANREFNAME", @id = "TRANREFNAME", data_autocomplete_url = Url.Action("AutoCha", "ExportManualBill"), placeholder = "Please Select CHA Name", tabindex = "5" })
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANREFID, new { @class = "hide form-control TRANREFID", @id = "TRANREFID" })
+
+                                                    <input type="text" value="" id="DDATE" class="hide form-control DDATE" name="DDATE" style="width:95px" />
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Location <span class="required-field"></span></label>
+                                                    @Html.DropDownList("CATEAID", null, "Select Location", new { @class = "form-control CATEAID", @id = "CATEAID", tabindex = "6", @onchange = "GetAddressDetails()" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>GST NO <span class="required-field"></span> </label>
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].CATEAGSTNO, new { @class = "form-control   CATEAGSTNO", @id = "CATEAGSTNO", @readonly = "readonly" })
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].STATEID, new { @class = "form-control hide STATEID", @id = "STATEID" })
+                                                    <input type="text" id="txtstatetype" name="STATETYPE" class="form-control hide STATETYPE" value="0" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Address 1 </label>
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANIMPADDR1, new { @class = "form-control  TRANIMPADDR1", @id = "TRANIMPADDR1", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Address 2 </label>
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANIMPADDR2, new { @class = "form-control   TRANIMPADDR2", @id = "TRANIMPADDR2", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Address 3 </label>
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANIMPADDR3, new { @class = "form-control  TRANIMPADDR3", @id = "TRANIMPADDR3", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Address 4 </label>
+                                                <div class="form-group">
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANIMPADDR4, new { @class = "form-control  TRANIMPADDR4", @id = "TRANIMPADDR4", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>State</label>
+                                                <div class="form-group">
+                                                    @if (Model.masterdata != null)
+                                                    {
+                                                        <input type="text" id="txtstate" name="STATE" class="form-control STATE" value="@ViewBag.STATEDESC" readonly="readonly" />
+                                                        <input type="text" id="txtstatetype" name="STATETYPE" class="form-control hide STATETYPE" value="@ViewBag.STATETYPE" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="txtstate" name="STATE" class="form-control STATE" value="" readonly="readonly" />
+                                                        <input type="text" id="txtstatetype" name="STATETYPE" class="form-control hide STATETYPE" value="0" />
+                                                    }
+
+
+                                                </div>
+                                            </div>
+
+                                            <input type="text" id="pd_index" value="0" style="display:none">
+
+                                            <div style="float:right">
+                                            </div>
+                                            <div style="clear:both"> </div>
+                                        </div>
+
+
+                                        <div class="panel-heading navbar-inverse" style="color:white">Container Charge Details<a class="navbar-right  btn-primary" id="add_detail" style="margin-top:-3px;"> <i class="glyphicon  glyphicon-plus-sign  well-sm"></i></a></div>
+
+                                        <input type="text" id="TDETAIL_IDX" value="0" name="TDETAIL_IDX[]" class="TDETAIL_IDX" style="display:none" />
+                                        <table class="table table-striped table-bordered bootstrap-datatable TDETAIL" id="TDETAIL">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <label><strong>Account Head</strong>  <span class="required-field"></span></label>
+
+                                                    </th>
+
+
+                                                    <th>
+                                                        <label><strong>Bill Description</strong>  <span class="required-field"></span></label>
+
+                                                    </th>
+
+                                                    <th>
+                                                        <label><strong>HSN Code</strong>  <span class="required-field"></span></label>
+
+                                                    </th>
+
+                                                    <th>
+                                                        <label><strong>GST %</strong>  <span class="required-field"></span></label>
+
+                                                    </th>
+
+                                                    <th>
+                                                        <label><strong>Amount</strong>  <span class="required-field"></span></label>
+
+                                                    </th>
+                                                    <th class="hide">
+                                                        <label><strong>Total Amount</strong>  <span class="required-field"></span></label>
+
+                                                    </th>
+                                                    <th></th>
+
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="TDETAIL_BODY" class="TDETAIL_BODY">
+                                                @if (Model.detaildata != null)
+                                                {
+                                                    foreach (TransactionDetail details in Model.detaildata)
+                                                    {
+
+                                                        if (details.TRANDQTY == 0)
+                                                        {
+                                                            details.TRANDQTY = 18;
+                                                        }
+
+                                                        if (details.TRANDDESC == "")
+                                                        {
+                                                            details.TRANDDESC = "-";
+                                                        }
+
+                                                        if (details.TRANDREFNO == "")
+                                                        {
+                                                            details.TRANDREFNO = "-";
+                                                        }
+
+                                                        <tr class="item-row">
+
+                                                            <td class="hide">
+                                                                <input class="TRANDID" id="TRANDID" name="TRANDID" type="text" value="@details.TRANDID">
+                                                            </td>
+                                                            <td class="col-md-3">
+
+                                                                @Html.DropDownListFor(model => model.detaildata[0].ACHEADID, new SelectList(ViewBag.ACHEADID, "value", "text", @details.ACHEADID), "Select", new { @class = "form-control ACHEADID", @id = "ACHEADID", value = "@details.ACHEADID", @onchange = "test(this)" })
+
+                                                                <input class="form-control  TRANDREFNAME hide" id="TRANDREFNAME" name="TRANDREFNAME" type="text" value="@details.TRANDREFNAME">
+                                                            </td>
+
+                                                            <td class="col-md-4">
+
+                                                                <textarea class="form-control  TRANDDESC" cols="8" id="TRANDDESC" name="TRANDDESC" rows="4"> @details.TRANDDESC.ToString() </textarea>
+                                                            </td>
+                                                            <td class="col-md-2">
+                                                                <input class="form-control TRANDHSNCODE" id="TRANDHSNCODE" name="TRANDHSNCODE" type="text" value="@details.TRANDREFNO" tabindex="-1">
+
+                                                            </td>
+                                                            <td class="col-md-2">
+                                                                <input class="TRANDGST form-control" id="TRANDGST" name="TRANDGST" type="text" value="@details.TRANDQTY" onchange="total()" tabindex="-1">
+
+                                                                <input class="form-control TRAND_STRG_CGST_EXPRN hide" id="TRAND_STRG_CGST_EXPRN" name="TRAND_STRG_CGST_EXPRN" type="text" value="@details.TRAND_STRG_CGST_EXPRN" style="width:70px" readonly>
+                                                                <input class="form-control TRAND_STRG_IGST_EXPRN hide" id="TRAND_STRG_IGST_EXPRN" name="TRAND_STRG_IGST_EXPRN" type="text" value="@details.TRAND_STRG_IGST_EXPRN" style="width:70px" readonly>
+                                                                <input class="form-control TRAND_STRG_SGST_EXPRN hide" id="TRAND_STRG_SGST_EXPRN" name="TRAND_STRG_SGST_EXPRN" type="text" value="@details.TRAND_STRG_SGST_EXPRN" style="width:70px" readonly>
+
+                                                                <input class="form-control TRAND_HANDL_CGST_EXPRN hide" id="TRAND_HANDL_CGST_EXPRN" name="TRAND_HANDL_CGST_EXPRN" type="text" value="@details.TRAND_HANDL_CGST_EXPRN" style="width:70px" readonly>
+                                                                <input class="form-control TRAND_HANDL_IGST_EXPRN hide" id="TRAND_HANDL_IGST_EXPRN" name="TRAND_HANDL_IGST_EXPRN" type="text" value="@details.TRAND_HANDL_IGST_EXPRN" style="width:70px" readonly>
+                                                                <input class="form-control TRAND_HANDL_SGST_EXPRN hide" id="TRAND_HANDL_SGST_EXPRN" name="TRAND_HANDL_SGST_EXPRN" type="text" value="@details.TRAND_HANDL_SGST_EXPRN" style="width:70px" readonly>
+
+                                                                <input class="form-control TRAND_STRG_CGST_AMT hide" id="TRAND_STRG_CGST_AMT" name="TRAND_STRG_CGST_AMT" type="text" value="@details.TRAND_STRG_CGST_AMT" style="width:70px" readonly>
+                                                                <input class="form-control TRAND_STRG_IGST_AMT hide" id="TRAND_STRG_IGST_AMT" name="TRAND_STRG_IGST_AMT" type="text" value="@details.TRAND_STRG_IGST_AMT" style="width:70px" readonly>
+                                                                <input class="form-control TRAND_STRG_SGST_AMT hide" id="TRAND_STRG_SGST_AMT" name="TRAND_STRG_SGST_AMT" type="text" value="@details.TRAND_STRG_SGST_AMT" style="width:70px" readonly>
+
+                                                                <input class="form-control TRAND_HANDL_CGST_AMT hide" id="TRAND_HANDL_CGST_AMT" name="TRAND_HANDL_CGST_AMT" type="text" value="@details.TRAND_HANDL_CGST_AMT" style="width:70px" readonly>
+                                                                <input class="form-control TRAND_HANDL_IGST_AMT hide" id="TRAND_HANDL_IGST_AMT" name="TRAND_HANDL_IGST_AMT" type="text" value="@details.TRAND_HANDL_IGST_AMT" style="width:70px" readonly>
+                                                                <input class="form-control TRAND_HANDL_SGST_AMT hide" id="TRAND_HANDL_SGST_AMT" name="TRAND_HANDL_SGST_AMT" type="text" value="@details.TRAND_HANDL_SGST_AMT" style="width:70px" readonly>
+                                                            </td>
+                                                            <td class="col-md-2">
+                                                                <input class="form-control TRANDGAMT" id="TRANDGAMT" name="TRANDGAMT" type="text" value="@details.TRANDGAMT" onchange="total()">
+
+                                                            </td>
+                                                            <td class="col-md-2 hide">
+
+                                                                <input class="form-control TRANDNAMT" id="TRANDNAMT" name="TRANDNAMT" type="text" readonly value="@details.TRANDNAMT">
+                                                            </td>
+                                                            <td><a class="" id="del_detail"> <i class="glyphicon glyphicon-trash" style="color:#ff0000;font-size:large"></i></a></td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr class="item-row">
+
+                                                        <td class="hide">
+                                                            <input class="TRANDID" id="TRANDID" name="TRANDID" type="text" value="0">
+                                                        </td>
+                                                        <td class="col-md-3">
+                                                            <input class="form-control TRANDREFNO hide" id="TRANDREFNO" name="TRANDREFNO" type="text">
+                                                            @Html.DropDownListFor(model => model.detaildata[0].ACHEADID, new SelectList(ViewBag.ACHEADID, "value", "text"), "Select", new { @class = "form-control ACHEADID", @id = "ACHEADID", @onchange = "test(this)" })
+
+
+                                                            <input type="text" value="" id="TRANDREFNAME" class="form-control TRANDREFNAME hide" name="TRANDREFNAME" style="width:95px" />
+                                                        </td>
+
+
+                                                        <td class="col-md-4">
+                                                            @Html.TextAreaFor(model => Model.detaildata[0].TRANDDESC, 4, 8, new { @class = "form-control  TRANDDESC", @id = "TRANDDESC" })
+                                                        </td>
+                                                        <td class="col-md-2">
+                                                            <input class="TRANDHSNCODE form-control" id="TRANDHSNCODE" name="TRANDHSNCODE" type="text" tabindex="-1">
+
+                                                        </td>
+                                                        <td class="col-md-2">
+                                                            <input class="TRANDGST form-control" id="TRANDGST" name="TRANDGST" type="text" value="18" onchange="total()" tabindex="-1">
+
+                                                            <input class="form-control TRAND_STRG_CGST_EXPRN hide" id="TRAND_STRG_CGST_EXPRN" name="TRAND_STRG_CGST_EXPRN" type="text" value="0" style="width:70px" readonly>
+                                                            <input class="form-control TRAND_STRG_IGST_EXPRN hide" id="TRAND_STRG_IGST_EXPRN" name="TRAND_STRG_IGST_EXPRN" type="text" value="0" style="width:70px" readonly>
+                                                            <input class="form-control TRAND_STRG_SGST_EXPRN hide" id="TRAND_STRG_SGST_EXPRN" name="TRAND_STRG_SGST_EXPRN" type="text" value="0" style="width:70px" readonly>
+
+                                                            <input class="form-control TRAND_HANDL_CGST_EXPRN hide" id="TRAND_HANDL_CGST_EXPRN" name="TRAND_HANDL_CGST_EXPRN" type="text" value="0" style="width:70px" readonly>
+                                                            <input class="form-control TRAND_HANDL_IGST_EXPRN hide" id="TRAND_HANDL_IGST_EXPRN" name="TRAND_HANDL_IGST_EXPRN" type="text" value="0" style="width:70px" readonly>
+                                                            <input class="form-control TRAND_HANDL_SGST_EXPRN hide" id="TRAND_HANDL_SGST_EXPRN" name="TRAND_HANDL_SGST_EXPRN" type="text" value="0" style="width:70px" readonly>
+
+                                                            <input class="form-control TRAND_STRG_CGST_AMT hide" id="TRAND_STRG_CGST_AMT" name="TRAND_STRG_CGST_AMT" type="text" value="0" style="width:70px" readonly>
+                                                            <input class="form-control TRAND_STRG_IGST_AMT hide" id="TRAND_STRG_IGST_AMT" name="TRAND_STRG_IGST_AMT" type="text" value="0" style="width:70px" readonly>
+                                                            <input class="form-control TRAND_STRG_SGST_AMT hide" id="TRAND_STRG_SGST_AMT" name="TRAND_STRG_SGST_AMT" type="text" value="0" style="width:70px" readonly>
+
+                                                            <input class="form-control TRAND_HANDL_CGST_AMT hide" id="TRAND_HANDL_CGST_AMT" name="TRAND_HANDL_CGST_AMT" type="text" value="0" style="width:70px" readonly>
+                                                            <input class="form-control TRAND_HANDL_IGST_AMT hide" id="TRAND_HANDL_IGST_AMT" name="TRAND_HANDL_IGST_AMT" type="text" value="0" style="width:70px" readonly>
+                                                            <input class="form-control TRAND_HANDL_SGST_AMT hide" id="TRAND_HANDL_SGST_AMT" name="TRAND_HANDL_SGST_AMT" type="text" value="0" style="width:70px" readonly>
+
+                                                        </td>
+                                                        <td class="col-md-2">
+                                                            <input class="TRANDGAMT form-control" id="TRANDGAMT" name="TRANDGAMT" type="text" onchange="total()">
+
+
+                                                        </td>
+                                                        <td class="col-md-2 hide">
+
+                                                            <input class="form-control TRANDNAMT" id="TRANDNAMT" name="TRANDNAMT" type="text" readonly="readonly">
+                                                        </td>
+                                                        <td><a class="" id="del_detail"> <i class="glyphicon glyphicon-trash" style="color:#ff0000;font-size:large"></i></a></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                        <table class='table table-striped table-bordered bootstrap-datatable'>
+                                            <tr>
+                                                <td><span class="col-md-8"></span>  <a href='#' id='cfact' class='btn btn-success btn-xs hide'><i class=glyphicon-plus></i> Tax</a>  </td>
+                                                <td align='right' class="col-md-2 gross" colspan='4'>  Gross Amount </td>
+                                                <td class="col-md-2">
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANGAMT, new { @class = "form-control  TRANGAMT", @id = "TRANGAMT", @readonly = true })
+                                                </td>
+
+                                            </tr>
+
+                                            <tr>
+
+                                                <td colspan="6" class="cf_dynamic hide">
+                                                    <table class='table table-striped table-bordered bootstrap-datatable' id='CFACTOR' style="padding:0;margin:0">
+                                                        <tr> <td> </td> <td>Cost Factror</td> <td colspan='3' class='col-lg-0'>Expression  & Nos </td> <td class='col-lg-0'>Mode</td> <td> </td> </tr>
+                                                        @if (Model.costfactor != null)
+                                                        {
+
+                                                            string exp = "";
+                                                            string mod = "";
+                                                            foreach (TransactionMasterFactor cfdetails in Model.costfactor)
+                                                            {
+                                                                exp = "";
+                                                                mod = "";
+
+                                                                if (cfdetails.DEDTYPE == 0)
+                                                                { exp = "selected"; }
+                                                                if (cfdetails.DEDMODE != "0")
+                                                                { mod = "selected"; }
+
+                                                                <tr>
+                                                                    <td> <button type='button' onclick='del_factor(this)' class='btn btn-danger dfact btn-xs'><i class=glyphicon-minus></i> </button>  </td>
+                                                                    <td>
+                                                                        <input type=text name='TAX' id=TAX style='display:none' class=TAX value="@cfdetails.CFID">
+                                                                        @cfdetails.DEDCFDESC
+                                                                        <input type=text name=CFDESC id=CFDESC class='CFDESC hide' value="@cfdetails.DEDCFDESC" onchange='total()'>
+                                                                    </td>
+                                                                    <td class='col-lg-1'><select id=CFTYPE name=CFTYPE class=CFTYPE onchange='total()'><option value='1'> %</option><option value='0' @exp>Value </option> </select></td>
+                                                                    <td class='col-lg-1'><input type=text id=DEDNOS name=DEDNOS class='DEDNOS' style="width:55px" value="@cfdetails.DEDNOS" onchange='total()'></td>
+                                                                    <td class='col-lg-1'><input type=text id=CFEXPR name=CFEXPR class=CFEXPR value="@cfdetails.DEDEXPRN" onchange='total()'>   </td>
+                                                                    <td><select id=CFMODE name=CFMODE class=CFMODE onchange='total()'><option value='0'>+</option><option value='1' @mod>-</option> </select><input type=text id=DORDRID name=DORDRID style='display:none' class=DORDRID value="@cfdetails.DORDRID" onchange='total() '></td>
+                                                                    <td class="col-lg-0"><input type=text readonly="readonly" value="@cfdetails.DEDVALUE" name=CFAMOUNT id='CFAMOUNT' class='CFAMOUNT col-lg-0' onchange='total()'> <input style='display:none' type=text value="@cfdetails.TRANMFID" name=TRANMFID id='TRANMFID' class='TRANMFID'>  </td>
+                                                                </tr>
+                                                            }
+                                                        }
+
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>   </td>
+                                                <td colspan='4' align='right'> C.G.S.T. </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANCGSTAMT, new { @class = "form-control  TRANCGSTAMT ", @id = "TRANCGSTAMT", @readonly = true })
+                                                    @*<input type="text" id="TRANCGSTAMT" class="TRANCGSTAMT" name="TRANCGSTAMT" value="0" />*@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>   </td>
+                                                <td colspan='4' align='right'> S.G.S.T. </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANSGSTAMT, new { @class = "form-control  TRANSGSTAMT ", @id = "TRANSGSTAMT", @readonly = true })
+                                                    @*<input type="text" id="TRANSGSTAMT" class="TRANSGSTAMT" name="TRANSGSTAMT" value="0" />*@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>   </td>
+                                                <td colspan='4' align='right'> I.G.S.T. </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANIGSTAMT, new { @class = "form-control  TRANIGSTAMT ", @id = "TRANIGSTAMT", @readonly = true })
+                                                    @*<input type="text" id="TRANIGSTAMT" class="TRANIGSTAMT" name="TRANIGSTAMT" value="0" />*@
+                                                </td>
+                                            </tr>
+
+                                            <tr class="hide">
+                                                <td>   </td>
+                                                <td colspan='4' align='right'> Rounding Off </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANROAMT, new { @class = "form-control  TRANROAMT ", @id = "TRANROAMT", @readonly = true })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>   </td>
+                                                <td colspan='4' align='right'> Net Amount </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANNAMT, new { @class = "form-control  TRANNAMT ", @id = "TRANNAMT", @readonly = true })
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <fieldset style="width:100%">
+                                            <legend style="font-size:large">Bank Details</legend>
+
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label>Mode</label>
+                                                    <br />
+                                                    @Html.DropDownList("TRANMODE", null, "Select", new { @class = "form-control TRANMODE", @id = "TRANMODE", @onchange = "ModeChange()", tabindex = "5000" })
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANMODEDETL, new { @class = "hide form-control  TRANMODEDETL", @id = "TRANMODEDETL" })
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label>Number</label>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANREFNO, new { @class = "form-control  TRANREFNO", @id = "TRANREFNO", tabindex = "5001" })
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label>Date</label>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANREFDATE, "{0:dd/MM/yyyy}", new { @class = "form-control  datepicker TRANREFDATE", @id = "TRANREFDATE", @data_val = false, tabindex = "5002" })
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label>Amount</label>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANREFAMT, new { @class = "form-control  TRANREFAMT", @id = "TRANREFAMT", tabindex = "5003" })
+                                                </div>
+                                            </div>
+                                            <div class=" col-md-4">
+                                                <div class="form-group">
+                                                    <label>Bank</label>
+                                                    @Html.DropDownList("BANKMID", null, "Please Select an Option", new { @class = "form-control BANKMID", @id = "BANKMID", tabindex = "5004" })
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANREFBNAME, new { @class = "hide form-control  TRANREFBNAME", @id = "TRANREFBNAME" })
+                                                </div>
+                                            </div>
+                                            <div class=" col-md-8">
+                                                <div class="form-group">
+                                                    <label>Remarks</label>
+                                                    @Html.TextAreaFor(model => Model.masterdata[0].TRANRMKS, 4, 8, new { @class = "form-control  TRANRMKS", @id = "TRANRMKS", tabindex = "5005" })
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label>Status </label>
+                                                    @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS", tabindex = "5006" })
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <div class="col-md-12 box-footer">
+                                            <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+                                            <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden" hidden />
+                                            <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="5011" />
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+            var rowcount = $('#TDETAIL tbody tr').length;
+            $("#TDETAIL_IDX").val(rowcount);
+
+            //----------------------------------insert/delete row-----------------------------------------//
+
+            $("#add_detail").click(function () {
+
+                if ($("#TDETAIL_IDX").val() != 0) {
+
+
+                    var $tableBody = $('#TDETAIL').find("tbody"),
+                    $trLast = $tableBody.find("tr:last");
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+                  //  $trNew.find("td:eq(2)").html("<select id='ACHEADID' class='ACHEADID form-control' name='ACHEADID' onchange='test(this)' tabindex=500><option>Select</option> </select>  ");
+                    $trNew.find('input:text').val("");
+                    $trNew.find('#TRANDID').val("0");
+                    $trNew.find('#TRANDGST').val("18");
+                    $trNew.find('#TRANDHSNCODE').val("-");
+
+                    //$trNew.find('#ACHEADID').val(143);
+
+
+                    var row_idx = parseInt($("#TDETAIL_IDX").val());
+
+                    $("#TDETAIL_IDX").val(row_idx + 1);
+
+                    $("#TDETAIL_BODY").show();
+                    total();
+
+                }
+                else {
+
+                    $('#TDETAIL_IDX').val("1");
+                    $("#TDETAIL_BODY").show();
+                    total();
+                }
+            });
+
+            //delete event
+
+
+            $(document).on("click", "#del_detail", function () {
+
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+
+
+                    //  idx = $(this).parent().parent().index();
+                    idx = $("#TDETAIL_IDX").val();
+
+                    if (idx == 1) {
+
+                        $("#TDETAIL_BODY").hide();
+
+                        $("#TDETAIL_IDX").val(0);
+
+
+                        var $tableBody = $('#TDETAIL').find("tbody")
+
+                        $trCur = $tableBody.find("tr:eq(0)");
+                        $trCur.find('input:text').val("");
+                        $trCur.find('#TRANDID').val("0");
+                        $trCur.find('#TRANDGST').val("0");
+
+                        total();
+
+                    }
+                    else {
+                        $("#TDETAIL_BODY").show();
+                        var row = this.parentNode.parentNode;
+                        $(this).parents('.item-row').remove();
+
+                        $("#TDETAIL_IDX").val($("#TDETAIL_IDX").val() - 1);
+                        total();
+                    }
+                }
+            });
+
+            function sleep(milliseconds) {
+                var start = new Date().getTime();
+                for (var i = 0; i < 1e7; i++) {
+                    if ((new Date().getTime() - start) > milliseconds) {
+                        break;
+                    }
+                }
+            }
+
+            stuffing_autocomplete($("#TRANREFNAME"), "TRANREFNAME,TRANREFID");
+
+            //var stax = $(".STAX option:selected").val();
+            //alert(stax);
+
+            //-----date controls-------------
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', });
+            $('.datetime').datetimepicker({
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+            });
+            //$('.time').timepicker();
+
+            if ($("#TRANMID").val() == 0) {
+
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = (dt.getMonth() + 1).toString();
+                var day = dt.getDate().toString();
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                //var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                console.log(hours + ':' + minutes + ':' + seconds);
+
+                var time = hours + ':' + minutes + ':' + seconds;
+                var datetme = time;
+                $(".TRANTIME").val(date + " " + datetme);
+            }
+            else {
+                //var oschaid = $('#TRANREFID').val();
+                //locationdetail(oschaid);
+                GetAddressDetails();
+                
+            }
+            //...End of date contrl..
+            ModeChange();
+            //.......GET BANK NAME FROM DROPDOWN VALUE ...........
+            $("#BANKMID").change(function () {
+                var TRANREFBNAME = $(".BANKMID option:selected").text();
+                $(".TRANREFBNAME").val(TRANREFBNAME);
+            });
+            //...END
+
+            //.......Tax Change ...........
+            $("#REGSTRID").change(function () {
+                var stax = $(".STAX option:selected").val();
+                total();
+            });
+
+
+           
+        });
+
+        function test(obj) {
+
+            row = obj.parentNode.parentNode.rowIndex;
+            row = row - 1;
+            var $tableBody = $('#TDETAIL').find("tbody")
+            $trCur = $tableBody.find("tr:eq(" + row + ")");
+            var ACHEADID = $trCur.find("#ACHEADID").val();
+
+            base = window.location.origin;
+            var sel_text = $trCur.find("#ACHEADID option:selected").text();
+            $trCur.find("#TRANDREFNAME").val(sel_text);
+
+            var url = "/ImportManualBill/GetHsncodedetail/" + ACHEADID;
+            //alert(url);
+            $.getJSON(url, function (data) {
+                $.each(data, function (key, val) {
+                    console.log(data);
+                    var AIGSTEXPRN = val.AIGSTEXPRN;
+                    var HSNCODE = val.HSNCODE
+
+                    $trCur.find(".TRANDGST").val(AIGSTEXPRN);
+                    $trCur.find(".TRANDHSNCODE").val(HSNCODE);
+
+                });
+            });
+
+        }
+
+         $('#TRANREFNAME').blur(function () {
+
+            var selectedvalue = $('#TRANREFNAME').val();
+            var oschaid = $('#TRANREFID').val();
+            locationdetail(oschaid);
+        });//-----End of CHA
+
+        function locationdetail(CATEID) {
+            $(".CATEAID").empty();
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetCatLocationDetail", "NonPnrInvoice")/?CATEID=' + CATEID,  // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    if (data != "") {
+                        var count = data.length;
+                        if (count > 1) {
+                            $(".CATEAID").append('<option value="0" selected>Select Location</option>');
+                        }
+                        $.each(data, function (i, dataval) {
+                            if (count > 1) {
+                                $(".CATEAID").append('<option value="' + dataval.CATEAID + '">' + dataval.CATEATYPEDESC + '</option>');
+                            }
+                            else {
+                                $(".CATEAID").append('<option value="' + dataval.CATEAID + '" selected>' + dataval.CATEATYPEDESC + '</option>');
+                            }
+                        });
+                    }
+                    else {
+                        $(".CATEAID").append('<option value="0">' + "Select Location" + '</option>');
+                    }
+
+                },
+                complete: function () {
+                    var CATEAID = $("#CATEAID").val();
+                    GetAddressDetails();
+                },
+                error: function (ex) {
+                    //alert('Failed to data ' + ex);
+                }
+            });
+        }
+        function chktax() {
+
+            var REGID = $("#REGSTRID option:selected").val();
+            //alert(REGID);
+            if (REGID == 49)
+                $("#STAX").val(0)
+            else
+                $("#STAX").val(1)
+            total();
+        }
+
+        function chktaxrate() {
+            //var statetype = 0;
+            //var slabtid = 0;
+            //alert('checktaxrate');
+            //alert($("#REGSTRID  option:selected").val());
+            //if ($("#REGSTRID").val() == 49)
+            //    var slabtid = 2;
+
+            //var statetype = $("#STATETYPE").val();
+            //url = "/ExportManualBill/GetGSTRATE";
+            //$.ajax({
+            //    type: 'post',
+            //    url: url,
+            //    data: { id: statetype + "~" + slabtid },
+            //    dataType: 'json',
+            //    success: function (data) {
+            //        if (data.length != 0)
+            //        //$("#Q_NOC").val(data);
+            //        {
+            //            $(".STRG_HSN_CODE").val(data[0].HSNCODE);
+            //            $(".STRG_CGST_EXPRN").val(data[0].CGSTEXPRN);
+            //            $(".STRG_SGST_EXPRN").val(data[0].SGSTEXPRN);
+            //            $(".STRG_IGST_EXPRN").val(data[0].IGSTEXPRN);
+            //        }
+            //        else {
+            //            $("#STRG_HSN_CODE").val("");
+            //            $("#STRG_CGST_EXPRN").val("0");
+            //            $("#STRG_SGST_EXPRN").val("0");
+            //            $("#STRG_IGST_EXPRN").val("0");
+            //        }
+
+            //    }
+            //});
+
+            var statetype = 0;
+            var slabtid = 0;
+            //alert('checktaxrate');
+            if ($("#REGSTRID  option:selected").val() == 49)
+                var slabtid = 4;
+            var statetype = $("#STATETYPE").val();
+            url = "/ExportManualBill/GetGSTRATE";
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: { id: statetype + "~" + slabtid },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.length != 0)
+                    //$("#Q_NOC").val(data);
+                    {
+                        $(".HANDL_HSN_CODE").val(data[0].HSNCODE);
+                        $(".HANDL_CGST_EXPRN").val(data[0].CGSTEXPRN);
+                        $(".HANDL_SGST_EXPRN").val(data[0].SGSTEXPRN);
+                        $(".HANDL_IGST_EXPRN").val(data[0].IGSTEXPRN);
+                        $("#STRG_HSN_CODE").val("");
+                        $("#STRG_CGST_EXPRN").val("0");
+                        $("#STRG_SGST_EXPRN").val("0");
+                        $("#STRG_IGST_EXPRN").val("0");
+                    }
+                    else {
+                        $("#HANDL_HSN_CODE").val("");
+                        $("#HANDL_CGST_EXPRN").val("0");
+                        $("#HANDL_SGST_EXPRN").val("0");
+                        $("#HANDL_IGST_EXPRN").val("0");
+                        $("#STRG_HSN_CODE").val("");
+                        $("#STRG_CGST_EXPRN").val("0");
+                        $("#STRG_SGST_EXPRN").val("0");
+                        $("#STRG_IGST_EXPRN").val("0");
+                    }
+
+                }
+            });
+
+        }
+        function GetAddressDetails() {
+            $("#CATEAID option:selected").val()
+            CATEAID = $("#CATEAID").val();
+            //alert(CATEAID);
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetCatAddressDetail", "NonPnrInvoice")/?CATEAID=' + CATEAID, // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    if (data != "") {
+                        $("#STATEID").val(data[0].STATEID);
+                        if (data[0].STATEID > 0) {
+                            $.ajax({
+                                type: 'get',
+                                url: '@Url.Action("GetStateType", "ImportManualBill")/?id=' + $("#STATEID").val(), // we are calling json method
+                                dataType: 'json',
+                                success: function (stdata) {
+                                    if (stdata != "") {
+                                        console.log(stdata);
+                                        $("#txtstatetype").val(stdata[0].STATETYPE);
+                                        $("#txtstate").val(statec);
+
+                                    }
+                                    else {
+                                        $("#txtstatetype").val("0");
+                                    }
+                                    total();
+                                    //alert($("#txtstatetype").val());
+                                }
+                            });
+                        }
+                        $("#CATEAGSTNO").val(data[0].CATEAGSTNO);
+                        $("#TRANIMPADDR1").val(data[0].CATEAADDR1);
+                        $("#TRANIMPADDR2").val(data[0].CATEAADDR2);
+                        $("#TRANIMPADDR3").val(data[0].CATEAADDR3);
+                        $("#TRANIMPADDR4").val(data[0].CATEAADDR4);
+                    } else {
+
+                        $("#STATEID").val("0");
+                        $("#CATEAGSTNO").val("-");
+                        $("#TRANIMPADDR1").val("-");
+                        $("#TRANIMPADDR2").val("-");
+                        $("#TRANIMPADDR3").val("-");
+                        $("#TRANIMPADDR4").val("-");
+                    }
+                },
+                error: function (ex) {
+                    $("#STATEID").val("0");
+                    $("#CATEAGSTNO").val("-");
+                    $("#TRANIMPADDR1").val("-");
+                    $("#TRANIMPADDR2").val("-");
+                    $("#TRANIMPADDR3").val("-");
+                    $("#TRANIMPADDR4").val("-");
+                    //alert('Failed to data ' + ex);
+                }
+
+            });
+        }
+              
+
+        //......end
+        //.......................TRANMODE change event..................//
+
+        function ModeChange() {
+            var modeval = $("#TRANMODE").val();
+            if ($("#TRANMID").val() == "0") {
+                var TRANMODEVAL = $("#TRANMODE option:selected").text();
+                $(".TRANMODEDETL").val(TRANMODEVAL);
+                $("#TRANREFNO").val("");
+                $("#TRANREFDATE").val("");
+                $("#BANKMID").val("");
+            }
+            if (modeval != 2 && modeval != 3) {
+                $("#TRANREFNO").attr('disabled', true);
+                $("#TRANREFDATE").attr('disabled', true);
+                $("#BANKMID").attr('disabled', true);
+            }
+            else {
+                $("#TRANREFNO").attr('disabled', false);
+                $("#TRANREFDATE").attr('disabled', false);
+                $("#BANKMID").attr('disabled', false);
+            }
+        }
+        //.............End
+
+        //...............Window bind..........................//
+
+        $(window).bind("load", function () {
+            if ($(".TRANMID").val() == "") {
+                $(".TRANMID").val("0");
+            }
+            if ($(".TRANDID").val() == "") {
+                $(".TRANDID").val("0");
+            }
+
+            count = 500;
+            $('.TRANDID').each(function (k) {
+
+                $("#TDETAIL input[id$=TRANDGAMT],#TDETAIL select[id$=ACHEADID],#TDETAIL textarea[id$=TRANDDESC]").attr('tabindex', count++);
+            });
+
+            txcount = 1000;
+            $('.TAX').each(function (k) {
+
+                $("#CFACTOR input:text,#CFACTOR select,#CFACTOR a").attr('tabindex', txcount++);
+            });
+            //..........Displaying Cost Factor insert mode....//
+            if ($(".TRANMID").val() == 0) {
+                base = window.location.origin;
+                //var $tableBody = $('#CFACTOR').find("tbody"),
+                // $trLast = $tableBody.find("tr:last");
+                //$.ajax({
+                //    url: base + "/ExportManualBill/DefaultCF",
+                //    type: "POST",
+
+                //    success: function (data, textStatus, jqXHR) {
+                //        //data - response from server
+                //         //console.log(data);
+
+                //        for (var i = 0; i < data.length; i++) {
+                //              //console.log(data.length + "........" + data[i].CFEXPR + "..." + data[i].CFID + "...." + data[i].CFDESC);
+
+                //            $(".TAX")[i].value = data[i].CFID;
+                //            $(".CFDESC")[i].value = data[i].CFDESC;
+                //            $(".CFEXPR")[i].value = data[i].CFEXPR;
+                //            $(".CFTYPE")[i].value = data[i].CFTYPE;
+                //            $(".CFMODE")[i].value = data[i].CFMODE;
+                //            $(".DORDRID")[i].value = data[i].DORDRID;
+                //        }
+
+                //        if (data[2].DISPSTATUS == 1) {
+                //            $("#TMP_KKC").addClass("frm_hide");
+                //        } else {
+                //            $("#TMP_KKC").removeClass("frm_hide");
+                //        }
+                //    },
+                //    error: function (jqXHR, textStatus, errorThrown) {
+
+                //    }
+                //});
+                ModeChange();
+            }//....................end
+
+        });//.......end of bind
+
+        //..................FUNCTION TO GET DETAIL GRID..............
+
+        function stuffing_autocomplete($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break;
+                        }
+                        count++
+
+                    });
+                    $("#TRANREFID").val(ui.item.id);
+                    if ($('#TRANREFID').val() > 0) {
+                        locationdetail($('#TRANREFID').val());
+                    }
+
+                    return false;
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            console.log(data);
+                            //alert(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#TRANREFNAME").focus();
+                                $("#TRANREFID").val("0");
+                            }
+                            else { }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }////......end
+
+        //........DATE DIFFERENCE.....................
+        function datdidff(start_date, end_date) {
+            //start_date = start_date.split("/");
+            //end_date = end_date.split("/");
+
+            if (start_date.match("/")) { start_date = start_date.split("/"); }
+            else if (start_date.match("-")) { start_date = start_date.split("-"); }
+
+            if (end_date.match("/")) { end_date = end_date.split("/"); }
+            else if (end_date.match("-")) { end_date = end_date.split("-"); }
+            start_date = start_date[2] + "-" + start_date[1] + "-" + start_date[0];
+            end_date = end_date[2] + "-" + end_date[1] + "-" + end_date[0];
+
+            var diff = Math.floor((Date.parse(end_date.replace(/-/g, '\/')) - Date.parse(start_date.replace(/-/g, '\/'))) / 86400000);
+
+            return diff;
+
+        }//......end
+
+        function sel_text(obj, dest) {
+            row = obj.parentNode.parentNode.rowIndex;
+            var modelLength = obj.options[obj.selectedIndex].text;
+            $("." + dest)[row - 1].value = modelLength;
+            var selid = '/Common/CostFactorDetail/' + obj.value;
+            $.getJSON(selid, function (data) {
+                var items = [];
+                $.each(data, function (key, val) {
+                    $(".CFMODE")[row - 1].value = val.CFMODE;
+                    $(".CFEXPR")[row - 1].value = val.CFEXPR;
+                    $(".CFTYPE")[row - 1].value = val.CFTYPE;
+                    $(".DORDRID")[row - 1].value = val.DORDRID;
+                    $(".DEDORDR")[row - 1].value = val.CFNATR;
+                });
+                total();
+            });
+        }
+        function del_factor(obj) {
+            row = obj.parentNode.parentNode.rowIndex;
+            document.getElementById("CFACTOR").deleteRow(row);
+            total();
+            return false;
+
+        }
+
+        function totalonchange(obj) {
+
+            row = obj.parentNode.parentNode.rowIndex;
+            row = row - 1;
+            var $tableBody = $('#CFACTOR').find("#CF_TBODY")
+            $cfrow = $tableBody.find("tr:eq(" + row + ")");
+            //alert(1);
+            $cfrow.find("#TMPCFVAL").val("-1");
+            total();
+        }
+
+        function total() {
+
+            // alert("a");
+            //GetRateType();
+            //chktaxrate();
+
+            var TRANNAMT = 0; var TRANDNAMT = 0;
+            var TRANGAMT = 0;
+            var CF_ROW_TOTAL = 0;
+            var i = 0;
+            var TRANDGAMT = 0;
+            var TRANROAMT = 0;
+
+            var Strg_TaxableAmt = 0;
+            var Handl_TaxableAmt = 0;
+
+            var TRANCGSTAMT = 0;
+            var TRANSGSTAMT = 0;
+            var TRANIGSTAMT = 0;
+
+            var TRAND_STRG_CGST_EXPRN = 0;
+            var TRAND_STRG_SGST_EXPRN = 0;
+            var TRAND_STRG_IGST_EXPRN = 0;
+
+            var TRAND_HANDL_CGST_EXPRN = 0;
+            var TRAND_HANDL_SGST_EXPRN = 0;
+            var TRAND_HANDL_IGST_EXPRN = 0;
+            var AccountHeadtype = 0;
+
+            var totamt = 0; var gamt = 0.00; var namt = 0.00; var totalgst = 0;
+            //alert();
+            var count = 0;
+            var i = 0; //$("#TRANGAMT").val("0");
+            var statetype = 0;
+
+            statetype = $("#txtstatetype").val();
+            //alert(statetype);
+            $(".TRANDID").each(function () {
+
+                TRANDNAMT = $(".TRANDNAMT")[i].value;
+                TRANDGAMT = $(".TRANDGAMT")[i].value;
+                totalgst = $(".TRANDGST")[i].value;
+
+                AccountHeadtype = $(".ACHEADID")[i].value;
+                //alert(AccountHeadtype);
+
+                if (isNaN(TRANDGAMT) || TRANDGAMT == "") { TRANDGAMT = 0; $(".TRANDGAMT")[i].value = 0 }
+                else
+                    TRANDGAMT = eval(TRANDGAMT).toFixed(2);
+
+                if (isNaN(TRANDNAMT) || TRANDNAMT == "") { TRANDNAMT = 0; $(".TRANDNAMT")[i].value = 0 }
+                else
+                    TRANDNAMT = eval(TRANDNAMT).toFixed(2);
+
+                if (isNaN(totalgst) || totalgst == "") { totalgst = 0; $(".TRANDGST")[i].value = 0 }
+                else
+                    totalgst = eval(totalgst).toFixed(2);
+
+                if (statetype > 0) {
+
+                    if (AccountHeadtype == "135" || AccountHeadtype == "133" || AccountHeadtype == "139") {
+
+                        TRAND_STRG_IGST_EXPRN = eval(totalgst).toFixed(2);
+                        TRAND_STRG_CGST_EXPRN = 0;
+                        TRAND_STRG_SGST_EXPRN = 0;
+
+                        TRAND_HANDL_IGST_EXPRN = 0
+                        TRAND_HANDL_CGST_EXPRN = 0;
+                        TRAND_HANDL_SGST_EXPRN = 0;
+                    }
+                    else {
+                        TRAND_STRG_IGST_EXPRN = 0
+                        TRAND_STRG_CGST_EXPRN = 0;
+                        TRAND_STRG_SGST_EXPRN = 0;
+
+                        TRAND_HANDL_IGST_EXPRN = eval(totalgst).toFixed(2);
+                        TRAND_HANDL_CGST_EXPRN = 0;
+                        TRAND_HANDL_SGST_EXPRN = 0;
+                    }
+
+
+                    $(".TRAND_STRG_CGST_EXPRN")[i].value = eval(TRAND_STRG_CGST_EXPRN).toFixed(2);
+                    $(".TRAND_STRG_SGST_EXPRN")[i].value = eval(TRAND_STRG_SGST_EXPRN).toFixed(2);
+                    $(".TRAND_STRG_IGST_EXPRN")[i].value = eval(TRAND_STRG_IGST_EXPRN).toFixed(2);
+
+                    $(".TRAND_HANDL_IGST_EXPRN")[i].value = eval(TRAND_HANDL_IGST_EXPRN).toFixed(2);
+                    $(".TRAND_HANDL_CGST_EXPRN")[i].value = eval(TRAND_HANDL_CGST_EXPRN).toFixed(2);
+                    $(".TRAND_HANDL_SGST_EXPRN")[i].value = eval(TRAND_HANDL_SGST_EXPRN).toFixed(2);
+
+
+                }
+                else {
+
+                    if (AccountHeadtype == "135" || AccountHeadtype == "133" || AccountHeadtype == "139") {
+
+                        TRAND_STRG_CGST_EXPRN = totalgst / 2;
+                        TRAND_STRG_SGST_EXPRN = totalgst / 2;
+                        TRAND_STRG_IGST_EXPRN = 0;
+
+                        TRAND_HANDL_CGST_EXPRN = 0;
+                        TRAND_HANDL_SGST_EXPRN = 0;
+                        TRAND_HANDL_IGST_EXPRN = 0;
+                    }
+                    else {
+                        TRAND_STRG_CGST_EXPRN = 0;
+                        TRAND_STRG_SGST_EXPRN = 0;
+                        TRAND_STRG_IGST_EXPRN = 0;
+
+                        TRAND_HANDL_CGST_EXPRN = totalgst / 2;
+                        TRAND_HANDL_SGST_EXPRN = totalgst / 2;
+                        TRAND_HANDL_IGST_EXPRN = 0;
+                    }
+
+                    $(".TRAND_STRG_CGST_EXPRN")[i].value = eval(TRAND_STRG_CGST_EXPRN).toFixed(2);
+                    $(".TRAND_STRG_SGST_EXPRN")[i].value = eval(TRAND_STRG_SGST_EXPRN).toFixed(2);
+                    $(".TRAND_STRG_IGST_EXPRN")[i].value = eval(TRAND_STRG_IGST_EXPRN).toFixed(2);
+
+
+                    $(".TRAND_HANDL_CGST_EXPRN")[i].value = eval(TRAND_HANDL_CGST_EXPRN).toFixed(2);
+                    $(".TRAND_HANDL_SGST_EXPRN")[i].value = eval(TRAND_HANDL_SGST_EXPRN).toFixed(2);
+                    $(".TRAND_HANDL_IGST_EXPRN")[i].value = eval(TRAND_HANDL_IGST_EXPRN).toFixed(2);
+
+
+                }
+
+                $(".TRANDGAMT")[i].value = eval(TRANDGAMT).toFixed(2);
+
+                $(".TRAND_STRG_CGST_AMT")[i].value = ((eval($(".TRANDGAMT")[i].value) * eval($(".TRAND_STRG_CGST_EXPRN")[i].value)) / 100).toFixed(0);
+                $(".TRAND_STRG_SGST_AMT")[i].value = ((eval($(".TRANDGAMT")[i].value) * eval($(".TRAND_STRG_SGST_EXPRN")[i].value)) / 100).toFixed(0);
+                $(".TRAND_STRG_IGST_AMT")[i].value = ((eval($(".TRANDGAMT")[i].value) * eval($(".TRAND_STRG_IGST_EXPRN")[i].value)) / 100).toFixed(0);
+
+                $(".TRAND_HANDL_CGST_AMT")[i].value = ((eval($(".TRANDGAMT")[i].value) * eval($(".TRAND_HANDL_CGST_EXPRN")[i].value)) / 100).toFixed(0);
+                $(".TRAND_HANDL_SGST_AMT")[i].value = ((eval($(".TRANDGAMT")[i].value) * eval($(".TRAND_HANDL_SGST_EXPRN")[i].value)) / 100).toFixed(0);
+                $(".TRAND_HANDL_IGST_AMT")[i].value = ((eval($(".TRANDGAMT")[i].value) * eval($(".TRAND_HANDL_IGST_EXPRN")[i].value)) / 100).toFixed(0);
+
+                // $(".TRANDNAMT")[i].value = eval(TRANDNAMT).toFixed(2);
+
+                gamt += eval($(".TRANDGAMT")[i].value);
+
+                var trandnamt = 0;
+
+                trandnamt = (eval($(".TRANDGAMT")[i].value) + eval($(".TRAND_STRG_CGST_AMT")[i].value) + eval($(".TRAND_STRG_SGST_AMT")[i].value) + eval($(".TRAND_STRG_IGST_AMT")[i].value) + eval($(".TRAND_HANDL_CGST_AMT")[i].value) + eval($(".TRAND_HANDL_SGST_AMT")[i].value) + eval($(".TRAND_HANDL_IGST_AMT")[i].value));
+
+                //alert(trandnamt);
+
+                $(".TRANDNAMT")[i].value = eval(trandnamt).toFixed(2);
+
+                TRANCGSTAMT += eval($(".TRAND_STRG_CGST_AMT")[i].value) + eval($(".TRAND_HANDL_CGST_AMT")[i].value);
+                TRANSGSTAMT += eval($(".TRAND_STRG_SGST_AMT")[i].value) + eval($(".TRAND_HANDL_SGST_AMT")[i].value);
+                TRANIGSTAMT += eval($(".TRAND_STRG_IGST_AMT")[i].value) + eval($(".TRAND_HANDL_IGST_AMT")[i].value);
+
+                totamt += eval($(".TRANDNAMT")[i].value);
+
+                i++;
+            });
+
+
+            $(".TRANGAMT").val(gamt.toFixed(2));
+
+            TRANGAMT = $(".TRANGAMT").val();
+
+            $('.TRANCGSTAMT').val(TRANCGSTAMT);
+            $('.TRANSGSTAMT').val(TRANSGSTAMT);
+            $('.TRANIGSTAMT').val(TRANIGSTAMT);
+
+            $(".TRANNAMT").val(eval(totamt).toFixed(2));
+            $(".TRANREFAMT").val($("#TRANNAMT").val());
+            $(".TRANROAMT").val(0); //eval(TRANNAMT).toFixed(0)
+
+
+        }
+                
+
+        //..................... FORM VALIDATION FUNCTION.................................//
+        function Validate() {
+
+            if ($(".TRANREFNAME").val() == "") {
+                alert("Please select CHA");
+                $(".TRANREFNAME").focus();
+                return false;
+            }
+            else if ($(".TRANREFID").val() == "" || $(".TRANREFID").val() == "0") {
+                alert("Please Select CHA properly");
+                $(".TRANREFNAME").val("");
+                $(".TRANREFNAME").focus();
+                return false;
+            }
+            else if ($("#TRANMODE").val() == "") {
+
+                alert("Please Select Payment Mode");
+                $("#TRANMODE").focus();
+                return false;
+            }
+            else if ($(".TRANMODEDETL").val() == "") {
+                alert("Select Payment Mode properly");
+                $(".TRANMODEDETL").focus();
+                return false;
+            }
+            else if ($("#TRANMODE").val() == "2" || $("#TRANMODE").val() == "3") {
+                if ($("#TRANREFNO").val() == "") {
+                    alert("Please Enter Number");
+                    $("#TRANREFNO").focus();
+                    return false;
+                }
+                if ($("#TRANREFDATE").val() == "") {
+                    alert("Please Enter Date");
+                    $("#TRANREFDATE").focus();
+                    return false;
+                }
+                if ($(".TRANREFBNAME").val() == "") {
+                    alert("Select Bank Name Properly");
+                    $(".BANKMID").focus();
+                    return false;
+
+                }
+            }
+            else if ($(".TRANREFAMT").val() == "") {
+                alert("Please Enter Amount");
+                $(".TRANREFAMT").focus();
+                return false;
+            }
+
+            var bad = 0;
+            $('#TDETAIL :text,#TDETAIL select').each(function () {
+                // alert(this.id);
+                switch (this.id) {
+                    default:
+                        if ($.trim(this.value) == "") { bad++;  }
+                }
+            });
+
+            var rcnt = $('#TDETAIL_IDX').val();
+            if (rcnt < 1)
+            {
+
+                alert("Please Check Charge details before save");
+                return false;
+            }
+            else
+                return true;
+
+        }
+
+        //end
+
+
+
+    </script>
+}
+

@@ -1,0 +1,417 @@
+﻿@using scfs_erp.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewBag.Title = "Steamer Name Update";
+}
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>Steamer Name Update</strong>
+                        </div>
+                    </div>@Html.Raw(ViewBag.msg)
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ImportSteamerNameupdate/savedata")" method="post" accept-charset="utf-8" id="frm" data-ng-controller="myController" name="frm" onsubmit="return Validate()">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="ExportCartingOrder_info">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="col-md-3">
+
+                                            <div class="form-group">
+                                                <label>IGM No </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMIGMNO)*@
+                                                <input type="text" class="OSMIGMNO form-control" name="OSMIGMNO" id="OSMIGMNO" placeholder="--Enter no-" tabindex="6" />
+                                                @*@Html.TextBox("OSMIGMNO", new { @class = "form-control  OSMIGMNO", @id = "OSMIGMNO", @placeholder = "---Please Type IGMNO----", tabindex = "48", @required = "required" })*@
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+
+                                            <div class="form-group">
+                                                <label>Line No </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMLNO)*@
+                                                <input type="text" class="OSMLNO form-control" name="OSMLNO" id="OSMLNO" placeholder="Enter No" tabindex="7" />
+                                                @*@Html.TextBox("OSMLNO", new { @class = "form-control  OSMLNO", @id = "OSMLNO", @required = "required", tabindex = "50", @placeholder = "---Please Type Line No----" })*@
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                            <div class="form-group">
+                                                <br />
+                                                <input type="button" name="search" value="Search" class="btn btn-success btn-xs  " id="search" onclick="GetDetail()" tabindex="8" />
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <input type="text" id="pd_index" value="0" style="display:none">
+
+                                    <div style="float:right">
+                                    </div>
+                                    <div style="clear:both"> </div>
+                                </div>
+
+                                <div class="panel-heading navbar-inverse" style="color:white"> Details</div>
+
+                                <table class="table table-striped table-bordered bootstrap-datatable TDETAIL" id="TDETAIL">
+                                    <thead>
+                                        <tr>
+
+                                            <th>S No</th>
+                                            <th>
+                                                In Date
+                                            </th>
+                                            <th>
+                                                Container No
+                                            </th>
+                                            <th>
+                                                Size
+                                            </th>
+
+                                            <th>
+                                                Importer
+
+                                            </th>
+
+                                            <th>Steamer</th>
+                                            <th><input type='checkbox' id='CHCK_ALL' name='CHCK_ALL' class='CHCK_ALL' onchange="checkall()" /></th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="job_list"></tbody>
+                                </table>
+
+
+
+                                <div class="col-lg-12">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Choose Steamer  </label>
+                                            
+                                            <input type="text" value="" id="STMRNAME" class=" form-control STMRNAME" name="STMRNAME" data-autocomplete-url="@Url.Action("AutoSteamer", "ImportSteamerNameupdate")" placeholder="Please Choose Importer" />
+                                            <input type="text" value="" id="STMRID" class="hide form-control STMRID" name="STMRID" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12 box-footer">
+                                    <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+
+                                    <input type="submit" name="submit" value="Update" class="btn btn-success btn-xs  " id="save" tabindex="5010" />
+
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+
+        $(document).ready(function () {
+
+
+            add_autocomplete_Steamer($("#STMRNAME"), "STMRNAME,STMRID");
+
+
+        });//.......end of bind
+
+        function add_autocomplete_Steamer($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+                        $("#STMRID").val(ui.item.id);
+                    });
+
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            console.log(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#STMRNAME").focus();
+                                $("#STMRID").val("0");
+                            }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#STMRNAME").val('');
+                            $("#STMRID").val("0");
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        function total() {
+            i = 0; //$("#TRANGAMT").val("0");
+            // $(".TRANDID").each(function () {
+            $(".STFDIDS").each(function () {
+                ckb = $(this).is(':checked');
+
+                if (ckb == true) {
+
+                    $(".boolSTFDIDS")[i].value = ckb;
+                    //   if ($(".boolSTFDIDS")[i].value == "true") { count++; }
+
+
+                }
+                else {
+
+
+                    $(".boolSTFDIDS")[i].value = false;
+
+                }
+
+                i++;
+            });
+
+        }
+
+        //........get detail row.....................//
+        function GetDetail() {
+            // alert("SS");
+
+            var igmno = $("#OSMIGMNO").val();
+            var gplno = $("#OSMLNO").val();
+
+            if (igmno == "") {
+                alert('Please Enter IGM No');
+                $("#OSMIGMNO").focus();
+                return false;
+            }
+
+            if (gplno == "") {
+                alert('Please Enter Line No');
+                $("#OSMLNO").focus();
+                return false;
+            }
+
+            url = "/ImportSteamerNameupdate/Detail/" + igmno + "~" + gplno + "~";
+            // alert(url);
+
+
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    //alert(data);
+                    $("#job_list").html("");
+                    $("#job_list").html(data);
+
+                }
+
+            });//---End of Post--------
+
+        }
+
+        function Validate() {
+            var flag = true;
+            var i = 0;
+
+            var igmno = $("#OSMIGMNO").val();
+            var gplno = $("#OSMLNO").val();
+
+            if (igmno == "") {
+                alert('Please Enter IGM No');
+                $("#OSMIGMNO").focus();
+                //return false;
+                flag = false;
+            }
+            else  if (gplno == "") {
+                alert('Please Enter Line No');
+                $("#OSMLNO").focus();
+                //return false;
+                flag = false;
+            }
+            else if (($('#STMRID').val() == "" || $('#STMRID').val() == "0") && ($('#STMRNAME').val() == "")) {
+                alert("Please Choose Steamer");
+                $('#STMRNAME').focus();
+                flag = false;
+
+            }
+            if (flag) {
+                var tbl = $("#TDETAIL").find('tbody').length;
+                if (tbl > 0) {
+                    if ($('input[type=checkbox]:checked').length == 0) {
+                        alert("ERROR! Please select at least one checkbox");
+                        flag = false;
+
+                    }
+                    else {
+                        flag = true;
+
+                    }
+                }
+
+            }
+            if (flag) {
+
+                var r = confirm("Are you sure to submit this record ?");
+                if (r == true) {
+                    return true;
+                } else {
+
+                    return false;
+
+                }
+            } else {
+
+                return false;
+            }
+
+        }
+
+        function checkall() {
+            i = 0; j = 0;
+            CHCK_ALL = $("#CHCK_ALL").is(':checked');
+            var tbl = $("#TDETAIL").find('tbody');
+
+
+            $(".STFDIDS").each(function () {
+
+                $trcur = tbl.find("tr:eq(" + i + ")");
+                if (CHCK_ALL == true) {
+                    $trcur.find(".STFDIDS").prop("checked", true);
+                    $(".boolSTFDIDS")[i].value = "true"; //alert("i" + i);
+                }
+                else {
+                    // alert("i..."+i);
+                    $trcur.find(".STFDIDS").removeAttr("checked", true);
+                    $(".boolSTFDIDS")[i].value = "false";
+                }
+
+                i++;
+
+            });
+
+
+
+        }/*.....*/
+    </script>
+}
+

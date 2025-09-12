@@ -1,0 +1,127 @@
+﻿@model IEnumerable<scfs_erp.Models.BookedMaster>
+
+
+
+@{
+    ViewBag.Title = "BookedMaster";
+}
+
+<div class="col-lg-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <i class="fa fa-bar-chart-o fa-fw"></i>Bank Master
+                <a class="btn btn-success btn-sm pull-right btn-success" style="padding:3px;margin:0 0 10px" href="@Url.Action("Form", "BookedMaster")"><i class="fa fa-plus-square "></i> Add New </a><div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel-body">
+
+                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                    <thead>
+                        <tr>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.BOOKCODE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.BOOKDESC)
+                            </th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*<div class="box">
+    <div class="box-header">
+        <div class="box-name">
+            <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+        </div>
+        <div class="box-icons">
+            <button onclick="parent.location = '@Url.Action("Form","BookedMaster")'; return false;" class=" btn-success"> Create New </button>
+        </div>
+        <div class="no-move"></div>
+    </div>
+    <div class="box-content no-padding">
+        <br />
+        <table class="table table-bordered table-striped table-hover display table-heading table-datatable" id="dataTables-example">
+            <thead>
+                <tr>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.BOOKCODE)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BOOKDESC)
+                    </th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+</div>*@
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "BookedMaster")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+
+                "aoColumns": [
+                    { "sName": "" },
+                    { "sName": " ", "sClass": "action" },
+                    { "sName": "" },
+                    {
+                        "sClass": "col-lg-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-primary btn-xs"   href="/BookedMaster/Edit/' +
+                                oObj.aData[3] + '\"Title=Modify Details"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger btn-xs del" href="#" id="' +
+                                oObj.aData[3] + '\"> <i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+            //--------------Delete Record-------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/BookedMaster/Del",
+                        {
+                            id: idx, fld: ""
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted Successfully ...")
+                                location.replace(base + "/BookedMaster");
+                        });
+                }
+                return false;
+            });//End
+        });
+    </script>
+}

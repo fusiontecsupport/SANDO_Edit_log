@@ -1,0 +1,377 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.ExportSlabMaster
+@{
+    ViewBag.Title = "ExportSlab";
+
+}
+
+<div class="col-lg-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <i class="fa fa-search"></i>
+                <strong>Export Slab Master</strong>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel-body">
+                @Html.Raw(ViewBag.msg)
+                <form action="@Url.Content("~/ExportSlabMaster/savedata")" method="post" accept-charset="utf-8" id="exportslabmasterform" data-ng-controller="myController" name="exportslabmasterform" onsubmit="return Validate()">
+                    @Html.ValidationSummary(true)
+                    <div class="msg" hidden style="margin-left:0;margin-right:0"> </div>
+                    <div class="msg_error" hidden style="margin-left:0;margin-right:0"> </div>
+                    <fieldset id="slabmaster_info">
+                        <div class="row">
+                            <div class="col-md-3 hidden">
+                                <div class="form-group">
+                                    <label>Primary  </label>
+                                    @Html.TextBoxFor(model => Model.SLABMID, new { @class = " form-control  SLABMID", @id = "SLABMID" })
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>W.e From</label>
+                                        @Html.TextBoxFor(model => Model.SLABMDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker SLABMDATE", @id = "SLABMDATE", @data_val = false })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tariff</label>
+                                        @Html.DropDownList("TARIFFMID", null, "Please select", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required", @onchange = "Cha()" })
+                                    </div>
+                                </div>
+                                <div class="chaid">
+                                    <div class="col-md-3">
+
+                                        <div class="form-group">
+                                            <label>CHA</label>
+                                            <input type="text" name="CHADESC" id="CHADESC" value="@ViewBag.CHADESC" class="form-control CHADESC" autocomplete="on" data-autocomplete-url="/ExportSlabMaster/AutoCha" />
+                                            @Html.TextBoxFor(model => Model.CHAID, new { @class = "hide form-control  CHAID", @id = "CHAID" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Slab</label>
+                                        @Html.DropDownList("SLABTID", null, "Please select an option", new { @class = "form-control", @required = "required", @onchange = "EOPSel()" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Slab Days</label>
+                                        @Html.DropDownList("SDTYPE", null, new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Charge Type</label>
+                                        @Html.DropDownList("CHRGETYPE", null, "Please select", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Size </label>
+                                        @Html.DropDownList("CONTNRSID", null, "Please select", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Yard </label>
+                                        @Html.DropDownList("YRDTYPE", null, "Please select", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Wages </label>
+                                        @Html.DropDownList("WTYPE", null, "Please select", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group frmoptyp">
+                                        <label>Operation Type</label>
+                                        @Html.DropDownList("EOPTID", null, "Please select", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-primary" id="job_list">
+                                    <div class="panel-heading navbar-inverse">
+                                        Charge Details<a class="navbar-right  btn-primary" id="add_detail" style="margin-top:-3px;"> <i class="glyphicon  glyphicon-plus-sign  well-sm"></i></a>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive" id="job_list_inner">
+
+                                            <input type="text" id="TDETAIL_IDX" value="0" name="TDETAIL_IDX[]" class="TDETAIL_IDX" style="display:none" />
+                                            <table class='table table-striped table-bordered bootstrap-datatable' id="TDETAIL">
+                                                <thead><tr><th>Min.</th><th>Max</th><th>Amount</th><th>U. Amount</th><th class="hidden"><a class="btn btn-default btn-xs"><i class="glyphicon glyphicon-plus well-sm"></i></a></th></tr> </thead>
+
+                                                <tbody class="TDETAIL_BODY" id="TDETAIL_BODY">
+                                                    <tr class="item-row">
+                                                        @*<td class="hide"><input type="text" class="form-control TMP" id="TMP" /></td>*@
+                                                        <td><input type="text" class="form-control SLABMIN" id="SLABMIN" name="SLABMIN" /></td>
+                                                        <td><input type="text" class="SLABMAX form-control" id="SLABMAX" name="SLABMAX" /></td>
+                                                        <td><input type="text" class="SLABAMT form-control" id="SLABAMT" name="SLABAMT" /></td>
+                                                        <td><input type="text" class="SLABUAMT form-control" id="SLABUAMT" name="SLABUAMT" /></td>
+                                                        <td><a class="" id="del_detail"> <i class="glyphicon glyphicon-trash" style="color:#ff0000;font-size:large"></i></a></td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 box-footer">
+                            <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+
+                            <input type="button" name="save" value="Save" class="btn btn-success btn-xs" id="save" />
+                            <input type="submit" name="continue" value="Save & Continue" class="btn btn-success btn-xs" />
+                        </div>
+
+
+                    </fieldset>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            @*<div class="box-header">
+                    <div class="box-name">
+                        <i class="fa fa-search"></i>
+                        <strong>Export Slab Master</strong>
+                    </div>
+                </div>*@
+            @Html.Raw(ViewBag.msg)
+            <div class="box-content" data-ng-app="myModule">
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('.msg').delay(1200).fadeOut(1000);
+    </script>
+    <script>
+
+
+        $(window).bind("load", function () {
+            var chref = window.location.href;
+            if (chref.indexOf('-')) {
+                $("#SLABMID").val("0");
+            }
+        })
+
+        $(document).ready(function () {
+            var rowcount = $('#TDETAIL tbody tr').length;
+
+            $("#TDETAIL_IDX").val(rowcount);
+
+            //----------------------------------insert/delete row-----------------------------------------//
+
+            $("#add_detail").click(function () {
+
+                if ($("#TDETAIL_IDX").val() != 0) {
+
+
+                    var $tableBody = $('#TDETAIL').find("tbody"),
+                        $trLast = $tableBody.find("tr:last");
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+                    //  $trNew.find("td:eq(2)").html("<select id='GIDID' class='GIDID form-control' name='GIDID' onchange='test(this)'><option>Select</option> </select>  ");
+                    $trNew.find('input:text,select').val("");
+
+
+
+                    //event bind
+
+
+
+                    var row_idx = parseInt($("#TDETAIL_IDX").val());
+
+                    $("#TDETAIL_IDX").val(row_idx + 1);
+
+                    $("#TDETAIL_BODY").show();
+
+
+                }
+                else {
+
+                    $('#TDETAIL_IDX').val("1");
+                    $("#TDETAIL_BODY").show();
+
+                }
+            });
+
+            //delete event
+
+
+            $(document).on("click", "#del_detail", function () {
+
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+
+
+                    //  idx = $(this).parent().parent().index();
+                    idx = $("#TDETAIL_IDX").val();
+
+                    if (idx == 1) {
+
+                        var $tableBody = $('#TDETAIL').find("tbody")
+                        $trCur = $tableBody.find("tr:eq(0)");
+                        $trCur.find("input:text,select").val("");
+
+                        // total();
+                    }
+                    else {
+                        $("#TDETAIL_BODY").show();
+                        var row = this.parentNode.parentNode;
+                        $(this).parents('.item-row').remove();
+                        $("#TDETAIL_IDX").val($("#TDETAIL_IDX").val() - 1);
+                        //total();
+                    }
+                }
+
+
+            });
+        });
+        $(function () {
+
+            add_autocomplete($("#CHADESC"), "CHADESC,CHAID");
+            Cha();
+
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+
+            $('.datetime').datetimepicker({
+
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+
+
+            });
+            //$('.time').timepicker();
+
+
+            //------Duplicate record check----//
+            $("#save").click(function () {
+
+                var formdata = ($("#exportslabmasterform").serialize());
+                var bad = 0;
+                //  if ($(".F_VAL").val() == "") bad++;
+
+                $('#exportslabmasterform:input,select,#TDETAIL input').each(function () {
+                   // alert(this.id);
+                    switch (this.id) {
+                        default:
+                            if ($.trim(this.value) == "") { bad++;   }
+                    }
+                });
+
+
+                if (bad > 0) {
+
+
+                    $('.msg_error').html("Please Enter Slab details before save");
+                    $('.msg_error').show();
+                    $('.msg_error').delay(1200).fadeOut(1000);
+
+                    return false;
+
+                }
+                $.ajax({
+                    type: 'post',
+                    url: '@Url.Action("Checkdata","ExportSlabMaster")', // we are calling json method
+                    data: formdata,
+                    success: function (data) {
+                       // alert(data);
+                        if (data > 0) {
+
+
+                            x = confirm("Details Exists!! Would you like to Continue?");
+                            if (x == true) {
+                                $.ajax({
+                                    type: 'post',
+                                    url: '@Url.Action("savedata","ExportSlabMaster")', // we are calling json method
+                                    data: formdata,
+                                    success: function (data) { if (data == "Saved") location.replace("/ExportSlabMaster"); }
+                                });
+                            }
+                            else {
+                                location.replace("/ExportSlabMaster/Form");
+                                return false;
+                            }
+
+
+
+                        }
+                        else {
+
+                            $.ajax({
+                                type: 'post',
+                                url: '@Url.Action("savedata","ExportSlabMaster")', // we are calling json method
+                                data: formdata,
+                                success: function (data) { if(data=="Saved")location.replace("/ExportSlabMaster"); }
+                            });
+                        }
+
+                    },
+                    error: function (ex) {
+                        alert('Failed to save data ' + ex);
+                    }
+                });
+
+            });//-----End of function
+
+        });
+
+        function Cha() {
+            if ($("#TARIFFMID").val() == 4) {
+                $(".chaid").show();
+
+            } else {
+
+                $(".chaid").hide();
+                $("#CHAID").val(0);
+                $("#CHADESC").val("");
+            }
+        }
+
+        function EOPSel() {
+            $(".frmoptyp").hide();
+            $("#EOPTID").val(0)
+            //alert($("#SLABTID").val());
+            if ($("#SLABTID").val() == 5 || $("#SLABTID").val() == 6 || $("#SLABTID").val() == 4) {
+                $("#EOPTID").val(2)
+                $(".frmoptyp").show();
+
+            }
+        }
+        function Validate() {
+            var TARIFFMID = $("#TARIFFMID").val();
+            if ((TARIFFMID == 4))
+            { if ($(".CHAID").val() == 0) { alert("Select CHA Properly"); $("#CHADESC").val(""); $("#CHADESC").focus(); return false; } }
+        }
+    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

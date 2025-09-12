@@ -1,0 +1,281 @@
+﻿@model IEnumerable<scfs_erp.Models.VehicleTicketDetail>
+
+@{
+    ViewBag.Title = "E-Seal Vehicle Ticket";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+</style>
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-export"></i>&nbsp;@ViewBag.Title
+                                <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("ESVTDForm", "ESealVehicleTicket")"><i class="fa fa-plus-square "></i> Add New </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3"> </div>
+                        <div class="col-xs-6">
+                            <form action="#" method="post" accept-charset="utf-8" id="remotegateinform" data-ng-controller="myController" name="remotegateinform">
+
+                                <label for="from">From</label>
+                                <input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                <label for="to">to</label>
+                                <input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                            </form>
+                        </div>
+                    </div>
+                    <br />
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th style="width:auto;">No</th>
+                                <th style="width:auto;">Container&nbsp;No</th>
+                                <th style="width:auto;">Size</th>
+                                <th style="width:auto;">CHA&nbsp;Name</th>
+                                <th style="width:auto;">Exporter</th>
+                                <th style="width:auto;">Transpoter Name</th>
+                                <th style="width:auto;">Vehicle No</th>
+                                <th style="width:auto;">Driver Name</th>
+                                <th style="width:auto;">S</th>
+                                <th style="width:auto;">Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+
+                                <th colspan="10" style="text-align:center"></th>
+                            </tr>
+
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ESealVehicleTicket")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            var edchk = '';
+                            var dlchk = '';
+                            if (oObj.aData[12] == 'Not-Exists') {
+                                edchk = '<a class="btn btn-primary btn-xs" href="@Url.Action("Edit", "ESealVehicleTicket")/' +
+                                oObj.aData[11] + '\"><i class="glyphicon glyphicon-edit"></i></a>  ';
+                                dlchk = '<a class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[10] + ";" + oObj.aData[11] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+
+                            }
+                            return edchk+ '  &nbsp;&nbsp;' +
+                                '<a class="btn btn-default btn-xs print-invoice" href="@Url.Action("PrintView", "ESealVehicleTicket")/' + oObj.aData[11] + '\"  target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;' +
+                                ' ' + dlchk;
+                        }
+                    }
+                ],
+                "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+                    //alert(2);
+                    var TNOS = 0; var FNOS = 0; var TUES = 0; var FNOSS = 0;
+
+                    /*
+                     * Calculate the total market share for all browsers in this table (ie inc. outside
+                     * the pagination)
+                     */
+
+                    //alert(aiDisplay.length + "//" + nRow);
+                    for (var i = 0; i < aaData.length; i++) {
+                        // alert(aaData[4]);
+
+                    }
+
+                    /* Calculate the market share for browsers on this page */
+
+                    for (var i = 0; i < aaData.length; i++) {
+                        //alert("2" + aaData[aiDisplay[i]][3]);
+                        if (aaData[aiDisplay[i]][3] == 20) TNOS++;
+                        if (aaData[aiDisplay[i]][3] == 40) FNOS++;
+                        if (aaData[aiDisplay[i]][3] == 45) FNOSS++;
+                        //TUES = eval(TNOS) + eval(2 * FNOS);
+                        TUES = eval(TNOS) + eval(FNOS) + FNOSS;
+
+                    }
+
+                    var nCells = nRow.getElementsByTagName('th'); nCells[0].innerHTML = '<span style="color:red">20":</span>' + eval(TNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">40":</span>' + eval(FNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">45":</span>' + eval(FNOSS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">TUES:</span>' + eval(TUES)
+                    //  nCells[1].innerHTML = eval(TNOS); nCells[1].innerHTML = '<span style="color:red">20":</span>' + nCells[1].innerHTML + '<th></th><th></th><th></th><th></th><th></th>'
+                    //  nCells[3].innerHTML = '<span style="color:red">40":</span>' + eval(FNOS);
+                    // //nCells[2].innerHTML = nCells[2].innerHTML + '<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>'
+                    //  nCells[5].innerHTML = '<span style="color:red">TUES:</span>' + eval(TUES);
+                    // //nCells[3].innerHTML = '<th></th><th></th><th></th><th></th><th></th><th></th><th></th>' + nCells[3].innerHTML + '<th></th><th></th>'
+
+                }
+
+            });
+
+        });
+
+
+
+        $("#from").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            dateFormat: 'dd-mm-yy',
+            onClose: function (selectedDate) {
+                $("#to").datepicker("option", "minDate", selectedDate);
+            }
+        });
+        $("#to").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            dateFormat: 'dd-mm-yy',
+            onClose: function (selectedDate) {
+                $("#from").datepicker("option", "maxDate", selectedDate);
+            }
+        });
+
+        //--------------print------------------------//
+        $(".print-invoice").on("click", function () {
+            var idx = $(this).attr('id');
+
+            turl = "http://216.172.100.137:8080/cfsrpt/print.php?id" + idx;
+            cpurl = "http://216.172.100.137:8080/cfsrpt/egatein.pdf";
+
+            var pdf = $.post(turl, function () {
+                alert("success");
+            })
+                .success(function () { })
+                .complete(function () { });
+            pdf.complete(function () { window.open(cpurl, "_blank"); });
+
+            return false;
+        });
+
+        //end
+
+
+        //----------------Delete Record event----------//
+        $(document).on("click", "a.del", function () {
+            var r = confirm("Are you sure to delete this record ?");
+
+            if (r == true) {
+                var idx = $(this).attr('id');
+                base = window.location.origin;
+                $.post(base + "/ESealVehicleTicket/Del",
+                    {
+                        id: idx, fld: "ESEALVEHICLETICKET"
+                    },
+                    function (data, status) {
+                        if (data == "") {
+                            //alert("You are not Authorized to Delete....!");
+
+                            $('<div></div>').dialog({
+                                modal: true,
+                                title: "Information",
+                                open: function () {
+                                    var markup = '<b>' + 'You are not Authorized to Delete....!' + '<b>';
+                                    $(this).html(markup);
+                                },
+                                buttons: {
+                                    Ok: function () {
+                                        $(this).dialog("close");
+                                        location.replace(base + "/ESealVehicleTicket/Index");
+                                    }
+                                }
+                            }); //end confirm dialog
+                        }
+                        else if (data != "Deleted successfully...") {
+                            //alert(data);
+
+                            $('<div></div>').dialog({
+                                modal: true,
+                                title: "Information",
+                                open: function () {
+                                    var markup = '<b>' + data + '<b>';
+                                    $(this).html(markup);
+                                },
+                                buttons: {
+                                    Ok: function () {
+                                        $(this).dialog("close");
+                                        location.replace(base + "/ESealVehicleTicket/Index");
+                                    }
+                                }
+                            }); //end confirm dialog
+                        }
+                        else {
+                            //alert(data);
+
+                            $('<div></div>').dialog({
+                                modal: true,
+                                title: "Information",
+                                open: function () {
+                                    var markup = '<b>' + data + '<b>';
+                                    $(this).html(markup);
+                                },
+                                buttons: {
+                                    Ok: function () {
+                                        $(this).dialog("close");
+                                        location.replace(base + "/ESealVehicleTicket/Index");
+                                    }
+                                }
+                            }); //end confirm dialog
+                            location.replace(base + "/ESealVehicleTicket");
+                        }
+                    });
+            }
+            return false;
+        });//End of delete
+
+    </script>
+
+
+}
+
+

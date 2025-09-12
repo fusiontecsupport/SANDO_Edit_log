@@ -1,0 +1,75 @@
+﻿
+
+@using scfs_erp.Models;
+@model scfs_erp.Models.DisplayOrderMaster
+
+@{
+    ViewBag.Title = "Display Order Master";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Display Order Master form</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/DisplayOrderMaster/savedata")" method="post" accept-charset="utf-8" id="displayordermasterform" data-ng-controller="myController" name="displayordermasterform">
+                @*<form>*@
+                    @Html.ValidationSummary(true)
+                    <fieldset id="displayorderMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.DORDRID, new { @class = "form-control  DORDRID", @id = "DORDRID" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description </label>
+                                        @Html.TextBoxFor(model => Model.DORDRDESC, new { @class = "form-control  DORDRDESC", @id = "DORDRDESC" })
+                                        <input type="text" value="@Model.DORDRDESC" name="i_DORDRDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Order </label>
+                                        @Html.TextBoxFor(model => Model.DORDORDR, new { @class = "form-control DORDORDR", @id = "DORDORDR" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                <a href="@Url.Action("Index", "DisplayOrderMaster")" class="btn btn-primary pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')" tabindex="4012">Go Back</a>
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                @*<input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" onclick="return Validation()" />*@
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />
+                                @*<input type="button" value="Submit" id="btnsubmit" class="btn btn-success btn-xs" />*@
+                            </div>
+                        </div>
+                        
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

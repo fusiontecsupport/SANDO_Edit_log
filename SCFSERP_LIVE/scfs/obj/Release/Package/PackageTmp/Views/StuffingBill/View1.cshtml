@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "View1";
+}
+
+<h2>View1</h2>
+
+<script>
+    function exe_prcs(obj) {
+
+
+
+        row = obj.parentNode.parentNode.rowIndex;
+
+
+        row = row - 1;
+        var $tableBody = $('#TDETAIL').find("tbody")
+
+        $trCur = $tableBody.find("tr:eq(" + row + ")");
+        $trCur.find('#TRANDID').val(0);
+        $trCur.find(".TRANDAID").empty();
+
+        $trCur.find(".TRANDCID").empty();
+        id = $trCur.find("#TRANDREFID").val()
+        Tranmid = $trCur.find(".TRANMID").val();
+        refid = $("#TRANREFID").val();
+
+        //var selid = 'Common/CostFactorDetail/5';
+        var url = "/Trading/sp_prc_TRANDID/" + id;
+        var url_cid = "/Trading/sp_prc_TRANDCID/" + id + "-" + refid;
+
+        //$trCur.find("#E_TRANDAID .TRANDAID").empty();
+
+
+
+        $trCur.find(".TRANDAID").append('<option value=""  ><- Select Bill No -></option>');
+        $trCur.find(".TRANDCID").append('<option value=""  ><- Select Client Order -></option>');
+
+        $.getJSON(url, function (data) {
+            //var items = [];
+
+            $.each(data, function (key, val) {
+
+
+                var dtranno = val.DTRANNO;
+                var trandid = val.TRANDID;
+
+                $trCur.find(".TRANDAID").append('<option value="' + trandid + '"  >' + dtranno + '</option>');
+                $trCur.find(".STRANDID").val(trandid);
+
+
+
+
+
+            });
+
+
+        });
+
+
+
+
+        $.getJSON(url_cid, function (data) {
+            //var items = [];
+
+
+            $.each(data, function (key, val) {
+
+
+
+                var dtranno = val.DTRANNO;
+                var trandid = val.TRANDID;
+
+                $trCur.find(".TRANDCID").append('<option value="' + trandid + '"  >' + dtranno + '</option>');
+                $trCur.find(".TRANDCLNTNO").val(trandid);
+
+
+
+
+
+            });
+
+
+        });
+
+
+
+    }
+
+</script>

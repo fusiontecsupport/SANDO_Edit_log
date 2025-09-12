@@ -1,0 +1,118 @@
+﻿@model IEnumerable<scfs_erp.Models.ExportTariffMaster>
+@{
+    ViewBag.Title = "Export Shipping Admission";
+}
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-export"></i>@ViewBag.Title
+                                @*<a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("OSForm", "ExportCartingOrder")"><i class="fa fa-plus-square "></i> Add New </a>*@
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <br />
+                        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        C.Order Date
+                                    </th>
+                                    <th>
+                                        C.Order No
+                                    </th>
+                                    <th>
+                                        S.Bill Date
+                                    </th>
+                                    <th>
+                                        S.Bill No
+                                    </th>
+                                    <th>
+                                        Product
+                                    </th>
+                                    <th>
+                                        Vehicle No
+                                    </th>
+                                    <th>
+                                        Unloaded Nop
+                                    </th>
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+
+                        </table>
+                        <input id="ESBDIdx" type="text" class="hide" value="@Session["ESBDIdx"]" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    
+
+    
+
+
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('hidden.bs.modal', function (e) {
+                var target = $(e.target);
+                // location.reload();
+                target.removeData('bs.modal')
+                    .find(".modal-content").html('');
+            });
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetSAAjaxData", "ExportCartingOrder")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+
+                    { "sName": "", "sClass": "col-md-1" },
+                    { "sName": " ", "sClass": "col-md-1" },
+                    { "sName": "", "sClass": "col-md-1"},
+                    { "sName": "", "sClass": "col-md-1" },
+                    { "sName": "", "sClass": "col-md-1"},
+                    { "sName": "", "sClass": "col-md-1" },
+                    { "sName": "", "sClass": "col-md-1" },
+                    {
+                        "sClass": "col-md-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-warning btn-xs"  href="@Url.Action("TForm", "ExportCartingOrder")/' +
+                                oObj.aData[8] + "~" + oObj.aData[9] + '\"  " data-toggle="modal" data-target="#myModal" title="Original Shipping Bill Details">T</a>  ';
+                        }
+                    }
+
+                ]
+            });
+
+            //-------------Delete record------------//
+
+        });
+    </script>
+}<!-- Modal -->
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+</div>
+
+<!-- /.modal -->

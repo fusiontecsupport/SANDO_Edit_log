@@ -1,0 +1,243 @@
+﻿@model IEnumerable<scfs_erp.Models.TransactionMaster>
+
+@{
+    ViewBag.Title = "Import Invoice";
+}
+
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-import"></i> <strong>@ViewBag.Title</strong>
+                                <div class="btn-group pull-right" style="margin-top:-5px">
+                                    <button type="button" class="btn btn-success dropdown-toggle btn-xs"
+                                            data-toggle="dropdown">
+                                        <i class="fa fa-plus-square "></i>Create <span class="caret"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li style="width:50px"><a href=@Url.Action("GSTForm", "ImportInvoice")>IGM No Invoice</a></li>
+                                        <li style="width:50px"><a href=@Url.Action("DOGSTForm", "ImportInvoice")>DO No Invoice</a></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2"> </div>
+                        <div class="col-xs-6">
+                            <form action="#" method="post" accept-charset="utf-8" id="remotegateinform" data-ng-controller="myController" name="remotegateinform">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <label for="from">Bill Type</label>
+                                            <div class="form-group">
+                                                @Html.DropDownList("TRANBTYPE", null, new { @class = "form-control", style = "margin-left:5px" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="from">Billed To</label>
+                                            <div class="form-group">
+                                                @Html.DropDownList("REGSTRID", null, new { @class = "form-control", style = "margin-left:5px" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="from">From</label>
+                                            <div class="form-group">
+                                                <input type="text" id="from" name="from" class="form-control" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="from">To</label>
+                                            <div class="form-group">
+                                                <input type="text" id="to" name="to" class="form-control" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="from"></label>
+                                            <div class="form-group">
+                                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                    <br />
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>Time</th>
+                                <th>
+                                    No
+                                </th>
+
+                                <th>
+                                    CHA Name
+                                </th>
+                                <th>
+                                    Net Amount
+                                </th>
+                                <th>GSt Amount</th>
+
+                                <th>
+                                    S
+                                </th>
+                                <th>
+                                    Ack No
+                                </th>
+                                <th>
+                                    Do No
+                                </th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="myModal" class="modal fade">
+
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('hidden.bs.modal', function (e) {
+                var target = $(e.target);
+                target.removeData('bs.modal')
+                      .find(".modal-content").html('');
+            });
+
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ImportInvoice")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aLengthMenu": [10, 25, 50, 100, 200, 300,500],
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": " ", "sClass": "col-lg-3" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "", "sClass": "col-lg-2 " },
+                    { "sName": "", "sClass": "col-lg-2 " },
+
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+
+                            if (oObj.aData[8] > 0) {
+                                if (oObj.aData[7] != null) {
+                                    return '<a   class="btn btn-default btn-xs"   href="@Url.Action("AForm", "ImportInvoice")/' + oObj.aData[9] + '\"  data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false"><i class="glyphicon glyphicon-bold"></i></a>    &nbsp;&nbsp;' +
+                                        '<a class="btn btn-primary btn-xs" href="@Url.Action("APrintView", "ImportInvoice")/' + oObj.aData[9] + '\"  target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a class="btn btn-warning btn-xs" href="@Url.Action("MForm", "MailForm")/' + oObj.aData[9] + '\"  target="_blank"><i class="glyphicon glyphicon-envelope"></i></a>  &nbsp;&nbsp;';
+                                }
+                                else {
+                                    return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("DOEdit", "ImportInvoice")/' +
+                                        oObj.aData[9] + '\"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("AForm", "ImportInvoice")/' +
+                                        oObj.aData[9] + '\"  data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false"><i class="glyphicon glyphicon-print"></i></a>&nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("BForm", "ImportInvoice")/' +
+                                        oObj.aData[9] + '\"  data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false"><i class="glyphicon glyphicon-bold"></i></a>    &nbsp;&nbsp;' +
+                                                          @*'<a class="btn btn-default btn-xs" href="@Url.Action("BForm", "ImportInvoice")/' + oObj.aData[9] + '~' + oObj.aData[8] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;' +*@
+                                        '<a class="btn btn-primary btn-xs" href="@Url.Action("APrintView", "ImportInvoice")/' + oObj.aData[9] + '\"  target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a class="btn btn-warning btn-xs" href="@Url.Action("MForm", "MailForm")/' + oObj.aData[9] + '\"  target="_blank"><i class="glyphicon glyphicon-envelope"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[9] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                                }
+                            }
+                            else {
+                                if (oObj.aData[7] != null) {
+
+                                    return '<a class="btn btn-default btn-xs" href="@Url.Action("AForm", "ImportInvoice")/' + oObj.aData[9] + '\"  data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;' +
+                                        '<a class="btn btn-primary btn-xs" href="@Url.Action("APrintView", "ImportInvoice")/' + oObj.aData[9] + '\"  target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a class="btn btn-warning btn-xs" href="@Url.Action("MForm", "MailForm")/' + oObj.aData[9] + '\" target="_blank"><i class="glyphicon glyphicon-envelope"></i></a>  &nbsp;&nbsp;';
+                                }
+                                else {
+                                    return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "ImportInvoice")/' + oObj.aData[9] + '\"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;' +
+                                        '<a class="btn btn-default btn-xs" href="@Url.Action("BForm", "ImportInvoice")/' + oObj.aData[9] + '\"  data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false"><i class="glyphicon glyphicon-bold"></i></a>  &nbsp;&nbsp;' +
+                                                      @*' < a   class="btn btn-default btn-xs"   href = "@Url.Action("BForm", "ImportInvoice")/' + oObj.aData[9] + '~' + oObj.aData[8] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-bold"></i></a>      &nbsp;&nbsp;' +*@
+                                        '<a class="btn btn-default btn-xs" href="@Url.Action("AForm", "ImportInvoice")/' + oObj.aData[9] + '\"  data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;' +
+                                        '<a class="btn btn-primary btn-xs" href="@Url.Action("APrintView", "ImportInvoice")/' + oObj.aData[9] + '\"  target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a class="btn btn-warning btn-xs" href="@Url.Action("MForm", "MailForm")/' + oObj.aData[9] + '\" target="_blank"><i class="glyphicon glyphicon-envelope"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[9] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                                }
+
+
+                            }
+
+
+                        }
+                    }
+
+                ]
+            });
+
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+            //------------Delete Record-------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ImportInvoice/Del",
+                           {
+                               id: idx, fld: ""
+                           },
+                         function (data, status) {
+                             if (data == "") {
+                                 alert("You are not Authorized to Delete....!");
+                             }
+                             else if (data != "Deleted successfully...") {
+                                 alert(data);
+                             }
+                             else {
+                                 alert(data);
+                                 location.replace(base + "/ImportInvoice");
+                             }
+                         });
+                }
+                return false;
+            });//End
+        });
+    </script>
+}

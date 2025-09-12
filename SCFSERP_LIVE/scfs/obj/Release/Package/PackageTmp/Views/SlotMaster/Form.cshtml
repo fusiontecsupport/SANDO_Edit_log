@@ -1,0 +1,153 @@
+﻿
+
+@using scfs_erp.Models;
+@model scfs_erp.Models.SlotMaster
+
+@{
+    ViewBag.Title = "Slot Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Slot Master</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                @*<form action="@Url.Content("~/SlotMaster/savedata")" method="post" accept-charset="utf-8" id="slotmasterform" data-ng-controller="myController" name="slotmasterform">*@
+                <form>
+                    @Html.ValidationSummary(true)
+                    <fieldset id="SlotMasterForm_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.SLOTID, new { @class = "form-control  SLOTID", @id = "SLOTID" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Code<span class="required-field"></span></label>@*@Html.ValidationMessageFor(model => model.SLOTCODE)*@
+                                        @Html.TextBoxFor(model => Model.SLOTCODE, new { @class = "form-control SLOTCODE", @id = "SLOTCODE" })
+                                        <input type="text" value="@Model.SLOTCODE" name="i_SLOTCODE" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description<span class="required-field"></span></label>@*@Html.ValidationMessageFor(model => model.SLOTDESC)*@
+                                        @Html.TextBoxFor(model => Model.SLOTDESC, new { @class = "form-control  SLOTDESC", @id = "SLOTDESC" })
+                                        <input type="text" value="@Model.SLOTDESC" name="i_SLOTDESC" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Row<span class="required-field"></span></label>@*@Html.ValidationMessageFor(model => model.ROWID)*@
+                                        @Html.DropDownList("ROWID", null, "Please select an option", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DISPSTATUS)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+                                    <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" />*@
+                                <a href="@Url.Action("Index", "SlotMaster")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $('#btnsave').click(function () {
+        if ($('#SLOTCODE').val() == "") {
+            alert('Please Enter Code !!');
+            $('#SLOTCODE').focus();
+            return false;
+        }
+        if ($('#SLOTDESC').val() == "") {
+            alert('Please Enter Description !!');
+            $('#SLOTDESC').focus();
+            return false;
+        }
+        if ($('#ROWID').val() == "") {
+            alert('Please Select Row !!');
+            $('#ROWID').focus();
+            return false;
+        }
+
+        var pdate = new Date();
+
+        if ($('#SLOTID').val() == "") { $('#SLOTID').val(0); }
+
+        var tab = {
+            SLOTID: $('#SLOTID').val(),
+            SLOTCODE: $('#SLOTCODE').val(),
+            SLOTDESC: $('#SLOTDESC').val(),
+            ROWID: $('#ROWID').val(),
+            DISPSTATUS: $('#DISPSTATUS').val(),
+            CUSRID: "",
+            LMUSRID: 1,
+            PRCSDATE: pdate
+        };
+        $.ajax({
+            url: "/SlotMaster/savedata",
+            data: JSON.stringify(tab),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (status) {
+                if (status == "Update") {
+                    alert('Slot Master Details Updated Successfully !! ');
+
+                    var returnurl = "@Url.Action("Index", "SlotMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Success") {
+                    alert('Slot Master Details Inserted Successfully !! ');
+                    var returnurl = "@Url.Action("Index", "SlotMaster")";
+                    window.location.href = returnurl;
+                }
+                else if (status == "Existing") {
+                    alert('Slot Master Details Already Inserted !! ');
+                    $('#SLOTCODE').val("");
+                    $('#SLOTDESC').val("");
+                    var returnurl = "@Url.Action("Form", "SlotMaster")";
+                    window.location.href = returnurl;
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+    });
+</script>
+}

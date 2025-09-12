@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SCFS_ERPSPBWEntitiesStoreContainer" CdmEntityContainer="SCFS_ERP_SPBWEntities">
+    <FunctionImportMapping FunctionImportName="pr_Search_Bond_Invoice" FunctionName="SCFS_ERPSPBWEntities.Store.pr_Search_Bond_Invoice">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFS_ERPSPBWEntities.pr_Search_Bond_Invoice_Result">
+          <ScalarProperty Name="TRANDATE" ColumnName="TRANDATE" />
+          <ScalarProperty Name="TRANDNO" ColumnName="TRANDNO" />
+          <ScalarProperty Name="TRANNO" ColumnName="TRANNO" />
+          <ScalarProperty Name="TRANREFNAME" ColumnName="TRANREFNAME" />
+          <ScalarProperty Name="ACKNO" ColumnName="ACKNO" />
+          <ScalarProperty Name="TRANNAMT" ColumnName="TRANNAMT" />
+          <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+          <ScalarProperty Name="GSTAMT" ColumnName="GSTAMT" />
+          <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Z_pr_ExBond_NOP_Assgn" FunctionName="SCFS_ERPSPBWEntities.Store.Z_pr_ExBond_NOP_Assgn">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SCFS_ERPSPBWEntities.Z_pr_ExBond_NOP_Assgn_Result">
+          <ScalarProperty Name="BNDID" ColumnName="BNDID" />
+          <ScalarProperty Name="EBNDNOP" ColumnName="EBNDNOP" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

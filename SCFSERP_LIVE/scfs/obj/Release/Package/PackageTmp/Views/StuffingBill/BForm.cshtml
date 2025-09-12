@@ -1,0 +1,448 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.TransactionMaster
+
+@{
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+    ViewBag.Title = "Form";
+}
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    .ui-autocomplete {
+        position: absolute;
+        cursor: default;
+        z-index: 4000 !important;
+    }
+</style>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form id="StufingInvoiceBNUpdate" method="post" action="@Url.Action("StuffingBill","SaveAddress")" autocomplete="on">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
+                <h4 class="modal-title">Stuffing Billing Name Update(BS)</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="TRANMID" class="TRANMID hide form-control" name="TRANMID" value="@ViewBag.TRANMID">
+                <input type="text" id="STFMID" class="STFMID hide form-control" name="STFMID" value="@ViewBag.STFMID">
+
+                <div class="form-group col-lg-12">
+                    
+
+                    <div class="form-group col-lg-6">
+
+                        <label>Billing Name  </label>
+
+                        <input type="text" class="TRANREFNAME form-control" name="TRANREFNAME" id="TRANREFNAME" value="@ViewBag.TRANREFNAME" data-autocomplete-url=@Url.Action("NewAutoCha", "OpenSheet") />
+                        <input type="text" class="TRANREFID form-control hide" name="TRANREFID" id="TRANREFID" value="@ViewBag.TRANREFID" />
+
+
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Billing Address Type<span class="required-field"></span> </label>
+                        <input type="text" class="CURNT_CATEAID form-control hide" name="CURNT_CATEAID" id="CURNT_CATEAID" value="@ViewBag.CUENT_CATEAID" />
+
+                        @Html.DropDownList("CATEAID", null, "Select Location", new { @class = "form-control CATEAID", @id = "CATEAID", @tabindex = "4", @onchange = "GetBillAddressDetails()" })
+
+
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Billing GST No</label>
+                        <input type="text" id="CATEAGSTNO" class="CATEAGSTNO form-control" name="CATEAGSTNO" value="@ViewBag.CATEAGSTNO" readonly="readonly">
+                        <input type="text" id="STATEID" class="STATEID hide form-control" name="STATEID" value="@ViewBag.STATEID">
+
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Address 1 </label>
+                        <input type="text" id="TRANIMPADDR1" class="TRANIMPADDR1 form-control" name="TRANIMPADDR1" value="@ViewBag.TRANIMPADDR1" readonly="readonly">
+
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Address 2 </label>
+                        <input type="text" id="TRANIMPADDR2" class="TRANIMPADDR2 form-control" name="TRANIMPADDR2" value="@ViewBag.TRANIMPADDR2" readonly="readonly">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Address 3 </label>
+                        <input type="text" id="TRANIMPADDR3" class="TRANIMPADDR3 form-control" name="TRANIMPADDR3" value="@ViewBag.TRANIMPADDR3" readonly="readonly">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Address 4 </label>
+                        <input type="text" id="TRANIMPADDR4" class="TRANIMPADDR4 form-control" name="TRANIMPADDR4" value="@ViewBag.TRANIMPADDR4" readonly="readonly">
+                    </div>
+                    <div class="col-md-5">
+                        <label>State</label>
+                        <div class="form-group">
+                            <input type="text" id="txtstate" name="STATE" class="form-control STATE" value="@ViewBag.STATEDESC" readonly="readonly" />
+                            <input type="text" id="txtstatetype" name="STATETYPE" class="form-control hide STATETYPE" value="@ViewBag.STATETYPE" />
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="clearfix"> </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="closemodel();" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="btnsave">Update</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+
+        add_autocomplete_billingcha($("#TRANREFNAME"), "TRANREFNAME,TRANREFID");
+
+
+        if ($('#CURNT_CATEAID').val() > 0) {
+            $(".CATEAID").val($('#CURNT_CATEAID').val());
+        }
+        else {
+            var CHAID = $(".TRANREFID").val();
+            if (CHAID > 0) {
+                Billlocationdetail(CHAID);
+            }
+        }
+
+        var CATEAID = $(".CATEAID").val();
+        if (CATEAID > 0) {
+            GetBillAddressDetails();
+        }
+
+
+
+    });
+
+
+    var CATEID = $("#TRANREFID").val();
+    function Billlocationdetail(CATEID) {
+        $(".CATEAID").empty();
+        $.ajax({
+            type: 'get',
+            url: '@Url.Action("GetCatLocationDetail", "NonPnrInvoice")/?CATEID=' + CATEID,  // we are calling json method
+            dataType: 'json',
+            success: function (data) {
+                if (data != "") {
+                    var count = data.length;
+                    if (count > 1) {
+                        $(".CATEAID").append('<option value="0" selected>Select Location</option>');
+                    }
+                    $.each(data, function (i, dataval) {
+                        if (count > 1) {
+                            $(".CATEAID").append('<option value="' + dataval.CATEAID + '">' + dataval.CATEATYPEDESC + '</option>');
+                        }
+                        else {
+                            $(".CATEAID").append('<option value="' + dataval.CATEAID + '" selected>' + dataval.CATEATYPEDESC + '</option>');
+                        }
+                    });
+                }
+                else {
+                    $(".CATEAID").append('<option value="0">' + "Select Location" + '</option>');
+                }
+
+            },
+            //complete: function () {
+            //    //var CATEAID = $("#OSBBCHACATEAID").val();
+            //    GetBillAddressDetails();
+            //},
+            error: function (ex) {
+                // alert('Failed to data ' + ex);
+            }
+        });
+    }
+
+
+    function add_autocomplete_billingcha($obj, controls) {
+        var oldFn = $.ui.autocomplete.prototype._renderItem;
+        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+            var re = new RegExp(this.term, "i");
+            var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+            return $("<li></li>")
+                .data("item.autocomplete", item)
+                .append("<a>" + t + "</a>")
+                .appendTo(ul);
+        };
+
+        $obj.autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: $obj.data("autocomplete-url"),
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            count = 0;
+                            item_str = "";
+                            var jsonArg = new Object();
+                            count = 0;
+                            $.each(item, function (i, data) {
+                                switch (count) {
+                                    case 0:
+                                        jsonArg.label = data;
+                                        jsonArg.value = data;
+                                        break;
+                                    case 1:
+                                        jsonArg.id = data;
+                                        break;
+                                    case 2:
+                                        jsonArg.desc = data;
+                                        break;
+                                    case 3:
+                                        jsonArg.xparam1 = data;
+                                        break;
+                                    case 4:
+                                        jsonArg.xparam2 = data;
+                                        break;
+                                    case 5:
+                                        jsonArg.xparam3 = data;
+                                        break
+                                }
+                                count++
+                            });
+                            return jsonArg
+                        }))
+                    }
+                })
+            },
+            search: function () {
+                count = 0;
+                $.each(controls.split(','), function (index, value) {
+                    switch (count) {
+                        case 0: break;
+                        default:
+                            $("#" + value).val(""); break;
+                    } count++;
+                })
+                var term = extractLast(this.value);
+                if (term.length < 2) {
+                    return false
+                }
+            },
+            select: function (event, ui) {
+                $(this).val(ui.item.label);
+                count = 0;
+                $.each(controls.split(','), function (index, value) {
+                    switch (count) {
+                        case 1:
+                            $("#" + value).val(ui.item.id);
+                            break;
+                        case 2:
+                            $("#" + value).val(ui.item.desc);
+                            break;
+                        case 3:
+                            $("#" + value).val(ui.item.xparam1);
+                            break;
+                        case 4:
+                            $("#" + value).val(ui.item.xparam2);
+                            break;
+                        case 5:
+                            $("#" + value).val(ui.item.xparam3);
+                            break
+                    }
+                    count++
+                    $("#TRANREFID").val(ui.item.id);
+                });
+                var CATEID = $("#TRANREFID").val();
+                Billlocationdetail(CATEID);
+
+
+                return false
+            },
+            change: function (event, ui) {
+                //debugger;
+                var opt = $(this).val();
+                var crntval = event.currentTarget.value;
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    url: $obj.data("autocomplete-url"),
+                    data: "{'term':'" + crntval + "'}",
+                    dataType: 'json',
+                    success: function (data) {
+                        //debugger;
+                        console.log(data);
+                        //alert(data);
+                        if (data.length == 0) {
+                            // $(event.currentTarget).val('');
+                            alert('Select item from the list.');
+
+                            $("#TRANREFNAME").focus();
+                            $("#TRANREFID").val("0");
+                        }
+                        else { }
+                    },
+                    error: function (data) {
+                        $(event.currentTarget).val('');
+
+                        $("#TRANREFNAME").val();
+                        $("#TRANREFID").val("0");
+                        console.log('Error retrieving options.');
+                    }
+                });
+            },
+            messages: {
+                noResults: "",
+                results: ""
+            }
+        })
+    }
+
+    function GetBillAddressDetails() {
+        CATEAID = $("#CATEAID").val();
+        //alert(CATEAID);
+        $.ajax({
+            type: 'get',
+            url: '@Url.Action("GetCatAddressDetail", "NonPnrInvoice")/?CATEAID=' + CATEAID, // we are calling json method
+            dataType: 'json',
+            success: function (data) {
+                if (data != "") {
+                    $("#STATEID").val(data[0].STATEID);
+                    if (data[0].STATEID > 0) {
+                        $.ajax({
+                            type: 'get',
+                            url: '@Url.Action("GetStateType", "ImportInvoice")/?id=' + $("#STATEID").val(), // we are calling json method
+                            dataType: 'json',
+                            success: function (stdata) {
+                                if (stdata != "") {
+                                    var statec = stdata[0].STATECODE + "  " + stdata[0].STATEDESC;
+                                    console.log(statec);
+                                    $("#txtstatetype").val(stdata[0].STATETYPE);
+                                    $("#txtstate").val(statec);
+                                }
+                                else {
+                                    $("#txtstatetype").val("0");
+                                    $("#txtstate").val("");
+                                }
+                                //alert($("#txtstatetype").val());
+                            }
+                        });
+                    }
+
+                    $("#CATEAGSTNO").val(data[0].CATEAGSTNO);
+                    $("#TRANIMPADDR1").val(data[0].CATEAADDR1);
+                    $("#TRANIMPADDR2").val(data[0].CATEAADDR2);
+                    $("#TRANIMPADDR3").val(data[0].CATEAADDR3);
+                    $("#TRANIMPADDR4").val(data[0].CATEAADDR4);
+
+                } else {
+
+                    $("#STATEID").val("0");
+                    $("#CATEAGSTNO").val("-");
+                    $("#TRANIMPADDR1").val("-");
+                    $("#TRANIMPADDR2").val("-");
+                    $("#TRANIMPADDR3").val("-");
+                    $("#TRANIMPADDR4").val("-");
+
+                }
+            },
+            error: function (ex) {
+                $("#STATEID").val("0");
+                $("#CATEAGSTNO").val("-");
+                $("#TRANIMPADDR1").val("-");
+                $("#TRANIMPADDR2").val("-");
+                $("#TRANIMPADDR3").val("-");
+                $("#TRANIMPADDR4").val("-");
+
+                //alert('Failed to data ' + ex);
+            }
+
+        });
+    }
+
+    $('#btnsave').click(function () {
+        var flag = true;
+        if ($("#TRANREFNAME").val() == "") {
+            alert('Please Enter Billing Cha Name !!');
+            $("#TRANREFNAME").focus();
+            flag = false;
+
+        }
+        else if ($("#TRANREFID").val() == "" || $("#TRANREFID").val() == "0") {
+            alert('Please Select Billing Cha Name');
+            $("#TRANREFNAME").focus();
+            flag = false;
+
+        }
+        else if ($("#CATEAID option:selected").val() == "" || $("#CATEAID option:selected").val() == "0") {
+            alert('Please Select Billing Address Type');
+            $("#CATEAID").focus();
+            flag = false;
+
+        }
+
+        if (flag) {
+
+            tab = {
+                TRANMID: $("#TRANMID").val(),
+                STFMID: $("#STFMID").val(),
+                TRANREFNAME: $("#TRANREFNAME").val(),
+                TRANREFID: $("#TRANREFID").val(),
+                CATEAID: $("#CATEAID option:selected").val(),
+
+                CATEAGSTNO: $("#CATEAGSTNO").val(),
+                STATEID: $("#STATEID").val(),
+                TRANIMPADDR1: $("#TRANIMPADDR1").val(),
+                TRANIMPADDR2: $("#TRANIMPADDR2").val(),
+                TRANIMPADDR3: $("#TRANIMPADDR3").val(),
+                TRANIMPADDR4: $("#TRANIMPADDR4").val()
+            }
+
+            var r = confirm("Are you sure to update?");
+            if (r == true) {
+                $.ajax({
+                    type: 'post',
+                    url: '@Url.Action("SaveAddress", "StuffingBill")', // we are calling json method
+                    data: tab,
+                    success: function (data) {
+                        if (data == "saved") {
+
+                            var returnurl = '@Url.Action("Index", "StuffingBill")';
+                            window.location.href = returnurl;
+
+                            SwalSucMsg('Updated Successfully!!');
+
+                        }
+                        else {
+                            alert(data);
+                            var returnurl = '@Url.Action("Index", "StuffingBill")';
+                            window.location.href = returnurl;
+
+                        }
+                    }
+                });
+
+            } else {
+
+                return false;
+
+            }
+        }
+    });
+
+    function closemodel() {
+        var returnurl = '@Url.Action("Index", "StuffingBill")';
+        window.location.href = returnurl;
+
+    }
+
+    
+
+</script>
+

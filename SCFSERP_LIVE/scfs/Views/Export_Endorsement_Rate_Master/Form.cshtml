@@ -1,0 +1,372 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.Export_Endorsement_Rate_Master
+
+@{
+    ViewBag.Title = "Endorsement Rate Master";
+
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Endorsement Rate Master</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/Export_Endorsement_Rate_Master/savedata")" method="post" accept-charset="utf-8" id="exportendorsementratemasterform" data-ng-controller="myController" name="exportslabmasterform" onsubmit="return Validate()">
+                    @Html.ValidationSummary(true)
+                    <div class="msg" hidden style="margin-left:0;margin-right:0"> </div>
+                    <div class="msg_error" hidden style="margin-left:0;margin-right:0"> </div>
+                    <fieldset id="slabmaster_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.ECRID, new { @class = "hide form-control  ECRID", @id = "ECRID" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>W.e From<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => Model.ECRDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker ECRDATE", @id = "ECRDATE", @data_val = false })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Charge Type<span class="required-field"></span></label>
+                                        @Html.DropDownList("CHRGETYPE", null, new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                                @*<div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Endorsement Type<span class="required-field"></span></label>
+                                        @Html.DropDownList("ECTID", null, new { @class = "form-control ECTID", @data_val = "true", @data_val_required = "Field is required", @onchange = "GetCharge()" })
+                                    </div>
+                                </div>*@
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Endorsement Charge<span class="required-field"></span></label>
+                                        @Html.DropDownList("ECMID", null, new { @class = "form-control ECMID", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Calculated On<span class="required-field"></span></label>
+                                        @Html.DropDownList("CHRGDON", null, new { @class = "form-control CHRGDON", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Size<span class="required-field"></span> </label>
+                                        @Html.DropDownList("CONTNRSID", null, "Please select", new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>By<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(Model => Model.ECRMIN, new { @class = "form-control ECRMIN", @id = "ECRMIN", @required = "required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Amount<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(Model => Model.ECRAMT, new { @class = "form-control ECRAMT", @id = "ECRAMT", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />*@
+
+                                <a href="@Url.Action("Index", "Export_Endorsement_Rate_Master")" class="btn btn-primary btn-xs pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')">Go Back</a>
+                                <input type="button" name="submit" value="Submit" class="btn btn-success btn-xs" id="btnsave" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            var rowcount = $('#TDETAIL tbody tr').length;
+
+            $("#TDETAIL_IDX").val(rowcount);
+
+            //----------------------------------insert/delete row-----------------------------------------//
+
+            $("#add_detail").click(function () {
+
+                if ($("#TDETAIL_IDX").val() != 0) {
+
+
+                    var $tableBody = $('#TDETAIL').find("tbody"),
+                        $trLast = $tableBody.find("tr:last");
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+                    //  $trNew.find("td:eq(2)").html("<select id='GIDID' class='GIDID form-control' name='GIDID' onchange='test(this)'><option>Select</option> </select>  ");
+                    $trNew.find('input:text,select').val("");
+
+
+
+                    //event bind
+
+
+
+                    var row_idx = parseInt($("#TDETAIL_IDX").val());
+
+                    $("#TDETAIL_IDX").val(row_idx + 1);
+
+                    $("#TDETAIL_BODY").show();
+
+
+                }
+                else {
+
+                    $('#TDETAIL_IDX').val("1");
+                    $("#TDETAIL_BODY").show();
+
+                }
+            });
+
+            $('#btnsave').click(function () {
+                if ($('#CHRGETYPE').val() == "") {
+                    alert('Please Select Charge Type !!');
+                    $('#CHRGETYPE').focus();
+                    return false;
+                }
+                //if ($('#ECTID').val() == "") {
+                //    alert('Please Select Endorsement Type !!');
+                //    $('#ECTID').focus();
+                //    return false;
+                //}
+                if ($('#ECMID').val() == "") {
+                    alert('Please Select Endorsement Charge !!');
+                    $('#ECMID').focus();
+                    return false;
+                }
+                if ($('#CHRGDON').val() == "") {
+                    alert('Please Select Calculated On !!');
+                    $('#CHRGDON').focus();
+                    return false;
+                }
+                if ($('#CONTNRSID').val() == "") {
+                    alert('Please Select Size !!');
+                    $('#CONTNRSID').focus();
+                    return false;
+                }
+                if ($('#ECRMIN').val() == "") {
+                    alert('Please Enter By Value !!');
+                    $('#ECRMIN').focus();
+                    return false;
+                }
+                if ($('#ECRAMT').val() == "") {
+                    alert('Please Enter Amount !!');
+                    $('#ECRAMT').focus();
+                    return false;
+                }
+
+                var pdate = new Date();
+
+                if ($('#ECRID').val() == "") { $('#ECRID').val(0); } 
+
+                if ($('#CHRGDON').val() == "") { $('#CHRGDON').val(0); }
+
+                if ($('#ECRMIN').val() == "") { $('#ECRMIN').val(0); }
+
+                if ($('#ECRAMT').val() == "") { $('#ECRAMT').val(0); }
+
+                var tab = {
+                    ECRID: $('#ECRID').val(), 
+                    COMPYID: 0,
+                    ECRDATE: $('#ECRDATE').val(), 
+                    ECMID: $('#ECMID').val(),
+                    CHRGETYPE: $('#CHRGETYPE').val(), 
+                    CONTNRSID: $('#CONTNRSID').val(),
+                    CHRGDON: $('#CHRGDON').val(),                  
+                    ECRMIN: $('#ECRMIN').val(),
+                    ECRMAX: 0,
+                    ECRAMT: $('#ECRAMT').val(),                   
+                    DISPSTATUS: $('#DISPSTATUS').val(),                    
+                    CUSRID: "",
+                    LMUSRID: 1,
+                    PRCSDATE: pdate
+                };
+                $.ajax({
+                    //url: "/Export_Endorsement_Rate_Master/savedata",
+                    url: "@Url.Action("savedata", "Export_Endorsement_Rate_Master")",
+                    data: JSON.stringify(tab),
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (status) {
+                        if (status == "Update") {
+                            alert('Export Rate Master Details Updated Successfully !! ');
+
+                            var returnurl = "@Url.Action("Index", "Export_Endorsement_Rate_Master")";
+                            window.location.href = returnurl;
+                        }
+                        else if (status == "Success") {
+                            alert('Export Rate Master Details Inserted Successfully !! ');
+                            var returnurl = "@Url.Action("Index", "Export_Endorsement_Rate_Master")";
+                            window.location.href = returnurl;
+                        }
+                        else if (status == "Existing") {
+                            alert('Export Rate Master Details Already Inserted !! ');
+                            $('#ECMID').val("");                            
+                            var returnurl = "@Url.Action("Form", "Export_Endorsement_Rate_Master")";
+                            window.location.href = returnurl;
+                        }
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+
+            });
+
+
+            //delete event
+
+
+            $(document).on("click", "#del_detail", function () {
+
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+
+
+                    //  idx = $(this).parent().parent().index();
+                    idx = $("#TDETAIL_IDX").val();
+
+                    if (idx == 1) {
+
+                        var $tableBody = $('#TDETAIL').find("tbody")
+                        $trCur = $tableBody.find("tr:eq(0)");
+                        $trCur.find("input:text,select").val("");
+
+                        // total();
+                    }
+                    else {
+                        $("#TDETAIL_BODY").show();
+                        var row = this.parentNode.parentNode;
+                        $(this).parents('.item-row').remove();
+                        $("#TDETAIL_IDX").val($("#TDETAIL_IDX").val() - 1);
+                        //total();
+                    }
+                }
+
+            });
+        });
+
+        $(function () {
+
+            add_autocomplete($("#CHADESC"), "CHADESC,CHAID");
+            Cha();
+
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+
+            $('.datetime').datetimepicker({
+
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+
+
+            });
+            //$('.time').timepicker();
+
+
+            //------Duplicate record check----//
+            $("#save11").click(function () {
+                var formdata = ($("#exportslabmasterform").serialize());
+                var bad = 0;
+              //  if ($(".F_VAL").val() == "") bad++;
+                $('#exportslabmasterform :text,select,radio').each(function () {
+
+                    switch (this.id) {
+                        default:
+                            if ($.trim(this.value) == "") { bad++;   }
+                    }
+                });
+
+                if (bad > 1) {
+
+
+                    $('.msg_error').html("Please Enter Sales details before save");
+                    $('.msg_error').show();
+                    $('.msg_error').delay(1200).fadeOut(1000);
+
+                    return false;
+
+                }
+                $.ajax({
+                    type: 'post',
+                    url: '@Url.Action("Checkdata","ExportSlabMaster")', // we are calling json method
+                    data: formdata,
+                    success: function (data) {
+                        alert(data);
+                        //if (data == "saved") {
+
+
+                        //    $('.msg').html("Saved Successfully");
+                        //    $('.msg').show();
+                        //    $('.msg').delay(1200).fadeOut(1000);
+
+
+
+                        //}
+
+                    },
+                    error: function (ex) {
+                        alert('Failed to save data ' + ex);
+                    }
+                });
+
+            });//-----End of function
+
+        });
+
+        function GetCharge() {
+            $(".ECMID").empty();
+            $.ajax({
+
+                type: 'get',
+                url: '@Url.Action("GetCharge", "Export_Endorsement_Rate_Master")?id=' + $("#ECTID option:selected").val(), // we are calling json method
+
+                success: function (data) {
+                    $(".ECMID").append('<option>Select</option>');
+                    $.each(data, function (i, dataval) {
+                        $(".ECMID").append('<option value="' + dataval.ECMID + '">' + dataval.ECMDESC + '</option>');
+
+                    });
+
+                },
+                error: function (ex) {
+                    alert('Failed to data ' + ex);
+                }
+            });
+            return false;
+        }
+        function Validate() {
+            var TARIFFMID = $("#TARIFFMID").val();
+            if ((TARIFFMID == 4))
+            { if ($(".CHAID").val() == 0) { alert("Select CHA Properly"); $("#CHADESC").val(""); $("#CHADESC").focus(); return false; } }
+        }
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

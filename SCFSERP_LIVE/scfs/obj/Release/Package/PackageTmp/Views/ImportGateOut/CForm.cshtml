@@ -1,0 +1,531 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.GateOutDetail
+@{
+    ViewBag.Title = "Import - Gate Out Detail";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+</style>
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>Import - Gate Out</strong>
+                        </div>
+                    </div>
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ImportGateOut/savedata")" method="post" accept-charset="utf-8" id="importgateoutform" data-ng-controller="myController" name="importgateoutform" onsubmit="return Validate()">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="GateOutDetailform_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4 hide">
+                                            <div class="form-group">
+                                                <label>Primary  </label>
+                                                @Html.TextBoxFor(model => model.GODID, new { @class = "form-control  GODID", @id = "GODID" })
+                                                @Html.TextBoxFor(model => model.GODNO, new { @class = "form-control  GODNO", @id = "GODNO" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Date<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.GODATE, new { @class = "form-control GODATE", @id = "GODATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+
+                                                @*@Html.TextBoxFor(model => Model.GODATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker GODATE ", @id = "GODATE", @data_val = false, tabindex = "1" })*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Time<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.GOTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker GOTIME ", @id = "GOTIME", @data_val = false })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>No </label>
+                                                @Html.TextBoxFor(model => Model.GONO, new { @class = "form-control GONO ", @id = "GONO", @data_val = false, @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>V.Ticket No<span class="required-field"></span></label>
+                                                @{
+                                                    if (Model.GODID != 0)
+                                                    {
+                                                        <input type="text" value="@ViewBag.FVTDNO" id="FVTDNO" class=" form-control FVTDNO" name="FVTDNO" readonly="readonly" tabindex="2" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" value="" id="FVTDNO" class=" form-control FVTDNO" name="FVTDNO" onchange="GetVehicleDetail()" tabindex="2" readonly="readonly" />
+                                                    }
+                                                    @Html.TextBoxFor(model => Model.GIDID, new { @class = "hide form-control  GIDID ", @id = "GIDID", @data_val = false })
+                                                }
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Container No<span class="required-field"></span></label>
+                                                @{
+                                                    if (Model.GODID != 0)
+                                                    {
+                                                        <input type="text" value="@ViewBag.CONTNRNO" id="CONTNRNO" class="form-control CONTNRNO" readonly="readonly" name="CONTNRNO" onchange="GetDetail()" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" value="" id="CONTNRNO" class="form-control CONTNRNO" name="CONTNRNO" onchange="GetDetail()" maxlength="11" />
+                                                        @*@Html.DropDownList("GIDID", null, "---Select Container No---", new { @class = "form-control GIDID", @id = "GIDID", @data_val = "true", @data_val_required = "required", tabindex = "4", @onchange = "GetDetail()" })*@
+                                                    }
+                                                }
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Size</label>
+                                                <input type="text" value="" id="SIZE" class=" form-control SIZE" name="SIZE" readonly />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>In Date </label>
+                                                <input type="text" value="" id="INDATE" placeholder="dd-MM-yyyy" class=" form-control INDATE" name="INDATE" readonly />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>IGM No</label>
+                                                <input type="text" value="" id="FIGMNO" class=" form-control FIGMNO" name="FIGMNO" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Line No</label>
+                                                <input type="text" value="" id="FLNO" class=" form-control FLNO" name="FLNO" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Cargo</label>
+                                                <input type="text" value="" id="VTDESC" class=" form-control VTDESC" name="VTDESC" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Vessel</label>
+                                                <input type="text" value="" id="FVSLNAME" class=" form-control FVSLNAME" name="FVSLNAME" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Voyage No</label>
+                                                <input type="text" value="" id="FVOYNO" class=" form-control FVOYNO" name="FVOYNO" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Importer</label>
+                                                <input type="text" value="" id="IMPRTNAME" class=" form-control IMPRTNAME" name="IMPRTNAME" readonly="readonly" />
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Streamer</label>
+                                                <input type="text" value="" id="STMRNAME" class=" form-control STMRNAME" name="STMRNAME" readonly="readonly" />
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 ">
+                                            <div class="form-group">
+                                                <label>CHA</label>
+
+                                                <input type="text" value="" id="CHANAME" class=" form-control CHANAME" name="CHANAME" readonly="readonly" />
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-3 hide">
+                                            <div class="form-group">
+                                                <label>CHA StaffName</label>
+
+                                                <input type="text" value="" id="CHAID" class=" form-control hide CHAID" name="CHAID" readonly="readonly" />
+                                                <input type="text" value="" id="OSMCNAME" class=" form-control OSMCNAME" name="OSMCNAME" readonly="readonly" />
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Type</label>
+                                                <input type="text" value="" id="GOBTYPEDESC" class=" form-control GOBTYPEDESC" name="GOBTYPEDESC" readonly="readonly" />
+                                                @Html.TextBoxFor(model => model.GOBTYPE, new { @class = "form-control hide GOBTYPE", @id = "GOBTYPE", tabindex = "4", @readonly = "readonly" })
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Vehicle No</label>
+
+                                                @Html.TextBoxFor(model => model.VHLNO, new { @class = "form-control VHLNO", @id = "VHLNO", @required = "required", tabindex = "5", @readonly = "readonly" })
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Driver Name</label>
+                                                @Html.TextBoxFor(model => model.GDRVNAME, new { @class = "form-control GDRVNAME", @id = "GDRVNAME", tabindex = "6", @required = "required", @readonly = "readonly" })
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Liner Seal No<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.LSEALNO, new { @class = "form-control LSEALNO", @id = "LSEALNO", tabindex = "7", @required = "required", @onkeydown = "return isAlphaNumberOnlyKey(event);", @readonly = "readonly" })
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>SANCO Seal No<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => model.SSEALNO, new { @class = "form-control SSEALNO", @id = "SSEALNO", tabindex = "8", @required = "required", @onkeydown = "return isAlphaNumberOnlyKey(event);", @readonly = "readonly" })
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-12 box-footer">
+                                            <a href="@Url.Action("Index", "ImportGateOut")" class="btn btn-primary btn-xs  pull-left" onclick="javascript:return confirm('Are you sure you want to go back?')" tabindex="9">Go Back</a>
+                                            @*<input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />*@
+                                            <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="3" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script src="~/Scripts/CommonValidation.js" type="text/javascript"></script>
+    <script>
+        function GetDetail() {
+
+            var CONTNRNO = $("#CONTNRNO").val();
+
+            var url = "/ImportGateOut/GetContDetails/" + CONTNRNO;
+
+            $.ajax({
+
+                type: 'get',
+                url: url, // we are calling json method
+
+                dataType: 'json',
+
+                success: function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        $("#SIZE").val(data[0].CONTNRSDESC);
+                        //$("#INDATE").val(GetFormattedDate(data[0].GIDATE));
+                        $("#INDATE").val(data[0].GIDATE);
+                        $("#VTDESC").val(data[0].PRDTDESC);
+                        $("#CHANAME").val(data[0].CHANAME);
+                        $("#GIDID").val(data[0].GIDID);
+                        $("#CHAID").val(data[0].CHAID);
+                        $("#FIGMNO").val(data[0].IGMNO);
+                        $("#FLNO").val(data[0].GPLNO);
+                        $("#FVSLNAME").val(data[0].VSLNAME);
+                        $("#FVOYNO").val(data[0].VOYNO);
+                        $("#IMPRTNAME").val(data[0].IMPRTNAME);
+                        $("#STMRNAME").val(data[0].STMRNAME);
+                        $("#OSMCNAME").val(data[0].CFSNAME);
+                        $("#FVTDNO").val(data[0].VTDNO);
+                        $("#CONTNRNO").val(data[0].CONTNRNO);
+                        $("#VHLNO").val(data[0].VHLNO);
+                        $("#GDRVNAME").val(data[0].DRVNAME);
+
+                        if (data[0].ASLMTYPE == 1) {
+                            $("#GOBTYPEDESC").val("LOAD");
+                        }
+                        else if (data[0].ASLMTYPE == 2) {
+                            $("#GOBTYPEDESC").val("DESTUFF");
+                        }
+
+                        $("#GOBTYPE").val(data[0].ASLMTYPE);
+
+                        $("#LSEALNO").val(data[0].LPSEALNO);
+
+                        $("#SSEALNO").val(data[0].VTSSEALNO);
+                    }
+                    else { alert("Vehicle Ticket Cannot be Added. !!"); }
+                }
+            });
+        }
+        function GetVehicleDetail() {
+
+            var id = $("#FVTDNO").val();
+
+            var url = "/ImportGateOut/GetVehicleDetails/" + id;
+
+            $.ajax({
+
+                type: 'get',
+                url: url, // we are calling json method
+
+                dataType: 'json',
+
+                success: function (data) {
+                    if (data.length > 0) {
+                        $("#SIZE").val(data[0].CONTNRSDESC);
+                        //$("#INDATE").val(GetFormattedDate(data[0].GIDATE));
+                        $("#INDATE").val(data[0].GIDATE);
+                        $("#VTDESC").val(data[0].PRDTDESC);
+                        $("#CHANAME").val(data[0].CHANAME);
+                        $("#GIDID").val(data[0].GIDID);
+                        $("#CHAID").val(data[0].CHAID);
+                        $("#FIGMNO").val(data[0].IGMNO);
+                        $("#FLNO").val(data[0].GPLNO);
+                        $("#FVSLNAME").val(data[0].VSLNAME);
+                        $("#FVOYNO").val(data[0].VOYNO);
+                        $("#IMPRTNAME").val(data[0].IMPRTNAME);
+                        $("#STMRNAME").val(data[0].STMRNAME);
+                        $("#OSMCNAME").val(data[0].CFSNAME);
+                        $("#FVTDNO").val(data[0].VTDNO);
+                        $("#CONTNRNO").val(data[0].CONTNRNO);
+                        $("#VHLNO").val(data[0].VHLNO);
+                        $("#GDRVNAME").val(data[0].DRVNAME);
+
+                        if (data[0].ASLMTYPE == 1) {
+                            $("#GOBTYPEDESC").val("LOAD");
+                        }
+                        else if (data[0].ASLMTYPE == 2) {
+                            $("#GOBTYPEDESC").val("DESTUFF");
+                        }
+
+                        $("#GOBTYPE").val(data[0].ASLMTYPE);
+
+                        $("#LSEALNO").val(data[0].LPSEALNO);
+
+                        $("#SSEALNO").val(data[0].VTSSEALNO);
+                    }
+                    else { alert("Vehicle Ticket Cannot be Added. !!"); }
+                }
+            });
+        }
+
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getDate() +
+                "/" +
+                eval(value1.getMonth() + 1) +
+                "/" +
+                value1.getFullYear();
+            return dat;
+        }
+
+        $(function () {
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+
+
+            $(".datepicker").removeAttr('GODATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+
+            $('input[id$=GODATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#GODATE").focus();
+                }
+            });
+
+            if ($("#GODID").val() != 0 || $("#GODID").val() != "") {
+                var GIDID = $("#GIDID").val();
+
+                var url = "/ImportGateOut/GetContDetails_Mod/" + GIDID;
+
+                $.ajax({
+
+                    type: 'get',
+
+                    url: url,
+
+                    dataType: 'json',
+
+                    success: function (data) {
+                        $("#SIZE").val(data[0].CONTNRSDESC);
+                        $("#INDATE").val(GetFormattedDate(data[0].GIDATE));
+
+                        //$("#INDATE").val(data[0].GIDATE);
+                        $("#VTDESC").val(data[0].PRDTDESC);
+                        $("#CHANAME").val(data[0].CHANAME);
+                        $("#GIDID").val(data[0].GIDID);
+                        $("#CHAID").val(data[0].CHAID);
+                        $("#FIGMNO").val(data[0].IGMNO);
+                        $("#FLNO").val(data[0].GPLNO);
+                        $("#FVSLNAME").val(data[0].VSLNAME);
+                        $("#FVOYNO").val(data[0].VOYNO);
+                        $("#IMPRTNAME").val(data[0].IMPRTNAME);
+                        $("#STMRNAME").val(data[0].STMRNAME);
+                        $("#OSMCNAME").val(data[0].CFSNAME);
+                        $("#CONTNRNO").val(data[0].CONTNRNO);
+                        $("#FVTDNO").val(data[0].VTDNO);
+
+                        if (data[0].ASLMTYPE == 1) {
+                            $("#GOBTYPEDESC").val("Load");
+                        }
+                        else if (data[0].ASLMTYPE == 2) {
+                            $("#GOBTYPEDESC").val("DeStuff");
+                        }
+
+                        $("#GOBTYPE").val(data[0].ASLMTYPE);
+                    }
+                });
+            }
+            else {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = (dt.getMonth() + 1).toString();
+                var day = dt.getDate().toString();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                //var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                console.log(hours + ':' + minutes + ':' + seconds);
+
+                var time = hours + ':' + minutes + ':' + seconds;
+                var datetme = time;
+                //$(".datepicker").val(date);
+                $("#GODATE").val(date);
+                $("#GOTIME").val(time);
+                $(".timepicker").val(datetme);
+
+            }
+        });
+
+        function Validate() {
+
+            flag = true;
+            i = 0;
+            if ($('#GODATE').val() == "") {
+                alert("Please Enter Date. !!");
+                $('#GODATE').css('border-color', 'red');
+                $('#GODATE').focus();
+                //return false;
+                flag = false;
+            }
+
+            else if ($("#GOTIME").val() == "") {
+                alert("Please Enter Time. !!");
+                $('#GOTIME').css('border-color', 'red');
+                $('#GOTIME').focus();
+                //return false;
+                flag = false;
+            }
+
+            else if ($("#FVTDNO").val() == "") {
+                alert("Please Enter V.Ticket No. !!");
+                $('#FVTDNO').css('border-color', 'red');
+                $('#FVTDNO').focus();
+                //return false;
+                flag = false;
+            }
+
+            //if ($("#FVTDNO").val() == "") {
+            //    alert("Please Enter V.Ticket No. !!");
+            //    $("#FVTDNO").focus();
+            //    //return false;
+            //    flag = false;
+            //}
+            //else if ($("#CONTNRNO").val() == "") {
+            //    alert("Please Enter Container No. !!");
+            //    $("#CONTNRNO").focus();
+            //    //return false;
+            //    flag = false;
+            //} else if ($("#SSEALNO").val() == "") {
+            //    alert("Please Enter Liner Seal No. !!");
+            //    $("#SSEALNO").focus();
+            //    //return false;
+            //    flag = false;
+            //}
+            //else if ($("#LSEALNO").val() == "") {
+            //    alert("Please Enter SANCO Seal No. !!");
+            //    $("#LSEALNO").focus();
+            //    //return false;
+            //    flag = false;
+            //}
+            if (flag) {
+                $('#GODATE').css('border-color', 'black');
+                $('#GOTIME').css('border-color', 'black');
+                $('#VHLNO').css('border-color', 'black');
+                var r = confirm("Are you sure you want to submit this record ?");
+                if (r == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+
+                return false;
+            }
+        }
+    </script>
+}

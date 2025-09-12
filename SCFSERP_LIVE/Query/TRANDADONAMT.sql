@@ -1,0 +1,5 @@
+alter table transactionmaster
+add TRANADONAMT [numeric](18, 2)  NULL CONSTRAINT [DF_TRANSACTIONMASTER_TRANADONAMT]  DEFAULT ((0))
+
+alter table transactiondetail
+add TRANDADONAMT [numeric](18, 2)  NULL CONSTRAINT [DF_TRANSACTIONDETAIL_TRANDADONAMT]  DEFAULT ((0))

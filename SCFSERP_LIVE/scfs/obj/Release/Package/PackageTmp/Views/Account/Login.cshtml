@@ -1,0 +1,114 @@
+﻿@model scfs_erp.Models.LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@{
+    ViewBag.Title = "Log in";
+}
+ 
+
+
+<div class="row"  style="margin:0;padding:0">
+    <div class="col-xs-12" id="box" style="margin:0;padding:0">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>FusionPro Members Login</strong>
+
+                </div>
+            </div>
+            <div class="col-lg-5" style="background:#fff;height:301px;border-radius:0 0 0 5px">
+
+
+                <img src="~/images/container_shipping_03.jpg" />
+
+            </div>
+            <div class="box-content  col-lg-5 pull-right" data-ng-app="myModule" style="border-radius: 0 0 5px 0;">
+
+                <div>
+                    <section id="loginForm">
+                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            @Html.ValidationSummary(true)
+                            <div class="form-group">
+                                @*@Html.LabelFor(m => m.COMPID, new { @class = "col-md-4 control-label" })*@ @Html.ValidationMessageFor(m => m.COMPID)
+                                <div class=" col-md-12">
+                                    <label><strong> Company Name</strong></label>
+                                    @Html.DropDownList("COMPID", null, new { @class = "form-control col-md-2" })
+                                </div>
+                            </div>
+                               <div class="form-group">
+                                @*@Html.LabelFor(m => m.LDATE, new { @class = "col-md-2 control-label"})*@ @Html.ValidationMessageFor(m => m.LDATE)
+                                <div class=" col-md-12">
+                                    <label><strong>Login Date</strong></label>
+                                    @Html.TextBoxFor(m => m.LDATE, new { @class = "form-control LDATE", @id = "LDATE", @Value = @System.Web.HttpContext.Current.Session["LDATE"], @data_Val = false })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @*@Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })*@ @Html.ValidationMessageFor(m => m.UserName)
+                                <div class="col-md-12">
+                                    <label><strong>User Name</strong></label>
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @*@Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })*@ @Html.ValidationMessageFor(m => m.Password)
+                                <div class="col-md-12">
+                                    <label><strong>Password</strong></label>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+
+                                </div>
+                            </div>
+                         
+                            <div class="form-group hidden">
+                                <div class=" col-md-12">
+                                    @Html.LabelFor(m => m.COMPYID, new { @class = "col-md-12" })
+                                    <div class="col-md-12">
+                                        @Html.DropDownList("COMPYID", null, new { @class = "form-control COMPYID" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input type="submit" value="Log in" class="btn btn-default" />
+                                </div>
+                            </div>
+
+                            <p class="hidden">
+                                @Html.ActionLink("Register", "Register") if you don't have a local account.
+                            </p>
+                        }
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            localStorage.clear();
+
+
+            $("#LDATE").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+            
+                dateFormat: 'dd-mm-yy',
+                //onClose: function (selectedDate) {
+                //    $("#to").datepicker("option", "minDate", selectedDate);
+                //}
+            });
+        })
+       
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,56 @@
+ $("#btnsave").click(function () {
+            flag = true;
+            //alert("test");
+            if ($(".CONTNRNO").val() == "") {
+                alert("Please Enter Container No. !!");
+                $(".CONTNRNO").focus();
+                //return false;
+                flag = false;
+            } else if ($(".SSEALNO").val() == "") {
+                alert("Please Enter Liner Seal No. !!");
+                $(".SSEALNO").focus();
+                //return false;
+                flag = false;
+            }
+            else if ($(".LSEALNO").val() == "") {
+                alert("Please Enter SANCO Seal No. !!");
+                $(".LSEALNO").focus();
+                //return false;
+                flag = false;
+            }
+
+            //Code added by Rajesh on 16-Jul-2021 for including Mandatory fields Validation <End>
+            if (flag) {
+                var tab = ($("#nonpnrgateoutform").serialize());
+                console.log(tab);
+                //var r = confirm("Are you sure to submit this record ?");
+
+                //if (r == true) {
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Action("savedata", "NonPnrGateOut")', // we are calling json method
+                        data: tab,
+                        success: function (data) {
+                            if (data == "saved") {
+
+                                var returnurl = '@Url.Action("Index", "NonPnrGateIn")';
+                                window.location.href = returnurl;
+
+                                alert('NonPNR Gate-In Details Saved Successfully !! ');
+                            }
+                            else if (data == "Exist") {
+                                 var returnurl = '@Url.Action("Form", "NonPnrGateIn")';
+                                window.location.href = returnurl;
+
+                                alert('NonPNR Gate-In Details Saved Successfully !! ');
+                            }
+                        },
+
+                        error: function (ex) {
+                            alert('Failed to save data ' + ex);
+                        }
+                    });
+
+               // }
+            }
+        });

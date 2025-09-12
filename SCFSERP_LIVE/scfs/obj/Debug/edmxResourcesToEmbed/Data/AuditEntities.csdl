@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="AuditEntities" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="AuditEntitiesContainer" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="pr_Aud_Import_Invoice_IGMNO_Grid_Assgn" ReturnType="Collection(AuditEntities.pr_Aud_Import_Invoice_IGMNO_Grid_Assgn_Result)">
+      <Parameter Name="PIGMNO" Mode="In" Type="String" />
+      <Parameter Name="PLNO" Mode="In" Type="String" />
+      <Parameter Name="PTRANMID" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="verNo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="PR_AUD_IMPORT_tbl_audit_AUTHORIZATION_DETAIL_CTRL_ASSGN" ReturnType="Collection(AuditEntities.PR_AUD_IMPORT_tbl_audit_AUTHORIZATION_DETAIL_CTRL_ASSGN_Result)">
+      <Parameter Name="PASLMID" Mode="In" Type="Int32" />
+      <Parameter Name="VerNo" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="pr_Aud_Import_Invoice_IGMNO_Grid_Assgn_Result">
+    <Property Type="Int32" Name="TRANREFID" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BOENO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="BILLEMID" Nullable="true" />
+    <Property Type="Int32" Name="BILLEDID" Nullable="true" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Int32" Name="STMRID" Nullable="true" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="true" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="STRGDATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="DateTime" Name="GOTIME" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="DODATE" Nullable="true" Precision="16" />
+    <Property Type="Decimal" Name="NOD" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="WGHT" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="PRDTGID" Nullable="true" />
+    <Property Type="Int32" Name="TRANDID" Nullable="true" />
+    <Property Type="Int16" Name="TRANDOTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TARIFFMID" Nullable="true" />
+    <Property Type="String" Name="DPAIDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="DPAIDAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPEAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPCSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPLBAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="GPAAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDHAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDEAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDAAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCOL7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RAMT7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="RCAMT7" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="GPETYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPCSTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPLBTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPSTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPWTYPE" Nullable="true" />
+    <Property Type="Int16" Name="GPSCNTYPE" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDRATE" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="STATETYPE" Nullable="true" />
+    <Property Type="String" Name="STRG_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="HANDL_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="STRG_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STRG_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="HANDL_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANCGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANSGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANIGSTAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_COVID_DISC_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANBTYPE" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDADONAMT" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="PR_AUD_IMPORT_tbl_audit_AUTHORIZATION_DETAIL_CTRL_ASSGN_Result">
+    <Property Type="Int32" Name="ASLMID" Nullable="false" />
+    <Property Type="Int32" Name="ASLDID" Nullable="false" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="GIDATE" Nullable="true" Precision="23" />
+    <Property Type="String" Name="OSMDNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="BOENO" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="BOEDATE" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="DODATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="LSEALNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SSEALNO" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="GPLNO" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="String" Name="OSMIGMNO" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="OSMLNO" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="OSDID" Nullable="true" />
+    <Property Type="String" Name="VOYNO" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="VSLNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="STMRNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="IMPRTNAME" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="VTDNO" Nullable="false" MaxLength="15" />
+    <Property Type="Int32" Name="VerNo" Nullable="true" />
+    <Property Type="Int32" Name="AUDID" Nullable="false" />
+  </ComplexType>
+</Schema>

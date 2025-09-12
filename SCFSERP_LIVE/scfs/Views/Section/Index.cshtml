@@ -1,0 +1,160 @@
+﻿@model IEnumerable<scfs_erp.Models.TransactionMaster>
+
+@{
+    ViewBag.Title = "Import Section";
+}
+
+<div class="box">
+    <div class="box-header">
+        <div class="box-name">
+            <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+        </div>
+        <div class="box-icons">
+            <button onclick="parent.location = '@Url.Action("Form","Section")'; return false;" class=" btn-success"> Create New </button>
+        </div>
+        <div class="no-move"></div>
+    </div>
+    <div class="box-content no-padding">
+        <br />
+        <div class="row">
+            <div class="col-xs-3"> </div>
+            <div class="col-xs-6">
+                <form action="#" method="post" accept-charset="utf-8" id="Sectionform" data-ng-controller="myController" name="Sectionform">
+
+                    <label for="from">From</label>
+                    <input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                    <label for="to">to</label>
+                    <input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                    <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+
+                </form>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+            <thead>
+                <tr>
+                    <th>
+                        Date
+                    </th>
+                    <th>Time</th>
+                    <th>
+                        No
+                    </th>
+
+                    <th>
+                        CHA Name
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th>NOC</th>
+                    <th>
+                        S
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade">
+
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('hidden.bs.modal', function (e) {
+                var target = $(e.target);
+                target.removeData('bs.modal')
+                      .find(".modal-content").html('');
+            });
+
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "Section")",
+                "bProcessing": true,
+                "bStateSave": true,
+
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": " ", "sClass": "col-lg-3" },
+                    {
+                        "sName": "", "sClass": "col-lg-1",
+
+                    },
+                    { "sName": "" },
+                    { "sName": "" },
+
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "Section")/' +
+                                oObj.aData[7] + '\"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("AForm", "Section")/' +
+                                oObj.aData[7] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a   class="btn btn-warning btn-xs"   href="@Url.Action("CForm", "Section")/' +
+                                oObj.aData[7] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[7] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+            //------------Delete Record-------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/Section/Del",
+                           {
+                               id: idx, fld: ""
+                           },
+                         function (data, status) {
+                             if (data == "") {
+                                 alert("You are not Authorized to Delete....!");
+                             }
+                             else if (data != "Deleted successfully...") {
+                                 alert(data);
+                             }
+                             else {
+                                 alert(data);
+                                 location.replace(base + "/Section");
+                             }
+                         });
+                }
+                return false;
+            });//End
+        });
+    </script>
+}

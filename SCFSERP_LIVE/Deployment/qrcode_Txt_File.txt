@@ -1,0 +1,19 @@
+                   TmpContnrNo = !CONTNRNO
+                   TmpSize = !CONTNRSDESC
+                   TmpInDate = Format(!VTDATE, "DD/MM/YYYY") & Space(1)
+                   TmpImprtName = !IMPRTNAME
+                   TmpStmrName = !STMRNAME
+                   TmpVhlNo = IIf(IsNull(!VHLNO), "", !VHLNO)
+                   TmpVslName = IIf(IsNull(!VSLNAME), "", !VSLNAME)
+                   TmpVoyNo = IIf(IsNull(!VOYNO), "", !VOYNO)
+                   TmpPrdtDesc = IIf(IsNull(!PRDTDESC), "", !PRDTDESC)
+                   TmpWght = !GPWGHT
+                   TmpIGMNo = IIf(IsNull(!IGMNO), "", !IGMNO)
+                   TmpLNo = IIf(IsNull(!GPLNO), "", !GPLNO)
+                   TmpLPsealNo = IIf(IsNull(!LPSEALNO), "", !LPSEALNO)
+                   TmpBLNo = IIf(IsNull(!OSMBLNO), "", !OSMBLNO)
+
+                   Print #Filenum, "|" & TmpContnrNo & "|" & TmpSize & "|" & TmpInDate & "|" & TmpImprtName & "|" & TmpStmrName & "|" & TmpVhlNo & "|" _
+                             & TmpVslName & "|" & TmpVslName & "|" & TmpVoyNo & "|" & TmpPrdtDesc & "|" & TmpWght & "|" & TmpIGMNo & "|" & TmpLNo & "|" _
+                             & TmpLPsealNo & "|" & TmpBLNo & "|"
+                   LineCounter = LineCounter + 1

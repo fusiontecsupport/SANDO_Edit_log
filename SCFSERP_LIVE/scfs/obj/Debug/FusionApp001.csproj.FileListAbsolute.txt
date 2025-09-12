@@ -1,0 +1,5 @@
+E:\Rajesh\GitRepo\SCFSERP_LIVE\scfs\obj\Debug\FusionApp001.csproj.AssemblyReference.cache
+E:\Rajesh\GitRepo\SCFSERP_LIVE\scfs\obj\Debug\FusionApp001.csproj.ResolveComReference.cache
+E:\Rajesh\GitRepo\SCFSERP_LIVE\scfs\obj\Debug\scfs_erp.Migrations.init.resources
+E:\Rajesh\GitRepo\SCFSERP_LIVE\scfs\obj\Debug\FusionApp001.csproj.GenerateResource.cache
+E:\Rajesh\GitRepo\SCFSERP_LIVE\scfs\obj\Debug\FusionApp001.csproj.CoreCompileInputs.cache

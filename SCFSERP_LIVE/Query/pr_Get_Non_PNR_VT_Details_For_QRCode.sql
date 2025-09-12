@@ -1,0 +1,50 @@
+-- exec pr_Get_Non_PNR_VT_Details_For_QRCode 1209,1,32  
+-- exec pr_Get_Non_PNR_VT_Details_For_QRCode 1,2,32  
+-- exec pr_Get_Non_PNR_VT_Details_For_QRCode 1041,9,32  
+-- exec pr_Get_Non_PNR_VT_Details_For_QRCode 55757
+alter PROCEDURE [dbo].[pr_Get_Non_PNR_VT_Details_For_QRCode]    
+          @PVTDID INT  
+          
+AS BEGIN  
+  
+Declare @LVTDID int,@LSDPTID int , @LCOMPYID int  
+set @LVTDID = @PVTDID  
+  
+    DECLARE @TableMaster Table   
+ (   
+  VTDID INT,  
+  SDPTID INT,  
+  COMPYID INT,  
+  CONTNRNO VARCHAR(15),  
+  CONTNRSDESC varchar (50),  
+  VTDATE DATETIME,  
+  IMPRTNAME VARCHAR(100),  
+  STMRNAME VARCHAR(100),  
+  VHLNO VARCHAR(15),  
+  VSLNAME VARCHAR(100),  
+  VOYNO VARCHAR(10),  
+  PRDTDESC VARCHAR(100),  
+  GPWGHT numeric(9,2),  
+  IGMNO VARCHAR(15),  
+  GPLNO VARCHAR(15),  
+  LPSEALNO varchar(50),  
+  OSMBLNO varchar(25)     
+ )  
+  
+  
+ Insert Into  @TableMaster( VTDID , SDPTID ,  COMPYID ,  CONTNRNO ,  CONTNRSDESC ,  VTDATE ,  IMPRTNAME ,  STMRNAME ,  
+  VHLNO ,  VSLNAME ,  VOYNO ,  PRDTDESC ,  GPWGHT ,  IGMNO ,  GPLNO ,  LPSEALNO ,  OSMBLNO )    
+ SELECT a.VTDID , a.SDPTID , a.COMPYID ,  d.CONTNRNO , e.CONTNRSDESC , a.VTDATE , d.IMPRTNAME , d.STMRNAME , a.VHLNO ,  
+   d.VSLNAME, d.VOYNO , d.PRDTDESC , d.GPWGHT , d.IGMNO , d.GPLNO , d.LPSEALNO , ''  
+ from VEHICLETICKETDETAIL A(NOLOCK)   
+    JOIN GATEINDETAIL D(NOLOCK) ON A.GIDID = D.GIDID AND A.SDPTID = D.SDPTID --AND A.COMPYID = D.COMPYID  
+      JOIN CONTAINERSIZEMASTER E(NOLOCK) ON D.CONTNRSID = E.CONTNRSID     
+ where  A.VTDID = @LVTDID  
+    
+   
+ Select VTDID , SDPTID ,  COMPYID ,  CONTNRNO ,  CONTNRSDESC ,  VTDATE ,  IMPRTNAME ,  STMRNAME ,  
+  VHLNO ,  VSLNAME ,  VOYNO ,  PRDTDESC ,  GPWGHT ,  IGMNO ,  GPLNO ,  LPSEALNO ,  OSMBLNO   
+ FROM @TableMaster  
+          
+END
+

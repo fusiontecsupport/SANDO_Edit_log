@@ -1,0 +1,92 @@
+﻿
+@model IEnumerable<scfs_erp.Models.Import_Seal_Master>
+
+@{
+    ViewBag.Title = "Import Seal Master";
+}
+<div class="box">
+    <div class="box-header">
+        <div class="box-name">
+            <i class="glyphicon glyphicon-import"></i><strong>@ViewBag.Title</strong>
+        </div>
+        <div class="box-icons">
+            <button onclick="parent.location = '@Url.Action("Form", "ImportSealMaster")'; return false;" class="btn-success"> Create New </button>
+        </div>
+        <div class="no-move"></div>
+    </div>
+    <div class="box-content no-padding">
+        <br />
+        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
+            <thead>
+                <tr>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        SealNo
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SEALMDATE)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SEALMNO)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SEALMDESC)
+                        </td>
+                        <td class="col-sm-2 cent">
+                            <a href="#" class="btn btn-danger del btn-xs" id="@item.SEALMID"><i class="fa fa-trash-o"></i>  @*Delete*@ </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+
+    <script>
+
+
+        $(document).ready(function () {
+            $('#datatable-3').dataTable({
+                "sPaginationType": "bs_normal"
+            });
+
+            //-------------Delete button click event----//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ImportSealMaster/Del",
+                        {
+                            id: idx, fld: "IMPORTSEALMASTER"
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted successfully...")
+                                location.replace(base + "/ImportSealMaster");
+                        });
+                }
+                return false;
+            });//---End of delete
+        });//---End of ready event
+    </script>
+}
+

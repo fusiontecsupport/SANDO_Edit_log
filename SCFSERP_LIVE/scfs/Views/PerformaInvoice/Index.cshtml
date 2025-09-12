@@ -1,0 +1,209 @@
+﻿@model IEnumerable<scfs_erp.Models.Performa_TransactionMaster>
+
+@{
+    ViewBag.Title = "Import - Proforma Invoice";
+}
+
+<div class="col-xs-12">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <i class="glyphicon glyphicon-export"></i>@ViewBag.Title
+                <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("GSTForm", "PerformaInvoice")"><i class="fa fa-plus-square "></i> Add New </a>
+            </div>
+            @*<div class="panel-title">
+                <i class="glyphicon glyphicon-import"></i> <strong>@ViewBag.Title</strong>
+                <div class="btn-group pull-right" style="margin-top:-5px">
+                    <button type="button" class="btn btn-success dropdown-toggle btn-xs"
+                            data-toggle="dropdown">
+                        <i class="fa fa-plus-square "></i>Create <span class="caret"></span>
+                    </button>
+
+                    <ul class="dropdown-menu" role="menu">
+                        <li style="width:50px"><a href=@Url.Action("GSTForm", "PerformaInvoice")>IGM No Invoice</a></li>
+                        <li style="width:50px"><a href=@Url.Action("DOGSTForm", "PerformaInvoice")>DO No Invoice</a></li>
+                    </ul>
+
+                </div>
+
+                <div class="clearfix"> </div>
+            </div>*@
+        </div>
+    </div>
+    <div class="panel-body">
+        <br />
+        <div class="row">
+            <div class="col-xs-3"> </div>
+            <div class="col-xs-12">
+                <form action="#" method="post" accept-charset="utf-8" id="PerformaInvoiceform" data-ng-controller="myController" name="PerformaInvoiceform">
+                    <table style="margin-left:65px"><tr><td><span style="margin-left:5px">Bill Type</span></td><td>@Html.DropDownList("TRANBTYPE", null, new { @class = "form-control", style = "margin-left:5px" })</td><td><span style="margin-left:5px">Billed to</span></td><td>@Html.DropDownList("REGSTRID", null, new { @class = "form-control", style = "margin-left:5px" })</td><td><span style="margin-left:5px">From</span></td><td><input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]" style="margin-left:5px"></td><td><span style="margin-left:5px">To</span></td><td><input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]" style="margin-left:5px"></td><td><input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" style="margin-left:15px" /></td></tr></table>
+
+                </form>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>No</th>
+                    <th>CHA Name</th>
+                    <th>Amount</th>
+                    <th>GST</th>
+                    <th>NOC</th>
+                    <th class="hide">DO No</th>
+                    <th>S</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade">
+
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('hidden.bs.modal', function (e) {
+                var target = $(e.target);
+                target.removeData('bs.modal')
+                      .find(".modal-content").html('');
+            });
+
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "PerformaInvoice")",
+                "bProcessing": true,
+                "bStateSave": true,
+
+                "aoColumns": [
+                        { "sName": "", "sClass": "col-lg-2" },
+                         { "sName": "" },
+                          { "sName": "" },
+                        { "sName": " ", "sClass": "col-lg-3" },
+                    {
+                        "sName": "", "sClass": "col-lg-1",
+
+                    },
+                      { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "", "sClass": "col-lg-2 hide" },
+                    { "sName": "" },//, "sClass": "col-lg-2 hide"
+
+                                      {
+                                          "sClass": "col-sm-1 cent",
+                                          "sName": "ID",
+                                          "bSearchable": false,
+                                          "bSortable": false,
+                                          "fnRender": function (oObj) {
+
+                                              if (oObj.aData[8] > 0)
+                                              {
+                                                  if (oObj.aData[6] > 0) {
+                                                      return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("DOEdit", "PerformaInvoice")/' +
+                                                      oObj.aData[9] + '\"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("AForm", "PerformaInvoice")/' +
+                                                          oObj.aData[9] + '~' + oObj.aData[6] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-bold"></i></a>    &nbsp;&nbsp;' +
+                                                          @*'<a class="btn btn-default btn-xs" href="@Url.Action("BForm", "PerformaInvoice")/' + oObj.aData[9] + '~' + oObj.aData[8] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;' +*@
+                                                          '<a class="btn btn-warning btn-xs" href="@Url.Action("MPForm", "MailForm")/' + oObj.aData[9] + '\" target="_blank"><i class="glyphicon glyphicon-envelope"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[9] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                                                  }
+                                                  else {
+                                                      if (oObj.aData[6] > 0) {
+                                                          return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("DOEdit", "PerformaInvoice")/' +
+                                                      oObj.aData[9] + '\"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("AForm", "PerformaInvoice")/' +
+                                                          oObj.aData[9] + '~' + oObj.aData[6] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-bold"></i></a>    &nbsp;&nbsp;' +
+                                                          @*'<a class="btn btn-default btn-xs" href="@Url.Action("BForm", "PerformaInvoice")/' + oObj.aData[9] + '~' + oObj.aData[8] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;' +*@
+                                                          '<a class="btn btn-warning btn-xs" href="@Url.Action("MPForm", "MailForm")/' + oObj.aData[9] + '\"  target="_blank"><i class="glyphicon glyphicon-envelope"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[9] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                                                      }
+                                                      else {
+                                                          return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "PerformaInvoice")/' +
+                                                      oObj.aData[9] + '\"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;<a   class="btn btn-default btn-xs"   href="@Url.Action("AForm", "PerformaInvoice")/' +
+                                                          oObj.aData[9] + '~' + oObj.aData[6] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-bold"></i></a>    &nbsp;&nbsp;' +
+                                                          @*'<a class="btn btn-default btn-xs" href="@Url.Action("BForm", "PerformaInvoice")/' + oObj.aData[9] + '~' + oObj.aData[8] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;' +*@
+                                                          '<a class="btn btn-warning btn-xs" href="@Url.Action("MPForm", "MailForm")/' + oObj.aData[9] + '\" target="_blank"><i class="glyphicon glyphicon-envelope"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[9] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                                                      }
+
+                                                  }
+
+                                                  }
+                                              else
+                                              {
+                                                  if (oObj.aData[6] > 0) {
+                                                      return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("DOEdit", "PerformaInvoice")/' +
+                                                      oObj.aData[9] + '\"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;'+
+                                                      @*' < a   class="btn btn-default btn-xs"   href = "@Url.Action("BForm", "PerformaInvoice")/' + oObj.aData[9] + '~' + oObj.aData[8] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-bold"></i></a>      &nbsp;&nbsp;' +*@
+                                                      '<a class="btn btn-default btn-xs" href="@Url.Action("AForm", "PerformaInvoice")/' + oObj.aData[9] + '~' + oObj.aData[6] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;' +
+                                                      '<a class="btn btn-warning btn-xs" href="@Url.Action("MPForm", "MailForm")/' + oObj.aData[9] + '\" target="_blank"><i class="glyphicon glyphicon-envelope"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[9] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+
+                                                  }
+                                                  else {
+                                                      return ' <a   class="btn btn-primary btn-xs"   href="@Url.Action("Edit", "PerformaInvoice")/' +
+                                                      oObj.aData[9] + '\"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;'+
+                                                      @*' < a   class="btn btn-default btn-xs"   href = "@Url.Action("BForm", "PerformaInvoice")/' + oObj.aData[9] + '~' + oObj.aData[8] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-bold"></i></a>      &nbsp;&nbsp;' +*@
+                                                      '<a class="btn btn-default btn-xs" href="@Url.Action("AForm", "PerformaInvoice")/' + oObj.aData[9] + '~' + oObj.aData[6] + '\"  data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;' +
+                                                      '<a class="btn btn-warning btn-xs" href="@Url.Action("MPForm", "MailForm")/' + oObj.aData[9] + '\"  data-toggle="modal" data-target="_blank"><i class="glyphicon glyphicon-envelope"></i></a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[9] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+
+                                                  }
+
+                                              }
+                                          }
+                                      }
+
+                ]
+            });
+
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+            //------------Delete Record-------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/PerformaInvoice/Del",
+                           {
+                               id: idx, fld: ""
+                           },
+                         function (data, status) {
+                             if (data == "") {
+                                 alert("You are not Authorized to Delete....!");
+                             }
+                             else if (data != "Deleted successfully...") {
+                                 alert(data);
+                             }
+                             else {
+                                 alert(data);
+                                 location.replace(base + "/PerformaInvoice");
+                             }
+                         });
+                }
+                return false;
+            });//End
+        });
+    </script>
+}

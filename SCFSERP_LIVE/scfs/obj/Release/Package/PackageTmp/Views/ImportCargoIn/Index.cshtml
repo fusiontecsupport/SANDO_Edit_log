@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewBag.Title = "Cargo In";
+}
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+</style>
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-import"></i>@ViewBag.Title
+                                <a class="btn btn-success btn-sm pull-right hide" style="padding:3px;margin:0 0 10px" href="@Url.Action("Form", "ImportCargoIn")"><i class="fa fa-plus-square "></i> Add New </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-3"> </div>
+                        <div class="col-xs-6">
+                            <form action="#" method="post" accept-charset="utf-8" id="emptyvtform" data-ng-controller="myController" name="emptyvtform">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <label for="from">From</label>
+                                            <div class="form-group">
+                                                <input type="text" id="from" name="from" class="form-control" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="from">To</label>
+                                            <div class="form-group">
+                                                <input type="text" id="to" name="to" class="form-control" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="from"></label>
+                                            <div class="form-group">
+                                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    No
+                                </th>
+
+
+                                <th>
+                                    Container&nbsp;No
+                                </th>
+                                <th>Size</th>
+
+                                <th>
+                                    Steamer&nbsp;Name
+                                </th>
+                                <th>Vehicle No</th>
+                                <th>S</th>
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th colspan="11" style="text-align:center"></th>
+                            </tr>
+
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            //s alert(1);
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ImportCargoIn")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "asc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": " " },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": " " },
+                    { "sName": "" },
+
+                    { "sName": "", "sClass": "col-lg-1" },
+
+
+                ],
+                "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+                    //alert(2);
+                    var TNOS = 0; var FNOS = 0; var TUES = 0;
+
+                    /*
+                     * Calculate the total market share for all browsers in this table (ie inc. outside
+                     * the pagination)
+                     */
+
+                    //alert(aiDisplay.length + "//" + nRow);
+                    for (var i = 0; i < aaData.length; i++) {
+                        // alert(aaData[4]);
+
+                    }
+
+
+
+                    /* Calculate the market share for browsers on this page */
+
+                    for (var i = 0; i < aaData.length; i++) {
+                        //alert("2" + aaData[aiDisplay[i]][3]);
+                        if (aaData[aiDisplay[i]][3] == 20) TNOS++;
+                        if (aaData[aiDisplay[i]][3] == 40) FNOS++;
+                        TUES = eval(TNOS) + eval(2 * FNOS);
+                        //  iPageMarket += aaData[aiDisplay[i]][4] * 1;
+                    }
+
+                    /* Modify the footer row to match what we want */
+                    var nCells = nRow.getElementsByTagName('th'); nCells[0].innerHTML = '<span style="color:red">20":</span>' + eval(TNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">40":</span>' + eval(FNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">TUES:</span>' + eval(TUES)
+
+                }
+
+            });
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+        });
+    </script>
+}

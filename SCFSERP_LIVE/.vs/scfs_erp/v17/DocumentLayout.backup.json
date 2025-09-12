@@ -1,0 +1,365 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\FusionTec\\SCFSERP_LIVE\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|e:\\fusiontec\\scfserp_live\\scfs\\controllers\\empty\\emptyslipincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\controllers\\empty\\emptyslipincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\controllers\\import\\importloadslipcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\controllers\\import\\importloadslipcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\controllers\\import\\importgateinblockcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\controllers\\import\\importgateinblockcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\controllers\\search\\igmlinenowisedetailscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\controllers\\search\\igmlinenowisedetailscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\controllers\\einvoice\\importeinvoicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\controllers\\einvoice\\importeinvoicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\controllers\\import\\importinvoicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\controllers\\import\\importinvoicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\controllers\\export\\sealcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\controllers\\export\\sealcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\views\\creditnote\\cnform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\views\\creditnote\\cnform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\controllers\\accounts\\creditnotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\controllers\\accounts\\creditnotecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\controllers\\general\\mailformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\controllers\\general\\mailformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\views\\mailform\\mform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\views\\mailform\\mform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\views\\importinvoice\\gstform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\views\\importinvoice\\gstform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\controllers\\import\\importmanualbillcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\controllers\\import\\importmanualbillcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\views\\importmanualbill\\mgstform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\views\\importmanualbill\\mgstform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\views\\importmanualbill\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\views\\importmanualbill\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|E:\\FusionTec\\SCFSERP_LIVE\\scfs\\models\\transactionmaster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7ADA016-6E82-4F70-B6CF-B687A3B6F6EA}|scfs\\scfs_erp.csproj|solutionrelative:scfs\\models\\transactionmaster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 25,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EmptySlipInController.cs",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Empty\\EmptySlipInController.cs",
+              "RelativeDocumentMoniker": "scfs\\Controllers\\Empty\\EmptySlipInController.cs",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Empty\\EmptySlipInController.cs",
+              "RelativeToolTip": "scfs\\Controllers\\Empty\\EmptySlipInController.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAYwIIAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T13:02:18.227Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ImportLoadSlipController.cs",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Import\\ImportLoadSlipController.cs",
+              "RelativeDocumentMoniker": "scfs\\Controllers\\Import\\ImportLoadSlipController.cs",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Import\\ImportLoadSlipController.cs",
+              "RelativeToolTip": "scfs\\Controllers\\Import\\ImportLoadSlipController.cs",
+              "ViewState": "AgIAAIwAAAAAAAAAAAAYwOgAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-27T17:42:32.315Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ImportGateInBlockController.cs",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Import\\ImportGateInBlockController.cs",
+              "RelativeDocumentMoniker": "scfs\\Controllers\\Import\\ImportGateInBlockController.cs",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Import\\ImportGateInBlockController.cs",
+              "RelativeToolTip": "scfs\\Controllers\\Import\\ImportGateInBlockController.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAYwAkBAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-27T17:32:29.831Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IgmLineNoWiseDetailsController.cs",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Search\\IgmLineNoWiseDetailsController.cs",
+              "RelativeDocumentMoniker": "scfs\\Controllers\\Search\\IgmLineNoWiseDetailsController.cs",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Search\\IgmLineNoWiseDetailsController.cs",
+              "RelativeToolTip": "scfs\\Controllers\\Search\\IgmLineNoWiseDetailsController.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAAwB4AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-27T17:26:17.011Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ImportEInvoiceController.cs",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\EInvoice\\ImportEInvoiceController.cs",
+              "RelativeDocumentMoniker": "scfs\\Controllers\\EInvoice\\ImportEInvoiceController.cs",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\EInvoice\\ImportEInvoiceController.cs",
+              "RelativeToolTip": "scfs\\Controllers\\EInvoice\\ImportEInvoiceController.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAQwFwAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T05:53:52.757Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CNForm.cshtml",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Views\\CreditNote\\CNForm.cshtml",
+              "RelativeDocumentMoniker": "scfs\\Views\\CreditNote\\CNForm.cshtml",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Views\\CreditNote\\CNForm.cshtml",
+              "RelativeToolTip": "scfs\\Views\\CreditNote\\CNForm.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-01T11:27:02.916Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CreditNoteController.cs",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Accounts\\CreditNoteController.cs",
+              "RelativeDocumentMoniker": "scfs\\Controllers\\Accounts\\CreditNoteController.cs",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Accounts\\CreditNoteController.cs",
+              "RelativeToolTip": "scfs\\Controllers\\Accounts\\CreditNoteController.cs",
+              "ViewState": "AgIAAD8AAAAAAAAAAIAwwGoAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T11:26:48.517Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MForm.cshtml",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Views\\MailForm\\MForm.cshtml",
+              "RelativeDocumentMoniker": "scfs\\Views\\MailForm\\MForm.cshtml",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Views\\MailForm\\MForm.cshtml",
+              "RelativeToolTip": "scfs\\Views\\MailForm\\MForm.cshtml",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAEQAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-24T16:26:29.092Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Web.config",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Web.config",
+              "RelativeDocumentMoniker": "scfs\\Web.config",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Web.config",
+              "RelativeToolTip": "scfs\\Web.config",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAEsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-06-24T16:22:41.439Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "MailFormController.cs",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\General\\MailFormController.cs",
+              "RelativeDocumentMoniker": "scfs\\Controllers\\General\\MailFormController.cs",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\General\\MailFormController.cs",
+              "RelativeToolTip": "scfs\\Controllers\\General\\MailFormController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAcwBwAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-24T16:18:46.911Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ImportInvoiceController.cs",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Import\\ImportInvoiceController.cs",
+              "RelativeDocumentMoniker": "scfs\\Controllers\\Import\\ImportInvoiceController.cs",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Import\\ImportInvoiceController.cs",
+              "RelativeToolTip": "scfs\\Controllers\\Import\\ImportInvoiceController.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAYwF4AAACiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-18T12:53:56.303Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SealController.cs",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Export\\SealController.cs",
+              "RelativeDocumentMoniker": "scfs\\Controllers\\Export\\SealController.cs",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Export\\SealController.cs",
+              "RelativeToolTip": "scfs\\Controllers\\Export\\SealController.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAkwPIAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-07T05:16:02.345Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MGSTForm.cshtml",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Views\\ImportManualBill\\MGSTForm.cshtml",
+              "RelativeDocumentMoniker": "scfs\\Views\\ImportManualBill\\MGSTForm.cshtml",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Views\\ImportManualBill\\MGSTForm.cshtml",
+              "RelativeToolTip": "scfs\\Views\\ImportManualBill\\MGSTForm.cshtml",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACkAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-23T12:47:19.575Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Views\\ImportManualBill\\Index.cshtml",
+              "RelativeDocumentMoniker": "scfs\\Views\\ImportManualBill\\Index.cshtml",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Views\\ImportManualBill\\Index.cshtml",
+              "RelativeToolTip": "scfs\\Views\\ImportManualBill\\Index.cshtml",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-23T12:47:07.567Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ImportManualBillController.cs",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Import\\ImportManualBillController.cs",
+              "RelativeDocumentMoniker": "scfs\\Controllers\\Import\\ImportManualBillController.cs",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Controllers\\Import\\ImportManualBillController.cs",
+              "RelativeToolTip": "scfs\\Controllers\\Import\\ImportManualBillController.cs",
+              "ViewState": "AgIAAM4EAAAAAAAAAIAwwNoEAABkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-23T12:46:52.054Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "TransactionMaster.cs",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Models\\TransactionMaster.cs",
+              "RelativeDocumentMoniker": "scfs\\Models\\TransactionMaster.cs",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Models\\TransactionMaster.cs",
+              "RelativeToolTip": "scfs\\Models\\TransactionMaster.cs",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAAAIIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-18T13:02:17.146Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "GSTForm.cshtml",
+              "DocumentMoniker": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Views\\ImportInvoice\\GSTForm.cshtml",
+              "RelativeDocumentMoniker": "scfs\\Views\\ImportInvoice\\GSTForm.cshtml",
+              "ToolTip": "E:\\FusionTec\\SCFSERP_LIVE\\scfs\\Views\\ImportInvoice\\GSTForm.cshtml",
+              "RelativeToolTip": "scfs\\Views\\ImportInvoice\\GSTForm.cshtml",
+              "ViewState": "AgIAAHQCAAAAAAAAAAAUwHsCAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-18T12:54:12.444Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

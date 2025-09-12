@@ -1,0 +1,85 @@
+﻿@using scfs_erp.Models;
+
+
+@model scfs_erp.Models.SoftDepartmentMaster
+
+
+@{
+    ViewBag.Title = "Soft Department Master";
+}
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Soft Department Master form</strong>
+
+                </div>
+            </div>
+
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/SoftDepartmentMaster/savedata")" method="post" accept-charset="utf-8" id="softdepartmentmasterform" data-ng-controller="myController" name="softdepartmentmasterform">
+
+
+                    @Html.ValidationSummary(true)
+
+                    <fieldset id="SoftDepartmentMasterForm_info">
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.SDPTID, new { @class = "form-control  SDPTID", @id = "SDPTID" })
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Name </label>
+                                        @Html.TextBoxFor(model => Model.SDPTNAME, new { @class = "form-control  SDPTNAME", @id = "SDPTNAME" })
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Status </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DISPSTATUS)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="submit" name="submit" value="Submit" class="btn btn-primary" />
+                        <input type="button" name="back" value="Go Back" class="btn btn-primary" onclick="JavaScript:history.back()" />
+
+
+
+
+
+                    </fieldset>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    @section Scripts{
+        @Scripts.Render("~/bundles/jqueryval")
+    }

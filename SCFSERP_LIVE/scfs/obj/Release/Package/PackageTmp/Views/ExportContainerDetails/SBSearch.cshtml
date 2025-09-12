@@ -1,0 +1,426 @@
+﻿@using scfs_erp.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewBag.Title = "Export-Shipping Bill Search";
+}
+
+<style>
+    #TDETAIL {
+    }
+
+
+    .small {
+        border: 0;
+        width: 30px;
+        max-width: 25%;
+        background: none;
+    }
+
+    .stk {
+        background: #0f367d;
+        color: #fff;
+    }
+
+    .sm-1 {
+        max-width: 50px;
+    }
+
+    .TRANGAMT, .TRANNAMT, .TRANROAMT {
+        max-width: 150px;
+    }
+</style>
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="fa fa-search"></i>
+                            <strong>@ViewBag.Title</strong>
+                        </div>
+                    </div>
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/ContainerCalc/showrpt")" method="post" accept-charset="utf-8" id="frm" data-ng-controller="myController" name="frm" onsubmit="return Validate()" target="_blank">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="ExportCartingOrder_info">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="col-md-2 hidden">
+                                            <div class="form-group">
+                                                <label>Primary  </label>
+
+                                                @*<input class="GIDID" name="GIDID" id="GIDID" type="text" />*@
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <br />
+                                            <input type="radio" name="RType" value="0" checked /><strong> D.Shipping Bill</strong> &nbsp;&nbsp;&nbsp;<input type="radio" name="RType" value="1" /><strong> Invoice</strong>
+                                            &nbsp;&nbsp;&nbsp;<input type="radio" name="RType" value="2" /><strong> Org. Shipping Bill</strong>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>D.Shipping Bill / Invoice No / Org. Shipping Bill</label>
+                                                <input type="text" id="ESBMNO" class="form-control ESBMNO" name="ESBMNO" />
+                                                <input class="ESBMID hidden" name="ESBMID" id="ESBMID" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <br />
+                                                <input type="button" class="btn-success" id="search" name="search" value="Search" onclick="GetIGMNO()" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Date</label>
+                                                <input type="text" class="ESBMDATE form-control" name="ESBMDATE" id="ESBMDATE" readonly tabindex="6" />
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>CHA  </label>
+                                                <input type="text" class="CHANAME form-control" name="CHANAME" id="CHANAME" readonly tabindex="6" />
+                                                <input type="text" class="CHAID form-control hide" name="CHAID" id="CHAID" readonly tabindex="6" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Exporter  </label>
+                                                <input type="text" class="EXPRTNAME form-control" name="EXPRTNAME" id="EXPRTNAME" readonly tabindex="6" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 hide">
+
+                                            <div class="form-group">
+                                                <label>Inspection Status </label>
+                                                <input type="text" class="ESBMITYPDESC form-control" name="ESBMITYPDESC" id="ESBMITYPDESC" readonly tabindex="6" />
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Product  </label>
+                                                <input type="text" class="PRDTDESC form-control" name="PRDTDESC" id="PRDTDESC" readonly tabindex="6" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                            <div class="form-group">
+                                                <label>Port </label>
+                                                <input type="text" class="Port form-control" name="Port" id="Port" readonly tabindex="6" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                            <div class="form-group">
+                                                <label>NOP </label>
+                                                <input type="text" class="NOP form-control" name="NOP" id="NOP" readonly tabindex="6" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                            <div class="form-group">
+                                                <label>Weight </label>
+                                                <input type="text" class="WGHT form-control" name="WGHT" id="WGHT" readonly tabindex="6" />
+
+                                            </div>
+                                        </div>
+
+
+                                        @*<div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Out Date  </label>
+                                                    <input type="text" class="GODATE form-control" name="GODATE" id="GODATE" readonly tabindex="6" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Out Time  </label>
+                                                    <input type="text" class="GOTIME form-control" name="GOTIME" id="GOTIME" readonly tabindex="6" />
+                                                </div>
+                                            </div>*@
+
+
+                                        <br />
+
+                                        @*<div class="col-lg-12">
+                                                <h5><strong>Shipping Bill Details</strong></h5>
+                                                <div class="col-md-12">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+
+                                                                <th>S.No</th>
+                                                                <th>Date</th>
+                                                                <th>CHA</th>
+                                                                <th>Exporter</th>
+                                                                <th>Product</th>
+                                                                <th>Port</th>
+                                                                <th>Nop</th>
+                                                                <th>Weight</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="SBDDIV">@ViewBag.SBDDIV</tbody>
+                                                    </table>
+
+                                                </div>
+
+
+                                            </div>*@
+                                        <div class="col-lg-12">
+                                            <h5><strong>Carting Order Details</strong></h5>
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered">
+                                                    <thead style="background-color:#d9f2f5">
+                                                        <tr>
+
+                                                            <th>S.No</th>
+                                                            <th>CO.No</th>
+                                                            <th>CO Date</th>
+
+                                                            <th>Org.Ship.BLNo</th>
+                                                            <th>Product</th>
+                                                            <th>C.Order Nop</th>
+                                                            @*<th>Qty</th>*@
+                                                            <th>Stuffing Nop</th>
+                                                            <th>Truck No</th>
+
+                                                            <th>Truck Date</th>
+
+                                                            <th>Org.SBL. Nop</th>
+                                                            @*<th>Org.SBL. Qty</th>*@
+                                                            <th>Org.SBL. Weight</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="CODIV"></tbody>
+                                                </table>
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="col-lg-12">
+                                            <h5><strong> Stuffing Details</strong></h5>
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered">
+                                                    <thead style="background-color:#d9f2f5">
+                                                        <tr>
+
+                                                            <th>S.No</th>
+                                                            <th>ST.No</th>
+
+                                                            <th>ST Date</th>
+                                                            <th>Ref.No</th>
+                                                            <th>Ref.Date</th>
+                                                            <th>Product</th>
+                                                            <th>C.Order Nop</th>
+                                                            <th>Stuffing Nop</th>
+                                                           
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="STUFFDIV"></tbody>
+                                                </table>
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <h5><strong> Bill Details</strong></h5>
+                                            <table class="table table-bordered">
+                                                <thead style="background-color:#d9f2f5">
+                                                    <tr>
+
+                                                        <th>S.No</th>
+                                                        <th>Date</th>
+                                                        <th>Time</th>
+                                                        <th>Bill No</th>
+                                                        <th>Name</th>
+                                                        <th>Cheque No</th>
+                                                        <th>Cheque Date</th>
+                                                        <th>Amount</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="SBILLDIV"></tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="col-md-12 center-block box-footer">
+                                        <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs center-block" onclick="JavaScript:history.back()" />
+
+                                        @*<input type="submit" name="submit" value="Print" class="btn btn-success btn-xs  " id="save" tabindex="5010" />*@
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            //-----date controls-------------
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', });
+            $('.datetime').datetimepicker({
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+            });
+            //$('.time').timepicker();
+
+
+            // if ($("#TRANMID").val() == 0) {
+            var dt = new Date();
+            var month = dt.getMonth() + 1;
+            var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+            var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+            var datetme = time;
+            $(".GIDATE,.TRANEDATE").val(date + " " + datetme);
+
+            //  }
+            //...End of date contrl..
+
+        });
+
+        //...............Window bind..........................//
+
+        function GetIGMNO() {
+            //   alert("call");
+            var id = $(".ESBMNO").val();
+            id.replace('/', '~');
+            //alert(id);
+            url = "/ExportContainerDetails/GetShippingMaster/" + id +";"+$("input[type=radio]:checked").val();
+           // $("#GIDID").empty();
+            //alert(url);
+
+            $.ajax({
+                url: url,
+                success: function (data) {
+                      //alert(data);
+                    $(".ESBMID").val(data[0].ESBMID);
+
+                    $(".ESBMDATE").val(GetFormattedDate(data[0].ESBMDATE));
+
+                    //if (data[0].GODATE != null) $(".GODATE").val(GetFormattedDate(data[0].GODATE));
+                    //if (data[0].GOTIME != null) $(".GOTIME").val(GetFormattedDateTime(data[0].GOTIME));
+                    //$(".GITIME").val(GetFormattedDateTime(data[0].GITIME));
+
+                    $(".CHAID").val(data[0].CHAID);
+                    $(".CHANAME").val(data[0].CHANAME);
+
+                    $(".EXPRTNAME").val(data[0].EXPRTNAME); ESBMITYPDESC
+
+                    $(".PRDTDESC").val(data[0].PRDTDESC);
+                    $(".Port").val(data[0].ESBMDPNAME);
+                    $(".NOP").val(data[0].ESBMNOP);
+                    $(".WGHT").val(data[0].ESBMQTY);
+
+                    GetDetails();
+                }
+            });
+        }
+
+        //........get detail row.....................//
+        function GetDetails() {
+            var url = "";
+            base = window.location.origin;
+            if ($("input[type=radio]:checked").val() == "0")
+                url = base + "/ExportContainerDetails/GetCODet/" + $(".ESBMID").val();
+            else if ($("input[type=radio]:checked").val() == "1")
+                url = base + "/ExportContainerDetails/GetCODetOINV/" + $(".ESBMNO").val();
+            else
+            url = base + "/ExportContainerDetails/GetCODetOSBLN/" + $(".ESBMNO").val();
+           // alert(url);
+            $.ajax({
+                url: url, //'@Url.Action("GetCODet", "ExportContainerDetails")/' + $(".ESBMID").val(),
+                success: function (data) {
+                    //  alert(data);
+                    $("#CODIV").html(data);
+                }
+
+            });
+            url2 = "/ExportContainerDetails/GetStuffingDet/" + $(".ESBMID").val();
+            //alert(url2);
+            $.ajax({
+                url: url2,
+                success: function (data) {
+                    //  alert(data);
+                    $("#STUFFDIV").html(data);
+
+                    url3 = "/ExportContainerDetails/GetSBBillDet/" + $(".CHAID").val() + ";" + $(".ESBMID").val();
+                 //   alert(url3);
+                    $.ajax({
+                        url: url3,
+                        success: function (data) {
+                          //  alert(data);
+                            $("#SBILLDIV").html(data);
+                        }
+
+                    });
+                }
+
+            });
+
+
+        }
+
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                        (
+                             parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                        );
+            var dat = value1.getDate() +
+                                   "-" +
+                       eval(value1.getMonth() + 1) +
+                                   "-" +
+                   value1.getFullYear();
+            return dat;
+        }
+
+        function GetFormattedDateTime(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                        (
+                             parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                        );
+            var dat = value1.getHours() + ":" + value1.getMinutes();
+            return dat;
+        }
+    </script>
+}

@@ -1,0 +1,312 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.CompanyMaster
+@{
+    ViewBag.Title = "Company Master";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Company Master</strong>
+                </div>
+            </div>
+
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/CompanyMaster/savedata")" method="post" accept-charset="utf-8" id="CompanyMaster" data-ng-controller="myController" name="CompanyMaster">
+
+                    <fieldset id="CompanyMaster_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(model => Model.COMPID, new { @class = " form-control hide COMPID", @id = "COMPID" })
+                                    <label>Code<span class="required-field"></span></label>
+                                    @Html.TextBoxFor(model => Model.COMPCODE, new { @class = " form-control COMPCODE", @id = "COMPCODE" })
+                                    <input type="text" value="@Model.COMPCODE" name="i_COMPCODE" hidden>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label> Company Name<span class="required-field"></span></label>
+                                    @Html.TextBoxFor(model => Model.COMPNAME, new { @class = "form-control  COMPNAME", @id = "COMPNAME", @required = "required" })
+                                    <input type="text" value="@Model.COMPNAME" name="i_COMPNAME" hidden>
+                                </div>
+                            </div>
+                            @*</div>
+
+                                <div class="col-md-12">*@
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label>Printable Name </label>
+
+                                    @Html.TextBoxFor(model => Model.COMPDNAME, new { @class = "form-control  COMPDNAME", @id = "COMPDNAME", @required = "required" })
+                                </div>
+                            </div>
+                            @*</div>
+                                <div class="col-md-12">*@
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Communication Address </label>
+                                    @Html.TextAreaFor(model => Model.COMPADDR, 5, 4, new { @class = "form-control  COMPADDR", @id = "COMPADDR", @required = "required" })
+                                </div>
+                            </div>
+                            @*</div>
+                                <div class="col-md-12">*@
+                            @*<div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <select class="form-control">
+                                            <option>Phone Number</option>
+                                            <option>Mobile Number</option>
+                                            <option>Fax Number</option>
+                                        </select>
+                                    </div>
+                                </div>*@
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <label>Landline 1 </label>
+                                    @Html.TextBoxFor(model => Model.COMPPHN1, new { @class = "Readonly form-control  COMPPHN1", @id = "COMPPHN1", @required = "required" })
+                                </div>
+
+
+                            </div>
+
+                            @*<div class="col-md-3">
+                                    <div class="form-group">
+                                        <select class="form-control">
+                                            <option>Phone Number</option>
+                                            <option>Mobile Number</option>
+                                            <option>Fax Number</option>
+                                        </select>
+                                    </div>
+                                </div>*@
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <label>Landline 2 </label>
+                                    @Html.TextBoxFor(model => Model.COMPPHN2, new { @class = "Readonly form-control  COMPPHN2", @id = "COMPPHN2" })
+                                </div>
+
+
+                            </div>
+                            @*</div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option>Phone Number</option>
+                                                <option>Mobile Number</option>
+                                                <option>Fax Number</option>
+                                            </select>
+                                        </div>
+                                    </div>*@
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <label>Mobile </label>
+                                    @Html.TextBoxFor(model => Model.COMPPHN3, new { @class = "Readonly form-control  COMPPHN3", @id = "COMPPHN3" })
+                                </div>
+
+
+                            </div>
+
+                            @*<div class="col-md-3">
+                                    <div class="form-group">
+                                        <select class="form-control">
+                                            <option>Phone Number</option>
+                                            <option>Mobile Number</option>
+                                            <option selected="selected">Fax Number</option>
+                                        </select>
+                                    </div>
+                                </div>*@
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <label>Fax </label>
+                                    @Html.TextBoxFor(model => Model.COMPPHN4, new { @class = "Readonly form-control  COMPPHN4", @id = "COMPPHN4" })
+                                </div>
+
+
+                            </div>
+                            @*</div>
+
+
+                                <div class="col-md-12">*@
+
+                            <div class="col-md-5">
+
+                                <div class="form-group">
+                                    <label>E-Mail</label>
+                                    @Html.TextBoxFor(model => Model.COMPMAIL, new { @class = "form-control  COMPMAIL", @id = "COMPMAIL" })
+                                    @Html.ValidationMessageFor(model => model.COMPMAIL)
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Contact Person</label>
+
+                                    @Html.TextBoxFor(model => Model.COMPCPRSN, new { @class = "form-control  COMPCPRSN", @id = "COMPCPRSN" })
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>VT Cut off Time </label>
+                                    @Html.TextBoxFor(model => Model.COMPCOFFTIME, new { @class = "datetime form-control  COMPCOFFTIME", @id = "COMPCOFFTIME" })
+                                    @Html.ValidationMessageFor(model => model.COMPCOFFTIME)
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label>Bill Print Description 1   </label>
+                                    @Html.TextBoxFor(model => Model.COMPPDESC1, new { @class = "  form-control COMPPDESC1", @id = "COMPPDESC1" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label>Bill Print Description 2 </label>
+                                    @Html.TextBoxFor(model => Model.COMPPDESC2, new { @class = " form-control COMPPDESC2", @id = "COMPPDESC2" })
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                    <div class="col-md-5">
+
+                                        <label>Bill Print Description </label>
+
+                                        <ul style="list-style-type:decimal">
+                                            <li>@Html.TextBoxFor(model => Model.COMPPDESC1, new { @class = "  form-control COMPPDESC1", @id = "COMPPDESC1" })</li>
+                                            <li>@Html.TextBoxFor(model => Model.COMPPDESC2, new { @class = " form-control COMPPDESC2", @id = "COMPPDESC2" })</li>
+                                        </ul>
+
+                                    </div>
+                                </div>*@
+                        </div>
+
+                        <fieldset style="width:100%">
+                            <legend style="font-size:large"> GST Details </legend>
+                            <div class="col-md-12">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>State </label>
+                                        @Html.DropDownList("STATEID", null, "Please Select An Option", new { @class = "form-control", @required = "required" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>HSN Code </label>
+                                        @Html.DropDownList("HSNID", null, "Please Select An Option", new { @class = "form-control", @required = "required" })
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>GST No.  </label>
+                                        @Html.TextBoxFor(model => Model.COMPGSTNO, new { @class = "form-control  COMPGSTNO", @id = "COMPGSTNO" })
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>PAN No.   </label>
+                                        @Html.TextBoxFor(model => Model.COMPPANNO, new { @class = "form-control  COMPPANNO", @id = "COMPPANNO" })
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>TAN No.  </label>
+                                        @Html.TextBoxFor(model => Model.COMPTANNO, new { @class = "form-control  COMPTANNO", @id = "COMPTANNO" })
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </fieldset>
+
+
+                        <div class="col-md-12">
+                            <div class="col-md-12 box-footer">
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs pull-left" onclick="JavaScript:history.back()" />
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" />
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        $(function () {
+
+
+            add_autocomplete($("#VSLNAME"), "VSLNAME,VSLID");
+            add_autocomplete($("#STMRNAME"), "STMRNAME,STMRID");
+            add_autocomplete($("#IMPRTNAME"), "IMPRTNAME,IMPRTID");
+            add_autocomplete($("#SLOTID"), "SLOTID,SLOTDESC");
+            $(".datepicker").datepicker();
+
+            $('.datetime').datetimepicker({
+
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+
+
+            });
+           
+
+            $("#COMPNAME").change(function () {
+                $("#COMPDNAME").val($("#COMPNAME").val());
+            })
+
+        });
+
+
+    </script>
+
+
+}
+
+
+
+
+
+

@@ -1,0 +1,195 @@
+﻿@using scfs_erp.Models;
+
+@{
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Form";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form id="StuffingPrint" method="post" action="@Url.Action("PrintView","StuffingBill")">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Stuffing Invoice Print</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="FTRANMID" class="FTRANMID hide form-control" name="FTRANMID" value="@ViewBag.id">
+                <input type="text" id="FGSTAMT" class="FGSTAMT hide1 form-control" name="FGSTAMT" value="@ViewBag.FGSTAMT">
+
+
+
+                <div class="form-group col-lg-12">
+                    <label>Name</label>
+                    <input type="text" id="TRANCSNAME" class="TRANCSNAME  form-control" name="TRANCSNAME" value="@ViewBag.TRANCSNAME" required>
+                </div>
+
+
+                <div class="form-group col-lg-6">
+                    <label>Address Line1</label>
+                    <input type="text" id="TRANIMPADDR1" class="TRANIMPADDR1  form-control" name="TRANIMPADDR1" value="@ViewBag.TRANIMPADDR1">
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Address Line2</label>
+                    <input type="text" id="TRANIMPADDR2" class="TRANIMPADDR2  form-control" name="TRANIMPADDR2" value="@ViewBag.TRANIMPADDR2">
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Address Line3</label>
+                    <input type="text" id="TRANIMPADDR3" class="TRANIMPADDR3  form-control" name="TRANIMPADDR3" value="@ViewBag.TRANIMPADDR3">
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Address Line4</label>
+                    <input type="text" id="TRANIMPADDR4" class="TRANIMPADDR4  form-control" name="TRANIMPADDR4" value="@ViewBag.TRANIMPADDR4">
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>GS TIN No.</label>
+                    <input type="text" id="GSTNO" class="GSTNO  form-control" name="GSTNO" value="@ViewBag.GSTNO" readonly="readonly">
+                </div>
+
+                <div class="form-group col-lg-5">
+                    <label>Billed to</label>
+                    <input type="radio" name="brpttype" value="0" onchange="GetBillVal()" checked>CHA&nbsp;&nbsp;&nbsp;<input type="radio" name="brpttype" value="1" onchange="GetBillgrpVal()">Exporter
+                    <input type="text" id="brpttype_f" class="brpttype_f  form-control hidden" name="brpttype_f" value="0">
+                </div>
+
+                <div class="form-group col-lg-7">
+                    @*<input type="text" class="form-control" id="Tmp_handling" name="Tmp_handling" value="Handling Charges including PNR movement" />*@
+                    <input type="text" class="Tmp_handling form-control" id="Tmp_handling" name="Tmp_handling" value="Stuffing Charges" onkeypress="return IsAlphaNumeric(event);" ondrop="return false;" onpaste="return false;" />
+                </div>
+
+                <div class="clearfix"> </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="Print">Print</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+
+    function GetBillVal() {
+        $(".brpttype_f").val("0");
+
+        url = '@Url.Action("AFormAddr", "StuffingBill")/' + $(".FTRANMID").val() + '~' + '0';
+
+        $.ajax({
+            type: 'post',
+            url: url, // we are calling json method
+            //  data: $("#InvoicePrint").serialize(),
+
+            success: function (data) {
+
+                if (data.length != 0) {
+                    $(".TRANCSNAME").val(data[0].TRANCSNAME);
+                    $(".TRANIMPADDR1").val(data[0].TRANIMPADDR1);
+                    $(".TRANIMPADDR2").val(data[0].TRANIMPADDR2);
+                    $(".TRANIMPADDR3").val(data[0].TRANIMPADDR3);
+                    $(".TRANIMPADDR4").val(data[0].TRANIMPADDR4);
+                    $(".GSTNO").val(data[0].CHACATEGSTNO);
+
+                }
+                else {
+                    $("#TRANCSNAME").val("");
+                    $("#TRANIMPADDR1").val("");
+                    $("#TRANIMPADDR2").val("");
+                    $("#TRANIMPADDR3").val("");
+                    $("#TRANIMPADDR4").val("");
+                    $(".GSTNO").val("");
+                }
+
+
+            }
+        })
+
+    }
+
+
+    function IsAlphaNumeric(e) {
+        var k;
+        document.all ? k = e.keyCode : k = e.which;
+        return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57) || k == 190 || k == 188);
+    }
+
+
+    function blockSpecialChar(e) {
+        var k;
+        document.all ? k = e.keyCode : k = e.which;
+        return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57) || k == 190 || k == 188);
+    }
+
+
+    function GetBillgrpVal() {
+        $(".brpttype_f").val("1");
+
+        url = '@Url.Action("AFormAddr", "StuffingBill")/' + $(".FTRANMID").val() + '~' + '1';
+
+        $.ajax({
+            type: 'post',
+            url: url, // we are calling json method
+            //  data: $("#InvoicePrint").serialize(),
+
+            success: function (data) {
+                if (data.length != 0) {
+                    $(".TRANCSNAME").val(data[0].EXPRTNAME);
+                    $(".TRANIMPADDR1").val(data[0].EXPRTCATEADDR1);
+                    $(".TRANIMPADDR2").val(data[0].EXPRTCATEADDR2);
+                    $(".TRANIMPADDR3").val(data[0].EXPRTCATEADDR3);
+                    $(".TRANIMPADDR4").val(data[0].EXPRTCATEADDR4);
+                    $(".GSTNO").val(data[0].EXPRTCATEGSTNO);
+                }
+                else {
+                    $("#TRANCSNAME").val("");
+                    $("#TRANIMPADDR1").val("");
+                    $("#TRANIMPADDR2").val("");
+                    $("#TRANIMPADDR3").val("");
+                    $("#TRANIMPADDR4").val("");
+                    $(".GSTNO").val("");
+                }
+            }
+        })
+
+
+    }
+
+
+
+       
+    $("#Print").click(function () {
+        if ($(".TRANCSNAME").val() == "") { alert("Kindly Enter CHA Name...!"); $(".TRANCSNAME").focus(); return false; }
+
+        if ($(".GSTNO").val() == "") { alert("Please update the GSTIN No...!"); $(".GSTNO").focus(); return false; }
+
+        url = '@Url.Action("SaveAddress", "StuffingBill")/' + $(".FTRANMID").val(); 
+
+        $.ajax({
+            type: 'post',
+            url: url, // we are calling json method
+            data:$("#StuffingPrint").serialize(),
+            success: function (data) {
+
+                if (data == "Saved") {
+
+                    window.open("/StuffingBill/PrintView/" + $(".FTRANMID").val() + ";" + +$(".FGSTAMT").val() + ";" + $(".brpttype_f").val() + ";" + $(".Tmp_handling").val());
+
+                }
+            }
+            })
+});
+
+</script>
+

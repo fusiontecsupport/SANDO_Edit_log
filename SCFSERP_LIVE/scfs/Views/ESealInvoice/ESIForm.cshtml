@@ -1,0 +1,2406 @@
+﻿
+@using scfs.Data
+@using scfs_erp.Models;
+@model scfs_erp.Models.TransactionMD
+@{
+    ViewBag.Title = "E-Seal Invoice";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #TDETAIL {
+    }
+
+    /*#TDETAIL td input {
+      width:50%;
+    }*/
+
+    .TRANDAID {
+        min-width: 200px;
+    }
+
+    .TRANDREFNAME {
+        min-width: 100px;
+    }
+
+    /*.TRANDREFNO {
+        max-width: 100%;
+    }*/
+
+    .TDETAILBANK td {
+        text-align: center;
+    }
+
+    .small {
+        border: 0;
+        width: 30px;
+        max-width: 25%;
+        background: none;
+    }
+
+    .stk {
+        background: #0f367d;
+        color: #fff;
+    }
+
+    .sm-1 {
+        max-width: 50px;
+    }
+
+    .TRANGAMT, .TRANNAMT, .TRANROAMT {
+        max-width: 150px;
+    }
+
+    .gross {
+        min-width: 800px;
+    }
+
+    .frm_hide {
+        display: none;
+    }
+
+    .small {
+        border: 0;
+        width: 30px;
+        max-width: 25%;
+        background: none;
+    }
+
+    .medium {
+        border: 0;
+        width: 50px;
+        max-width: 55%;
+        background: none;
+    }
+</style>
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<section id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-export"></i>&nbsp;
+                            <strong>E-Seal Invoice</strong>
+                        </div>
+                    </div>@Html.Raw(ViewBag.msg)
+
+                    <div class="box-content" data-ng-app="myModule">
+                        <form form action="@Url.Content("~/ESealInvoice/savedata")" method="post" accept-charset="utf-8" id="esealinvoiceform" data-ng-controller="myController" name="esealinvoiceform">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="EsealInvoiceform_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2 hidden">
+                                            <div class="form-group">
+                                                <label>Primary  </label>
+                                                @Html.TextBoxFor(model => model.masterdata[0].TRANMID, new { @class = "form-control  TRANMID", @id = "TRANMID" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>No</label>
+                                                @Html.TextBoxFor(model => Model.masterdata[0].TRANNO, new { @class = "form-control  TRANNO", @id = "TRANNO", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Date <span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.masterdata[0].TRANDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker TRANDATE ", @id = "TRANDATE", @data_val = false, tabindex = "1" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label>Time<span class="required-field"></span> </label>
+                                                @Html.TextBoxFor(model => Model.masterdata[0].TRANTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker TRANTIME", @id = "TRANTIME", @data_val = false, tabindex = "1" })
+                                            </div>
+                                        </div>
+
+                                        @*<div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Date/Time </label>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANTIME, new { @class = "form-control datetime  TRANTIME", @id = "TRANTIME", @data_val = false, @tabindex = "4" })
+                                                </div>
+                                            </div>*@
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Bill Type</label>
+                                                @if (Model.masterdata != null)
+                                                {
+
+                                                    //@Html.DropDownListFor(model => model.masterdata[0].REGSTRID, new SelectList(ViewBag.REGSTRID, "value", "text"), "Select", new { @class = "form-control REGSTRID", @id = "REGSTRID", @disabled = "disabled", @value = "@model.masterdata[0].REGSTRID" })
+                                                    @Html.DropDownList("REGSTRID", null, new { @class = "form-control REGSTRID", @id = "REGSTRID", tabindex = "1", @readonly = "readonly" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownList("REGSTRID", null, new { @class = "form-control REGSTRID", @id = "REGSTRID", tabindex = "1" })
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>CHA Name<span class="required-field"></span></label>
+                                                @Html.TextBoxFor(model => Model.masterdata[0].TRANREFNAME, new { @class = "form-control  TRANREFNAME", @id = "TRANREFNAME", data_autocomplete_url = Url.Action("AutoCha", "ESealInvoice"), placeholder = "Please Select CHA Name", tabindex = "5" })
+                                                @Html.TextBoxFor(model => Model.masterdata[0].TRANREFID, new { @class = "hide form-control TRANREFID", @id = "TRANREFID" })
+
+                                                <input type="text" value="" id="DDATE" class="hide form-control DDATE" name="DDATE" style="width:95px" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Location<span class="required-field"></span></label>
+                                                @Html.DropDownList("CATEAID", null, "Select Location", new { @class = "form-control CATEAID", @id = "CATEAID", tabindex = "6", @onchange = "GetAddressDetails()" })
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <label>GST NO </label>
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(model => Model.masterdata[0].CATEAGSTNO, new { @class = "form-control   CATEAGSTNO", @id = "CATEAGSTNO", @readonly = "readonly" })
+                                                @Html.TextBoxFor(model => Model.masterdata[0].STATEID, new { @class = "form-control hide STATEID", @id = "STATEID" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Address 1 </label>
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(model => Model.masterdata[0].TRANIMPADDR1, new { @class = "form-control  TRANIMPADDR1", @id = "TRANIMPADDR1", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Address 2 </label>
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(model => Model.masterdata[0].TRANIMPADDR2, new { @class = "form-control   TRANIMPADDR2", @id = "TRANIMPADDR2", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Address 3 </label>
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(model => Model.masterdata[0].TRANIMPADDR3, new { @class = "form-control  TRANIMPADDR3", @id = "TRANIMPADDR3", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <label>Address 4 </label>
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(model => Model.masterdata[0].TRANIMPADDR4, new { @class = "form-control  TRANIMPADDR4", @id = "TRANIMPADDR4", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="from">From</label>
+                                            <div class="form-group">
+                                                <input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="from">To</label>
+                                            <div class="form-group">
+                                                <input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+
+                                            <div class="form-group">
+                                                <br />
+                                                <input type="button" name="search" value="Search" class="btn btn-success btn-xs" id="btnsearch" onclick="GetDetail()" tabindex="8" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Tariff Group</label>
+
+                                                @Html.DropDownList("TARIFFGID", null, "Please Choose An Option", new { @class = "form-control TARIFFGID", @id = "TARIFFGID", @onchange = "GetTariff()", @tabindex = "12" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Tariff </label>
+
+                                                @Html.DropDownList("TARIFFMID", null, "Please Choose An Option", new { @class = "form-control TARIFFMID", @id = "TARIFFMID", @onchange = "calculation()", @tabindex = "14" })
+                                                <input type="text" value="" id="TARIFFTMID" class="hide form-control TARIFFTMID" name="TARIFFTMID" style="width:95px" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="panel-heading navbar-inverse" style="color:white">Container Details<span id="STMRNAME" class="pull-right"></span> </div>
+                                        <table class="table table-striped table-bordered bootstrap-datatable TDETAIL" id="TDETAIL">
+                                            <thead>
+                                                <tr>
+                                                    <th><input type='checkbox' id='CHCK_ALL' name='CHCK_ALL' class='CHCK_ALL' onchange="checkall()" /></th>
+
+                                                    <th>
+                                                        Container No
+                                                    </th>
+                                                    <th>
+                                                        Size
+                                                    </th>
+                                                    <th>
+                                                        In Date
+                                                    </th>
+                                                    <th>
+                                                        Storage Date
+                                                    </th>
+                                                    <th>
+                                                        Charge Date
+                                                    </th>
+                                                    <th class="hide">Weight</th>
+                                                    <th>
+                                                        Storage
+                                                    </th>
+                                                    <th>
+                                                        Handling
+                                                    </th>
+                                                    <th class="hide">
+                                                        Energy
+                                                    </th>
+                                                    <th class="hide">
+                                                        Fuel
+                                                    </th>
+                                                    <th class="hide">
+                                                        Adtn.
+                                                    </th>
+                                                    <th>
+                                                        Total
+                                                    </th>
+
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="job_list">
+                                                @if (Model.eslinvcedata != null)
+                                                {
+                                                    foreach (pr_ESeal_Invoice_Grid_Assgn_Result details in Model.eslinvcedata)
+                                                    {
+                                                        var st = ""; var bt = "";
+
+                                                        if (details.TRANDID != 0) { st = "checked"; bt = "true"; }
+                                                        else { bt = "false"; st = ""; }
+
+
+                                                        <tr>
+                                                            <td>
+                                                                <input class="STFDIDS" id="STFDIDS" name="STFDIDS" onchange="total()" type="checkbox" value="" @st>
+                                                                <input class="hide boolSTFDIDS" id="boolSTFDIDS" name="boolSTFDIDS" type="text" value="@bt">
+                                                            </td>
+
+                                                            <td class="hide">
+                                                                <input class="TRANDREFNO" id="TRANDREFNO" name="TRANDREFNO" type="text" value="@details.GIDID" style="width:56px" readonly>
+                                                            </td>
+                                                            <td class="col-md-3">
+                                                                <input class="TRANDREFNAME" id="TRANDREFNAME" name="TRANDREFNAME" type="text" value="@details.CONTNRNO" readonly>
+                                                            </td>
+                                                            <td class="col-md-1">
+                                                                <input class="SIZE" id="SIZE" name="SIZE" type="text" value="@details.CONTNRSDESC" style="width:42px" readonly>
+                                                            </td>
+                                                            <td>
+                                                                <input class="TRANIDATE" id="TRANIDATE" name="TRANIDATE" type="text" value="@details.GIDATE.Value.ToString("dd/MM/yyyy")" style="width:70px" readonly>
+                                                            </td>
+                                                            <td>
+                                                                <input class="TRANSDATE" id="TRANSDATE" name="TRANSDATE" type="text" value="@details.STRGDATE.Value.ToString("dd/MM/yyyy")" readonly style="width:70px">
+                                                            </td>
+                                                            <td>
+                                                                <input class="datepicker TRANEDATE" id="TRANEDATE" name="TRANEDATE" type="text" value="@details.GODATE.Value.ToString("dd/MM/yyyy")" onchange="calculation()" style="width:70px">
+                                                            </td>
+                                                            <td class="hide">
+                                                                <input class="TRANDWGHT" id="TRANDWGHT" name="TRANDWGHT" type="text" value="@details.WGHT" style="width:70px" readonly>
+                                                            </td>
+                                                            <td>
+                                                                <input class="TRANDSAMT" id="TRANDSAMT" name="TRANDSAMT" type="text" value="@details.TRANDSAMT" style="width:70px" readonly>
+                                                                <input class="TRAND_COVID_DISC_AMT hide" id="TRAND_COVID_DISC_AMT" name="TRAND_COVID_DISC_AMT" type="text" value="@details.TRAND_COVID_DISC_AMT" style="width:70px" readonly>
+                                                            </td>
+                                                            <td>
+                                                                <input class="TRANDHAMT" id="TRANDHAMT" name="TRANDHAMT" type="text" value="@details.TRANDHAMT" style="width:70px" readonly>
+                                                            </td>
+                                                            <td class="hide">
+                                                                <input class="TRANDEAMT" id="TRANDEAMT" name="TRANDEAMT" style="width:70px" type="text" value="@details.TRANDEAMT" readonly>
+                                                            </td>
+                                                            <td class="hide">
+                                                                <input class="TRANDFAMT" id="TRANDFAMT" name="TRANDFAMT" style="width:70px" type="text" value="@details.TRANDFAMT" readonly>
+                                                            </td>
+                                                            <td class="hide">
+                                                                <input class="TRANDAAMT" id="TRANDAAMT" name="TRANDAAMT" type="text" value="@details.TRANDAAMT" style="width:70px" readonly>
+                                                            </td>
+                                                            <td>
+                                                                <input class="TRANDNAMT" id="TRANDNAMT" name="TRANDNAMT" style="width:70px" type="text" value="@details.TRANDNAMT" readonly>
+                                                            </td>
+
+                                                            <td class="hide">
+                                                                <input class="SLABMIN" id="SLABMIN" name="SLABMIN" type="text" value="0"><input class="SLABMAX" id="SLABMAX" name="SLABMAX" style="display:none1" type="text" value="0"><input class="SLABMIN1" id="SLABMIN1" name="SLABMIN1" style="display:none1" type="text" value="0"><input class="SLABMAX1" id="SLABMAX1" name="SLABMAX1" style="display:none1" type="text" value="0"><input class="SLABMIN2" id="SLABMIN2" name="SLABMIN2" style="display:none1" type="text" value="0"><input class="SLABMAX2" id="SLABMAX2" name="SLABMAX2" style="display:none1" type="text" value="0">
+                                                                <input class="SLABMAX3" id="SLABMAX3" name="SLABMAX3" style="display:none1" type="text" value="0"><input class="SLABMIN3" id="SLABMIN3" name="SLABMIN3" style="display:none1" type="text" value="0"><input class="SLABMAX4" id="SLABMAX4" name="SLABMAX4" style="display:none1" type="text" value="0"><input class="SLABMIN4" id="SLABMIN4" name="SLABMIN4" style="display:none1" type="text" value="0"><input class="SLABMAX5" id="SLABMAX5" name="SLABMAX5" style="display:none1" type="text" value="0"><input class="SLABMIN5" id="SLABMIN5" name="SLABMIN5" style="display:none1" type="text" value="0">
+                                                                <input class="SLABMAX6" id="SLABMAX6" name="SLABMAX6" style="display:none1" type="text" value="0"><input class="SLABMIN6" id="SLABMIN6" name="SLABMIN6" style="display:none1" type="text" value="0">
+                                                            </td>
+
+                                                            <td class="hide">
+                                                                <input class="CONTNRSID" id="CONTNRSID" name="CONTNRSID" type="text" value="@details.CONTNRSID">
+                                                                <input class="BILLEDID" id="BILLEDID" name="BILLEDID" type="text" value="@details.BILLEDID">
+                                                                <input class="TRANDREFID" id="TRANDREFID" name="TRANDREFID" type="text" value="@details.GIDID">
+                                                                <input class="F_STMRID" id="F_STMRID" name="F_STMRID" type="text" value="@details.STMRID">
+                                                                <input class="TRANDID" id="TRANDID" name="TRANDID" type="text" value="@details.TRANDID">
+                                                                <input class="RAMT1" id="RAMT1" name="RAMT1" type="text" value="@details.RAMT1">
+                                                                <input class="RAMT2" id="RAMT2" name="RAMT2" type="text" value="@details.RAMT2">
+                                                                <input class="RAMT3" id="RAMT3" name="RAMT3" type="text" value="@details.RAMT3">
+                                                                <input class="RAMT4" id="RAMT4" name="RAMT4" type="text" value="@details.RAMT4">
+                                                                <input class="RAMT5" id="RAMT5" name="RAMT5" type="text" value="@details.RAMT5">
+                                                                <input class="RAMT6" id="RAMT6" name="RAMT6" type="text" value="@details.RAMT6">
+                                                                <input class="RAMT7" id="RAMT7" name="RAMT7" type="text" value="@details.RAMT7">
+                                                                <input class="days" id="days" name="days" type="text" value="@details.NOD">
+                                                                <input class="NOD" id="NOD" name="NOD" type="text" value="@details.NOD">
+                                                                <input type=text id=TRANDRATE value="@details.TRANDRATE" class=TRANDRATE name=TRANDRATE>
+                                                                <input class="BILLEMID" id="BILLEMID" name="BILLEMID" type="text" value="@details.BILLEMID">
+                                                                <input class="RCAMT1" id="RCAMT1" name="RCAMT1" type="text" value="@details.RCAMT1">
+                                                                <input class="RCAMT2" id="RCAMT2" name="RCAMT2" type="text" value="@details.RCAMT2">
+                                                                <input class="RCAMT3" id="RCAMT3" name="RCAMT3" type="text" value="@details.RCAMT3">
+                                                                <input class="RCAMT4" id="RCAMT4" name="RCAMT4" type="text" value="@details.RCAMT4">
+                                                                <input class="RCAMT5" id="RCAMT5" name="RCAMT5" type="text" value="@details.RCAMT5">
+                                                                <input class="RCAMT6" id="RCAMT6" name="RCAMT6" type="text" value="@details.RCAMT6">
+                                                                <input class="RCAMT7" id="RCAMT7" name="RCAMT7" type="text" value="@details.RCAMT7">
+                                                            </td>
+                                                            <td class="hide">
+                                                                <input class="RCOL1" id="RCOL1" name="RCOL1" type="text" value="@details.RCOL1">
+                                                                <input class="RCOL2" id="RCOL2" name="RCOL2" type="text" value="@details.RCOL2">
+                                                                <input class="RCOL3" id="RCOL3" name="RCOL3" type="text" value="@details.RCOL3">
+                                                                <input class="RCOL4" id="RCOL4" name="RCOL4" type="text" value="@details.RCOL4">
+                                                                <input class="RCOL5" id="RCOL5" name="RCOL5" type="text" value="@details.RCOL5">
+                                                                <input class="RCOL6" id="RCOL6" name="RCOL6" type="text" value="@details.RCOL6">
+                                                                <input class="RCOL7" id="RCOL7" name="RCOL7" type="text" value="@details.RCOL7">
+                                                            </td>
+                                                            <td class='hide'>
+                                                                <input type='text' value="@details.GPAAMT" id='GPAAMT' class='GPAAMT' name='GPAAMT'>
+                                                                <input type='text' value="@details.GPEAMT" id='GPEAMT' class='GPEAMT' name='GPEAMT'>
+                                                                <input type='text' value="@details.GPCSAMT" id='GPCSAMT' class='GPCSAMT' name='GPCSAMT'>
+                                                                <input type='text' value="@details.GPLBAMT" id='GPLBAMT' class='GPLBAMT' name='GPLBAMT'>
+                                                                <input type='text' value="@details.GPETYPE" id='GPETYPE' class='GPETYPE' name='GPETYPE'>
+                                                                <input type='text' value="@details.GPCSTYPE" id='GPCSTYPE' class='GPCSTYPE' name='GPCSTYPE'>
+                                                                <input type='text' value="@details.GPLBTYPE" id='GPLBTYPE' class='GPLBTYPE' name='GPLBTYPE'>
+                                                                <input type='text' value="@details.GPSTYPE" id='GPSTYPE' class='GPSTYPE' name='GPSTYPE'>
+                                                                <input type='text' value="@details.GPWTYPE" id='GPWTYPE' class='GPWTYPE' name='GPWTYPE'>
+                                                                <input type='text' value="@details.GPSCNTYPE" id='GPSCNTYPE' class='GPSCNTYPE' name='GPSCNTYPE'>
+                                                                <input type='text' value="@details.PRDTGID" id='F_PRDTGID' class='F_PRDTGID' name='F_PRDTGID'>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @Html.Raw(ViewBag.DETAIL)
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+                                        <table class='table table-striped table-bordered bootstrap-datatable'>
+                                            <tr>
+                                                <td><a href='#' id='cfact' class='btn btn-success btn-xs'><i class=glyphicon-plus></i> Tax</a>  </td>
+                                                <td align='right' colspan='4' class="gross">  Gross Amount </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANGAMT, new { @class = "form-control  TRANGAMT", @id = "TRANGAMT", @readonly = true })
+                                                </td>
+
+                                            </tr>
+
+                                            <tr>
+
+                                                <td colspan="6" class="cf_dynamic ">
+
+                                                    <table class='table table-striped table-bordered bootstrap-datatable' id='CFACTOR' style="padding:0;margin:0">
+                                                        <tr> <td> </td> <td>Cost Factror</td> <td colspan='3' class='col-lg-0'>Expression  & Nos </td> <td class='col-lg-0'>Mode</td> <td> </td> </tr>
+
+                                                        @if (Model.costfactor != null)
+                                                        {
+
+                                                            string exp = "";
+                                                            string mod = "";
+                                                            foreach (TransactionMasterFactor cfdetails in Model.costfactor)
+                                                            {
+                                                                exp = "";
+                                                                mod = "";
+
+                                                                if (cfdetails.DEDTYPE == 0)
+                                                                { exp = "selected"; }
+                                                                if (cfdetails.DEDMODE != "0")
+                                                                { mod = "selected"; }
+
+                                                                <tr>
+                                                                    <td> <button type='button' onclick='del_factor(this)' class='btn btn-danger dfact btn-xs'><i class=glyphicon-minus></i> </button>  </td>
+                                                                    <td>
+                                                                        <input type=text name='TAX' id=TAX style='display:none' class=TAX value="@cfdetails.CFID">
+                                                                        @cfdetails.DEDCFDESC
+                                                                        <input type=text name=CFDESC id=CFDESC class='CFDESC hide' value="@cfdetails.DEDCFDESC" onchange='total()'>
+                                                                    </td>
+                                                                    <td class='col-lg-1'><select id=CFTYPE name=CFTYPE class=CFTYPE onchange='total()'><option value='1'> %</option><option value='0' @exp>Value </option> </select></td>
+                                                                    <td class='col-lg-1'><input type=text id=DEDNOS name=DEDNOS class='DEDNOS' style="width:55px" value="@cfdetails.DEDNOS" onchange=' total()'></td>
+                                                                    <td class='col-lg-1'><input type=text id=CFEXPR name=CFEXPR class=CFEXPR value="@cfdetails.DEDEXPRN" onchange='total()'>   </td>
+                                                                    <td><select id=CFMODE name=CFMODE class=CFMODE onchange='total()'><option value='0'>+</option><option value='1' @mod>-</option> </select><input type=text id=DORDRID name=DORDRID style='display:none' class=DORDRID value="@cfdetails.DORDRID" onchange='total() '></td>
+                                                                    <td class="col-lg-0"><input type=text readonly="readonly" value="@cfdetails.DEDVALUE" name=CFAMOUNT id='CFAMOUNT' class='CFAMOUNT col-lg-0' onchange='total()'> <input style='display:none' type=text value="@cfdetails.TRANMFID" name=TRANMFID id='TRANMFID' class='TRANMFID'>  </td>
+                                                                </tr>
+                                                            }
+                                                        }
+
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>   </td>
+                                                <td colspan='5' align='right'>
+                                                    <div class="hide">
+                                                        @if (Model.manualviewdata != null)
+                                                        {
+                                                            <input type="text" id="STATETYPE" class="STATETYPE" name="STATETYPE" value="@Model.manualviewdata[0].STATETYPE" />
+                                                            <input type="text" id="STRG_HSN_CODE" class="STRG_HSN_CODE" name="STRG_HSN_CODE" value="@Model.manualviewdata[0].STRG_HSN_CODE" />
+                                                            <input type="text" id="HANDL_HSN_CODE" class="HANDL_HSN_CODE" name="HANDL_HSN_CODE" value="@Model.manualviewdata[0].HANDL_HSN_CODE" />
+                                                            <input type="text" id="STRG_TAXABLE_AMT" class="STRG_TAXABLE_AMT" name="STRG_TAXABLE_AMT" value="@Model.manualviewdata[0].STRG_TAXABLE_AMT" />
+                                                            <input type="text" id="HANDL_TAXABLE_AMT" class="HANDL_TAXABLE_AMT" name="HANDL_TAXABLE_AMT" value="@Model.manualviewdata[0].HANDL_TAXABLE_AMT" />
+                                                            <input type="text" id="STRG_CGST_EXPRN" class="STRG_CGST_EXPRN" name="STRG_CGST_EXPRN" value="@Model.manualviewdata[0].STRG_CGST_EXPRN" />
+                                                            <input type="text" id="STRG_SGST_EXPRN" class="STRG_SGST_EXPRN" name="STRG_SGST_EXPRN" value="@Model.manualviewdata[0].STRG_SGST_EXPRN" />
+                                                            <input type="text" id="STRG_IGST_EXPRN" class="STRG_IGST_EXPRN" name="STRG_IGST_EXPRN" value="@Model.manualviewdata[0].STRG_IGST_EXPRN" />
+                                                            <input type="text" id="STRG_CGST_AMT" class="STRG_CGST_AMT" name="STRG_CGST_AMT" value="@Model.manualviewdata[0].STRG_CGST_AMT" />
+                                                            <input type="text" id="STRG_SGST_AMT" class="STRG_SGST_AMT" name="STRG_SGST_AMT" value="@Model.manualviewdata[0].STRG_SGST_AMT" />
+                                                            <input type="text" id="STRG_IGST_AMT" class="STRG_IGST_AMT" name="STRG_IGST_AMT" value="@Model.manualviewdata[0].STRG_IGST_AMT" />
+                                                            <input type="text" id="HANDL_CGST_EXPRN" class="HANDL_CGST_EXPRN" name="HANDL_CGST_EXPRN" value="@Model.manualviewdata[0].HANDL_CGST_EXPRN" />
+                                                            <input type="text" id="HANDL_SGST_EXPRN" class="HANDL_SGST_EXPRN" name="HANDL_SGST_EXPRN" value="@Model.manualviewdata[0].HANDL_SGST_EXPRN" />
+                                                            <input type="text" id="HANDL_IGST_EXPRN" class="HANDL_IGST_EXPRN" name="HANDL_IGST_EXPRN" value="@Model.manualviewdata[0].HANDL_IGST_EXPRN" />
+                                                            <input type="text" id="HANDL_CGST_AMT" class="HANDL_CGST_AMT" name="HANDL_CGST_AMT" value="@Model.manualviewdata[0].HANDL_CGST_AMT" />
+                                                            <input type="text" id="HANDL_SGST_AMT" class="HANDL_SGST_AMT" name="HANDL_SGST_AMT" value="@Model.manualviewdata[0].HANDL_SGST_AMT" />
+                                                            <input type="text" id="HANDL_IGST_AMT" class="HANDL_IGST_AMT" name="HANDL_IGST_AMT" value="@Model.manualviewdata[0].HANDL_IGST_AMT" />
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="text" id="STATETYPE" class="STATETYPE" name="STATETYPE" value="0" />
+                                                            <input type="text" id="STRG_HSN_CODE" class="STRG_HSN_CODE" name="STRG_HSN_CODE" value="0" />
+                                                            <input type="text" id="HANDL_HSN_CODE" class="HANDL_HSN_CODE" name="HANDL_HSN_CODE" value="0" />
+                                                            <input type="text" id="STRG_TAXABLE_AMT" class="STRG_TAXABLE_AMT" name="STRG_TAXABLE_AMT" value="0" />
+                                                            <input type="text" id="HANDL_TAXABLE_AMT" class="HANDL_TAXABLE_AMT" name="HANDL_TAXABLE_AMT" value="0" />
+                                                            <input type="text" id="STRG_CGST_EXPRN" class="STRG_CGST_EXPRN" name="STRG_CGST_EXPRN" value="0" />
+                                                            <input type="text" id="STRG_SGST_EXPRN" class="STRG_SGST_EXPRN" name="STRG_SGST_EXPRN" value="0" />
+                                                            <input type="text" id="STRG_IGST_EXPRN" class="STRG_IGST_EXPRN" name="STRG_IGST_EXPRN" value="0" />
+                                                            <input type="text" id="STRG_CGST_AMT" class="STRG_CGST_AMT" name="STRG_CGST_AMT" value="0" />
+                                                            <input type="text" id="STRG_SGST_AMT" class="STRG_SGST_AMT" name="STRG_SGST_AMT" value="0" />
+                                                            <input type="text" id="STRG_IGST_AMT" class="STRG_IGST_AMT" name="STRG_IGST_AMT" value="0" />
+                                                            <input type="text" id="HANDL_CGST_EXPRN" class="HANDL_CGST_EXPRN" name="HANDL_CGST_EXPRN" value="0" />
+                                                            <input type="text" id="HANDL_SGST_EXPRN" class="HANDL_SGST_EXPRN" name="HANDL_SGST_EXPRN" value="0" />
+                                                            <input type="text" id="HANDL_IGST_EXPRN" class="HANDL_IGST_EXPRN" name="HANDL_IGST_EXPRN" value="0" />
+                                                            <input type="text" id="HANDL_CGST_AMT" class="HANDL_CGST_AMT" name="HANDL_CGST_AMT" value="0" />
+                                                            <input type="text" id="HANDL_SGST_AMT" class="HANDL_SGST_AMT" name="HANDL_SGST_AMT" value="0" />
+                                                            <input type="text" id="HANDL_IGST_AMT" class="HANDL_IGST_AMT" name="HANDL_IGST_AMT" value="0" />
+
+                                                        }
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>   </td>
+                                                <td colspan='4' align='right'> C.G.S.T. </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANCGSTAMT, new { @class = "form-control  TRANCGSTAMT ", @id = "TRANCGSTAMT", @readonly = true })
+                                                    @*<input type="text" id="TRANCGSTAMT" class="TRANCGSTAMT" name="TRANCGSTAMT" value="0" />*@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>   </td>
+                                                <td colspan='4' align='right'> S.G.S.T. </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANSGSTAMT, new { @class = "form-control  TRANSGSTAMT ", @id = "TRANSGSTAMT", @readonly = true })
+                                                    @*<input type="text" id="TRANSGSTAMT" class="TRANSGSTAMT" name="TRANSGSTAMT" value="0" />*@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>   </td>
+                                                <td colspan='4' align='right'> I.G.S.T. </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANIGSTAMT, new { @class = "form-control  TRANIGSTAMT ", @id = "TRANIGSTAMT", @readonly = true })
+                                                    @*<input type="text" id="TRANIGSTAMT" class="TRANIGSTAMT" name="TRANIGSTAMT" value="0" />*@
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>   </td>
+                                                <td colspan='4' align='right'> Rounding Off </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANROAMT, new { @class = "form-control  TRANROAMT ", @id = "TRANROAMT", @readonly = true })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>   </td>
+                                                <td colspan='4' align='right'> Net Amount </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANNAMT, new { @class = "form-control  TRANNAMT ", @id = "TRANNAMT", @readonly = true })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <fieldset style="width:100%">
+
+                                            <legend style="font-size:large">Bank Details</legend>
+
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label>Mode</label>
+                                                    <br />
+                                                    @Html.DropDownList("TRANMODE", null, "Select", new { @class = "form-control TRANMODE", @id = "TRANMODE", @onchange = "ModeChange()", tabindex = "5000" })
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANMODEDETL, new { @class = "hide form-control  TRANMODEDETL", @id = "TRANMODEDETL" })
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label>Number</label>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANREFNO, new { @class = "form-control  TRANREFNO", @id = "TRANREFNO", tabindex = "5001" })
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label>Date</label>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANREFDATE, "{0:dd/MM/yyyy}", new { @class = "form-control  datepicker TRANREFDATE", @id = "TRANREFDATE", @data_val = false, tabindex = "5002" })
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label>Amount</label>
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANREFAMT, new { @class = "form-control  TRANREFAMT", @id = "TRANREFAMT", tabindex = "5003" })
+                                                </div>
+                                            </div>
+                                            <div class=" col-md-4">
+                                                <div class="form-group">
+                                                    <label>Bank</label>
+                                                    @Html.DropDownList("BANKMID", null, "Please Select an Option", new { @class = "form-control BANKMID", @id = "BANKMID", tabindex = "5004" })
+
+                                                    @Html.TextBoxFor(model => Model.masterdata[0].TRANREFBNAME, new { @class = "hide form-control  TRANREFBNAME", @id = "TRANREFBNAME" })
+                                                </div>
+                                            </div>
+                                            <div class=" col-md-8">
+                                                <div class="form-group">
+                                                    <label>Remarks</label>
+                                                    @Html.TextAreaFor(model => Model.masterdata[0].TRANRMKS, 4, 8, new { @class = "form-control  TRANRMKS", @id = "TRANRMKS", tabindex = "5005" })
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-2">
+                                                <div class="form-group">
+                                                    <label>Status </label>
+                                                    @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS", tabindex = "5006" })
+
+
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+                                        <div class="hidden">
+                                            <input type="text" id="TRANTCAMT" class="TRANTCAMT hidden1" name="TRANTCAMT" value="0" />
+                                            <input type="text" id="TRANSAMT" class="TRANSAMT hidden1" name="TRANSAMT" value="0" />
+                                            <input type="text" id="TRANHAMT" class="TRANHAMT hidden1" name="TRANHAMT" value="0" />
+                                            <input type="text" id="TRANEAMT" class="TRANEAMT hidden1" name="TRANEAMT" value="0" />
+                                            <input type="text" id="TRANFAMT" class="TRANFAMT hidden1" name="TRANFAMT" value="0" />
+                                            <input type="text" id="TRANPAMT" class="TRANPAMT hidden1" name="TRANPAMT" value="0" />
+                                            <input type="text" id="TRANAAMT" class="TRANAAMT hidden1" name="TRANAAMT" value="0" />
+                                        </div>
+                                        <div class="col-md-12 box-footer">
+                                            <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+                                            <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden " hidden />
+                                            <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" tabindex="5010" />
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    @*<script src="~/Scripts/Gst-Export-Invoice-costfactor.js"></script>*@
+    <script>
+
+        function ModeChange() {
+            var modeval = $("#TRANMODE").val();
+            if ($("#TRANMID").val() == "0") {
+                var TRANMODEVAL = $("#TRANMODE option:selected").text();
+                $(".TRANMODEDETL").val(TRANMODEVAL);
+                $("#TRANREFNO").val("");
+                $("#TRANREFDATE").val("");
+                $("#BANKMID").val("");
+            }
+            if (modeval != 2 && modeval != 3) {
+                $("#TRANREFNO").attr('disabled', true);
+                $("#TRANREFDATE").attr('disabled', true);
+                $("#BANKMID").attr('disabled', true);
+            }
+            else {
+                $("#TRANREFNO").attr('disabled', false);
+                $("#TRANREFDATE").attr('disabled', false);
+                $("#BANKMID").attr('disabled', false);
+            }
+        }
+
+        $(document).ready(function () {
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+
+            $('input[id$=TRANDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#TRANDATE").focus();
+                }
+            });
+
+            $(".datepicker").removeAttr('TRANDATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', maxDate: new Date() });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+
+
+            if ($("#TRANMID").val() == "") {
+                $("#TRANMID").val("0");
+            }
+
+            add_autocomplete_cha($("#TRANREFNAME"), "TRANREFNAME,TRANREFID");
+
+            if ($("#TRANMID").val() == "0") {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = (dt.getMonth() + 1).toString();
+                var day = dt.getDate().toString();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                console.log(year + '/' + month + '/' + day);
+
+                var date = day + "/" + month + "/" + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                console.log(hours + ":" + minutes + ":" + seconds);
+
+                var time = hours + ":" + minutes + ":" + seconds;
+
+                var datetme = time;
+
+                $(".TRANDATE").val(date);
+                $(".TRANTIME").val(datetme);
+                $(".timepicker").val(datetme);
+
+                //$(".TRANTIME").val(date + " " + datetme);
+
+            }
+            else {
+                var CATEID = $("#CHAID").val();
+                var CATEAID = $("#CATEAID").val();
+                //alert(CATEAID);
+                //alert('EDIT LOCATION LOAD');
+                if ((CATEID > 0) && (CATEAID == "0" || CATEAID == "")) {
+                    locationdetail(CATEID);
+                }
+                if (CATEAID > 0)
+                    GetAddressDetails();
+            }
+            //.......GET BANK NAME FROM DROPDOWN VALUE ...........
+            $("#BANKMID").change(function () {
+                var TRANREFBNAME = $(".BANKMID option:selected").text();
+                $(".TRANREFBNAME").val(TRANREFBNAME);
+            });
+            //...END
+            function sleep(milliseconds) {
+                var start = new Date().getTime();
+                for (var i = 0; i < 1e7; i++) {
+                    if ((new Date().getTime() - start) > milliseconds) {
+                        break;
+                    }
+                }
+            }
+
+            ModeChange();
+
+            $(document).on("click", "#cfact", function () {
+
+                var $tableBody = $('#CFACTOR').find("tbody"),
+                    $trLast = $tableBody.find("tr:last");
+                $trFirst = $tableBody.find("tr:first");
+
+                $("#cf_dynamic").css("display:block");
+
+
+                var tax_param = "";
+                i = 0;
+
+
+                $('.TAX').each(function () {
+
+                    tax_param = tax_param + $.trim(this.value) + ",";
+                    pos = $('#CFACTOR tr').eq(($('#CFACTOR tr').length - ($('#CFACTOR tr').length)) + 1);
+                    idx = $('#CFACTOR tr').length - 2;
+                    desc = pos.find(".CFDESC").val();
+                    tax = pos.find(".TAX").val();
+
+                    pos.find('td:eq(1)').html("<input type=text value=" + tax + " id='TAX' class='TAX' name='TAX' style='display:none' >" + desc + "<input type=text style='border:none' readonly=readonly value='" + desc + "' name=CFDESC id='CFDESC' class='CFDESC hide'> ");
+
+                    i++;
+                });
+
+
+
+                var formData = { term: tax_param }; //Array
+
+                $.ajax({
+                    url: "/Common/CostFactor",
+                    type: "POST",
+                    data: formData,
+                    success: function (data, textStatus, jqXHR) {
+                        //data - response from server
+
+                        if (data.length != 0)
+                            $trFirst.after("<tr class='item-row'><Td> <button href='#'   type='button' onclick='del_factor(this)' class='btn btn-danger dfact btn-xs'><i class=glyphicon-minus></i> </button>  </td> <td>" + data + " </td><td><input  type=text value='' name=CFAMOUNT id='CFAMOUNT' class='CFAMOUNT' readonly='readonly'> </td>  </TD></tr>");
+
+
+                        total();
+
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+
+                    }
+                });
+
+                total();
+                return false;
+
+            });
+
+        });
+
+        function calculation() {
+            //alert('Calculation');
+            var CHRGETYPE = 6;
+            var TARIFFMID = 0;
+            if ($("#TARIFFMID").val() > 0)
+                TARIFFMID = $("#TARIFFMID").val();
+            var CHAID = $("#TRANREFID").val();
+            var ETOPID = 0;
+            var slabtid = 20;
+            i = 0;
+
+            //alert($(".STFDIDS").val());
+            $(".STFDIDS").each(function () {
+
+                $(".RAMT1")[i].value = 0.00;
+                $(".RAMT2")[i].value = 0.00;
+                $(".RAMT3")[i].value = 0.00;
+                $(".RAMT4")[i].value = 0.00;
+                $(".RAMT5")[i].value = 0.00;
+                $(".RAMT6")[i].value = 0.00;
+
+                $(".SLABMIN")[i].value = 0;
+                $(".SLABMAX")[i].value = 0;
+                $(".SLABMIN1")[i].value = 0;
+                $(".SLABMAX1")[i].value = 0;
+                $(".SLABMIN2")[i].value = 0;
+                $(".SLABMAX2")[i].value = 0;
+
+                $(".RCOL1")[i].value = 0.00;
+                $(".RCOL2")[i].value = 0.00;
+                $(".RCOL3")[i].value = 0.00;
+                $(".RCOL4")[i].value = 0.00;
+                $(".RCOL5")[i].value = 0.00;
+                $(".RCOL6")[i].value = 0.00;
+
+                $(".RCAMT1")[i].value = 0.00;
+                $(".RCAMT2")[i].value = 0.00;
+                $(".RCAMT3")[i].value = 0.00;
+                $(".RCAMT4")[i].value = 0.00;
+                $(".RCAMT5")[i].value = 0.00;
+                $(".RCAMT6")[i].value = 0.00;
+                $(".TRANDSAMT")[i].value = 0.00;
+
+
+                $(".TRANDHAMT")[i].value = 0.00;
+                $(".TRANDEAMT")[i].value = 0.00;
+                $(".TRANDFAMT")[i].value = 0.00;
+                $(".TRANDPAMT")[i].value = 0.00;
+                var CONTNRSID = $(".CONTNRSID")[i].value;
+                var TRANMID = $("#TRANMID").val();
+                var CHAID = $("#TRANREFID").val();
+                var EOPTID = 0;
+                var slabtid = 20;
+                var url = "/ESealInvoice/Bill_Detail/" + TARIFFMID + "-" + CHRGETYPE + "-" + CONTNRSID + "-" + CHAID + "-" + slabtid + "-" + EOPTID;
+                console.log(url);
+                //alert(url);
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        for (var k = 0; k < data.length; k++) {
+                            if (data[k].SLABTID == 20) { $(".TRANDSAMT")[i].value = data[k].SLABAMT; }
+                            else if (data[k].SLABTID == 21) { $(".TRANDHAMT")[i].value = data[k].SLABAMT; }
+                            else { $(".TRANDHAMT")[i].value = data[k].SLABAMT; }
+                        }
+                        if (isNaN($(".TRANDHAMT")[i].value))
+                            $(".TRANDHAMT")[i].value = 0;
+                        if (isNaN($(".TRANDEAMT")[i].value))
+                            $(".TRANDEAMT")[i].value = 0;
+
+                        if (isNaN($(".TRANDFAMT")[i].value))
+                            $(".TRANDFAMT")[i].value = 0;
+                        if (isNaN($(".TRANDPAMT")[i].value))
+                            $(".TRANDPAMT")[i].value = 0;
+
+                    }
+
+                });
+
+                slabtid = 21;
+                var TRNSPRT_CHRGE = 0.00;
+                $.ajax({
+                    url: '@Url.Action("GetHandlingAmt", "ESealInvoice")/' + TARIFFMID + "-" + CHRGETYPE + "-" + CONTNRSID + "-" + CHAID + "-" + slabtid + "-" + EOPTID,
+                    async: false,
+                    success: function (data) {
+
+                        //console.log("~/ESealInvoice/GetHandlingAmt/" + TARIFFMID + "-" + CHRGETYPE + "-" + CONTNRSID + "-" + CHAID + "-" + slabtid + "-" + EOPTID);
+                        //console.log(data);
+                        var len = data.length;
+
+                        $(".TRANDHAMT")[i].value = "0.00";
+                        if (len > 0) {
+                            //alert(data[0].SLABAMT);
+                            _val = eval(data[0].SLABAMT);
+                            $(".TRANDHAMT")[i].value = _val;
+                        }
+                    }
+                });
+                //  }
+                i++;
+            });
+
+
+            i = 0;
+            RCAMT1 = 0;
+            RCAMT2 = 0;
+            RCAMT3 = 0;
+            $(".STFDIDS").each(function () {
+
+                var CHRGETYPE = 6;
+                var TARIFFMID = $("#TARIFFMID").val();
+                var CHAID = $("#TRANREFID").val();
+                var CONTNRSID = $(".CONTNRSID")[i].value;
+                var SDATE = $(".TRANSDATE")[i].value;
+
+                if ($(".TRANEDATE")[i].value == "") {
+                    var M_date = $(".TRANTIME").val();
+                    $(".TRANEDATE")[i].value = M_date;
+
+                }
+                var EDATE = $(".TRANEDATE")[i].value;
+                var s = SDATE.substring(0, 10);
+                var e = EDATE.substring(0, 10);
+
+                var days = datdidff(s, e);
+
+                $(".days")[i].value = days + 1;
+
+
+                var SLABMIN = $(".days")[i].value;
+
+                //COVID START
+
+                var xsdate = dateformattime($(".TRANSDATE")[i].value);
+                var zsdate = ((eval(xsdate[1])) + "-" + xsdate[0] + "-" + xsdate[2]);
+
+                //alert(xsdate);
+                //alert(zsdate);
+
+                var xedate = dateformattime($(".TRANEDATE")[i].value);
+                var zedate = ((eval(xedate[1])) + "-" + xedate[0] + "-" + xedate[2]);
+
+                //alert(zedate);
+
+                var ztariffmid = $(".TARIFFMID").val();
+                var zstmrmid = 0;
+                var zchrgtype = $("#TRANBTYPE option:selected").val();
+                var zcontnrsid = $(".CONTNRSID")[i].value;
+
+                var xchrgdate = dateformattime($(".TRANTIME").val());
+                var zchrgdate = ((eval(xchrgdate[1])) + "-" + xchrgdate[0] + "-" + xchrgdate[2]);
+
+                //var xx = 0;
+                var OTYPE = 0;
+                var coviddsicamt = 0;
+                $(".TRAND_COVID_DISC_AMT")[i].value = 0;
+                //var covidurl = "/StuffingBill/COVIDRATECARD/" + zsdate + "~" + zedate + "~" + ztariffmid + "~" + zstmrmid + "~" + zchrgtype + "~" + zcontnrsid + "~" + zchrgdate + "~" + OTYPE;// + "-" + WGHT;
+                ////alert('<%=Session["COVIDSDATE"] %>');
+                ////alert(covidurl);
+                //$.ajax({
+                //    url: covidurl,
+
+                //    async: false,
+                //    success: function (data) {
+
+                //        var len = data.length;
+                //        //alert(len);
+
+                //        coviddsicamt = 0; //data[0].DISCAMT;// $(".DISCAMT")[xx].value;
+                //        //alert(coviddsicamt);
+                //        //var totamt = eval(coviddsicamt) ;
+                //        $(".TRAND_COVID_DISC_AMT")[i].value = eval(coviddsicamt).toFixed(2);
+
+
+                //    }
+                //});
+
+                //xx++;
+
+                //COVID END
+
+
+                var STFDIDS = $(".STFDIDS").val();
+
+                var url = "/ESealInvoice/RATECARD/" + TARIFFMID + "-" + CHRGETYPE + "-" + CONTNRSID + "-" + CHAID + "-" + SLABMIN;
+                console.log(url);
+                //  alert(url);
+                $.ajax({
+                    url: url,
+
+                    async: false,
+                    success: function (data) {
+
+                        var len = data.length;
+                        //alert('rate card');
+                        //alert(len);
+                        if (len == 1) {
+                            $(".RAMT1")[i].value = data[0].SLABAMT;
+                            $(".RAMT2")[i].value = 0;
+                            $(".RAMT3")[i].value = 0;
+                            $(".RAMT5")[i].value = 0;
+                            $(".RAMT6")[i].value = 0;
+
+
+                            $(".SLABMIN")[i].value = data[0].SLABMIN;
+                            $(".SLABMAX")[i].value = data[0].SLABMAX;
+
+
+                            $(".SLABMIN1")[i].value = 0;
+                            $(".SLABMAX1")[i].value = 0;
+
+                            $(".SLABMIN2")[i].value = 0;
+                            $(".SLABMAX2")[i].value = 0;
+
+
+                            var slabmin = $(".SLABMIN")[i].value;
+                            var slabmax = $(".SLABMAX")[i].value;
+                            var mmdiff = ($(".SLABMIN")[i].value) - ($(".SLABMAX")[i].value);
+
+
+                            $(".RCOL1")[i].value = Math.abs(mmdiff);
+                            $(".RCOL2")[i].value = 0;
+
+                            var ramt1 = $(".RAMT1")[i].value;
+                            var ramt2 = $(".RAMT2")[i].value;
+
+
+                            var rcamt1 = ramt1 * Math.abs(mmdiff);
+
+
+                            $(".RCAMT1")[i].value = rcamt1;
+                            $(".RCAMT2")[i].value = 0;
+                            $(".RCAMT3")[i].value = 0;
+
+                            $(".RCAMT4")[i].value = 0;
+                            $(".RCAMT5")[i].value = 0;
+                            $(".RCAMT6")[i].value = 0;
+                        }
+                        else if (len == 2) {
+
+                            $(".RAMT1")[i].value = data[0].SLABAMT;
+                            $(".RAMT2")[i].value = data[1].SLABAMT;
+                            $(".RAMT3")[i].value = 0;
+                            $(".RAMT5")[i].value = 0;
+                            $(".RAMT6")[i].value = 0;
+
+
+                            $(".SLABMIN")[i].value = data[0].SLABMIN;
+                            $(".SLABMAX")[i].value = data[0].SLABMAX;
+
+
+                            $(".SLABMIN1")[i].value = data[1].SLABMIN;
+                            $(".SLABMAX1")[i].value = data[1].SLABMAX;
+
+                            $(".SLABMIN2")[i].value = 0;
+                            $(".SLABMAX2")[i].value = 0;
+
+
+                            var slabmin = $(".SLABMIN")[i].value;
+                            var slabmax = $(".SLABMAX")[i].value;
+                            var mmdiff = ($(".SLABMIN")[i].value) - ($(".SLABMAX")[i].value);
+
+                            var slabmin1 = $(".SLABMIN1")[i].value;
+                            var slabmax1 = $(".SLABMAX1")[i].value;
+
+
+                            $(".RCOL1")[i].value = Math.abs(mmdiff);
+                            $(".RCOL2")[i].value = (Math.abs((slabmin1 - (($(".days")[i].value)))) + 1);
+
+                            var ramt1 = $(".RAMT1")[i].value;
+                            var ramt2 = $(".RAMT2")[i].value;
+
+
+                            var rcamt1 = ramt1 * Math.abs(mmdiff);
+                            var rcamt2 = ramt2 * $(".RCOL2")[i].value;
+
+
+                            $(".RCAMT1")[i].value = rcamt1;
+                            $(".RCAMT2")[i].value = rcamt2;
+                            $(".RCAMT3")[i].value = 0;
+
+                            $(".RCAMT4")[i].value = 0;
+                            $(".RCAMT5")[i].value = 0;
+                            $(".RCAMT6")[i].value = 0;
+
+                        }
+                        else if (len == 3) {
+
+                            $(".RAMT1")[i].value = data[0].SLABAMT;
+                            $(".RAMT2")[i].value = data[1].SLABAMT;
+                            $(".RAMT3")[i].value = data[2].SLABAMT;
+                            $(".RAMT4")[i].value = 0;
+                            $(".RAMT5")[i].value = 0;
+                            $(".RAMT6")[i].value = 0;
+
+                            $(".SLABMIN")[i].value = data[0].SLABMIN;
+                            $(".SLABMAX")[i].value = data[0].SLABMAX;
+
+                            $(".SLABMIN1")[i].value = data[1].SLABMIN;
+                            $(".SLABMAX1")[i].value = data[1].SLABMAX;
+
+                            $(".SLABMIN2")[i].value = data[2].SLABMIN;
+                            $(".SLABMAX2")[i].value = data[2].SLABMAX;
+
+
+                            var slabmin = $(".SLABMIN")[i].value;
+                            var slabmax = $(".SLABMAX")[i].value;
+                            var mmdiff = ($(".SLABMIN")[i].value) - ($(".SLABMAX")[i].value);
+
+
+                            var slabmin1 = $(".SLABMIN1")[i].value;
+                            var slabmax1 = $(".SLABMAX1")[i].value;
+                            var mmdiff1 = (($(".SLABMAX1")[i].value) - ($(".SLABMIN1")[i].value)) + parseInt(1);
+
+                            var slabmin2 = $(".SLABMIN2")[i].value;
+                            var slabmax2 = $(".SLABMAX2")[i].value;
+
+
+                            var ramt1 = $(".RAMT1")[i].value;
+                            var ramt2 = $(".RAMT2")[i].value;
+                            var ramt3 = $(".RAMT3")[i].value;
+
+
+                            $(".RCOL1")[i].value = Math.abs(parseFloat(mmdiff));
+                            $(".RCOL2")[i].value = Math.abs(parseFloat(mmdiff1));
+                            $(".RCOL3")[i].value = (Math.abs((slabmin2 - (($(".days")[i].value)))) + 1);
+
+                            var rcamt1 = ramt1 * Math.abs(mmdiff);
+                            var rcamt2 = ramt2 * Math.abs(mmdiff1);
+                            var rcamt3 = ramt3 * $(".RCOL3")[i].value;
+
+                            $(".RCAMT1")[i].value = rcamt1;
+                            $(".RCAMT2")[i].value = rcamt2;
+                            $(".RCAMT3")[i].value = rcamt3;
+
+                            $(".RCAMT4")[i].value = 0;
+                            $(".RCAMT5")[i].value = 0;
+                            $(".RCAMT6")[i].value = 0;
+
+
+                        }
+                        else if (len == 4) {
+
+                            $(".RAMT1")[i].value = data[0].SLABAMT;
+                            $(".RAMT2")[i].value = data[1].SLABAMT;
+                            $(".RAMT3")[i].value = data[2].SLABAMT;
+                            $(".RAMT4")[i].value = data[3].SLABAMT;
+                            $(".RAMT5")[i].value = 0;
+                            $(".RAMT6")[i].value = 0;
+
+                            $(".SLABMIN")[i].value = data[0].SLABMIN;
+                            $(".SLABMAX")[i].value = data[0].SLABMAX;
+
+                            $(".SLABMIN1")[i].value = data[1].SLABMIN;
+                            $(".SLABMAX1")[i].value = data[1].SLABMAX;
+
+                            $(".SLABMIN2")[i].value = data[2].SLABMIN;
+                            $(".SLABMAX2")[i].value = data[2].SLABMAX;
+
+                            $(".SLABMIN3")[i].value = data[3].SLABMIN;
+                            $(".SLABMAX3")[i].value = data[3].SLABMAX;
+
+                            var slabmin = $(".SLABMIN")[i].value;
+                            var slabmax = $(".SLABMAX")[i].value;
+                            var mmdiff = ($(".SLABMIN")[i].value) - ($(".SLABMAX")[i].value);
+
+
+                            var slabmin1 = $(".SLABMIN1")[i].value;
+                            var slabmax1 = $(".SLABMAX1")[i].value;
+                            var mmdiff1 = (($(".SLABMAX1")[i].value) - ($(".SLABMIN1")[i].value)) + parseInt(1);
+
+                            var slabmin2 = $(".SLABMIN2")[i].value;
+                            var slabmax2 = $(".SLABMAX2")[i].value;
+                            var mmdiff2 = (($(".SLABMAX2")[i].value) - ($(".SLABMIN2")[i].value)) + parseInt(1);
+                            var slabmin3 = $(".SLABMIN3")[i].value;
+                            var ramt1 = $(".RAMT1")[i].value;
+                            var ramt2 = $(".RAMT2")[i].value;
+                            var ramt3 = $(".RAMT3")[i].value;
+                            var ramt4 = $(".RAMT4")[i].value;
+
+
+                            $(".RCOL1")[i].value = Math.abs(mmdiff);
+                            $(".RCOL2")[i].value = Math.abs(mmdiff1);
+                            $(".RCOL3")[i].value = Math.abs(mmdiff2);
+                            $(".RCOL4")[i].value = (Math.abs((slabmin3 - (($(".days")[i].value)))) + 1);
+
+                            var rcamt1 = ramt1 * Math.abs(mmdiff);
+                            var rcamt2 = ramt2 * Math.abs(mmdiff1);
+                            var rcamt3 = ramt3 * Math.abs(mmdiff2);
+                            var rcamt4 = ramt4 * $(".RCOL4")[i].value;
+
+                            $(".RCAMT1")[i].value = rcamt1;
+                            $(".RCAMT2")[i].value = rcamt2;
+                            $(".RCAMT3")[i].value = rcamt3;
+
+                            $(".RCAMT4")[i].value = rcamt4;
+                            $(".RCAMT5")[i].value = 0;
+                            $(".RCAMT6")[i].value = 0;
+
+
+                        }
+                        else if (len == 5) {
+                            $(".RAMT1")[i].value = data[0].SLABAMT;
+                            $(".RAMT2")[i].value = data[1].SLABAMT;
+                            $(".RAMT3")[i].value = data[2].SLABAMT;
+                            $(".RAMT4")[i].value = data[3].SLABAMT;
+                            $(".RAMT5")[i].value = data[4].SLABAMT;
+                            $(".RAMT6")[i].value = 0;
+
+                            $(".SLABMIN")[i].value = data[0].SLABMIN;
+                            $(".SLABMAX")[i].value = data[0].SLABMAX;
+
+                            $(".SLABMIN1")[i].value = data[1].SLABMIN;
+                            $(".SLABMAX1")[i].value = data[1].SLABMAX;
+
+                            $(".SLABMIN2")[i].value = data[2].SLABMIN;
+                            $(".SLABMAX2")[i].value = data[2].SLABMAX;
+
+                            $(".SLABMIN3")[i].value = data[3].SLABMIN;
+                            $(".SLABMAX3")[i].value = data[3].SLABMAX;
+
+                            $(".SLABMIN4")[i].value = data[4].SLABMIN;
+                            $(".SLABMAX4")[i].value = data[4].SLABMAX;
+
+                            //$(".SLABMIN5")[i].value = data[5].SLABMIN;
+                            //$(".SLABMAX5")[i].value = data[5].SLABMAX;
+
+
+
+                            var slabmin = $(".SLABMIN")[i].value;
+                            var slabmax = $(".SLABMAX")[i].value;
+                            var mmdiff = ($(".SLABMIN")[i].value) - ($(".SLABMAX")[i].value);
+
+
+                            var slabmin1 = $(".SLABMIN1")[i].value;
+                            var slabmax1 = $(".SLABMAX1")[i].value;
+                            var mmdiff1 = (($(".SLABMAX1")[i].value) - ($(".SLABMIN1")[i].value)) + parseInt(1);
+
+                            var slabmin2 = $(".SLABMIN2")[i].value;
+                            var slabmax2 = $(".SLABMAX2")[i].value;
+                            var mmdiff2 = (($(".SLABMAX2")[i].value) - ($(".SLABMIN2")[i].value)) + parseInt(1);
+                            var slabmin3 = $(".SLABMIN3")[i].value;
+                            var slabmax3 = $(".SLABMAX3")[i].value;
+                            var mmdiff3 = (($(".SLABMAX3")[i].value) - ($(".SLABMIN3")[i].value)) + parseInt(1);
+
+                            var slabmin4 = $(".SLABMIN4")[i].value;
+                            //var slabmax4 = $(".SLABMAX4")[i].value;
+                            //var mmdiff4 = (($(".SLABMAX4")[i].value) - ($(".SLABMIN4")[i].value)) + parseInt(1);
+
+                            //var slabmin5 = $(".SLABMIN5")[i].value;
+                            //var slabmax5 = $(".SLABMAX5")[i].value;
+                            //var mmdiff5 = (($(".SLABMAX5")[i].value) - ($(".SLABMIN5")[i].value)) + parseInt(1);
+
+                            var ramt1 = $(".RAMT1")[i].value;
+                            var ramt2 = $(".RAMT2")[i].value;
+                            var ramt3 = $(".RAMT3")[i].value;
+                            var ramt4 = $(".RAMT4")[i].value;
+                            var ramt5 = $(".RAMT5")[i].value;
+                            //var ramt6 = $(".RAMT6")[i].value;
+
+                            $(".RCOL1")[i].value = Math.abs(mmdiff);
+                            $(".RCOL2")[i].value = Math.abs(mmdiff1);
+                            $(".RCOL3")[i].value = Math.abs(mmdiff2);
+                            $(".RCOL4")[i].value = Math.abs(mmdiff3);
+                            $(".RCOL5")[i].value = (Math.abs((slabmin4 - (($(".days")[i].value)))) + 1);
+                            //  $(".RCOL6")[i].value = Math.abs(mmdiff5);
+                            //  $(".RCOL7")[i].value = (Math.abs((slabmin5 - (($(".days")[i].value)))) + 1);
+
+                            var rcamt1 = ramt1 * Math.abs(mmdiff);
+                            var rcamt2 = ramt2 * Math.abs(mmdiff1);
+                            var rcamt3 = ramt3 * Math.abs(mmdiff2);
+                            var rcamt4 = ramt4 * Math.abs(mmdiff3);
+                            var rcamt5 = ramt5 * $(".RCOL5")[i].value;
+                            //   var rcamt6 = ramt6 * $(".RCOL6")[i].value;
+
+                            $(".RCAMT1")[i].value = rcamt1;
+                            $(".RCAMT2")[i].value = rcamt2;
+                            $(".RCAMT3")[i].value = rcamt3;
+                            $(".RCAMT4")[i].value = rcamt4;
+                            $(".RCAMT5")[i].value = rcamt5;
+                            $(".RCAMT6")[i].value = 0;
+                        }
+                        else if (len == 6) {
+                            $(".RAMT1")[i].value = data[0].SLABAMT;
+                            $(".RAMT2")[i].value = data[1].SLABAMT;
+                            $(".RAMT3")[i].value = data[2].SLABAMT;
+                            $(".RAMT4")[i].value = data[3].SLABAMT;
+                            $(".RAMT5")[i].value = data[4].SLABAMT;
+                            $(".RAMT6")[i].value = data[5].SLABAMT;
+
+                            $(".SLABMIN")[i].value = data[0].SLABMIN;
+                            $(".SLABMAX")[i].value = data[0].SLABMAX;
+
+                            $(".SLABMIN1")[i].value = data[1].SLABMIN;
+                            $(".SLABMAX1")[i].value = data[1].SLABMAX;
+
+                            $(".SLABMIN2")[i].value = data[2].SLABMIN;
+                            $(".SLABMAX2")[i].value = data[2].SLABMAX;
+
+                            $(".SLABMIN3")[i].value = data[3].SLABMIN;
+                            $(".SLABMAX3")[i].value = data[3].SLABMAX;
+
+                            $(".SLABMIN4")[i].value = data[4].SLABMIN;
+                            $(".SLABMAX4")[i].value = data[4].SLABMAX;
+
+                            $(".SLABMIN5")[i].value = data[5].SLABMIN;
+                            $(".SLABMAX5")[i].value = data[5].SLABMAX;
+
+
+
+                            var slabmin = $(".SLABMIN")[i].value;
+                            var slabmax = $(".SLABMAX")[i].value;
+                            var mmdiff = ($(".SLABMIN")[i].value) - ($(".SLABMAX")[i].value);
+
+
+                            var slabmin1 = $(".SLABMIN1")[i].value;
+                            var slabmax1 = $(".SLABMAX1")[i].value;
+                            var mmdiff1 = (($(".SLABMAX1")[i].value) - ($(".SLABMIN1")[i].value)) + parseInt(1);
+
+                            var slabmin2 = $(".SLABMIN2")[i].value;
+                            var slabmax2 = $(".SLABMAX2")[i].value;
+                            var mmdiff2 = (($(".SLABMAX2")[i].value) - ($(".SLABMIN2")[i].value)) + parseInt(1);
+                            var slabmin3 = $(".SLABMIN3")[i].value;
+                            var slabmax3 = $(".SLABMAX3")[i].value;
+                            var mmdiff3 = (($(".SLABMAX3")[i].value) - ($(".SLABMIN3")[i].value)) + parseInt(1);
+
+                            var slabmin4 = $(".SLABMIN4")[i].value;
+                            var slabmax4 = $(".SLABMAX4")[i].value;
+                            var mmdiff4 = (($(".SLABMAX4")[i].value) - ($(".SLABMIN4")[i].value)) + parseInt(1);
+
+                            var slabmin5 = $(".SLABMIN5")[i].value;
+                            //  var slabmax5 = $(".SLABMAX5")[i].value;
+                            //  var mmdiff5 = (($(".SLABMAX5")[i].value) - ($(".SLABMIN5")[i].value)) + parseInt(1);
+
+                            var ramt1 = $(".RAMT1")[i].value;
+                            var ramt2 = $(".RAMT2")[i].value;
+                            var ramt3 = $(".RAMT3")[i].value;
+                            var ramt4 = $(".RAMT4")[i].value;
+                            var ramt5 = $(".RAMT5")[i].value;
+                            var ramt6 = $(".RAMT6")[i].value;
+
+                            $(".RCOL1")[i].value = Math.abs(mmdiff);
+                            $(".RCOL2")[i].value = Math.abs(mmdiff1);
+                            $(".RCOL3")[i].value = Math.abs(mmdiff2);
+                            $(".RCOL4")[i].value = Math.abs(mmdiff3);
+                            $(".RCOL5")[i].value = Math.abs(mmdiff4);
+                            //   $(".RCOL6")[i].value = Math.abs(mmdiff5);
+                            $(".RCOL6")[i].value = (Math.abs((slabmin5 - (($(".days")[i].value)))) + 1);
+
+                            var rcamt1 = ramt1 * Math.abs(mmdiff);
+                            var rcamt2 = ramt2 * Math.abs(mmdiff1);
+                            var rcamt3 = ramt3 * Math.abs(mmdiff2);
+                            var rcamt4 = ramt4 * Math.abs(mmdiff3);
+                            var rcamt5 = ramt5 * Math.abs(mmdiff4);
+                            var rcamt6 = ramt6 * $(".RCOL6")[i].value;
+
+                            $(".RCAMT1")[i].value = rcamt1;
+                            $(".RCAMT2")[i].value = rcamt2;
+                            $(".RCAMT3")[i].value = rcamt3;
+                            $(".RCAMT4")[i].value = rcamt4;
+                            $(".RCAMT5")[i].value = rcamt5;
+                            $(".RCAMT6")[i].value = rcamt6;
+                        }
+
+                        else if (len == 7) {
+                            $(".RAMT1")[i].value = data[0].SLABAMT;
+                            $(".RAMT2")[i].value = data[1].SLABAMT;
+                            $(".RAMT3")[i].value = data[2].SLABAMT;
+                            $(".RAMT4")[i].value = data[3].SLABAMT;
+                            $(".RAMT5")[i].value = data[4].SLABAMT;
+                            $(".RAMT6")[i].value = data[5].SLABAMT;
+                            $(".RAMT7")[i].value = data[6].SLABAMT;
+
+                            $(".SLABMIN")[i].value = data[0].SLABMIN;
+                            $(".SLABMAX")[i].value = data[0].SLABMAX;
+
+                            $(".SLABMIN1")[i].value = data[1].SLABMIN;
+                            $(".SLABMAX1")[i].value = data[1].SLABMAX;
+
+                            $(".SLABMIN2")[i].value = data[2].SLABMIN;
+                            $(".SLABMAX2")[i].value = data[2].SLABMAX;
+
+                            $(".SLABMIN3")[i].value = data[3].SLABMIN;
+                            $(".SLABMAX3")[i].value = data[3].SLABMAX;
+
+                            $(".SLABMIN4")[i].value = data[4].SLABMIN;
+                            $(".SLABMAX4")[i].value = data[4].SLABMAX;
+
+                            $(".SLABMIN5")[i].value = data[5].SLABMIN;
+                            $(".SLABMAX5")[i].value = data[5].SLABMAX;
+
+                            $(".SLABMIN6")[i].value = data[6].SLABMIN;
+                            $(".SLABMAX6")[i].value = data[6].SLABMAX;
+
+
+                            var slabmin = $(".SLABMIN")[i].value;
+                            var slabmax = $(".SLABMAX")[i].value;
+                            var mmdiff = ($(".SLABMIN")[i].value) - ($(".SLABMAX")[i].value);
+
+
+                            var slabmin1 = $(".SLABMIN1")[i].value;
+                            var slabmax1 = $(".SLABMAX1")[i].value;
+                            var mmdiff1 = (($(".SLABMAX1")[i].value) - ($(".SLABMIN1")[i].value)) + parseInt(1);
+
+                            var slabmin2 = $(".SLABMIN2")[i].value;
+                            var slabmax2 = $(".SLABMAX2")[i].value;
+                            var mmdiff2 = (($(".SLABMAX2")[i].value) - ($(".SLABMIN2")[i].value)) + parseInt(1);
+                            var slabmin3 = $(".SLABMIN3")[i].value;
+                            var slabmax3 = $(".SLABMAX3")[i].value;
+                            var mmdiff3 = (($(".SLABMAX3")[i].value) - ($(".SLABMIN3")[i].value)) + parseInt(1);
+
+                            var slabmin4 = $(".SLABMIN4")[i].value;
+                            var slabmax4 = $(".SLABMAX4")[i].value;
+                            var mmdiff4 = (($(".SLABMAX4")[i].value) - ($(".SLABMIN4")[i].value)) + parseInt(1);
+
+                            var slabmin5 = $(".SLABMIN5")[i].value;
+                            var slabmax5 = $(".SLABMAX5")[i].value;
+                            var mmdiff5 = (($(".SLABMAX5")[i].value) - ($(".SLABMIN5")[i].value)) + parseInt(1);
+                            var slabmin6 = $(".SLABMIN6")[i].value;
+                            var ramt1 = $(".RAMT1")[i].value;
+                            var ramt2 = $(".RAMT2")[i].value;
+                            var ramt3 = $(".RAMT3")[i].value;
+                            var ramt4 = $(".RAMT4")[i].value;
+                            var ramt5 = $(".RAMT5")[i].value;
+                            var ramt6 = $(".RAMT6")[i].value;
+                            var ramt7 = $(".RAMT7")[i].value;
+
+                            $(".RCOL1")[i].value = Math.abs(mmdiff);
+                            $(".RCOL2")[i].value = Math.abs(mmdiff1);
+                            $(".RCOL3")[i].value = Math.abs(mmdiff2);
+                            $(".RCOL4")[i].value = Math.abs(mmdiff3);
+                            $(".RCOL5")[i].value = Math.abs(mmdiff4);
+                            $(".RCOL6")[i].value = Math.abs(mmdiff5);
+                            $(".RCOL7")[i].value = (Math.abs((slabmin6 - (($(".days")[i].value)))) + 1);
+
+                            var rcamt1 = ramt1 * Math.abs(mmdiff);
+                            var rcamt2 = ramt2 * Math.abs(mmdiff1);
+                            var rcamt3 = ramt3 * Math.abs(mmdiff2);
+                            var rcamt4 = ramt4 * Math.abs(mmdiff3);
+                            var rcamt5 = ramt5 * Math.abs(mmdiff4);
+                            var rcamt6 = ramt6 * $(".RCOL6")[i].value;
+                            var rcamt7 = ramt7 * $(".RCOL7")[i].value;
+                            $(".RCAMT1")[i].value = rcamt1;
+                            $(".RCAMT2")[i].value = rcamt2;
+                            $(".RCAMT3")[i].value = rcamt3;
+                            $(".RCAMT4")[i].value = rcamt4;
+                            $(".RCAMT5")[i].value = rcamt5;
+                            $(".RCAMT6")[i].value = rcamt6;
+                            $(".RCAMT7")[i].value = rcamt7;
+                        }
+
+
+                        var AMT1 = $(".RCAMT1")[i].value;
+                        var AMT2 = $(".RCAMT2")[i].value;
+                        var AMT3 = $(".RCAMT3")[i].value;
+                        var AMT4 = $(".RCAMT4")[i].value;
+                        var AMT5 = $(".RCAMT5")[i].value;
+                        var AMT6 = $(".RCAMT6")[i].value;
+                        if (isNaN(AMT1))
+                            AMT1 = 0;
+                        if (isNaN(AMT2))
+                            AMT2 = 0;
+                        if (isNaN(AMT3))
+                            AMT3 = 0;
+                        if (isNaN(AMT4))
+                            AMT4 = 0;
+                        if (isNaN(AMT5))
+                            AMT5 = 0;
+                        if (isNaN(AMT6))
+                            AMT6 = 0;
+                        var totamt = parseInt(AMT1) + parseInt(AMT2) + parseInt(AMT3) + parseInt(AMT4) + parseInt(AMT5) + parseInt(AMT6);
+                        $(".TRANDSAMT")[i].value = totamt.toFixed(2);
+
+
+                    }
+                });
+
+                i++;
+
+            });
+
+            total();
+
+        }//........End of Calculation
+
+        function GetTariff() {
+            $(".TARIFFMID").empty(); //alert("DD" + "/StuffingBill/GetTariff/" + $("#ETOPID").val() + ";" + $("#TARIFFGID option:selected").val());
+            //alert("/StuffingBill/GetTariff/" + $("#ETOPID").val() + ";" + $("#TARIFFGID option:selected").val());
+            $.ajax({
+                //url: "/StuffingBill/GetTariff/" + $("#ETOPID").val() + ";" + $("#TARIFFGID option:selected").val(),
+                url: "/StuffingBill/GetTariff/" + $("#TARIFFGID option:selected").val(),
+                success: function (data) {
+                    // alert(data);
+                    $(".TARIFFMID").append('<option>Select</option>');
+                    $.each(data, function (i, dataval) {
+                        $(".TARIFFMID").append('<option value="' + dataval.TARIFFMID + '">' + dataval.TARIFFMDESC + '</option>');
+
+                    });
+                }
+            });
+        }
+
+        function dateformattime(datestring) {
+            //alert("ss");
+
+            if (datestring.length >= 11) { //datestring.match(' ')
+                dateParts = datestring.split(' ');
+                timeParts = dateParts[1].split(':');
+
+                if (dateParts[0].match('/'))
+                    dateParts = dateParts[0].split('/');
+                if (dateParts[0].match('-'))
+                    dateParts = dateParts[0].split('-');
+
+                date = [dateParts[0], (dateParts[1]), dateParts[2], timeParts[0], timeParts[1]];
+            }
+            else {
+                if (datestring.match('/'))
+                    dateParts = datestring.split('/');
+                if (datestring.match('-'))
+                    dateParts = datestring.split('-');
+                date = [dateParts[0], (dateParts[1]), dateParts[2]];
+            }
+            return date;
+        }
+
+        $(window).bind("load", function () {
+            if ($(".TRANMID").val() == "") {
+                $(".TRANMID").val("0");
+            }
+            if ($(".TRANDID").val() == "") {
+                $(".TRANDID").val("0");
+            }
+            //count = 500;
+            //$('.TRANDID').each(function (k) {
+
+            //    $("#TDETAIL input:text,select").attr('tabindex', count++);
+            //});
+
+            txcount = 1000;
+            $('.TAX').each(function (k) {
+
+                $("#CFACTOR input:text,#CFACTOR select,#CFACTOR a").attr('tabindex', txcount++);
+            });
+
+            //..........Displaying Cost Factor insert mode....//
+            if ($(".TRANMID").val() == 0) {
+                base = window.location.origin;
+                var $tableBody = $('#CFACTOR').find("tbody"),
+                    $trLast = $tableBody.find("tr:last");
+                $.ajax({
+                    url: base + "/ImportInvoice/gstdefCostFactor",
+                    type: "POST",
+                    success: function (data, textStatus, jqXHR) {
+
+                        $("#CF_TBODY").html(data);
+
+
+                        total();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+
+                    }
+                });
+                //$.ajax({
+                //    url: base + "/ImportInvoice/DefaultCF",
+                //    type: "POST",
+
+                //    success: function (data, textStatus, jqXHR) {
+                //        //data - response from server
+                //       // alert(data.length);
+
+                //        for (var i = 0; i < data.length; i++) {
+                //            //  alert(data.length + "........" + data[i].CFEXPR + "..." + data[i].CFID + "...." + data[i].CFDESC);
+
+                //            $(".TAX")[i].value = data[i].CFID;
+                //            $(".CFDESC")[i].value = data[i].CFDESC;
+                //            $(".CFEXPR")[i].value = data[i].CFEXPR;
+                //            $(".CFTYPE")[i].value = data[i].CFTYPE;
+                //            $(".CFMODE")[i].value = data[i].CFMODE;
+                //            $(".DORDRID")[i].value = data[i].DORDRID;
+                //        }
+
+
+                //    },
+                //    error: function (jqXHR, textStatus, errorThrown) {
+
+                //    }
+                //});
+
+                ModeChange(); calculation();
+            }//....................end
+            else {
+                total();
+            }
+
+
+            i = 0;
+            $(".STFDIDS").each(function () {
+
+                TRANDID = $(".TRANDID")[i].value;
+                if (TRANDID == 0) {
+                    if ($(".TRANEDATE")[i].value == "") {
+                        var M_date = $(".TRANTIME").val();
+                        $(".TRANEDATE")[i].value = M_date;
+
+                    }
+                }
+                i++;
+
+            });
+        });//.......end of bind
+
+        function dateformat(datestring) {
+            //alert(datestring);
+            if (datestring.match('/'))
+                dateParts = datestring.split('/');
+            if (datestring.match('-'))
+                dateParts = datestring.split('-');
+            date = [dateParts[0], (dateParts[1]), dateParts[2]];
+            //alert(date);
+            return date;
+        }
+
+        function datdidff(start_date, end_date) {
+            //start_date = start_date.split("/");
+            //end_date = end_date.split("/");
+
+            if (start_date.match("/")) { start_date = start_date.split("/"); }
+            else if (start_date.match("-")) { start_date = start_date.split("-"); }
+
+            if (end_date.match("/")) { end_date = end_date.split("/"); }
+            else if (end_date.match("-")) { end_date = end_date.split("-"); }
+            start_date = start_date[2] + "-" + start_date[1] + "-" + start_date[0];
+            end_date = end_date[2] + "-" + end_date[1] + "-" + end_date[0];
+
+            var diff = Math.floor((Date.parse(end_date.replace(/-/g, '\/')) - Date.parse(start_date.replace(/-/g, '\/'))) / 86400000);
+
+            return diff;
+
+        }
+
+        $("#from").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 1,
+            dateFormat: 'dd-mm-yy',
+            onClose: function (selectedDate) {
+                $("#to").datepicker("option", "minDate", selectedDate);
+            }
+        });
+
+        $("#to").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 1,
+            dateFormat: 'dd-mm-yy',
+            onClose: function (selectedDate) {
+                $("#from").datepicker("option", "maxDate", selectedDate);
+            }
+        });
+
+        function GetDetail() {
+            if ($('#TRANREFNAME').val() == "") {
+                alert('Please Enter CHA Name !!');
+                $('#TRANREFNAME').focus();
+                return false;
+            }
+            else if ($('#TRANREFID').val() == "" || $('#TRANREFID').val() == "0") {
+                alert('Please Enter CHA Name !!');
+                $('#TRANREFID').focus();
+                return false;
+            }
+            else if ($('#from').val() == "") {
+                alert('Please Enter From Date !!');
+                $('#from').focus();
+                return false;
+            }
+            else if ($('#to').val() == "") {
+                alert('Please Enter To Date !!');
+                $('#to').focus();
+                return false;
+            }
+            else if ($('#CATEAID option:selected').val() == "" || $('#CATEAID option:selected').val() == "0") {
+                alert('Please Select Location !!');
+                $('#CATEAID').focus();
+                return false;
+            }
+
+            if ($('#TRANREFID').val() > 0) {
+                var chaid = $("#TRANREFID").val();
+                var from = $("#from").val(); var to = $("#to").val();
+                var tranmid = $("#TRANMID").val();
+                if (tranmid == "") { tranmid = 0; }
+
+
+                var CATEAID = $("#CATEAID").val();
+                // url = "/Invoice/Detail/" + igmno + "~" + gplno + "~" + tranmid;
+                url = "/ESealInvoice/Detail";
+
+                $.ajax({
+                    url: url,
+                    data: { id: chaid + "~" + from + "~" + to + "~" + tranmid + "~" + CATEAID },
+                    success: function (data) {
+
+                        $("#job_list").html("");
+                        $("#job_list").html(data);
+                        var NOC1 = 0; var NOC2 = 0;
+                        //   alert($(".TRANDVDATE").val());
+                        //$(".TRANREFNAME").val($(".F_CHANAME").val());
+                        $("#STMRNAME").html($(".F_STMRNAME").val());
+                        //$(".TRANREFID").val($(".F_CHAID").val());
+                        $(".TRANVDATE").val($(".TRANDVDATE").val());
+                        $(".DPAIDNO").val($(".F_DPAIDNO").val());
+                        $(".DPAIDAMT").val($(".F_DPAIDAMT").val());
+                        //$(".STATETYPE").val($(".F_STATETYPE").val());
+                        //    alert($(".STATETYPE").val());
+                        i = 0;
+                        $(".TRANDID").each(function () {
+                            var C_date = $(".TRANEDATE")[i].value;
+
+                            if (C_date == "") {
+
+                                var M_date = $(".TRANTIME").val();
+
+                                $(".TRANEDATE")[i].value = M_date;
+                                // $(".TRANEDATE")[i].removeAttr('id').removeClass('hasDatepicker'); // added the removeClass part.
+                                // $('.datepicker').datepicker({ dateFormat: 'dd-mm-yy' });
+
+                            }
+
+                            if ($(".CONTNRSID")[i].value == 3) NOC1++;
+                            //   if ($(".CONTNRSID")[i].value == 4) NOC2++;
+                            if ($(".CONTNRSID")[i].value >= 4) NOC2++;
+                            i++;
+                        });
+                        $(".TRANINOC1").val(NOC1);
+                        $(".TRANINOC2").val(NOC2);
+                        $("#Q_NOC").val("0");
+                @*$.ajax({
+                    url: '@Url.Action("GetCount", "ESealInvoice")/' + $(".BILLEMID").val(),
+                    success: function (data) {
+                        if (data.length != 0)
+                            $("#Q_NOC").val(data);
+                        else
+                            $("#Q_NOC").val("0");
+                    }
+                });*@
+                        $('#TDETAIL tbody tr').each(function () {
+                            //  alert("KKK");
+                            $(this).find(".datepicker").removeAttr('id').removeClass('hasDatepicker'); // added the removeClass part.
+                            $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, changeMonth: true });
+                        });
+
+                        //import gst hsncode slab rate assgn
+                        var statetype = $("#STATETYPE").val();
+                        //alert(statetype);
+                        if ($("#REGSTRID").val() == 54) {
+                            var slabtid = 20;
+                            url = "/ESealInvoice/GetExportGSTRATE";
+                            $.ajax({
+                                type: 'post',
+                                url: url,
+                                data: { id: statetype + "~" + slabtid },
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data.length != 0)
+                                    //$("#Q_NOC").val(data);
+                                    {
+                                        $(".STRG_HSN_CODE").val(data[0].HSNCODE);
+                                        $(".STRG_CGST_EXPRN").val(data[0].CGSTEXPRN);
+                                        $(".STRG_SGST_EXPRN").val(data[0].SGSTEXPRN);
+                                        $(".STRG_IGST_EXPRN").val(data[0].IGSTEXPRN);
+                                    }
+                                    else {
+                                        $("#STRG_HSN_CODE").val("");
+                                        $("#STRG_CGST_EXPRN").val("0");
+                                        $("#STRG_SGST_EXPRN").val("0");
+                                        $("#STRG_IGST_EXPRN").val("0");
+                                    }
+
+                                }
+                            });
+
+                            var statetype = $("#STATETYPE").val();
+                            var slabtid = 21;
+                            url = "/ESealInvoice/GetExportGSTRATE";
+                            $.ajax({
+                                type: 'post',
+                                url: url,
+                                data: { id: statetype + "~" + slabtid },
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data.length != 0)
+                                    //$("#Q_NOC").val(data);
+                                    {
+                                        $(".HANDL_HSN_CODE").val(data[0].HSNCODE);
+                                        $(".HANDL_CGST_EXPRN").val(data[0].CGSTEXPRN);
+                                        $(".HANDL_SGST_EXPRN").val(data[0].SGSTEXPRN);
+                                        $(".HANDL_IGST_EXPRN").val(data[0].IGSTEXPRN);
+                                    }
+                                    else {
+                                        $("#HANDL_HSN_CODE").val("");
+                                        $("#HANDL_CGST_EXPRN").val("0");
+                                        $("#HANDL_SGST_EXPRN").val("0");
+                                        $("#HANDL_IGST_EXPRN").val("0");
+                                    }
+
+                                }
+                            });
+
+                        }
+                        else {
+                            $("#STRG_HSN_CODE").val("");
+                            $("#STRG_CGST_EXPRN").val("0");
+                            $("#STRG_SGST_EXPRN").val("0");
+                            $("#STRG_IGST_EXPRN").val("0");
+
+                            $("#HANDL_HSN_CODE").val("");
+                            $("#HANDL_CGST_EXPRN").val("0");
+                            $("#HANDL_SGST_EXPRN").val("0");
+                            $("#HANDL_IGST_EXPRN").val("0");
+                        }
+
+                        //import gst hsncode slab rate assgn
+
+
+                        calculation();
+
+                    }
+                });
+            }
+
+        }
+
+        function sel_text(obj, dest) {
+            row = obj.parentNode.parentNode.rowIndex;
+            var modelLength = obj.options[obj.selectedIndex].text;
+            $("." + dest)[row - 1].value = modelLength;
+            var selid = '/Common/CostFactorDetail/' + obj.value;
+            $.getJSON(selid, function (data) {
+                var items = [];
+                $.each(data, function (key, val) {
+                    $(".CFMODE")[row - 1].value = val.CFMODE;
+                    $(".CFEXPR")[row - 1].value = val.CFEXPR;
+                    $(".CFTYPE")[row - 1].value = val.CFTYPE;
+                    $(".DORDRID")[row - 1].value = val.DORDRID;
+                    $(".DEDORDR")[row - 1].value = val.CFNATR;
+                });
+                total();
+            });
+        }
+
+        function del_factor(obj) {
+            row = obj.parentNode.parentNode.rowIndex;
+            document.getElementById("CFACTOR").deleteRow(row);
+            total();
+            return false;
+
+        }
+
+        function add_autocomplete_cha($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 0: break;
+                            default:
+                                $("#" + value).val(""); break;
+                        } count++;
+                    })
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break
+                        }
+                        count++
+
+                        $("#TRANREFID").val(ui.item.id);
+                    });
+
+                    var id = $("#TRANREFID").val();
+                    alert(id);
+                    if (id > 0) {
+                        locationdetail(id);
+                    }
+                    return false
+                },
+                change: function (event, ui) {
+                    //debugger;
+                    var opt = $(this).val();
+                    var crntval = event.currentTarget.value;
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: $obj.data("autocomplete-url"),
+                        data: "{'term':'" + crntval + "'}",
+                        dataType: 'json',
+                        success: function (data) {
+                            //debugger;
+                            console.log(data);
+                            //alert(data);
+                            if (data.length == 0) {
+                                // $(event.currentTarget).val('');
+                                alert('Select item from the list.');
+                                $("#TRANREFNAME").focus();
+                                $("#TRANREFID").val("0");
+                            }
+                            else { }
+                        },
+                        error: function (data) {
+                            $(event.currentTarget).val('');
+                            $("#TRANREFNAME").val('');
+                            $("#TRANREFID").val("0");
+
+
+                            console.log('Error retrieving options.');
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }
+
+        $('#TRANREFNAME').blur(function () {
+
+            var selectedvalue = $('#TRANREFNAME').val();
+            var oschaid = $('#TRANREFID').val();
+            if (oschaid > 0) {
+                locationdetail(oschaid);
+            }
+        });//-----End of CHA
+
+        function locationdetail(CATEID) {
+            $(".CATEAID").empty();
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetCatLocationDetail", "NonPnrInvoice")/?CATEID=' + CATEID,  // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    if (data != "") {
+                        var count = data.length;
+                        if (count > 1) {
+                            $(".CATEAID").append('<option value="0" selected>Select Location</option>');
+                        }
+                        $.each(data, function (i, dataval) {
+                            if (count > 1) {
+                                $(".CATEAID").append('<option value="' + dataval.CATEAID + '">' + dataval.CATEATYPEDESC + '</option>');
+                            }
+                            else {
+                                $(".CATEAID").append('<option value="' + dataval.CATEAID + '" selected>' + dataval.CATEATYPEDESC + '</option>');
+                            }
+                        });
+                    }
+                    else {
+                        $(".CATEAID").append('<option value="0">' + "Select Location" + '</option>');
+                    }
+
+                },
+                complete: function () {
+                    var CATEAID = $("#CATEAID").val();
+                    GetAddressDetails();
+                },
+                error: function (ex) {
+                    $(".CATEAID").append('<option value="0">' + "Select Location" + '</option>');
+                    //alert('Failed to data ' + ex);
+                }
+            });
+        }
+
+        function GetAddressDetails() {
+            $("#CATEAID option:selected").val()
+            CATEAID = $("#CATEAID").val();
+            //alert(CATEAID);
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetCatAddressDetail", "NonPnrInvoice")/?CATEAID=' + CATEAID, // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    if (data != "") {
+                        $("#STATEID").val(data[0].STATEID);
+                        $("#CATEAGSTNO").val(data[0].CATEAGSTNO);
+                        $("#TRANIMPADDR1").val(data[0].CATEAADDR1);
+                        $("#TRANIMPADDR2").val(data[0].CATEAADDR2);
+                        $("#TRANIMPADDR3").val(data[0].CATEAADDR3);
+                        $("#TRANIMPADDR4").val(data[0].CATEAADDR4);
+                    } else {
+
+                        $("#STATEID").val("0");
+                        $("#CATEAGSTNO").val("-");
+                        $("#TRANIMPADDR1").val("-");
+                        $("#TRANIMPADDR2").val("-");
+                        $("#TRANIMPADDR3").val("-");
+                        $("#TRANIMPADDR4").val("-");
+                    }
+                },
+                error: function (ex) {
+                    $("#STATEID").val("0");
+                    $("#CATEAGSTNO").val("-");
+                    $("#TRANIMPADDR1").val("-");
+                    $("#TRANIMPADDR2").val("-");
+                    $("#TRANIMPADDR3").val("-");
+                    $("#TRANIMPADDR4").val("-");
+                    //alert('Failed to data ' + ex);
+                }
+
+            });
+        }
+
+        function checkall() {
+            i = 0; j = 0;
+            CHCK_ALL = $("#CHCK_ALL").is(':checked');
+            var tbl = $("#TDETAIL").find('tbody');
+
+
+            $(".STFDIDS").each(function () {
+
+                $trcur = tbl.find("tr:eq(" + i + ")");
+                if (CHCK_ALL == true) {
+                    $trcur.find(".STFDIDS").prop("checked", true);
+                    $(".boolSTFDIDS")[i].value = "true"; //alert("i" + i);
+                }
+                else {
+                    // alert("i..."+i);
+                    $trcur.find(".STFDIDS").removeAttr("checked", true);
+                    $(".boolSTFDIDS")[i].value = "false";
+                }
+
+                i++;
+
+            });
+
+            total();
+
+        }
+        /*.....*/
+        function sel_text(obj, dest) {
+            row = obj.parentNode.parentNode.rowIndex;
+            var modelLength = obj.options[obj.selectedIndex].text;
+            $("." + dest)[row - 1].value = modelLength;
+            var selid = '/Common/CostFactorDetail/' + obj.value;
+            $.getJSON(selid, function (data) {
+                var items = [];
+                $.each(data, function (key, val) {
+                    $(".CFMODE")[row - 1].value = val.CFMODE;
+                    $(".CFEXPR")[row - 1].value = val.CFEXPR;
+                    $(".CFTYPE")[row - 1].value = val.CFTYPE;
+                    $(".DORDRID")[row - 1].value = val.DORDRID;
+                    $(".DEDORDR")[row - 1].value = val.CFNATR;
+                });
+                total();
+            });
+        }
+
+        function del_factor(obj) {
+            row = obj.parentNode.parentNode.rowIndex;
+            document.getElementById("CFACTOR").deleteRow(row);
+            total();
+            return false;
+
+        }
+
+        function total() {
+
+            TRANNAMT = 0;
+            TRANGAMT = 0;
+            CF_ROW_TOTAL = 0;
+            i = 0;
+            TRANDGAMT = 0;
+            TRANROAMT = 0;
+
+            Strg_TaxableAmt = 0;
+            Handl_TaxableAmt = 0
+
+            var total = 0; var gamt = 0.00;
+
+            count = 0; TRANSAMT = 0; TRANHAMT = 0; TRANEAMT = 0; TRANFAMT = 0; TRANPAMT = 0; TRANTCAMT = 0; TRANAAMT = 0; TRAN_COVID_DISC_AMT = 0;
+            i = 0; //$("#TRANGAMT").val("0");
+            $(".STFDIDS").each(function () {
+
+                ckb = $(this).is(':checked');
+
+                if (ckb == true) {
+
+                    $(".boolSTFDIDS")[i].value = ckb;
+                    if ($(".boolSTFDIDS")[i].value == "true") { count++; }
+                    var TRANDSAMT = $(".TRANDSAMT")[i].value;
+                    var TRANDHAMT = $(".TRANDHAMT")[i].value;
+                    var TRANDFAMT = $(".TRANDFAMT")[i].value;
+                    var TRANDPAMT = 0;//$(".TRANDPAMT")[i].value;
+                    var TRANDEAMT = $(".TRANDEAMT")[i].value;
+                    var TRAND_COVID_DISC_AMT = $(".TRAND_COVID_DISC_AMT")[i].value;
+                    if (isNaN(TRANDSAMT)) TRANDSAMT = "0"; if (isNaN(TRANDHAMT)) TRANDHAMT = "0"; if (isNaN(TRANDEAMT)) TRANDEAMT = "0"; if (isNaN(TRANDFAMT)) TRANDFAMT = "0"; if (isNaN(TRANDPAMT)) TRANDPAMT = "0"; if (isNaN(TRAND_COVID_DISC_AMT)) TRAND_COVID_DISC_AMT = "0";
+                    total = parseFloat(TRANDSAMT) + parseFloat(TRANDHAMT) + parseFloat(TRANDEAMT) + parseFloat(TRANDFAMT) + parseFloat(TRANDPAMT) - parseFloat(TRAND_COVID_DISC_AMT);
+
+                    $(".TRANDNAMT")[i].value = total.toFixed(2);
+                    if (isNaN(gamt)) gamt = "0";
+                    gamt = gamt + parseFloat($(".TRANDNAMT")[i].value);
+
+                    if (isNaN(TRANSAMT)) TRANSAMT = "0";
+                    TRANSAMT = TRANSAMT + eval($(".TRANDSAMT")[i].value);
+                    if (isNaN(TRANEAMT)) TRANEAMT = "0";
+                    TRANEAMT = TRANEAMT + eval($(".TRANDEAMT")[i].value);
+                    if (isNaN(TRANHAMT)) TRANHAMT = "0";
+                    TRANHAMT = TRANHAMT + eval($(".TRANDHAMT")[i].value);
+                    if (isNaN(TRANFAMT)) TRANFAMT = "0";
+                    TRANFAMT = TRANFAMT + eval($(".TRANDFAMT")[i].value);
+                    if (isNaN(TRANPAMT)) TRANPAMT = "0";
+                    //TRANPAMT = TRANPAMT + eval($(".TRANDPAMT")[i].value);
+                    if (isNaN(TRAN_COVID_DISC_AMT)) TRAN_COVID_DISC_AMT = "0";
+                    TRAN_COVID_DISC_AMT = TRAN_COVID_DISC_AMT + eval($(".TRAND_COVID_DISC_AMT")[i].value);
+                    //if (isNaN(TRANAAMT)) TRANAAMT = "0";
+                    //TRANAAMT = TRANAAMT + eval($(".TRANDAAMT")[i].value);
+                }
+                else {
+
+                    $(".TRANDNAMT")[i].value = 0.00; if (isNaN(gamt)) gamt = "0";
+                    gamt = gamt + parseFloat($(".TRANDNAMT")[i].value);
+
+                    //$("#TRANGAMT").val(gamt.toFixed(2));
+                    //$("#TRANNAMT").val(gamt.toFixed(2));
+                    //$("#TRANREFAMT").val($("#TRANNAMT").val());
+                    $(".boolSTFDIDS")[i].value = false;
+                    // count--;
+                }
+
+                i++;
+            });
+
+            //alert(TRAN_COVID_DISC_AMT);
+            $("#TRAN_COVID_DISC_AMT").val(TRAN_COVID_DISC_AMT.toFixed(2));
+            $("#TRANSAMT").val(TRANSAMT.toFixed(2));
+            $("#TRANEAMT").val(TRANEAMT.toFixed(2));
+            $("#TRANHAMT").val(TRANHAMT.toFixed(2));
+            $("#TRANFAMT").val(TRANFAMT.toFixed(2));
+            $("#TRANPAMT").val(TRANPAMT.toFixed(2));
+            $("#TRANAAMT").val("0.00");
+
+            $("#TRANGAMT").val(gamt.toFixed(2));
+            $("#TRANNAMT").val(gamt.toFixed(2));
+            $("#TRANREFAMT").val($("#TRANNAMT").val());
+            TRANGAMT = $("#TRANGAMT").val();
+            var round = 0.00; i = 0; NETGAMT = 0;
+            $('.TAX').each(function () {
+
+                //   $(".DEDNOS")[i].value = count;
+                temp = 0;
+                temp_tax = TRANGAMT;
+                if (i > 0)
+                    temp_tax = eval(TRANGAMT) + eval(CF_ROW_TOTAL);
+
+                if (isNaN(temp))
+                    temp = 0;
+
+                switch ($(".TAX")[i].value) {
+                    case "2": {
+                        NETGAMT = eval(temp_tax);
+                        $(".TRANTCAMT").val(eval(NETGAMT).toFixed(2));
+                        //  alert("case2" + temp + "...." + temp_tax + "...." + CF_ROW_TOTAL);
+
+                        if ($(".CFTYPE")[i].value == 1) { $(".DEDNOS")[i].value = 1; temp = eval(temp_tax) * eval($(".CFEXPR")[i].value * ($(".DEDNOS")[i].value)) / 100; }
+                        else { $(".DEDNOS")[i].value = count; temp = eval($(".CFEXPR")[i].value * ($(".DEDNOS")[i].value)).toFixed(2); }
+
+
+                        break;
+                    }
+                    case "96": {
+                        //  alert("case93" + temp + "...." + temp_tax + "...." + CF_ROW_TOTAL);
+
+                        if ($(".CFTYPE")[i].value == 1) { $(".DEDNOS")[i].value = 1; temp = Math.round(eval(NETGAMT) * eval($(".CFEXPR")[i].value * ($(".DEDNOS")[i].value)) / 100); }
+                        else {
+                            $(".DEDNOS")[i].value = count; temp = Math.round(eval($(".CFEXPR")[i].value * ($(".DEDNOS")[i].value))).toFixed(2);
+
+                        }
+
+
+                        break;
+                    }
+                    case "97": {
+                        //  alert("case93" + temp + "...." + temp_tax + "...." + CF_ROW_TOTAL);
+
+                        if ($(".CFTYPE")[i].value == 1) { $(".DEDNOS")[i].value = 1; temp = Math.round(eval(NETGAMT) * eval($(".CFEXPR")[i].value * ($(".DEDNOS")[i].value)) / 100); }
+                        else {
+                            $(".DEDNOS")[i].value = count; temp = Math.round(eval($(".CFEXPR")[i].value * ($(".DEDNOS")[i].value))).toFixed(2);
+
+                        }
+
+
+                        break;
+                    }
+                    default: {
+                        //  alert("def" + temp + "...." + temp_tax + "...." + CF_ROW_TOTAL);
+                        //NETGAMT = eval(NETGAMT) + eval(CF_ROW_TOTAL);
+                        var dednos = $(".DEDNOS")[i].value;
+                        if ($(".TMPCFVAL")[i].value == "0") {
+                            if ($(".CFTYPE")[i].value == 1) {
+                                //  $(".DEDNOS")[i].value = 1;
+                                temp = eval(temp_tax) * eval($(".CFEXPR")[i].value * (dednos)) / 100;
+                            }
+                            else {// $(".DEDNOS")[i].value = count;
+                                temp = eval($(".CFEXPR")[i].value * (dednos)).toFixed(2);
+                            }
+
+                        }
+                        else {
+
+                            temp = eval($(".CFEXPR")[i].value * ($(".DEDNOS")[i].value)).toFixed(2);
+                        }
+                        //var dednos = $(".DEDNOS")[i].value;
+                        //if ($(".CFTYPE")[i].value == 1)
+                        //{
+                        //  //  $(".DEDNOS")[i].value = 1;
+                        //    temp = eval(temp_tax) * eval($(".CFEXPR")[i].value * (dednos)) / 100;
+                        //}
+                        //else
+                        //{// $(".DEDNOS")[i].value = count;
+                        //    temp = eval($(".CFEXPR")[i].value * (dednos)).toFixed(2); }
+
+
+                        break;
+                    }
+                }
+                if ($(".CFMODE")[i].value == 0)
+                    CF_ROW_TOTAL = Math.round(eval(CF_ROW_TOTAL) + eval(temp));
+                else
+                    CF_ROW_TOTAL = Math.round(eval(CF_ROW_TOTAL) - eval(temp));
+
+                if (isNaN(temp)) temp == "0";
+                $(".CFAMOUNT")[i].value = Math.round(eval(temp)).toFixed(2);
+
+
+
+                i++;
+            });
+
+            //Strg_TaxableAmt = $("#TRANSAMT").val();
+            Strg_TaxableAmt = parseFloat(TRANSAMT) - parseFloat(TRAN_COVID_DISC_AMT);
+            Handl_TaxableAmt = parseFloat(TRANHAMT) + parseFloat(TRANEAMT) + parseFloat(TRANFAMT) + parseFloat(TRANPAMT) + parseFloat(TRANAAMT) + parseFloat(CF_ROW_TOTAL);
+
+            $('.STRG_TAXABLE_AMT').val(Strg_TaxableAmt);
+            $('.HANDL_TAXABLE_AMT').val(Handl_TaxableAmt);
+            // alert(Handl_TaxableAmt);
+
+            Strg_CGSTExprn = $("#STRG_CGST_EXPRN").val();
+            Strg_SGSTExprn = $("#STRG_SGST_EXPRN").val();
+            Strg_IGSTExprn = $("#STRG_IGST_EXPRN").val();
+
+            Handl_CGSTExprn = $("#HANDL_CGST_EXPRN").val();
+            Handl_SGSTExprn = $("#HANDL_SGST_EXPRN").val();
+            Handl_IGSTExprn = $("#HANDL_IGST_EXPRN").val();
+
+            Strg_CGSTAmt = eval(((Strg_TaxableAmt * Strg_CGSTExprn) / 100));
+            Strg_CGSTAmt = Math.abs(Math.round(Strg_CGSTAmt, 0));
+
+            Strg_SGSTAmt = eval(((Strg_TaxableAmt * Strg_SGSTExprn) / 100));
+            Strg_SGSTAmt = Math.abs(Math.round(Strg_SGSTAmt, 0));
+
+            Strg_IGSTAmt = eval(((Strg_TaxableAmt * Strg_IGSTExprn) / 100));
+            Strg_IGSTAmt = Math.abs(Math.round(Strg_IGSTAmt, 0));
+
+            Handl_CGSTAmt = eval(((Handl_TaxableAmt * Handl_CGSTExprn) / 100));
+            Handl_CGSTAmt = Math.abs(Math.round(Handl_CGSTAmt, 0));
+
+            Handl_SGSTAmt = eval(((Handl_TaxableAmt * Handl_SGSTExprn) / 100));
+            Handl_SGSTAmt = Math.abs(Math.round(Handl_SGSTAmt, 0));
+
+            Handl_IGSTAmt = eval(((Handl_TaxableAmt * Handl_IGSTExprn) / 100));
+            Handl_IGSTAmt = Math.abs(Math.round(Handl_IGSTAmt, 0));
+
+            Tot_CGSTAmt = parseFloat(Strg_CGSTAmt + Handl_CGSTAmt).toFixed(2);
+            Tot_SGSTAmt = parseFloat(Strg_SGSTAmt + Handl_SGSTAmt).toFixed(2);
+            Tot_IGSTAmt = parseFloat(Strg_IGSTAmt + Handl_IGSTAmt).toFixed(2);
+
+            $('.STRG_CGST_AMT').val(Strg_CGSTAmt);
+            $('.STRG_SGST_AMT').val(Strg_SGSTAmt);
+            $('.STRG_IGST_AMT').val(Strg_IGSTAmt);
+
+            $('.HANDL_CGST_AMT').val(Handl_CGSTAmt);
+            $('.HANDL_SGST_AMT').val(Handl_SGSTAmt);
+            $('.HANDL_IGST_AMT').val(Handl_IGSTAmt);
+
+            $('.TRANCGSTAMT').val(Tot_CGSTAmt);
+            $('.TRANSGSTAMT').val(Tot_SGSTAmt);
+            $('.TRANIGSTAMT').val(Tot_IGSTAmt);
+
+            // round = (eval(TRANGAMT) + eval(CF_ROW_TOTAL));
+            round = parseFloat(Strg_TaxableAmt) + parseFloat(Handl_TaxableAmt) + parseFloat(Tot_CGSTAmt) + parseFloat(Tot_SGSTAmt) + parseFloat(Tot_IGSTAmt);
+
+            ROCHECK = Math.abs(Math.round(round, 0) - parseFloat(round)).toFixed(2);
+            if (isNaN(ROCHECK))
+                ROCHECK = 0;
+
+
+            $('.TRANROAMT').val(ROCHECK);
+            TRANROAMT = Math.round(round, 0) - parseFloat(round);
+
+            // TRANNAMT = (eval(TRANGAMT) + eval(CF_ROW_TOTAL)+eval(TRANROAMT)).toFixed(2);
+            TRANNAMT = (parseFloat(round) + parseFloat(TRANROAMT)).toFixed(2);
+
+            if (isNaN(TRANNAMT))
+                TRANNAMT = 0;
+
+            $("#TRANNAMT").val(TRANNAMT);
+            $("#TRANREFAMT").val(TRANNAMT);
+        }              
+
+        function totalonchange(obj) {
+
+            row = obj.parentNode.parentNode.rowIndex;
+            row = row - 1;
+            var $tableBody = $('#CFACTOR').find("#CF_TBODY")
+            $cfrow = $tableBody.find("tr:eq(" + row + ")");
+            //alert(1);
+            $cfrow.find("#TMPCFVAL").val("-1");
+            total();
+        }
+    </script>
+
+}

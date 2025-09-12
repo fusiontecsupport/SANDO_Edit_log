@@ -1,0 +1,175 @@
+﻿
+@model IEnumerable<scfs_erp.Models.GateInDetail>
+
+
+@{
+    ViewBag.Title = "Truck In";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+</style>
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-import"></i>Truck Gate In
+                                <a class="btn btn-success btn-sm pull-right hide" style="padding:3px;margin:0 0 10px" href="@Url.Action("Form", "ImportTruckOut")"><i class="fa fa-plus-square "></i> Add New </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-content no-padding">
+                        <div class="row">
+                            <div class="col-xs-3"> </div>
+                            <div class="col-xs-6">
+                                <form action="#" method="post" accept-charset="utf-8" id="importremotegateinform" data-ng-controller="myController" name="importremotegateinform">
+
+                                    <label for="from">From</label>
+                                    <input type="text" id="from" name="from" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                    <label for="to">to</label>
+                                    <input type="text" id="to" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                    <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                                </form>
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Time
+                                    </th>
+                                    <th>
+                                        No
+                                    </th>
+                                    <th>IGM No</th>
+                                    <th>
+                                        Transpoter Name
+                                    </th>
+                                    <th>
+                                        Vehicle No
+                                    </th>
+                                    <th>
+                                        Driver Name
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>Print</th>
+                                </tr>
+
+                            </thead>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            //s alert(1);
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("TIGetAjaxData", "ImportTruckIn")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": " ", "sClass": "col-lg-1" },
+                    { "sName": " ", "sClass": "col-lg-1" },
+                    { "sName": " ", "sClass": "col-lg-1" },
+
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-default btn-xs"   href="@Url.Action("PrintView", "ImportTruckIn")/' +
+                                oObj.aData[8] + '\ " target="_blank"><i class="glyphicon glyphicon-print"></i></a> ';
+                        }
+                    }
+
+                ]
+            });
+
+
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+
+            //--------------print------------------------//
+
+            $(".print-invoice").on("click", function () {
+                var idx = $(this).attr('id');
+
+                turl = "http://216.172.100.137:8080/cfsrpt/print.php?id" + idx;
+                cpurl = "http://216.172.100.137:8080/cfsrpt/igatein.pdf";
+
+                var pdf = $.post(turl, function () {
+                    alert("success");
+                })
+                    .success(function () { })
+                    .complete(function () { });
+
+                pdf.complete(function () { window.open(cpurl, "_blank"); });
+
+                return false;
+
+            });
+
+            //end
+
+
+            
+        });
+    </script>
+}

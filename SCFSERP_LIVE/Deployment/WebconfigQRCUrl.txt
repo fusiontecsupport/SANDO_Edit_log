@@ -1,0 +1,1 @@
+ <add key="QRCodeURL" value="http://server:90/scfs/line.php" />

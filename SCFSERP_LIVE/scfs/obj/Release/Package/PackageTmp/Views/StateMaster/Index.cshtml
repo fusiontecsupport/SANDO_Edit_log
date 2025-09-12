@@ -1,0 +1,93 @@
+﻿@model IEnumerable<scfs_erp.Models.StateMaster>
+
+
+@{
+    ViewBag.Title = "State Master";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3 class="page-header">
+                    State Master <a class="btn btn-success btn-sm pull-right" href="@Url.Action("Form", "StateMaster")"><i class="fa fa-plus-square "></i> Record</a>
+                </h3>
+                <table class="footable table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead class="btn-danger">
+                        <tr>
+                            <th>
+                                Code
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "StateMaster")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": " ", "sClass": "action" },
+                    { "sName": "" },
+                    {
+                        "sClass": "col-sm-2 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a   class="btn btn-success btn-sm"   href="@Url.Action("Form", "StateMaster")/' +
+                                oObj.aData[4] + '\" "><i class="fa fa-edit"></i></a>  &nbsp;&nbsp;<a  class= "btn btn-danger btn-sm del" href="#" id="' +
+                                oObj.aData[4] + '\"><i class="fa fa-trash-o" ></i> </a> ';
+                        }
+                    }
+                ]
+            })
+            //--------------Delete Record----------------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/StateMaster/Del",
+                        {
+                            id: idx, fld: ""
+                        },
+                        function (data, status) {
+
+                            if (data == "Deleted Successfully ...")
+                                location.replace(base + "/StateMaster");
+                            else if (data == "") alert("You are not authorize to Delete..!");
+                            else
+                                alert(data);
+                        });
+                }
+                return false;
+            });//end
+
+        });
+    </script>
+}

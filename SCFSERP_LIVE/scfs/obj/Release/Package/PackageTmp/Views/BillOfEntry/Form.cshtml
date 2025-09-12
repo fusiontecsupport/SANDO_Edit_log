@@ -1,0 +1,607 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.BOEDetails
+@{
+    ViewBag.Title = "Bill Of Entry";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="glyphicon glyphicon-import"></i>
+                            <strong>Bill Of Entry</strong>
+                        </div>
+                    </div>
+                    <div class="box-content" data-ng-app="myModule">
+                        <form action="@Url.Content("~/OpenSheet/savedata")" method="post" accept-charset="utf-8" id="opensheetform" data-ng-controller="myController" name="opensheetform" onsubmit="return Form_validate()">
+                            @Html.ValidationSummary(true)
+                            <fieldset id="OpenSheetform_info">
+                                <div class="row">
+                                    <div class="col-md-4 hidden">
+                                        <div class="form-group">
+                                            <label>Primary  </label>
+                                            @Html.TextBoxFor(model => model.masterdata[0].BILLEMID, new { @class = "form-control  BILLEMID", @id = "BILLEMID" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Date/Time </label>
+                                            @Html.TextBoxFor(model => Model.masterdata[0].BILLEMTIME, new { @class = "form-control datetime BILLEMTIME ", @id = "BILLEMTIME", @data_Val = false, tabindex = "1" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>BOE No </label>
+                                            @Html.TextBoxFor(model => Model.masterdata[0].BILLEMDNO, new { @class = "form-control  BILLEMDNO", @id = "BILLEMDNO", tabindex = "11", @required = "required" })
+                                        </div>
+                                    </div>
+                                    @*<div class="col-md-3">
+                            <div class="form-group">
+                                <label>Time </label>
+                                @Html.TextBoxFor(model => Model.masterdata[0].OSMTIME, new { @class = "form-control OSMTIME ", @id = "OSMTIME", @readonly = true, @data_Val = false })
+                            </div>
+                        </div>*@
+
+
+                                    @*<div class="col-md-2">
+                            <div class="form-group">
+                                <label>No  </label>
+                                @Html.TextBoxFor(model => model.masterdata[0].OSMNO, new { @class = "form-control  OSMNO", @id = "OSMNO", @readonly = true })
+                            </div>
+                        </div>*@
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>CHA  </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMNAME)*@
+                                            @Html.TextBoxFor(model => Model.masterdata[0].BILLEMNAME, new { @class = "form-control BILLEMNAME", @id = "BILLEMNAME", data_autocomplete_url = Url.Action("AutoCha", "OpenSheet"), @required = "required", @placeholder = "-----Please Select------", tabindex = "3" })
+                                            @Html.TextBoxFor(model => Model.masterdata[0].CHAID, new { @class = "hide form-control  CHAID", @id = "CHAID" })
+                                        </div>
+                                    </div>
+
+                                    @*<div class="col-md-4">
+                            <div class="form-group">
+                                <label>CHA(Licence Name)</label>
+                                @Html.TextBoxFor(model => Model.masterdata[0].OSMLNAME, new { @class = "form-control  OSMLNAME", @id = "OSMLNAME", tabindex = "5" })
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>CHA Staff Name</label>
+                                @Html.TextBoxFor(model => Model.masterdata[0].OSMCNAME, new { @class = "form-control  OSMCNAME", @id = "OSMCNAME", tabindex = "7" })
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Labour</label>
+                                @Html.DropDownList("OSMLCATEID", null, "Please Select an Option", new { @class = "form-control OSMLCATEID", @required = "required", tabindex = "9" })
+                                @Html.HiddenFor(model => Model.masterdata[0].OSMLCATENAME, new { @class = "form-control  OSMLCATENAME", @id = "OSMLCATENAME", @readonly = true })
+                            </div>
+                        </div>*@
+
+
+                                    @*<fieldset style="width:100%">
+                        <legend style="font-size:large">Bill Of Entry / DO Details</legend>*@
+
+
+                                    @*<div class="col-md-2">
+
+                            <div class="form-group">
+                                <label>BOE Date</label>
+                                @Html.TextBoxFor(model => Model.masterdata[0].BOEDATE, new { @class = "form-control datepicker BOEDATE", @id = "BOEDATE", @data_Val = false, tabindex = "13" })
+
+                            </div>
+                        </div>*@
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Via</label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMTYPE)*@
+                                            @Html.DropDownList("BILLEDMTYPE", null, "Please Select", new { @class = "form-control", @required = "required", tabindex = "15" })
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Duty Paid No.</label>
+                                            @Html.TextBoxFor(model => Model.masterdata[0].DPAIDNO, new { @class = "form-control  DPAIDNO", @id = "DPAIDNO", @data_Val = false, tabindex = "19" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Amount</label>
+                                            @Html.TextBoxFor(model => Model.masterdata[0].DPAIDAMT, new { @class = "form-control  DPAIDAMT", @id = "DPAIDAMT", @data_Val = false, tabindex = "19" })
+
+                                        </div>
+                                    </div>
+                                    @*<div class="col-md-2">
+                            <div class="form-group">
+                                <label>DO Type</label>
+                                @Html.DropDownList("DOTYPE", null, new { @class = "form-control", tabindex = "17" })
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <label>Validity Date</label>
+                                @Html.TextBoxFor(model => Model.masterdata[0].DODATE, new { @class = "form-control datepicker DODATE", @id = "DODATE", @data_Val = false, tabindex = "19" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <label>DO Issue Date</label>
+                                @Html.TextBoxFor(model => Model.masterdata[0].DOIDATE, new { @class = "form-control datepicker DOIDATE", @id = "DOIDATE", @data_Val = false, tabindex = "21" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <label>DO No </label>
+                                @Html.TextBoxFor(model => Model.masterdata[0].DONO, new { @class = "form-control  DONO", @id = "DONO", tabindex = "22" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <div class="form-group">
+                                <label>Seal No's </label>
+                                @Html.TextBoxFor(model => Model.masterdata[0].SCDESC, new { @class = "form-control  SCDESC", @id = "SCDESC", tabindex = "24" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Seal Cut</label>
+                                @Html.DropDownList("SCTYPE", null, new { @class = "form-control", @onchange = "return sealcut()", tabindex = "26" })
+
+                            </div>
+
+                        </div>
+                        <div class="frm_hide" id="F_SCDATE">
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <label>Seal Cut Date</label>
+                                    @Html.TextBoxFor(model => Model.masterdata[0].SCDATE, new { @class = "form-control datetime SCDATE", @id = "SCDATE", @data_Val = false, tabindex = "28" })
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <label>Seal Cut Time</label>
+                                    @Html.TextBoxFor(model => Model.masterdata[0].SCTIME, new { @class = "form-control  SCTIME", @id = "SCTIME", @readonly = true, @data_Val = false, tabindex = "30" })
+
+                                </div>
+                            </div>
+                        </div>*@
+                                    @*</fieldset>*@
+
+                                    @*<fieldset style="width:100%">
+                        <legend style="font-size:large">BL Details</legend>*@
+
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Assessable Value</label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMAAMT)*@
+                                            @Html.TextBoxFor(model => Model.masterdata[0].BILLEMAAMT, new { @class = "form-control  BILLEMAAMT", @id = "BILLEMAAMT", tabindex = "32", @required = "required" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>BL No </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMBLNO)*@
+                                            @Html.TextBoxFor(model => Model.masterdata[0].BLNO, new { @class = "form-control  BLNO", @id = "BLNO", tabindex = "34", @required = "required" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Nop </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMNOP)*@
+                                            @Html.TextBoxFor(model => Model.masterdata[0].NOP, new { @class = "form-control  NOP", @id = "NOP", tabindex = "36", @required = "required" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Unit</label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMUNITID)*@
+                                            @Html.DropDownList("UNITID", null, "Please select", new { @class = "form-control UNITID", @required = "required", tabindex = "38" })
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group">
+                                            <label>Weight </label>@*@Html.ValidationMessageFor(model => model.masterdata[0].OSMWGHT)*@
+                                            @Html.TextBoxFor(model => Model.masterdata[0].WGHT, new { @class = "form-control  WGHT", @id = "WGHT", tabindex = "40", @required = "required" })
+
+                                        </div>
+                                    </div>
+
+
+                                    @*</fieldset>*@
+
+
+
+
+
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+                                            <label>Importer </label>
+                                            <input type="text" class="form-control" id="T_IMPRTNAME" value="@ViewBag.IMPRTNAME" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+                                            <label>Steamer </label>
+                                            <input type="text" class="form-control" id="T_STMRNAME" value="@ViewBag.STMRNAME" readonly />
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="table_grid" id="table_grid"></div>
+
+                                @*<div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Remarks </label>
+                                @Html.TextAreaFor(model => Model.masterdata[0].SCREMRKS, new { @class = "form-control SCREMRKS", @id = "SCREMRKS", tabindex = "62" })
+                            </div>
+
+                        </div>
+                    </div>*@
+                                <div class="col-lg-12 center-block">
+                                    <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs center-block" onclick="JavaScript:history.back()" />
+                                </div>
+
+                                @*<div class="col-md-12 box-footer">
+
+
+                        <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+
+                        <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs  " id="save" tabindex="100" />
+
+
+                    </div>*@
+
+                            </fieldset>
+
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts{
+
+    <script>
+
+        $(document).ready(function () {
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+            //------Autocomplete Function-----------------
+            add_autocomplete($("#OSMIGMNO"), "OSMIGMNO");
+            add_autocomplete($("#OSMNAME"), "OSMNAME,CHAID");
+            //---End
+
+            //-----------DATE CONTROLS----------------//
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', });
+            $('.datetime').datetimepicker({
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+            });
+            //$('.time').timepicker();
+
+            if ($(".BILLEMID").val() == 0) {
+                var dt = new Date();
+                var month = dt.getMonth() + 1;
+                var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                var datetme = time;
+
+                $(".BILLEMTIME").val(date + " " + datetme);
+                $(".DODATE").val(date);
+                $(".DOIDATE").val(date);
+                $(".SCDATE").val(date);
+                $(".BOEDATE").val(date);
+                $(".SCTIME").val(date + " " + datetme);
+                $('#DODATE').on("change", function () {
+                    var odt = $(".BILLEMTIME").val();
+                    var ss = $(".DODATE").val();
+                    var start = new Date(odt);
+
+                    var end = new Date(ss);
+                    alert(start.getDate());
+                    var days = (end.getDate() - start.getDate()) / 1000 / 60 / 60 / 24;
+                    alert(days);
+                });
+
+            }
+            //--------------END OF DATE CONTROLS----------//
+
+            //--default value-----
+           if(($("#BILLEMID").val())==""){
+               $("#OSMNO").val("0");
+               $("#OSMTNOC").val("0");
+               $("#OSMFNOC").val("0");
+               sealcut();//-----call to function
+
+            }//---End
+
+
+
+            //-------------------Duplicate check ---------------------------------
+            $("#BOENO").blur(function () {
+                var boe = $("#BOENO").val();
+
+                base = window.location.origin;
+
+
+                $.post(base + "/OpenSheet/BOEDetail",
+                         {
+                             BoeNo: boe
+                          },
+                     function (data, status) {
+                         if (data == "") { return false; }
+                         else { alert(data); $("#BOENO").val(""); $("#BOENO").focus(); }
+                       })
+            });//------End of Duplicate Check
+
+
+
+
+            //-------------Labour Name----------------------------
+            $("#OSMLCATEID").change(function () {
+                var osmcatelId = $('#OSMLCATEID option:selected').text();
+                $("#OSMLCATENAME").val(osmcatelId);
+            })//---End of Labour Name
+
+
+
+            //-------------CHA Licence Name-------------------
+            $('#OSMNAME').blur(function () {
+
+                var selectedvalue = $('#OSMNAME').val();
+
+                $('#OSMLNAME').val(selectedvalue);
+            });//-----End of CHA
+
+
+
+
+            //------------------------------Opensheet Detail Table Edit---------------
+
+            if (($("#BILLEMID").val()) != 0) {
+                $(function () {
+
+
+                    base = window.location.origin;
+                    $.post(base + "/BillOfEntry/DetailEdit",
+                                  {
+                                       id: $("#BILLEMID").val()
+                                  },
+                            function (data, status) {
+
+                                      $("#table_grid").html("");
+                                      $("#table_grid").html(data);
+
+                                      var stmr = $("#STMRNAME").val();
+                                      var imprt = $("#IMPRTNAME").val();
+                                      var vsl = $("#VSLNAME").val();
+                                      var voyno = $("#VOYNO").val();
+                                      $("#T_STMRNAME").val(stmr);
+                                      $("#T_IMPRTNAME").val(imprt);
+                                      $("#T_VOYNO").val(voyno); $("#T_VESSELNAME").val(vsl);
+                                      $("#F_IGMNO").val($(".IGMNO").val());
+                                      $("#LNO").val($("#LineNo").val());
+                   });//---End of Post--------
+
+                    return false;
+                });//----End of function
+
+            }//---------End of If
+
+
+
+        });//---End of Document Ready Event------------------
+
+
+
+                $(function () {
+
+
+                    //--------------------------Cascading Dropdown For Line No------------
+
+                    $("#OSMIGMNO").on("autocompletechange",function () {
+
+                        $("#OSMLNO").empty();
+                        id = $("#OSMIGMNO").val();
+
+
+                        $.ajax({
+
+                            type: 'get',
+                            url: '@Url.Action("GetLineNo","OpenSheet")?id=' + id, // we are calling json method
+
+                            dataType: 'json',
+
+
+                            success: function (data) {
+                                $("#OSMLNO").append('<option>Please select</option>');
+                                $.each(data, function (i, dataval) {
+                                    $("#OSMLNO").append('<option value="' + dataval.GPLNO + '">' + dataval.GPLNO + '</option>');
+
+                                });
+
+                            },
+                            error: function (ex) {
+                                alert('Failed to data ' + ex);
+                            }
+                        });
+                        return false;
+
+                    });
+                    //--------End-----------------------------------------
+
+
+
+
+                   //--------------------OpenSheet Detail Table-----------
+                    $(".OSMLNO").on("change", function () {
+                        var IGM_No = $("#OSMIGMNO").val();
+                        var Line_No = $("#OSMLNO").val();
+                        base = window.location.origin;
+                        $.post(base + "/OpenSheet/Detail",
+                               {
+                                  PIGMNO: IGM_No, PGPLNO: Line_No
+                               },
+                               function (data, status) {
+
+                                   $("#table_grid").html("");
+                                   $("#table_grid").html(data);
+
+                                   delivery_status();
+
+
+                                   var stmr=$("#STMRNAME").val();
+                                   var imprt=$("#IMPRTNAME").val();
+                                   var vsl = $("#VSLNAME").val();
+                                   var voyno = $("#VOYNO").val();
+                                   $("#T_STMRNAME").val(stmr);
+                                   $("#T_IMPRTNAME").val(imprt);
+                                   $("#T_VESSELNAME").val(vsl);
+                                   $("#T_VOYNO").val(voyno);
+                                   if ($(".OSDID").val() == "") {
+                                       $(".OSDID").val("0");
+                                   }
+
+                           });//-----End of post
+                        return false;
+
+
+                    });//----End of blur event
+
+
+
+
+                });//----End of function
+
+
+        //-----------------seal cut show/hide ---------
+        function sealcut() {
+            if ($("#SCTYPE").val() == 1) {
+                $("#F_SCDATE").removeClass("frm_hide");
+            }
+            else {
+                $("#F_SCDATE").addClass("frm_hide");
+
+            }
+        }//------End of function--
+
+
+
+        //----------Block value change-----------------
+        function delivery_status() {
+            var i = 0;
+            $("#mytabl tbody tr").each(function () {
+                var InspType = $('#INSPTYPE option:selected').text();
+                $(".BLOCK")[i].value = InspType;
+
+                i++;
+            })
+        }//-----End of function
+
+
+
+        //-------Container Description value--------
+        //function Container() {
+        //    var i = 0;
+        //    $("#mytabl tbody tr").each(function () {
+
+        //        if ($(".CONTNRSDESC")[i].value == 1) {
+        //            $(".CONTNRSDESC")[i].value = "ALL";
+        //        }
+        //        else if ($(".CONTNRSDESC")[i].value == 2) {
+        //            $(".CONTNRSDESC")[i].value = "NOT REQUIRED";
+        //        }
+        //        else if ($(".CONTNRSDESC")[i].value == 3) {
+        //            $(".CONTNRSDESC")[i].value = "20'";
+        //        }
+        //        else if ($(".CONTNRSDESC")[i].value == 4) {
+        //            $(".CONTNRSDESC")[i].value = "40'";
+        //        }
+        //        else if ($(".CONTNRSDESC")[i].value == 5) {
+        //            $(".CONTNRSDESC")[i].value = "45'";
+        //        }
+
+        //        i++;
+        //    })
+        //}//-----End of function
+
+        $(window).bind("load", function () {
+            if ($(".BILLEMID").val() == "") {
+                $(".BILLEMID").val("0");
+            }
+            if ($(".OSDID").val() == 0) {
+                $(".OSDID").val("");
+
+            }
+
+        });
+
+
+        function Form_validate() {
+            temp1 = $("#CHAID").val();
+            if (temp1 == "") {
+                alert("Please Select CHA Properly");
+                $(".OSMNAME").focus();
+                return false;
+            }
+            temp2 = $("#OSMIGMNO").val();
+            if (temp2 == "")
+            {
+                alert("Please Select IGM No Properly");
+                $(".OSMIGMNO").focus();
+                return false;
+            }
+
+
+        }
+    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

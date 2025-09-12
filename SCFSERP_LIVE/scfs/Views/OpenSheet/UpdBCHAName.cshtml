@@ -1,0 +1,165 @@
+﻿@using scfs.Data
+@using scfs_erp.Models;
+@model scfs_erp.Models.OpenSheetMD
+
+@{
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+<style type="text/css">
+    .modal-dialog {
+        width: 85%;
+        height: 85%;
+        /*background-color: white;*/
+    }
+</style>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <div class="modal-title">Billing CHA Name Updation</div>
+        </div>
+        <form id="schedulefrm" action="@Url.Content("~/OpenSheet/ssavedata")" method="post" autocomplete="on">
+            <div class="msg" hidden style="margin-left:0;margin-right:0"> </div>
+            <div class="msg_error" hidden style="margin-left:0;margin-right:0"> </div>
+
+            <div class="modal-body">               
+                <div class="form-group col-lg-12 hide">
+                    <label>Date</label>
+                    @Html.TextBoxFor(model => model.masterdata[0].OSMID, new { @class = "form-control hide OSMID", @id = "OSMID" })
+                    @Html.TextBoxFor(model => model.masterdata[0].OSMDATE, new { @class = "form-control OSMDATE", @id = "OSMDATE", @readonly = "readonly" })
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Billing Cha Name<span class="required-field"></span></label>                   
+                        @Html.TextBoxFor(model => model.masterdata[0].OSBILLREFID, new { @class = "form-control hide OSBILLREFID", @id = "OSBILLREFID" })
+                        @Html.TextBoxFor(model => model.masterdata[0].OSBILLREFNAME, new { @class = "form-control OSBILLREFNAME", @id = "OSBILLREFNAME", data_autocomplete_url = Url.Action("NewAutoCha", "OpenSheet") })                   
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Billing Address type<span class="required-field"></span> </label>                   
+                        @Html.DropDownList("OSBBCHACATEAID", null, "Select Location", new { @class = "form-control OSBBCHACATEAID", @id = "OSBBCHACATEAID", @tabindex = "4", @onchange = "GetBillAddressDetails()" })
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Billing GST No</label>
+                    @Html.TextBoxFor(model => Model.masterdata[0].OSBBCHACATEAGSTNO, new { @class = "form-control  OSBBCHACATEAGSTNO", @id = "OSBBCHACATEAGSTNO", tabindex = "-1", @maxLength = "50", @readonly = true })
+                    @Html.HiddenFor(model => Model.masterdata[0].OSBBCHASTATEID, new { @class = "form-control  OSBBCHASTATEID", @id = "OSBBCHASTATEID", tabindex = "-1" })
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Address 1 </label>
+                    @Html.TextBoxFor(model => Model.masterdata[0].OSBBCHAADDR1, new { @class = "form-control  OSBBCHAADDR1", @id = "OSBBCHAADDR1", tabindex = "-1", @maxLength = "100", @readonly = true })
+                </div>
+                <div class="form-group col-lg-6">
+                    <label>Address 2 </label>
+                    @Html.TextBoxFor(model => Model.masterdata[0].OSBBCHAADDR2, new { @class = "form-control  OSBBCHAADDR2", @id = "OSBBCHAADDR2", tabindex = "-1", @maxLength = "100", @readonly = true })
+                </div>
+                <div class="form-group col-lg-6">
+                    <label>Address 3 </label>
+                    @Html.TextBoxFor(model => Model.masterdata[0].OSBBCHAADDR3, new { @class = "form-control  OSBBCHAADDR3", @id = "OSBBCHAADDR3", tabindex = "-1", @maxLength = "100", @readonly = true })
+                </div>
+                <div class="form-group col-lg-6">
+                    <label>Address 4 </label>
+                    @Html.TextBoxFor(model => Model.masterdata[0].OSBBCHAADDR4, new { @class = "form-control  OSBBCHAADDR4", @id = "OSBBCHAADDR4", tabindex = "-1", @maxLength = "100", @readonly = true })
+                </div>     
+
+                
+                <div class="clearfix"> </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="Print">Save</button>
+                </div>
+            </div>
+
+
+        </form>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+
+
+</div>
+<script>
+
+    function Billlocationdetail(CATEID) {
+            $(".OSBBCHACATEAID").empty();
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetCatLocationDetail", "NonPnrInvoice")/?CATEID=' + CATEID,  // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    if (data != "") {
+                        var count = data.length;
+                        if (count > 1) {
+                            $(".OSBBCHACATEAID").append('<option value="0" selected>Select Location</option>');
+                        }
+                        $.each(data, function (i, dataval) {
+                            if (count > 1) {
+                                $(".OSBBCHACATEAID").append('<option value="' + dataval.CATEAID + '">' + dataval.CATEATYPEDESC + '</option>');
+                            }
+                            else {
+                                $(".OSBBCHACATEAID").append('<option value="' + dataval.CATEAID + '" selected>' + dataval.CATEATYPEDESC + '</option>');
+                            }
+                        });
+                    }
+                    else {
+                        $(".OSBBCHACATEAID").append('<option value="0">' + "Select Location" + '</option>');
+                    }
+
+                },
+                complete: function () {
+                    var CATEAID = $("#OSBBCHACATEAID").val();
+                    GetBillAddressDetails(CATEAID);
+                },
+                error: function (ex) {
+                   // alert('Failed to data ' + ex);
+                }
+            });
+        }
+
+    var OSBBCHACATEAID = $("#OSBBCHACATEAID").val();
+    if (OSBBCHACATEAID > 0) {
+        GetBillAddressDetails(OSBBCHACATEAID);
+    }
+
+    function GetBillAddressDetails(OSBBCHACATEAID) {
+        OSBBCHACATEAID = $("#OSBBCHACATEAID").val();
+        //alert(CATEAID);
+        $.ajax({
+            type: 'get',
+            url: '@Url.Action("GetCatAddressDetail", "NonPnrInvoice")/?CATEAID=' + OSBBCHACATEAID, // we are calling json method
+            dataType: 'json',
+            success: function (data) {
+                if (data != "") {
+                    $("#OSBBCHASTATEID").val(data[0].STATEID);
+                    $("#OSBBCHACATEAGSTNO").val(data[0].CATEAGSTNO);
+                    $("#OSBBCHAADDR1").val(data[0].CATEAADDR1);
+                    $("#OSBBCHAADDR2").val(data[0].CATEAADDR2);
+                    $("#OSBBCHAADDR3").val(data[0].CATEAADDR3);
+                    $("#OSBBCHAADDR4").val(data[0].CATEAADDR4);
+                } else {
+
+                    $("#OSBBCHASTATEID").val("0");
+                    $("#OSBBCHACATEAGSTNO").val("-");
+                    $("#OSBBCHAADDR1").val("-");
+                    $("#OSBBCHAADDR2").val("-");
+                    $("#OSBBCHAADDR3").val("-");
+                    $("#OSBBCHAADDR4").val("-");
+                }
+            },
+            error: function (ex) {
+                $("#OSBBCHASTATEID").val("0");
+                $("#OSBBCHACATEAGSTNO").val("-");
+                $("#OSBBCHAADDR1").val("-");
+                $("#OSBBCHAADDR2").val("-");
+                $("#OSBBCHAADDR3").val("-");
+                $("#OSBBCHAADDR4").val("-");
+                //alert('Failed to data ' + ex);
+            }
+
+        });
+    }
+
+
+
+</script>

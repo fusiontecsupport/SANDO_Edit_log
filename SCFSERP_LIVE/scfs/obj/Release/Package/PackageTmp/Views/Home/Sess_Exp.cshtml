@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Sess_Exp";
+}
+
+<span>Your session will expire: @ViewData["SessionWillExpireOn"]</span>
+<span id="countDown" style="display:none"></span>
+<script type="text/javascript">
+    var sessionTimout = ViewData["SessionTimeout"];
+    var approximateStart = new Date();
+    var notifyAfter = new Date(approximateStart + (sessionTimout - 1)*60*1000);
+    function startCountDown() {
+        alert("dd");
+        setTimout(function() {
+            var now = new Date();
+            document.getElementById('countDown').style.display = 'inline';
+            document.getElementById('countDown').innerHTML = "Countdown: " + now.getMinutes();
+            if (now >= notifyAfter)
+                alert('About to expire...');
+        }, 5000);
+    }
+    $(document).ready(function () { startCountDown(); });
+</script>

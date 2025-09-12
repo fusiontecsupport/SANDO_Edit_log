@@ -1,0 +1,1080 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BondModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="BondEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="pr_Search_BondGodownMaster" ReturnType="Collection(BondModel.pr_Search_BondGodownMaster_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="BONDSPACEDETAILs" EntityType="BondModel.BONDSPACEDETAIL" />
+    <FunctionImport Name="pr_Search_Bond_Information" ReturnType="Collection(BondModel.pr_Search_Bond_Information_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PCompyid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Bond_GateIn" ReturnType="Collection(BondModel.pr_Search_Bond_GateIn_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PCompyid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_BondSlabTypeMaster" ReturnType="Collection(BondModel.pr_Search_BondSlabTypeMaster_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_BondSlabMaster" ReturnType="Collection(BondModel.pr_Search_BondSlabMaster_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PTARIFFMID" Mode="In" Type="Int32" />
+      <Parameter Name="PCHRGETYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PSLABTID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Bond_TariffMaster" ReturnType="Collection(BondModel.pr_Search_Bond_TariffMaster_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_get_Bond_Details_for_Invoice" ReturnType="Collection(BondModel.pr_get_Bond_Details_for_Invoice_Result)">
+      <Parameter Name="term" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="VW_BOND_RATECARDMASTER_FLX_ASSGN" EntityType="BondModel.VW_BOND_RATECARDMASTER_FLX_ASSGN" />
+    <FunctionImport Name="pr_SearchBondProductGroup" ReturnType="Collection(BondModel.pr_SearchBondProductGroup_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN" EntityType="BondModel.VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN" />
+    <FunctionImport Name="pr_Get_Bond_Contnr_Recev_Frm" ReturnType="Collection(BondModel.pr_Get_Bond_Contnr_Recev_Frm_Result)" />
+    <FunctionImport Name="pr_get_Bond_Godown_Types" ReturnType="Collection(BondModel.pr_get_Bond_Godown_Types_Result)" />
+    <FunctionImport Name="pr_get_Bond_Godowns" ReturnType="Collection(BondModel.pr_get_Bond_Godowns_Result)">
+      <Parameter Name="gwtid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Get_Bond_Tariff_Period_Types" ReturnType="Collection(BondModel.pr_Get_Bond_Tariff_Period_Types_Result)">
+      <Parameter Name="tariffmid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_get_Bond_Operation_Types" ReturnType="Collection(BondModel.pr_get_Bond_Operation_Types_Result)" />
+    <FunctionImport Name="pr_get_Bond_Types" ReturnType="Collection(BondModel.pr_get_Bond_Types_Result)" />
+    <FunctionImport Name="pr_get_BondMaster_Status" ReturnType="Collection(BondModel.pr_get_BondMaster_Status_Result2)" />
+    <FunctionImport Name="pr_Search_ExBond_Information" ReturnType="Collection(BondModel.pr_Search_ExBond_Information_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PCompyid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Get_Bond_Info" ReturnType="Collection(BondModel.pr_Get_Bond_Info_Result)">
+      <Parameter Name="compyid" Mode="In" Type="Int32" />
+      <Parameter Name="bondid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Bond_Vehicle_Ticket" ReturnType="Collection(BondModel.pr_Search_Bond_Vehicle_Ticket_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Get_ExBond_Info" ReturnType="Collection(BondModel.pr_Get_ExBond_Info_Result)">
+      <Parameter Name="compyid" Mode="In" Type="Int32" />
+      <Parameter Name="exbondid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_Bond_GateOut" ReturnType="Collection(BondModel.pr_Search_Bond_GateOut_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Bond_Invoice_BondNO_Grid_Assgn" ReturnType="Collection(BondModel.pr_Bond_Invoice_BondNO_Grid_Assgn_Result)">
+      <Parameter Name="userid" Mode="In" Type="String" />
+      <Parameter Name="PBNDID" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANMID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PBCHAID" Mode="In" Type="Int32" />
+      <Parameter Name="PBCATEAID" Mode="In" Type="Int32" />
+      <Parameter Name="PTARIFFMID" Mode="In" Type="Int32" />
+      <Parameter Name="PSLABTID" Mode="In" Type="Int32" />
+      <Parameter Name="PCHRGTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PRDTID" Mode="In" Type="Int32" />
+      <Parameter Name="PYRDID" Mode="In" Type="Int32" />
+      <Parameter Name="POPRID" Mode="In" Type="Int32" />
+      <Parameter Name="PHNDTID" Mode="In" Type="Int32" />
+      <Parameter Name="PCNTSID" Mode="In" Type="Int32" />
+      <Parameter Name="PQTY" Mode="In" Type="Decimal" />
+      <Parameter Name="PNOP" Mode="In" Type="Decimal" />
+      <Parameter Name="PRATE" Mode="In" Type="Decimal" />
+      <Parameter Name="PAMT" Mode="In" Type="Decimal" />
+      <Parameter Name="PTAXTYPE" Mode="In" Type="Int16" />
+    </FunctionImport>
+    <FunctionImport Name="pr_BondPerforma_Invoice_BondNO_Grid_Assgn" ReturnType="Collection(BondModel.pr_BondPerforma_Invoice_BondNO_Grid_Assgn_Result)">
+      <Parameter Name="userid" Mode="In" Type="String" />
+      <Parameter Name="PBNDID" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANMID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PBCHAID" Mode="In" Type="Int32" />
+      <Parameter Name="PBCATEAID" Mode="In" Type="Int32" />
+      <Parameter Name="PTARIFFMID" Mode="In" Type="Int32" />
+      <Parameter Name="PSLABTID" Mode="In" Type="Int32" />
+      <Parameter Name="PCHRGTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PRDTID" Mode="In" Type="Int32" />
+      <Parameter Name="PYRDID" Mode="In" Type="Int32" />
+      <Parameter Name="POPRID" Mode="In" Type="Int32" />
+      <Parameter Name="PHNDTID" Mode="In" Type="Int32" />
+      <Parameter Name="PCNTSID" Mode="In" Type="Int32" />
+      <Parameter Name="PQTY" Mode="In" Type="Decimal" />
+      <Parameter Name="PNOP" Mode="In" Type="Decimal" />
+      <Parameter Name="PRATE" Mode="In" Type="Decimal" />
+      <Parameter Name="PAMT" Mode="In" Type="Decimal" />
+      <Parameter Name="PTAXTYPE" Mode="In" Type="Int16" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_BondExBond_EInvoice" ReturnType="Collection(BondModel.pr_Search_BondExBond_EInvoice_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PREGSTRID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_BondInvoice" ReturnType="Collection(BondModel.pr_Search_BondInvoice_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PREGSTRID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PTAXTYPE" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_BondPerformaInvoice" ReturnType="Collection(BondModel.pr_Search_BondPerformaInvoice_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PREGSTRID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PTAXTYPE" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_ExBondVTInvoice" ReturnType="Collection(BondModel.pr_Search_ExBondVTInvoice_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PREGSTRID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PTAXTYPE" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_BondManualInvoice" ReturnType="Collection(BondModel.pr_Search_BondManualInvoice_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PREGSTRID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PTAXTYPE" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Bond_Manual_Invoice_BondNO_Grid_Assgn" ReturnType="Collection(BondModel.pr_Bond_Manual_Invoice_BondNO_Grid_Assgn_Result)">
+      <Parameter Name="userid" Mode="In" Type="String" />
+      <Parameter Name="PBNDID" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANMID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PBCHAID" Mode="In" Type="Int32" />
+      <Parameter Name="PBCATEAID" Mode="In" Type="Int32" />
+      <Parameter Name="PTARIFFMID" Mode="In" Type="Int32" />
+      <Parameter Name="PSLABTID" Mode="In" Type="Int32" />
+      <Parameter Name="PCHRGTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PRDTID" Mode="In" Type="Int32" />
+      <Parameter Name="PYRDID" Mode="In" Type="Int32" />
+      <Parameter Name="POPRID" Mode="In" Type="Int32" />
+      <Parameter Name="PHNDTID" Mode="In" Type="Int32" />
+      <Parameter Name="PCNTSID" Mode="In" Type="Int32" />
+      <Parameter Name="PQTY" Mode="In" Type="Decimal" />
+      <Parameter Name="PNOP" Mode="In" Type="Decimal" />
+      <Parameter Name="PRATE" Mode="In" Type="Decimal" />
+      <Parameter Name="PAMT" Mode="In" Type="Decimal" />
+      <Parameter Name="PTAXTYPE" Mode="In" Type="Int16" />
+      <Parameter Name="PBILLDESC" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Ex_Bond_VT_Invoice_BondNO_Grid_Assgn" ReturnType="Collection(BondModel.pr_Ex_Bond_VT_Invoice_BondNO_Grid_Assgn_Result)">
+      <Parameter Name="userid" Mode="In" Type="String" />
+      <Parameter Name="PVTDID" Mode="In" Type="Int32" />
+      <Parameter Name="PEBNDID" Mode="In" Type="Int32" />
+      <Parameter Name="PBNDID" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANMID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PBCHAID" Mode="In" Type="Int32" />
+      <Parameter Name="PBCATEAID" Mode="In" Type="Int32" />
+      <Parameter Name="PTARIFFMID" Mode="In" Type="Int32" />
+      <Parameter Name="PSLABTID" Mode="In" Type="Int32" />
+      <Parameter Name="PCHRGTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PRDTID" Mode="In" Type="Int32" />
+      <Parameter Name="PYRDID" Mode="In" Type="Int32" />
+      <Parameter Name="POPRID" Mode="In" Type="Int32" />
+      <Parameter Name="PHNDTID" Mode="In" Type="Int32" />
+      <Parameter Name="PCNTSID" Mode="In" Type="Int32" />
+      <Parameter Name="PQTY" Mode="In" Type="Decimal" />
+      <Parameter Name="PNOP" Mode="In" Type="Decimal" />
+      <Parameter Name="PRATE" Mode="In" Type="Decimal" />
+      <Parameter Name="PAMT" Mode="In" Type="Decimal" />
+      <Parameter Name="PHTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PTAXTYPE" Mode="In" Type="Int16" />
+      <Parameter Name="PVTSPC" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Search_ExBondVTProformaInvoice" ReturnType="Collection(BondModel.pr_Search_ExBondVTProformaInvoice_Result)">
+      <Parameter Name="FilterTerm" Mode="In" Type="String" />
+      <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+      <Parameter Name="SortDirection" Mode="In" Type="String" />
+      <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+      <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="PCompyId" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANBTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PREGSTRID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+      <Parameter Name="PTAXTYPE" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Ex_Bond_VT_Proforma_Invoice_BondNO_Grid_Assgn" ReturnType="Collection(BondModel.pr_Ex_Bond_VT_Proforma_Invoice_BondNO_Grid_Assgn_Result)">
+      <Parameter Name="userid" Mode="In" Type="String" />
+      <Parameter Name="PVTDID" Mode="In" Type="Int32" />
+      <Parameter Name="PEBNDID" Mode="In" Type="Int32" />
+      <Parameter Name="PBNDID" Mode="In" Type="Int32" />
+      <Parameter Name="PTRANMID" Mode="In" Type="Int32" />
+      <Parameter Name="PSDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PEDATE" Mode="In" Type="DateTime" />
+      <Parameter Name="PBCHAID" Mode="In" Type="Int32" />
+      <Parameter Name="PBCATEAID" Mode="In" Type="Int32" />
+      <Parameter Name="PTARIFFMID" Mode="In" Type="Int32" />
+      <Parameter Name="PSLABTID" Mode="In" Type="Int32" />
+      <Parameter Name="PCHRGTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PRDTID" Mode="In" Type="Int32" />
+      <Parameter Name="PYRDID" Mode="In" Type="Int32" />
+      <Parameter Name="POPRID" Mode="In" Type="Int32" />
+      <Parameter Name="PHNDTID" Mode="In" Type="Int32" />
+      <Parameter Name="PCNTSID" Mode="In" Type="Int32" />
+      <Parameter Name="PQTY" Mode="In" Type="Decimal" />
+      <Parameter Name="PNOP" Mode="In" Type="Decimal" />
+      <Parameter Name="PRATE" Mode="In" Type="Decimal" />
+      <Parameter Name="PAMT" Mode="In" Type="Decimal" />
+      <Parameter Name="PHTYPE" Mode="In" Type="Int32" />
+      <Parameter Name="PTAXTYPE" Mode="In" Type="Int16" />
+      <Parameter Name="PVTSPC" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="pr_Get_ExBond_VT_Info" ReturnType="Collection(BondModel.pr_Get_ExBond_VT_Info_Result)">
+      <Parameter Name="compyid" Mode="In" Type="Int32" />
+      <Parameter Name="VTDID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="pr_get_Bond_Entry_Types" ReturnType="Collection(BondModel.pr_get_Bond_Entry_Types_Result)" />
+  </EntityContainer>
+  <ComplexType Name="pr_Search_BondGodownMaster_Result">
+    <Property Type="String" Name="GWNCODE" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="GWNDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="GWNTYPDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+    <Property Type="Int32" Name="GWNID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_get_BondMaster_Status_Result">
+    <Property Type="Int32" Name="dval" Nullable="true" />
+    <Property Type="String" Name="dtxt" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <EntityType Name="BONDSPACEDETAIL">
+    <Key>
+      <PropertyRef Name="SPCID" />
+    </Key>
+    <Property Name="SPCID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="COMPYID" Type="Int32" Nullable="false" />
+    <Property Name="SDPTID" Type="Int32" Nullable="false" />
+    <Property Name="SPCDATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="SPCTIME" Type="DateTime" Precision="3" />
+    <Property Name="SPCNO" Type="Int32" />
+    <Property Name="SPCDNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SPCBENO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SPCBEDATE" Type="DateTime" Precision="0" />
+    <Property Name="SPCBLNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SPCBLDATE" Type="DateTime" Precision="0" />
+    <Property Name="IMPRTID" Type="Int32" />
+    <Property Name="PRDTID" Type="Int32" />
+    <Property Name="TYPEID" Type="Int32" />
+    <Property Name="QTY" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="GWGHT" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="DQTY" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="WGHT" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="MTRS" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="AAMT" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="DAMT" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="SPCDESC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SPCEDATE" Type="DateTime" Precision="0" />
+    <Property Name="SPCSFDATE" Type="DateTime" Precision="0" />
+    <Property Name="SPCSTDATE" Type="DateTime" Precision="0" />
+    <Property Name="CUSRID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LMUSRID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DISPSTATUS" Type="Int16" />
+    <Property Name="PRCSDATE" Type="DateTime" Precision="0" />
+  </EntityType>
+  <ComplexType Name="pr_Search_Bond_Information_Result">
+    <Property Type="String" Name="BNDDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="BNDNO" Nullable="true" />
+    <Property Type="Decimal" Name="BNDCIFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="CHANAME" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="IMPRTRNAME" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="9" />
+    <Property Type="Int32" Name="BNDID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Bond_GateIn_Result">
+    <Property Type="DateTime" Name="GIDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="GIDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="GINO" Nullable="true" />
+    <Property Type="String" Name="BONDNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="IMPRTRNAME" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="CONTNRSIZE" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="IGMNO" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="9" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_BondSlabTypeMaster_Result">
+    <Property Type="String" Name="SLABTCODE" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="SLABTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="SLABCDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+    <Property Type="Int32" Name="SLABTID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_BondSlabMaster_Result">
+    <Property Type="DateTime" Name="SLABMDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="CONTNRSID" Nullable="true" MaxLength="2" />
+    <Property Type="String" Name="YRDTYPE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="SDTYPE" Nullable="true" MaxLength="2" />
+    <Property Type="String" Name="HTYPE" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="WTYPE" Nullable="true" MaxLength="7" />
+    <Property Type="Decimal" Name="SLABMIN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="SLABMAX" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="SLABAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="CHRGETYPE" Nullable="true" MaxLength="2" />
+    <Property Type="Int32" Name="SLABMID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Bond_TariffMaster_Result">
+    <Property Type="String" Name="TARIFFMCODE" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="TARIFFMDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+    <Property Type="Int32" Name="TARIFFMID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_get_Bond_Details_for_Invoice_Result">
+    <Property Type="Int32" Name="COMPYID" Nullable="true" />
+    <Property Type="Int32" Name="BNDID" Nullable="false" />
+    <Property Type="String" Name="BNDDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="BND20" Nullable="true" />
+    <Property Type="Int32" Name="BND40" Nullable="true" />
+    <Property Type="Int32" Name="BGICnt" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="VW_BOND_RATECARDMASTER_FLX_ASSGN">
+    <Key>
+      <PropertyRef Name="TARIFFMID" />
+      <PropertyRef Name="SLABTID" />
+      <PropertyRef Name="CHRGETYPE" />
+      <PropertyRef Name="CHAID" />
+      <PropertyRef Name="CONTNRSID" />
+      <PropertyRef Name="SLABMID" />
+      <PropertyRef Name="COMPYID" />
+      <PropertyRef Name="YRDTYPE" />
+      <PropertyRef Name="SDTYPE" />
+      <PropertyRef Name="HTYPE" />
+      <PropertyRef Name="WTYPE" />
+      <PropertyRef Name="SLABMIN" />
+      <PropertyRef Name="SLABMAX" />
+      <PropertyRef Name="SLABAMT" />
+      <PropertyRef Name="SLABMDATE" />
+      <PropertyRef Name="SDPTTYPEID" />
+      <PropertyRef Name="PRDTGID" />
+    </Key>
+    <Property Name="TARIFFMID" Type="Int32" Nullable="false" />
+    <Property Name="SLABTID" Type="Int32" Nullable="false" />
+    <Property Name="CHRGETYPE" Type="Int16" Nullable="false" />
+    <Property Name="CHAID" Type="Int32" Nullable="false" />
+    <Property Name="CONTNRSID" Type="Int32" Nullable="false" />
+    <Property Name="SLABMID" Type="Int32" Nullable="false" />
+    <Property Name="COMPYID" Type="Int32" Nullable="false" />
+    <Property Name="CATEDNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CONTNRSCODE" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="YRDTYPE" Type="Int16" Nullable="false" />
+    <Property Name="SDTYPE" Type="Int16" Nullable="false" />
+    <Property Name="HTYPE" Type="Int16" Nullable="false" />
+    <Property Name="WTYPE" Type="Int16" Nullable="false" />
+    <Property Name="PERIODTID" Type="Int32" />
+    <Property Name="SLABMIN" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="SLABMAX" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="SLABAMT" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="SLABMDATE" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="SDPTTYPEID" Type="Int32" Nullable="false" />
+    <Property Name="PRDTGID" Type="Int32" Nullable="false" />
+    <Property Name="HANDTYPE" Type="Int16" />
+  </EntityType>
+  <ComplexType Name="pr_SearchBondProductGroup_Result">
+    <Property Type="String" Name="PRDTGCODE" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PRDTGDESC" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+    <Property Type="Int32" Name="PRDTGID" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="VW_BOND_SLABTYPE_HSN_DETAIL_ASSGN">
+    <Key>
+      <PropertyRef Name="SLABTID" />
+      <PropertyRef Name="HSNCODE" />
+      <PropertyRef Name="CGSTEXPRN" />
+      <PropertyRef Name="SGSTEXPRN" />
+      <PropertyRef Name="IGSTEXPRN" />
+      <PropertyRef Name="ACGSTEXPRN" />
+      <PropertyRef Name="ASGSTEXPRN" />
+      <PropertyRef Name="AIGSTEXPRN" />
+    </Key>
+    <Property Name="SLABTID" Type="Int32" Nullable="false" />
+    <Property Name="HSNCODE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CGSTEXPRN" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="SGSTEXPRN" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="IGSTEXPRN" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="ACGSTEXPRN" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="ASGSTEXPRN" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="AIGSTEXPRN" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+  </EntityType>
+  <ComplexType Name="pr_Get_Bond_Contnr_Recev_Frm_Result">
+    <Property Type="Int32" Name="dval" Nullable="true" />
+    <Property Type="String" Name="dtxt" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="pr_get_Bond_Godown_Types_Result">
+    <Property Type="Int32" Name="dval" Nullable="true" />
+    <Property Type="String" Name="dtxt" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="pr_get_Bond_Godowns_Result">
+    <Property Type="Int32" Name="dval" Nullable="true" />
+    <Property Type="String" Name="dtxt" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="pr_Get_Bond_Tariff_Period_Types_Result">
+    <Property Type="Int32" Name="dval" Nullable="true" />
+    <Property Type="String" Name="dtxt" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="pr_get_BondMaster_Status_Result1">
+    <Property Type="Int32" Name="dval" Nullable="true" />
+    <Property Type="String" Name="dtxt" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="pr_get_Bond_Operation_Types_Result">
+    <Property Type="Int32" Name="dval" Nullable="true" />
+    <Property Type="String" Name="dtxt" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="pr_get_Bond_Types_Result">
+    <Property Type="Int32" Name="dval" Nullable="true" />
+    <Property Type="String" Name="dtxt" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="pr_get_BondMaster_Status_Result2">
+    <Property Type="Int32" Name="dval" Nullable="true" />
+    <Property Type="String" Name="dtxt" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_ExBond_Information_Result">
+    <Property Type="String" Name="EBNDDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="EBNDDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="EBNDNO" Nullable="true" />
+    <Property Type="Decimal" Name="EBNDASSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="CHANAME" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="IMPRTRNAME" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="9" />
+    <Property Type="Int32" Name="EBNDID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Get_Bond_Info_Result">
+    <Property Type="Int32" Name="BNDID" Nullable="true" />
+    <Property Type="String" Name="BNDDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BNDDATE" Nullable="true" MaxLength="12" />
+    <Property Type="Int32" Name="IMPRTID" Nullable="true" />
+    <Property Type="Int32" Name="CHAID" Nullable="true" />
+    <Property Type="String" Name="BNDBENO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BNDBLNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BNDIGMNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BNDLINENO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="BND20" Nullable="true" />
+    <Property Type="Int32" Name="BND40" Nullable="true" />
+    <Property Type="Decimal" Name="BNDGWGHT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="PRDTGID" Nullable="true" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="PRDTTID" Nullable="true" />
+    <Property Type="Int32" Name="BNDNOP" Nullable="true" />
+    <Property Type="Decimal" Name="BNDSPC" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BNDBEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDBLDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDTYPE" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="BND20BAL" Nullable="true" />
+    <Property Type="Int32" Name="BND40BAL" Nullable="true" />
+    <Property Type="String" Name="CHANAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IMPRTRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BNDTYPEDESC" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="BNDCIFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BNDDTYAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BNDINSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BNDSDate" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDCDate" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDISDate" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDICDate" Nullable="true" MaxLength="12" />
+    <Property Type="Decimal" Name="BBNDNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BBNDSPC" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BBNDCIFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BBNDDTYAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BBNDINSAMT" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Bond_Vehicle_Ticket_Result">
+    <Property Type="DateTime" Name="VTDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="VTDNO" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="PRDTGDESC" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="EBNDDNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="BNDDNO" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="VTQTY" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="VHLNO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="VTDID" Nullable="true" />
+    <Property Type="String" Name="DRIVERNAME" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="false" MaxLength="9" />
+  </ComplexType>
+  <ComplexType Name="pr_Get_ExBond_Info_Result">
+    <Property Type="Int32" Name="EBNDID" Nullable="true" />
+    <Property Type="String" Name="EBNDDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EBNDDATE" Nullable="true" MaxLength="12" />
+    <Property Type="Int32" Name="BNDID" Nullable="true" />
+    <Property Type="String" Name="BNDDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BNDDATE" Nullable="true" MaxLength="12" />
+    <Property Type="Int32" Name="IMPRTID" Nullable="true" />
+    <Property Type="Int32" Name="CHAID" Nullable="true" />
+    <Property Type="String" Name="EBNDBENO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="PRDTGID" Nullable="true" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="EBPRDTTID" Nullable="true" />
+    <Property Type="String" Name="EBPRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="BPRDTTID" Nullable="true" />
+    <Property Type="Int32" Name="BNDNOP" Nullable="true" />
+    <Property Type="Decimal" Name="BNDSPC" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="EBNDBEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDBEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDBLDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="EBNDTYPE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CHANAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IMPRTRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BNDTYPEDESC" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="BNDCIFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BNDDTYAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BNDINSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="CUMVTNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="CUMVTSPC" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BEBNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BEBSPC" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_Bond_GateOut_Result">
+    <Property Type="DateTime" Name="GODATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="GODNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="CONTNRNO" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="CONTNRSCODE" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="STMRNAME" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="VHLNO" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="IMPRTRNAME" Nullable="true" MaxLength="150" />
+    <Property Type="Int32" Name="GIDID" Nullable="true" />
+    <Property Type="Int32" Name="GODID" Nullable="true" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="false" MaxLength="9" />
+  </ComplexType>
+  <ComplexType Name="pr_Bond_Invoice_BondNO_Grid_Assgn_Result">
+    <Property Type="String" Name="TRANDBNDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANCDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANSFDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANSEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANIFDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANIEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+    <Property Type="Int32" Name="BNDID" Nullable="true" />
+    <Property Type="Int32" Name="SLABTID" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDQTY" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDRATE" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANDID" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDHAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDIAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="STATETYPE" Nullable="true" />
+    <Property Type="String" Name="TRAND_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="INS_TRAND_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="TRAND_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDCIFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDDTYAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDINSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="true" />
+    <Property Type="Int32" Name="YRDID" Nullable="true" />
+    <Property Type="Int32" Name="TRANCTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANOTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANHTYPE" Nullable="true" />
+    <Property Type="String" Name="YRDDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TRANCTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANOTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANHTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="EBNDID" Nullable="true" />
+    <Property Type="String" Name="TRANDEBNDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="TARIFFMID" Nullable="true" />
+    <Property Type="String" Name="TARIFFDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SLABTDESC" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="PERIODTID" Nullable="true" />
+    <Property Type="String" Name="PERIODTDESC" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="TRANDGAMT" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="pr_BondPerforma_Invoice_BondNO_Grid_Assgn_Result">
+    <Property Type="String" Name="TRANDBNDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANCDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANSFDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANSEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANIFDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANIEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+    <Property Type="Int32" Name="BNDID" Nullable="true" />
+    <Property Type="Int32" Name="SLABTID" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDQTY" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDRATE" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANDID" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDHAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDIAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="STATETYPE" Nullable="true" />
+    <Property Type="String" Name="TRAND_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="INS_TRAND_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="TRAND_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDCIFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDDTYAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDINSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="true" />
+    <Property Type="Int32" Name="YRDID" Nullable="true" />
+    <Property Type="Int32" Name="TRANCTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANOTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANHTYPE" Nullable="true" />
+    <Property Type="String" Name="YRDDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TRANCTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANOTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANHTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="EBNDID" Nullable="true" />
+    <Property Type="String" Name="TRANDEBNDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="TARIFFMID" Nullable="true" />
+    <Property Type="String" Name="TARIFFDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SLABTDESC" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="PERIODTID" Nullable="true" />
+    <Property Type="String" Name="PERIODTDESC" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="TRANDGAMT" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_BondExBond_EInvoice_Result">
+    <Property Type="DateTime" Name="TRANDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="TRANNO" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ACKNO" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int32" Name="GSTAMT" Nullable="true" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+    <Property Type="Int32" Name="EINVUPFLG" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_BondInvoice_Result">
+    <Property Type="DateTime" Name="TRANDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="TRANNO" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ACKNO" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int16" Name="GSTAMT" Nullable="true" />
+    <Property Type="Int16" Name="TRANBTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_BondPerformaInvoice_Result">
+    <Property Type="DateTime" Name="TRANDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="TRANNO" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ACKNO" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int16" Name="GSTAMT" Nullable="true" />
+    <Property Type="Int16" Name="TRANBTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_ExBondVTInvoice_Result">
+    <Property Type="DateTime" Name="TRANDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="TRANNO" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ACKNO" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int16" Name="GSTAMT" Nullable="true" />
+    <Property Type="Int16" Name="TRANBTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_BondManualInvoice_Result">
+    <Property Type="DateTime" Name="TRANDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="TRANNO" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ACKNO" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int16" Name="GSTAMT" Nullable="true" />
+    <Property Type="Int16" Name="TRANBTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Bond_Manual_Invoice_BondNO_Grid_Assgn_Result">
+    <Property Type="String" Name="TRANDBNDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANCDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANSFDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANSEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANIFDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANIEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+    <Property Type="Int32" Name="BNDID" Nullable="true" />
+    <Property Type="Int32" Name="SLABTID" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDQTY" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDRATE" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANDID" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDHAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDIAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="STATETYPE" Nullable="true" />
+    <Property Type="String" Name="TRAND_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="INS_TRAND_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="TRAND_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDCIFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDDTYAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDINSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="true" />
+    <Property Type="Int32" Name="YRDID" Nullable="true" />
+    <Property Type="Int32" Name="TRANCTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANOTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANHTYPE" Nullable="true" />
+    <Property Type="String" Name="YRDDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TRANCTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANOTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANHTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="EBNDID" Nullable="true" />
+    <Property Type="String" Name="TRANDEBNDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="TARIFFMID" Nullable="true" />
+    <Property Type="String" Name="TARIFFDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SLABTDESC" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="PERIODTID" Nullable="true" />
+    <Property Type="String" Name="PERIODTDESC" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="TRANDGAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BILLDESC" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Ex_Bond_VT_Invoice_BondNO_Grid_Assgn_Result">
+    <Property Type="Int32" Name="VTDID" Nullable="true" />
+    <Property Type="String" Name="VTDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TRANDBNDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANCDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANSFDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANSEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANIFDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANIEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+    <Property Type="Int32" Name="BNDID" Nullable="true" />
+    <Property Type="Int32" Name="SLABTID" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDQTY" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDRATE" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANDID" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDHAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDIAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="STATETYPE" Nullable="true" />
+    <Property Type="String" Name="TRAND_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="INS_TRAND_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="TRAND_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDCIFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDDTYAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDINSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="true" />
+    <Property Type="Int32" Name="YRDID" Nullable="true" />
+    <Property Type="Int32" Name="TRANCTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANOTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANHTYPE" Nullable="true" />
+    <Property Type="String" Name="YRDDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TRANCTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANOTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANHTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="EBNDID" Nullable="true" />
+    <Property Type="String" Name="TRANDEBNDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="TARIFFMID" Nullable="true" />
+    <Property Type="String" Name="TARIFFDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SLABTDESC" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="PERIODTID" Nullable="true" />
+    <Property Type="String" Name="PERIODTDESC" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="TRANDGAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="EXBNDVTSPC" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="pr_Search_ExBondVTProformaInvoice_Result">
+    <Property Type="DateTime" Name="TRANDATE" Nullable="true" Precision="16" />
+    <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="TRANNO" Nullable="true" />
+    <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ACKNO" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="1" />
+    <Property Type="Int16" Name="GSTAMT" Nullable="true" />
+    <Property Type="Int16" Name="TRANBTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pr_Ex_Bond_VT_Proforma_Invoice_BondNO_Grid_Assgn_Result">
+    <Property Type="Int32" Name="VTDID" Nullable="true" />
+    <Property Type="String" Name="VTDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TRANDBNDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CONTNRSDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANCDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANSFDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANSEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANIFDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="TRANIEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="Int32" Name="TRANMID" Nullable="true" />
+    <Property Type="Int32" Name="BNDID" Nullable="true" />
+    <Property Type="Int32" Name="SLABTID" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDQTY" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDRATE" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRANDID" Nullable="true" />
+    <Property Type="Decimal" Name="TRANDSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDHAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDIAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDNAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="STATETYPE" Nullable="true" />
+    <Property Type="String" Name="TRAND_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="INS_TRAND_HSN_CODE" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="TRAND_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_TAXABLE_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRAND_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_CGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_SGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_IGST_EXPRN" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_CGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_SGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="INS_TRAND_IGST_AMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDCIFAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDDTYAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TRANDINSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="CONTNRSID" Nullable="true" />
+    <Property Type="Int32" Name="YRDID" Nullable="true" />
+    <Property Type="Int32" Name="TRANCTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANOTYPE" Nullable="true" />
+    <Property Type="Int32" Name="TRANHTYPE" Nullable="true" />
+    <Property Type="String" Name="YRDDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TRANCTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANOTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="String" Name="TRANHTYPEDESC" Nullable="true" MaxLength="25" />
+    <Property Type="Int32" Name="EBNDID" Nullable="true" />
+    <Property Type="String" Name="TRANDEBNDNO" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="TARIFFMID" Nullable="true" />
+    <Property Type="String" Name="TARIFFDESC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SLABTDESC" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="PERIODTID" Nullable="true" />
+    <Property Type="String" Name="PERIODTDESC" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="TRANDGAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="EXBNDVTSPC" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="pr_Get_ExBond_VT_Info_Result">
+    <Property Type="Int32" Name="BNDID" Nullable="true" />
+    <Property Type="String" Name="BNDDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BNDDATE" Nullable="true" MaxLength="12" />
+    <Property Type="Int32" Name="EBNDID" Nullable="true" />
+    <Property Type="String" Name="EBNDDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EBNDDATE" Nullable="true" MaxLength="12" />
+    <Property Type="Int32" Name="VTDID" Nullable="true" />
+    <Property Type="String" Name="VTDNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="VTDATE" Nullable="true" MaxLength="12" />
+    <Property Type="Int32" Name="IMPRTID" Nullable="true" />
+    <Property Type="Int32" Name="CHAID" Nullable="true" />
+    <Property Type="String" Name="BNDBENO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BNDBLNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BNDIGMNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BNDLINENO" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="EXBONDNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="EXBONDSPC" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BNDGWGHT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="PRDTGID" Nullable="true" />
+    <Property Type="String" Name="PRDTDESC" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="PRDTTID" Nullable="true" />
+    <Property Type="String" Name="BNDBEDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDBLDATE" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDTYPE" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="VTNOP" Nullable="true" />
+    <Property Type="Decimal" Name="VTSPC" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="EXBONDBALNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="EXBONDBALSPC" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="CHANAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IMPRTRNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BNDTYPEDESC" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="EBNDASSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="EBNDDTYAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="EBNDINSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BNDSDate" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDCDate" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDISDate" Nullable="true" MaxLength="12" />
+    <Property Type="String" Name="BNDICDate" Nullable="true" MaxLength="12" />
+    <Property Type="Decimal" Name="BBNDNOP" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BBNDSPC" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BEBNDASSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BEBNDDTYAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BEBNDINSAMT" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="EBNDNOC" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="EBVTNOC" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="MAXINSDT" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="MAXSTRGDT" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="MININSDT" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="MINSTRGDT" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="pr_get_Bond_Entry_Types_Result">
+    <Property Type="Int32" Name="dval" Nullable="true" />
+    <Property Type="String" Name="dtxt" Nullable="true" MaxLength="100" />
+  </ComplexType>
+</Schema>

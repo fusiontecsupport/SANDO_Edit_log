@@ -1,0 +1,18 @@
+ESealInvoiceCreate	Can Add ESeal Invoice details	Edit | Delete
+ESealInvoiceDelete	Can Delete ESeal Invoice	Edit | Delete
+ESealInvoiceEdit	Can Modify ESeal Invoice	Edit | Delete
+ESealInvoiceIndex	Can View ESeal Invoice Details	Edit | Delete
+ESealInvoicePrint	Can Print ESeal Invoice
+
+FinanceAdvanceCreate	Can Create FinanceAdvanceCreate	Edit | Delete
+FinanceAdvanceDelete	Can Delete FinanceAdvanceDelete	Edit | Delete
+FinanceAdvanceEdit	Can Edit FinanceAdvanceEdit	Edit | Delete
+FinanceAdvanceIndex	Can View FinanceAdvanceIndex	Edit | Delete
+FinanceAdvancePrint	Can Print FinanceAdvancePrint
+
+CreditNoteCreate	Can Create CreditNoteCreate	Edit | Delete
+CreditNoteDelete	Can Delete CreditNoteDelete	Edit | Delete
+CreditNoteEdit	        Can Edit CreditNoteEdit	        Edit | Delete
+CreditNoteIndex	        Can View CreditNoteIndex	Edit | Delete
+CreditNotePrint	        Can Print CreditNotePrint	Edit | Delete
+

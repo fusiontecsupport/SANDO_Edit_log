@@ -1,0 +1,17 @@
+select * from VEHICLETICKETDETAIL a ,
+STUFFINGDETAIL b,  AUTHORIZATIONSLIPDETAIL c
+where a.SDPTID = 2
+and a.ASLDID = 0
+and OLDVTDID = 0
+and a.STFDID = b.STFDID
+and b.STFDID = c.STFDID
+
+update a
+set asldid = c.asldid
+from VEHICLETICKETDETAIL a ,
+STUFFINGDETAIL b,  AUTHORIZATIONSLIPDETAIL c
+where a.SDPTID = 2
+and a.ASLDID = 0
+and OLDVTDID = 0
+and a.STFDID = b.STFDID
+and b.STFDID = c.STFDID

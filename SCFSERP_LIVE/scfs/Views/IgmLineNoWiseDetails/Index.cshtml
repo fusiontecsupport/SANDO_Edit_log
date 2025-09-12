@@ -1,0 +1,265 @@
+﻿@using scfs_erp.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewBag.Title = "IGM-No & Line-No Container List";
+}
+
+<style>
+    #TDETAIL {
+    }
+
+
+    .small {
+        border: 0;
+        width: 30px;
+        max-width: 25%;
+        background: none;
+    }
+
+    .stk {
+        background: #0f367d;
+        color: #fff;
+    }
+
+    .sm-1 {
+        max-width: 50px;
+    }
+
+    .TRANGAMT, .TRANNAMT, .TRANROAMT {
+        max-width: 150px;
+    }
+
+   
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>@ViewBag.Title</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/IgmLineNoWiseDetails/showrpt")" method="post" accept-charset="utf-8" id="frm" data-ng-controller="myController" name="frm" onsubmit="return Validate()" target="_blank">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ExportCartingOrder_info">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-md-2 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+
+                                        @*<input class="GIDID" name="GIDID" id="GIDID" type="text" />*@
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>IGM No</label>
+                                        <input type="text" id="textIgmNo" class="form-control textIgmNo" name="textIgmNo" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Line No</label>
+                                        <input type="text" id="txtLineNo" class="form-control txtLineNo" name="txtLineNo" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <br />
+                                        <input type="button" id="search" name="search" value="Search" onclick="GetContainerNo()" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr><th colspan='13' style="background-color:#e9e4e4;text-align:center;font-size:15px"> Container Details</th></tr>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th class="thcolumn">Container No</th>
+                                            <th class="thcolumn">Size</th>
+                                            <th class="thcolumn">In Date</th>
+                                            <th class="thcolumn">Out Date</th>
+                                            <th class="thcolumn">BOE NO</th>
+
+                                            <th class="thcolumn">Load / Destuff</th>
+                                            @*<th>Liner Seal No</th>*@
+                                            <th class="thcolumn">Gp Mode</th>
+                                            <th class="thcolumn">Blocked</th>
+                                            <th class="thcolumn">Scanned</th>
+                                            <th class="thcolumn">Scan Type</th>
+                                            <th class="thcolumn">Location</th>
+                                            <th class="thcolumn">Weight</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>                             
+                               
+                                
+
+
+                               
+                            </div>
+
+
+
+
+                           
+
+                            <div class="col-md-12 center-block box-footer">
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs center-block" onclick="JavaScript:history.back()" />
+                                <input type="submit" name="submit" value="Download Excel Report" class="btn btn-info btn-xs" />
+                                @*<input type="submit" name="submit" value="Print" class="btn btn-success btn-xs  " id="save" tabindex="5010" />*@
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            //-----date controls-------------
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', });
+            $('.datetime').datetimepicker({
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+            });
+            //$('.time').timepicker();
+
+
+            // if ($("#TRANMID").val() == 0) {
+            var dt = new Date();
+            var month = dt.getMonth() + 1;
+            var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+            var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+            var datetme = time;
+            $(".GIDATE,.TRANEDATE").val(date + " " + datetme);
+
+            //  }
+            //...End of date contrl..
+
+        });
+
+        //...............Window bind..........................//
+
+        function GetContainerNo() {
+            if ($("#textIgmNo").val() == "") {
+                alert('Please Enter IGM No');
+                $("#textIgmNo").focus();
+                return false;
+            }
+            if ($("#txtLineNo").val() == "") {
+                alert('Please Enter Line No');
+                $("#txtLineNo").focus();
+                return false;
+            }
+
+         //   alert("call");
+            url = "/IgmLineNoWiseDetails/GetContainerNo/" + $("#textIgmNo").val() + "~" + $("#txtLineNo").val();
+            $("#GIDID").empty();
+            $.ajax({
+                url: url,
+                success: function (data) {
+                  //  alert(data);
+                    createTableByIGMNODetails(data);
+
+                }
+            });
+        }
+
+        //........get detail row.....................//
+
+
+        function createTableByIGMNODetails(data) {
+            var eTable = ""; var count = 1;
+            $('#dataTables-example tbody').empty();
+
+            $.each(data, function (index, row) {
+                eTable += "<tr>";
+                eTable += "<td>" + count + "</td>";
+                eTable += "<td>" + row.CONTNRNO + "</td>";
+                eTable += "<td>" + row.CONTNRSCODE + "</td>";
+                eTable += "<td>" + row.GIDATE + "</td>";
+                eTable += "<td>" + row.GODATE + "</td>";
+                eTable += "<td>" + row.BOENO + "</td>";
+                eTable += "<td>" + row.SLIPTYPE + "</td>";
+                eTable += "<td>" + row.GPMODEDESC + "</td>";
+                eTable += "<td>" + row.Blocked + "</td>";
+                eTable += "<td>" + row.Scaned + "</td>";
+                eTable += "<td>" + row.ScanType + "</td>";
+                eTable += "<td>" + row.RowDesc + "</td>";
+                eTable += "<td>" + row.GPWGHT + "</td>";
+                count++;
+            });
+            eTable += "</tr>";
+            $('#dataTables-example tbody').append(eTable);
+
+
+        }
+
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                        (
+                             parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                        );
+            var dat = value1.getDate() +
+                                   "-" +
+                       eval(value1.getMonth() + 1) +
+                                   "-" +
+                   value1.getFullYear();
+            return dat;
+        }
+
+        function GetFormattedDateTime(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                        (
+                             parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                        );
+            var dat = value1.getHours() + ":" + value1.getMinutes();
+            return dat;
+        }
+
+
+        function GetExcelContainerNo() {
+            if ($("#textIgmNo").val() == "") {
+                alert('Please Enter IGM No');
+                $("#textIgmNo").focus();
+                return false;
+            }
+            if ($("#txtLineNo").val() == "") {
+                alert('Please Enter Line No');
+                $("#txtLineNo").focus();
+                return false;
+            }
+
+            //   alert("call");
+            url = "/IgmLineNoWiseDetails/GetIGMNoContainerGridXLRpt/" + $("#textIgmNo").val() + "~" + $("#txtLineNo").val();
+            //$("#GIDID").empty();
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    //  alert(data);
+                    //createTableByIGMNODetails(data);
+
+                }
+            });
+        }
+
+    </script>
+}

@@ -1,0 +1,62 @@
+Private Sub MAIL_SEND_ASSGN(PFileName As String, PEMailId1 As String, PEMailId2 As String, PMsgDesc As String)
+        
+        Set Cls_SendMail = New clsSendMail
+                   
+        GSMTPName = "10.10.1.3" '"mail.sancotrans.com"
+        GEMailId = "billcfs@sancotrans.com"
+        GEMailPWD = "billcfs@963" ' "test@12345"
+        
+        If Len(Trim(PEMailId1)) > 0 Then
+           Cls_SendMail.PersistentSettings = True
+           With Cls_SendMail
+                .SMTPHostValidation = VALIDATE_NONE
+                .EmailAddressValidation = VALIDATE_SYNTAX
+                .Delimiter = ";"
+                .SMTPHost = GSMTPName
+                .SMTPPort = 225
+                .From = GEMailId
+                .FromDisplayName = GCompName ' "Libra Chennai" 'TmpRName
+                .Recipient = PEMailId1  'TmpDetlRs!TRANMAIL
+                .RecipientDisplayName = GCompName 'TmpEMailId1 ' TmpDetlRs!TRANNAME
+                .CcRecipient = PEMailId2 'IIf(IsNull(TmpDetlRs!TRANCCMAIL), "", TmpDetlRs!TRANCCMAIL)
+                .CcDisplayName = GCompName
+                Select Case TmpSRegstrId
+                       Case 2, 12, 17
+                            .BccRecipient = "ssathya@sancotrans.com" 'GEMailId
+                       Case Else
+                            .BccRecipient = ""
+                End Select
+                .ReplyToAddress = GEMailId
+                .Subject = PMsgDesc
+                .Message = TmpGLtrDesc '"Please Find the attached Invoice in PDF format" + "<br>" + "<br>" + "This is computer generated invoice no signature required"
+                If Len(Trim(Txt1)) > 0 And Len(Trim(PFileName)) > 0 Then
+                   .Attachment = PFileName & ";" & Txt1
+                Else
+                   If Len(Trim(Txt1)) > 0 Then
+                      .Attachment = Txt1
+                   Else
+                      .Attachment = PFileName
+                   End If
+                End If
+                .AsHTML = True
+                .ContentBase = ""
+                .EncodeType = MIME_ENCODE
+                .Priority = 3 'HIGH_PRIORITY
+                .Receipt = False
+                .UseAuthentication = True
+                .UsePopAuthentication = False
+                .UserName = GEMailId
+                .Password = GEMailPWD
+                .POP3Host = ""
+                .MaxRecipients = 100
+                '.ConnectTimeout = 10
+                '.ConnectRetry = 5
+                '.MessageTimeout = 60
+                '.PersistentSettings = True
+                .Send
+           End With
+           'MsgBox "Mail send to Surveyor Successfully......!", vbInformation, App.EXEName
+           Set Cls_SendMail = Nothing
+         End If
+
+End Sub

@@ -1,0 +1,951 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.ExportShippingAdmissionMD
+
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    .ui-autocomplete {
+        position: absolute;
+        cursor: default;
+        z-index: 4000 !important;
+    }
+</style>
+<div class="modal-dialog" style="width:95%">
+    <div class="modal-content">
+        <form id="ExportShippingAdmission" class="ExportShippingAdmission" method="post" action="@Url.Action("SaveESBdetail","ExportShippingBillMaster")" autocomplete="on">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal" onclick="closemodel();" aria-hidden="true">&times;</button>*@
+                <h4 class="modal-title">Shipping Admission Details</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>C.Order Date</label>
+                            @if (Model.details != null && Model.details.Count != 0)
+                            {
+                                <input type="text" id="SBMID" class="SBMID hide form-control" name="SBMID" value="@ViewBag.SBMID">
+                                <input type="text" id="GIDID" class="GIDID hide form-control" name="GIDID" value="@ViewBag.GIDID">
+                                <input type="text" id="SBMDATE" class="SBMDATE  form-control" name="SBMDATE" value="@ViewBag.SBMDATE" readonly="readonly">
+                            }
+                            else
+                            {
+                                <input type="text" id="SBMID" class="form-control SBMID hide" name="SBMID" value="0" />
+                                <input type="text" id="SBMDATE" class="form-control SBMDATE" name="SBMDATE" value="" readonly="readonly" />
+                            }
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>C.Order No</label>
+                            @if (Model.details != null && Model.details.Count != 0)
+                            {
+                                <input type="text" id="SBMDNO" class="SBMDNO form-control" name="SBMDNO" value="@ViewBag.SBMDNO" readonly="readonly">
+
+                            }
+                            else
+                            {
+                                <input type="text" id="SBMDNO" class="form-control SBMDNO" name="SBMDNO" value="" readonly="readonly" />
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>S.Bill Date</label>
+                            @if (Model.details != null && Model.details.Count != 0)
+                            {
+                                <input type="text" id="ESBMIDATE" class="ESBMIDATE form-control" name="ESBMIDATE" value="@ViewBag.ESBMIDATE" readonly="readonly">
+                                <input type="text" id="ESBMID" class="ESBMID hide form-control" name="ESBMID" value="@ViewBag.ESBMID" readonly="readonly">
+
+                            }
+                            else
+                            {
+                                <input type="text" id="ESBMID" class="form-control ESBMID hide" name="ESBMID" value="0" />
+                                <input type="text" id="ESBMIDATE" class="form-control ESBMIDATE" name="SBMDATE" value="" readonly="readonly" />
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>S.Bill No</label>
+                            @if (Model.details != null && Model.details.Count != 0)
+                            {
+                                <input type="text" id="ESBMDNO" class="ESBMDNO  form-control" name="ESBMDNO" value="@ViewBag.ESBMDNO" readonly="readonly">
+
+                            }
+                            else
+                            {
+                                <input type="text" id="ESBMDNO" class="form-control ESBMDNO hidden" name="ESBMDNO" value="" readonly="readonly" />
+                            }
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Product</label>
+                            @if (Model.details != null && Model.details.Count != 0)
+                            {
+                                <input type="text" id="PRDTDESC" class="PRDTDESC  form-control" name="PRDTDESC" value="@ViewBag.PRDTDESC" readonly="readonly">
+
+                            }
+                            else
+                            {
+                                <input type="text" id="PRDTDESC" class="form-control PRDTDESC" name="PRDTDESC" value="" readonly="readonly" />
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Vehicle No</label>
+                            @if (Model.details != null && Model.details.Count != 0)
+                            {
+                                <input type="text" id="VHLNO" class="VHLNO  form-control" name="VHLNO" value="@ViewBag.VHLNO" readonly="readonly">
+
+                            }
+                            else
+                            {
+                                <input type="text" id="VHLNO" class="form-control VHLNO" name="VHLNO" value="" readonly="readonly" />
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Unloaded NOP</label>
+                            @if (Model.details != null && Model.details.Count != 0)
+                            {
+                                <input type="text" id="SBDQTY" class="form-control SBDQTY" name="SBDQTY" value="@ViewBag.SBDQTY" readonly="readonly" />
+                                @*@Html.TextBoxFor(model => model.details[0].SBDQTY, new { @class = "form-control SBDQTY", @id = "SBDQTY", @readonly = "readonly" })*@
+                            }
+                            else
+                            {
+                                <input type="text" id="SBDQTY" class="form-control SBDQTY" name="SBDQTY" value="" readonly="readonly" />
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+
+                            <label>Exporter <span class="required-field"></span></label>
+                            @if (Model.details != null && Model.details.Count != 0)
+                            {
+                                <input type="text" class="EXPRTNAME form-control" name="EXPRTNAME" id="EXPRTNAME" value="@ViewBag.EXPRTNAME" data-autocomplete-url=@Url.Action("AutoExporter", "ExportShippingBillMaster") />
+                                <input type="text" class="EXPRTID form-control hide" name="EXPRTID" id="EXPRTID" value="@ViewBag.EXPRTID" />
+                            }
+                            else
+                            {
+                                <input type="text" class="EXPRTNAME form-control" name="EXPRTNAME" id="EXPRTNAME" value="" data-autocomplete-url=@Url.Action("AutoExporter", "ExportShippingBillMaster") />
+                                <input type="text" id="EXPRTID" class="form-control EXPRTID hidden" name="EXPRTID" value="0" readonly="readonly" />
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+
+                            <label>Destination <span class="required-field"></span></label>
+                            @if (Model.details != null && Model.details.Count != 0)
+                            {
+                                <input type="text" class="DESTINATION form-control" name="DESTINATION" id="DESTINATION" value="@ViewBag.DESTINATION" />
+
+                            }
+                            else
+                            {
+                                <input type="text" class="DESTINATION form-control" name="DESTINATION" id="DESTINATION" value="" />
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                @if (Model.details != null)
+                {
+                    var ESBMID = @ViewBag.ESBMID;
+                    <input type="text" class="SESBMIDC hide" id="SESBMIDC" value="@ViewBag.ESBMID" />
+                    <div class="Del_check hide">
+                        @scfs_erp.Helper.Delete_fun.delete_check1("DISABLEDESBD", ESBMID.ToString())
+                    </div>
+
+                    @*<div class="StuffDel_check hide">
+                        @scfs_erp.Helper.Delete_fun.delete_check1("STUFFINGESISTINGCHECK", ESBMID.ToString())
+                    </div>*@
+                }
+                <div class="col-lg-12">
+                    <div class="panel panel-primary" id="job_list">
+                        <div class="panel-heading navbar-inverse">
+                            Carting Details<a class="navbar-right  btn-primary" id="add_detail" style="margin-top:-3px;"> <i class="glyphicon  glyphicon-plus-sign  well-sm"></i></a>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive" id="job_list_inner">
+
+                                <input type="text" id="TDETAIL_IDX" value="0" name="TDETAIL_IDX[]" class="TDETAIL_IDX" style="display:none" />
+
+                                <table class='table table-striped table-bordered bootstrap-datatable' id="TDETAIL">
+                                    <thead>
+                                        <tr>
+                                            <th>Org. S.Bill No.</th>
+                                            <th>Org. S.Bill Dt.</th>
+                                            <th>Invoice Date</th>
+                                            <th>Invoice No</th>
+                                            <th>Invoice Amount</th>
+                                            <th>NOP</th>
+                                            <th>FOB Value</th>
+                                            <th class="hide">Qty</th>
+                                            <th>Weight</th>
+                                            <th class="hide"></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="TDETAIL_BODY" id="TDETAIL_BODY">
+                                        @if (Model.sbillDetails != null)
+                                        {
+                                            foreach (ExportShippingBillDetail details in Model.sbillDetails)
+                                            {
+                                                <tr class="item-row">
+                                                    <td class="hide">
+                                                        <input type="text" id="ESBDID" class="ESBDID" name="ESBDID" value="@details.ESBDID" />
+                                                        <input type="text" id="ESBBMID" class="ESBMID" name="ESBMID" value="@details.ESBMID" />
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        @*<input type="text" value="@details.ESBD_SBILLNO" id="ESBD_SBILLNO" class="form-control ESBD_SBILLNO" name="ESBD_SBILLNO" onkeydown="return isAlphaNumberOnlyKey(event);" tabindex="1" />*@
+                                                        <input type="text" value="@details.ESBD_SBILLNO" id="ESBD_SBILLNO" class="form-control ESBD_SBILLNO" name="ESBD_SBILLNO" tabindex="1" />
+
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        <input type="text" value="@details.ESBD_SBILLDATE.Value.ToString("dd/MM/yyyy")" id="ESBD_SBILLDATE" class="form-control ESBD_SBILLDATE datepicker" name="ESBD_SBILLDATE" tabindex="2" />
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        <input type="text" value="@details.ESBOINVDATE.Value.ToString("dd/MM/yyyy")" id="ESBOINVDATE" class="form-control  datepicker ESBOINVDATE" name="ESBOINVDATE" tabindex="3" style="width:100px;" />
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        @*<input type="text" value="@details.ESBOINVNO" id="ESBOINVNO" class="form-control ESBOINVNO" name="ESBOINVNO" onkeydown="return isAlphaNumberOnlyKey(event);" tabindex="4" />*@
+                                                        <input type="text" value="@details.ESBOINVNO" id="ESBOINVNO" class="form-control ESBOINVNO" name="ESBOINVNO" tabindex="4" />
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        <input type="text" value="@details.ESBOINVAMT" id="ESBOINVAMT" class="form-control ESBOINVAMT" name="ESBOINVAMT" onkeypress="return isNumberCommaDot(event)" tabindex="5" />
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        <input type="text" value="@details.ESBMNOP" id="ESBMNOP" class="form-control ESBMNOP" name="ESBMNOP" onkeypress="return isNumberCommaDot(event)" tabindex="6" />
+                                                    </td>
+                                                    <td class=" col-md-2">
+                                                        <input type="text" value="@details.ESBOINVFOBAMT" id="ESBOINVFOBAMT" class="form-control ESBOINVFOBAMT" name="ESBOINVFOBAMT" onkeypress="return isNumberCommaDot(event)" tabindex="7" />
+                                                    </td>
+                                                    <td class="col-md-2 hidden">
+                                                        <input type="text" value="@details.ESBMQTY" id="ESBMQTY" class="form-control ESBMQTY" name="ESBMQTY" onkeypress="return isNumberCommaDot(event)" tabindex="8" />
+                                                        <input type="text" value="@details.PRDTDESC" id="DPRDTDESC" class="form-control DPRDTDESC " name="DPRDTDESC" />
+                                                        <input type="text" value="@details.ESBDDPNAME" id="ESBDDPNAME" class="form-control form-control hide ESBDDPNAME " name="ESBDDPNAME" />
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        <input type="text" value="@details.ESBMWGHT" id="ESBMWGHT" class="form-control ESBMWGHT" name="ESBMWGHT" onkeypress="return isNumberCommaDot(event)" tabindex="9" />
+
+                                                    </td>
+                                                    <td  class="hide"><a class="" id="del_detail"> <i class="glyphicon glyphicon-trash" style="color:#ff0000;font-size:large"></i></a></td>
+
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr class="item-row">
+                                                <td class="hide">
+                                                    <input type="text" id="ESBDID" class="ESBDID" name="ESBDID" value="0" />
+                                                </td>
+                                                <td class="col-md-2">
+                                                    @*<input type="text" id="ESBD_SBILLNO" class="form-control ESBD_SBILLNO" name="ESBD_SBILLNO" value="" onkeydown="return isAlphaNumberOnlyKey(event);" tabindex="1" />*@
+                                                    <input type="text" id="ESBD_SBILLNO" class="form-control ESBD_SBILLNO" name="ESBD_SBILLNO" value="" tabindex="1" />
+
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <input type="text" id="ESBD_SBILLDATE" class="form-control ESBD_SBILLDATE datepicker" name="ESBD_SBILLDATE" value="" tabindex="2" />
+                                                </td>
+
+                                                <td class="col-md-1">
+                                                    <input type="text" id="ESBOINVDATE" class="form-control ESBOINVDATE datepicker" name="ESBOINVDATE" value="" tabindex="2" style="width:100px" />
+
+
+                                                </td>
+                                                <td class="col-md-2">
+                                                    @*<input type="text" id="ESBOINVNO" class="form-control ESBOINVNO" name="ESBOINVNO" value="0" tabindex="3" onkeydown="return isAlphaNumberOnlyKey(event);" />*@
+                                                    <input type="text" id="ESBOINVNO" class="form-control ESBOINVNO" name="ESBOINVNO" value="0" tabindex="3" />
+
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <input type="text" id="ESBOINVAMT" class="form-control ESBOINVAMT" name="ESBOINVAMT" value="0" tabindex="4" onkeydown="return isNumberCommaDot(event);" />
+
+
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <input type="text" id="ESBMNOP" class="form-control ESBMNOP" name="ESBMNOP" value="0" tabindex="5" onkeydown="return isNumberCommaDot(event);" />
+
+
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <input type="text" id="ESBOINVFOBAMT" class="form-control ESBOINVFOBAMT" name="ESBOINVFOBAMT" value="0" tabindex="6" onkeydown="return isNumberCommaDot(event);" />
+
+                                                </td>
+
+                                                <td class="col-md-2 hide">
+                                                    <input type="text" id="ESBMQTY" class="form-control ESBMQTY" name="ESBMQTY" value="0" tabindex="7" onkeydown="return isNumberCommaDot(event);" />
+
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <input type="text" value="0" id="ESBMWGHT" class="form-control ESBMWGHT" name="ESBMWGHT" onkeypress="return isNumberCommaDot(event)" tabindex="9" />
+
+                                                </td>
+
+
+
+                                                <td  class="hide"><a class="" id="del_detail"> <i class="glyphicon glyphicon-trash" style="color:#ff0000;font-size:large"></i></a></td>
+
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"> </div>
+                <input id="ESBDIdx" type="text" class="ESBDIdx hide" value="@Session["ESBDIdx"]" />
+                <input id="ESBU" type="text" class="ESBU hide" name="ESBU" value="@System.Web.HttpContext.Current.Session["ShippingBillUpdate"]" />
+                <div class="modal-footer">
+                    <button type="button" id="btnclose" onclick="closemodel();" class="btn btn-default" data-dismiss="modal" tabindex="9">Close</button>
+                    <button type="button" class="btn btn-success hide" id="SaveClick" tabindex="8">Save</button>
+                    <input type="submit" class="btn btn-success" id="btnSaveClick" tabindex="8" value="Save"  />
+                    @*<button type="submit" class="btn btn-success" id="btnSaveClick" tabindex="8">Save</button>*@
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+<script>
+
+    $(document).ready(function () {
+        add_autocomplete_exp($("#EXPRTNAME"), "EXPRTNAME,EXPRTID");
+
+        $('.ESBOINVDATE').datepicker({
+            dateFormat: 'dd/mm/yy',
+            maxDate: new Date()
+        });
+        $('.ESBOINVDATE').removeClass('hasDatepicker');
+
+        $('.ESBD_SBILLDATE').datepicker({
+            dateFormat: 'dd/mm/yy',
+            maxDate: new Date()
+        });
+
+        $('.ESBD_SBILLDATE').removeClass('hasDatepicker');
+
+        $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', maxDate: new Date() });
+        $('.timepicker').datetimepicker({
+            datepicker: false,
+            format: 'H:i'
+        });
+
+
+        if ($(".ESBDID").val() == "") {
+            $(".ESBDID").val("0");
+        }
+
+        if ($(".ESBDID").val() == "0" || $(".ESBDID").val() == "") {
+
+            var dt = new Date();
+
+            var year = dt.getFullYear();
+            var month = (dt.getMonth() + 1).toString();
+            var day = dt.getDate().toString();
+
+            if (month < 10) month = "0" + month;
+            if (day < 10) day = "0" + day;
+
+            //var month = dt.getMonth() + 1;
+            //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+            console.log(year + '/' + month + '/' + day);
+
+            var date = day + '/' + month + '/' + year;
+
+            var hours = dt.getHours();
+            var minutes = dt.getMinutes();
+            var seconds = dt.getSeconds();
+
+            if (hours < 10) hours = "0" + hours;
+            if (minutes < 10) minutes = "0" + minutes;
+            if (seconds < 10) seconds = "0" + seconds;
+
+            //var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+            console.log(hours + ':' + minutes + ':' + seconds);
+
+            var time = hours + ':' + minutes + ':' + seconds;
+            var datetme = time;
+            //$(".datepicker").val(date);
+            $(".ESBOINVDATE").val(date);
+            $(".ESBD_SBILLDATE").val(date);
+
+            var ESBU = $('.ESBU').val();
+
+            var id = $('.SESBMIDC').val();
+            //alert(id);
+            if (id != "" && id != null) {
+                $.post('@Url.Action("StuffingCheck", "ExportShippingBillMaster")',
+                    {
+                        id: id
+                    },
+                    function (data, status) {
+                        var cunt = data.length;
+                        //alert(cunt);
+                        if (cunt > 0) {
+                            if (ESBU == "Y") {
+
+                                $("#ExportShippingAdmission input:submit").removeAttr("disabled", "disabled");
+                            }
+                            else {
+
+                                $("#ExportShippingAdmission input:submit").attr("disabled", "disabled");
+                            }
+                        }
+                        else {
+                            $("#ExportShippingAdmission input:submit").removeAttr("disabled", "disabled");
+                        }
+                    });
+
+            }
+
+        }
+        else {
+            $("#add_detail,#del_detail").show();
+            //$("#ExportShippingAdmission input:submit").addClass("enabled", "enabled");
+            var ESBU = $('.ESBU').val();
+            //alert(ESBU);
+
+            var id = $('.SESBMIDC').val();
+            //alert(id);
+            if (id != "" && id != null) {
+                $.post('@Url.Action("StuffingCheck", "ExportShippingBillMaster")',
+                    {
+                        id: id
+                    },
+                    function (data, status) {
+                        var cunt = data.length;
+                        //alert(cunt);
+                        if (cunt > 0) {
+                            if (ESBU == "Y") {
+
+                                $("#ExportShippingAdmission input:submit").removeAttr("disabled", "disabled");
+                            }
+                            else {
+
+                                $("#ExportShippingAdmission input:submit").attr("disabled", "disabled");
+                            }
+                        }
+                        else {
+                            $("#ExportShippingAdmission input:submit").removeAttr("disabled", "disabled");
+                        }
+                    });
+
+            }
+
+            //alert($(".StuffDel_check").html());
+            //if ($(".StuffDel_check").html() != "PROCEED") {
+
+            //    $("#add_detail,#del_detail").addClass("hide");
+            //    if (ESBU == "Y") {
+            //        //$('#btnSaveClick').attr("disabled", true);
+
+            //        $('#btnSaveClick').removeAttr("disabled", true);
+
+            //        //$("#ExportShippingAdmission input:submit").removeAttr("disabled", "disabled");
+            //    }
+            //    else {
+            //        //$('#btnSaveClick').attr("disabled", false);
+            //        $('#btnSaveClick').attr("disabled", "disabled");
+            //        //$("#ExportShippingAdmission input:submit").attr("disabled", "disabled");
+            //    }
+            //}
+            //else {
+            //    $('#btnSaveClick').attr("disabled", false);
+
+            //    //$("#ExportShippingAdmission input:submit").removeAttr("disabled", "disabled");
+            //}
+
+            //if ($(".Del_check").html() != "PROCEED") {
+            //    $("#add_detail,#del_detail").addClass("hide");
+            //    if (ESBU == "Y") {
+
+            //        $("#ExportShippingAdmission input:submit").removeAttr("disabled", "disabled");
+            //    }
+            //    else {
+
+            //        $("#ExportShippingAdmission input:submit").attr("disabled", "disabled");
+            //    }
+            //}
+        }
+
+
+        var rowcount = $('#TDETAIL tbody tr').length;
+
+        $("#TDETAIL_IDX").val(rowcount);
+        test001();
+
+        //----------------------------------insert/delete row-----------------------------------------//
+
+        $("#add_detail").click(function () {
+
+            if ($("#TDETAIL_IDX").val() != 0) {
+
+                var $tableBody = $('#TDETAIL').find("tbody"),
+                    $trLast = $tableBody.find("tr:last");
+                $trNew = $trLast.clone();
+                $trLast.after($trNew);
+                $trNew.find("input:text").val("");
+                $trNew.find('.ESBDID').val("0");
+                $trNew.find('.ESBMQTY').val("0");
+                $trNew.find('.ESBOINVAMT').val("0");
+                $trNew.find('.ESBMNOP').val("0");
+                $trNew.find('.ESBOINVFOBAMT').val("0");
+                $trNew.find('.ESBMQTY').val("0");
+                $trNew.find('.ESBMWGHT').val("0");
+
+                var row_idx = parseInt($("#TDETAIL_IDX").val());
+
+                $("#TDETAIL_IDX").val(row_idx + 1);
+
+                $("#TDETAIL_BODY").show();
+
+            }
+            else {
+
+                $('#TDETAIL_IDX').val("");
+                $("#TDETAIL_BODY").show();
+            }
+
+            $('#TDETAIL tbody tr').each(function () {
+                $(this).find(".datepicker").removeAttr('id').removeClass('hasDatepicker'); // added the removeClass part.
+                $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, changeMonth: true });
+            });
+
+        });
+
+
+        $(document).on("click", "#del_detail", function () {
+           var  row = this.parentNode.parentNode.rowIndex;
+
+            var r = confirm("Are you sure to delete this record ?");
+
+            if (r == true) {
+                row = this.parentNode.parentNode.rowIndex;
+                row = row - 1;
+                var $tableBody = $('#TDETAIL').find("tbody")
+
+                $trCur = $tableBody.find("tr:eq(" + row + ")");
+
+                var det_id = $trCur.find(".ESBDID").val();
+                //alert(det_id);
+
+                var idx = $("#TDETAIL_IDX").val();
+
+                if (det_id != 0) {
+
+                    base = window.location.origin;
+                    $.post('@Url.Action("Del_det", "ExportShippingBillMaster")',
+                        {
+                            id: det_id, fld: "ExportShippingBillDetail"
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted Successfully ...") {
+                                if (idx == 1) {
+                                    var $tableBody = $('#TDETAIL').find("tbody")
+                                    $trCur = $tableBody.find("tr:eq(0)");
+                                    $trCur.find("input:text,select").val("");
+                                    //ExecTMP();
+                                }
+                                else
+                                    location.reload(window.location.href);
+
+                            }
+
+                        });//---End of post
+
+
+                }
+                else {
+                    if (idx == 1) {
+
+                        $("#TDETAIL_BODY").hide();
+
+                        $("#TDETAIL_IDX").val(0);
+
+                        var $tableBody = $('#TDETAIL').find("tbody")
+
+                        $trCur = $tableBody.find("tr:eq(0)");
+                        $trNew.find('#ESBDID').val("0");
+                        $trNew.find('#ESBD_SBILLNO').val("");
+                        $trNew.find('#ESBD_SBILLDATE').val("");
+                        $trNew.find('#ESBOINVDATE').val("");
+                        $trNew.find('#ESBOINVNO').val("0");
+                        $trNew.find('#ESBOINVAMT').val("0");
+                        $trNew.find('#ESBMNOP').val("0");
+                        $trNew.find('#ESBOINVFOBAMT').val("0");
+                        $trNew.find('#ESBMQTY').val("0");
+                        $trNew.find('.ESBMWGHT').val("0");
+
+                        $trNew.find('#ESBDDPNAME').val("");
+
+                    }
+                    else {
+                        $("#TDETAIL_BODY").show();
+                        row = this.parentNode.parentNode;
+                        $(this).parents('.item-row').remove();
+
+                        $("#TDETAIL_IDX").val($("#TDETAIL_IDX").val() - 1);
+
+                    }
+
+                }
+            }
+        });
+
+    });
+
+    function add_autocomplete_exp($obj, controls) {
+        var oldFn = $.ui.autocomplete.prototype._renderItem;
+        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+            var re = new RegExp(this.term, "i");
+            var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+            return $("<li></li>")
+                .data("item.autocomplete", item)
+                .append("<a>" + t + "</a>")
+                .appendTo(ul);
+        };
+
+        $obj.autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: $obj.data("autocomplete-url"),
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            count = 0;
+                            item_str = "";
+                            var jsonArg = new Object();
+                            count = 0;
+                            $.each(item, function (i, data) {
+                                switch (count) {
+                                    case 0:
+                                        jsonArg.label = data;
+                                        jsonArg.value = data;
+                                        break;
+                                    case 1:
+                                        jsonArg.id = data;
+                                        break;
+                                    case 2:
+                                        jsonArg.desc = data;
+                                        break;
+                                    case 3:
+                                        jsonArg.xparam1 = data;
+                                        break;
+                                    case 4:
+                                        jsonArg.xparam2 = data;
+                                        break;
+                                    case 5:
+                                        jsonArg.xparam3 = data;
+                                        break
+                                }
+                                count++
+                            });
+                            return jsonArg
+                        }))
+                    }
+                })
+            },
+            search: function () {
+                count = 0;
+                $.each(controls.split(','), function (index, value) {
+                    switch (count) {
+                        case 0: break;
+                        default:
+                            $("#" + value).val(""); break;
+                    } count++;
+                })
+                var term = extractLast(this.value);
+                if (term.length < 2) {
+                    return false
+                }
+            },
+            select: function (event, ui) {
+                $(this).val(ui.item.label);
+                count = 0;
+                $.each(controls.split(','), function (index, value) {
+                    switch (count) {
+                        case 1:
+                            $("#" + value).val(ui.item.id);
+                            break;
+                        case 2:
+                            $("#" + value).val(ui.item.desc);
+                            break;
+                        case 3:
+                            $("#" + value).val(ui.item.xparam1);
+                            break;
+                        case 4:
+                            $("#" + value).val(ui.item.xparam2);
+                            break;
+                        case 5:
+                            $("#" + value).val(ui.item.xparam3);
+                            break
+                    }
+                    count++
+                    $("#EXPRTID").val(ui.item.id);
+                });
+
+
+                return false
+            },
+            change: function (event, ui) {
+                //debugger;
+                var opt = $(this).val();
+                var crntval = event.currentTarget.value;
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    url: $obj.data("autocomplete-url"),
+                    data: "{'term':'" + crntval + "'}",
+                    dataType: 'json',
+                    success: function (data) {
+                        //debugger;
+                        //console.log(data);
+                        //alert(data);
+                        if (data.length == 0) {
+                            // $(event.currentTarget).val('');
+                            alert('Select item from the list.');
+
+                            $("#EXPRTNAME").focus();
+                            $("#EXPRTID").val("0");
+                        }
+                        else { }
+                    },
+                    error: function (data) {
+                        $(event.currentTarget).val('');
+
+                        $("#EXPRTNAME").val();
+                        $("#EXPRTID").val("0");
+                        console.log('Error retrieving options.');
+                    }
+                });
+            },
+            messages: {
+                noResults: "",
+                results: ""
+            }
+        })
+    }
+
+
+    function test001() {
+        //alert();
+        count = 501;
+        $('.ESBD_SBILLNO').each(function (k) {
+            //alert(k);
+            //$("#TDETAIL input:text,#TDETAIL select,#TDETAIL a").attr('tabindex', count++);
+            $("#TDETAIL :input:not([readonly='readonly']),#TDETAIL select,#TDETAIL a").attr('tabindex', count++);
+            //$(":input:not(:hidden)").each(function (i) { $(this).attr('tabindex', i + 1); });
+        });
+    }
+
+    function validation() {
+        flag = true;
+        var i = 0;
+        if ($('.EXPRTNAME').val() == "") {
+            alert("Please select Exporter !!");
+            $('.EXPRTNAME').focus();
+            flag = false;
+        }
+        else if ($('.EXPRTID').val() == "" || $('.EXPRTID').val() == "0") {
+            alert("Please select Exporter !!");
+            $('.EXPRTNAME').focus();
+            flag = false;
+        }
+        if (flag) {
+            $('#TDETAIL_BODY tr').each(function () {
+                //$('#TDETAIL_BODY tr .ESBD_SBILLNO').val("1");
+                //alert($('#TDETAIL_BODY tr .ESBD_SBILLNO').val())
+                if ($('.TDETAIL_BODY tr .ESBD_SBILLNO')[i].value == "") {
+                    alert("Please enter Orginal S.Bill No !!");
+                    $('.TDETAIL_BODY tr .ESBD_SBILLNO')[i].focus();
+                    flag = false;
+                } else if ($('.TDETAIL_BODY tr .ESBD_SBILLDATE')[i].value == "") {
+                    alert("Please select Orginal S.Bill Date !!");
+                    $('.TDETAIL_BODY tr .ESBD_SBILLDATE')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBOINVDATE')[i].value == "") {
+                    alert("Please select Invoice Date !!");
+                    $('.TDETAIL_BODY tr .ESBOINVDATE')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBOINVNO')[i].value == "") {
+                    alert("Please enter Invoice No !!");
+                    $('.TDETAIL_BODY tr .ESBOINVNO')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBOINVAMT')[i].value == "" || $('.TDETAIL_BODY tr .ESBOINVAMT')[i].value == "0" || $('.TDETAIL_BODY tr .ESBOINVAMT')[i].value == "0.0" || $('.TDETAIL_BODY tr .ESBOINVAMT')[i].value == "0.00") {
+                    alert("Please enter  Invoice Amount !!");
+                    $('.TDETAIL_BODY tr .ESBOINVAMT')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBMNOP')[i].value == "" || $('.TDETAIL_BODY tr .ESBMNOP')[i].value == "0" || $('.TDETAIL_BODY tr .ESBMNOP')[i].value == "0.0" || $('.TDETAIL_BODY tr .ESBMNOP')[i].value == "0.00") {
+                    alert("Please enter NOP !!");
+                    $('.TDETAIL_BODY tr .ESBMNOP')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBMWGHT')[i].value == "" || $('.TDETAIL_BODY tr .ESBMWGHT')[i].value == "0" || $('.TDETAIL_BODY tr .ESBMWGHT')[i].value == "0.0" || $('.TDETAIL_BODY tr .ESBMWGHT')[i].value == "0.00") {
+                    alert("Please enter Weight !!");
+                    $('.TDETAIL_BODY tr .ESBMWGHT')[i].focus();
+                    flag = false;
+                }
+                i++;
+            });
+        }
+
+        if (flag)
+            return true;
+        else
+            return false;
+    }
+
+    $("#SaveClick").click(function () {
+        //alert('hi');
+        flag = true;
+        var i = 0;
+        if ($('.EXPRTNAME').val() == "") {
+            alert("Please select Exporter !!");
+            $('.EXPRTNAME').focus();
+            flag = false;
+        }
+        else if ($('.EXPRTID').val() == "" || $('.EXPRTID').val() == "0") {
+            alert("Please select Exporter !!");
+            $('.EXPRTNAME').focus();
+            flag = false;
+        }
+        if (flag) {
+            $('#TDETAIL_BODY tr').each(function () {
+                //$('#TDETAIL_BODY tr .ESBD_SBILLNO').val("1");
+                //alert($('#TDETAIL_BODY tr .ESBD_SBILLNO').val())
+                if ($('.TDETAIL_BODY tr .ESBD_SBILLNO')[i].value == "") {
+                    alert("Please enter Orginal S.Bill No !!");
+                    $('.TDETAIL_BODY tr .ESBD_SBILLNO')[i].focus();
+                    flag = false;
+                } else if ($('.TDETAIL_BODY tr .ESBD_SBILLDATE')[i].value == "") {
+                    alert("Please select Orginal S.Bill Date !!");
+                    $('.TDETAIL_BODY tr .ESBD_SBILLDATE')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBOINVDATE')[i].value == "") {
+                    alert("Please select Invoice Date !!");
+                    $('.TDETAIL_BODY tr .ESBOINVDATE')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBOINVNO')[i].value == "") {
+                    alert("Please enter Invoice No !!");
+                    $('.TDETAIL_BODY tr .ESBOINVNO')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBOINVAMT')[i].value == "" || $('.TDETAIL_BODY tr .ESBOINVAMT')[i].value == "0") {
+                    alert("Please enter  Invoice Amount !!");
+                    $('.TDETAIL_BODY tr .ESBOINVAMT')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBMNOP')[i].value == "" || $('.TDETAIL_BODY tr .ESBMNOP')[i].value == "0") {
+                    alert("Please enter NOP !!");
+                    $('.TDETAIL_BODY tr .ESBMNOP')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBOINVFOBAMT')[i].value == "" || $('.TDETAIL_BODY tr .ESBOINVFOBAMT')[i].value == "0") {
+                    alert("Please enter FOB Value !!");
+                    $('.TDETAIL_BODY tr .ESBOINVFOBAMT')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBOINVFOBAMT')[i].value == "" || $('.TDETAIL_BODY tr .ESBOINVFOBAMT')[i].value == "0") {
+                    alert("Please enter FOB Value !!");
+                    $('.TDETAIL_BODY tr .ESBOINVFOBAMT')[i].focus();
+                    flag = false;
+                }
+                else if ($('.TDETAIL_BODY tr .ESBMWGHT')[i].value == "" || $('.TDETAIL_BODY tr .ESBMWGHT')[i].value == "0") {
+                    alert("Please enter Weight !!");
+                    $('.TDETAIL_BODY tr .ESBMWGHT')[i].focus();
+                    flag = false;
+                }
+                i++;
+            });
+        }
+
+        //console.log($("#ExportShippingAdmission").serialize());
+
+        if (flag) {
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("SaveESBdetail", "ExportShippingBillMaster")', // we are calling json method
+                data: $("#ExportShippingAdmission").serialize(),
+                success: function (data) {
+
+                    if (data == "Saved") {
+
+                        alert('Save Successfully');
+
+                        var returnurl = '@Url.Action("Index", "ExportShippingBillMaster")';
+                        window.location.href = returnurl;
+
+                    }
+                },
+
+                error: function (ex) {
+                    //alert('Failed to save data ' + ex);
+                }
+            });
+
+        }
+
+    });
+
+    function closemodel() {
+        var returnurl = '@Url.Action("Index", "ExportShippingBillMaster")';
+        window.location.href = returnurl;
+
+    }
+
+</script>
+

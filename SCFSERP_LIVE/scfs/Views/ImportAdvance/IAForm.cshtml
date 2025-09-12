@@ -1,0 +1,341 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.TransactionMaster
+
+@{
+    ViewBag.Title = "IAForm";
+}
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+<link href="~/css/tablesort.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Import Advnace</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/ImportAdvance/savedata")" method="post" accept-charset="utf-8" id="ImportAdvanceform" data-ng-controller="myController" name="ImportAdvanceform" onsubmit="return Validate()">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ImportAdvance_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => Model.TRANMID, new { @class = "form-control  TRANMID", @id = "TRANMID" })
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label>No</label>
+                                        @Html.TextBoxFor(model => Model.TRANNO, new { @class = "form-control  TRANNO", @id = "TRANNO", @readonly = true, @tabindex = "1" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Date/Time<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.TRANTIME, new { @class = "form-control datetime  TRANTIME", @id = "TRANTIME", @data_val = false, @tabindex = "2" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>CHA <span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => Model.TRANREFNAME, new { @class = "form-control  TRANREFNAME", @id = "TRANREFNAME", data_autocomplete_url = Url.Action("AutoCha", "ImportAdvance"), @placeholder = "----Please Select----", @tabindex = "3", @required = "required" })
+                                        @Html.HiddenFor(model => Model.TRANREFID, new { @class = "form-control  TRANREFID", @id = "TRANREFID" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Mode<span class="required-field"></span></label>
+                                        @Html.DropDownList("TRANMODE", null, "Select", new { @class = "form-control TRANMODE", @id = "TRANMODE", @onchange = "ModeChange()", @tabindex = "4", @required = "required" })
+                                        @Html.TextBoxFor(model => Model.TRANMODEDETL, new { @class = "hide form-control  TRANMODEDETL", @id = "TRANMODEDETL" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Number<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => Model.TRANREFNO, new { @class = "form-control  TRANREFNO", @id = "TRANREFNO", @tabindex = "5" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Date<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => Model.TRANREFDATE, "{0:dd/MM/yyyy}", new { @class = "form-control  datepicker TRANREFDATE", @id = "TRANREFDATE", @data_val = false, @tabindex = "6" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Amount<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => Model.TRANREFAMT, new { @class = "form-control  TRANREFAMT", @id = "TRANREFAMT", @tabindex = "7", @required = "required" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label>Bank<span class="required-field"></span></label>
+                                    @Html.DropDownList("BANKMID", null, "Please Select an Option", new { @class = "form-control BANKMID", @id = "BANKMID", @tabindex = "8" })
+
+                                    @Html.TextBoxFor(model => Model.TRANREFBNAME, new { @class = "hide form-control  TRANREFBNAME", @id = "TRANREFBNAME" })
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Status<span class="required-field"></span> </label>
+                                        @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS", @onchange = "canclreason()", @tabindex = "10" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        @Html.TextAreaFor(model => Model.TRANNARTN, new { @class = "form-control  TRANNARTN", @id = "TRANNARTN", @tabindex = "9" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="CANCEL_DIV">
+                                <div class=" col-md-12">
+                                    <div class="form-group">
+                                        <label>Reason to Cancel</label>
+                                        @Html.TextAreaFor(model => Model.TRANRMKS, new { @class = "form-control Model", @id = "Model", @tabindex = "10" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 box-footer">
+                            <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" tabindex="12" />
+                            <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden " hidden />
+                            <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="11" />
+                        </div>
+                    </fieldset>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(window).bind("load", function () {
+            if ($(".DISPSTATUS option:selected").val() == 1) {
+                $(".CANCEL_DIV").removeClass("frm_hide");
+            }
+            else { $(".CANCEL_DIV").addClass("frm_hide"); }
+        })
+        function canclreason() {
+            if ($(".DISPSTATUS option:selected").val() == 1) {
+                $(".CANCEL_DIV").removeClass("frm_hide");
+            }
+            else { $(".CANCEL_DIV").addClass("frm_hide"); }
+        }
+        $(document).ready(function () {
+
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+            //-----date controls-------------
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', });
+            $('.datetime').datetimepicker({
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+            });
+            autocomplete($("#TRANREFNAME"), "TRANREFNAME,TRANREFID");
+            if ($("#TRANMID").val() == 0) {
+                var dt = new Date();
+                var month = dt.getMonth() + 1;
+                var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                var datetme = time;
+                $(".TRANTIME").val(date + " " + datetme);
+
+            }
+            //...End of date contrl..
+
+            //.......GET BANK NAME FROM DROPDOWN VALUE ...........
+            $("#BANKMID").change(function () {
+                var TRANREFBNAME = $(".BANKMID option:selected").text();
+                $(".TRANREFBNAME").val(TRANREFBNAME);
+            });
+            //...END
+            ModeChange();
+            // .............VALIDATION FOR TARIFF BEFORE SELECT CHA...........
+
+            $(".TARIFFMID").on("focus", function () {
+                var CHAID = $(".TRANREFID").val();
+                if (CHAID == "") {
+                    alert("Please Select CHA First");
+                    $("#TARIFFMID").hide();
+                    //$('TARIFFMID option:eq(0)').removeAttr('selected');
+                }
+
+                return false;
+            });
+            $("#TRANREFNAME").focus(function () {
+                var TRANREFID = $(".TRANREFID").val();
+                $("#TARIFFMID").show();
+            }); //........END OF VALIDATION
+
+        });
+
+        function ModeChange() {
+            var modeval = $("#TRANMODE").val();
+            if ($("#TRANMID").val() == "0") {
+                var TRANMODEVAL = $("#TRANMODE option:selected").text();
+                $(".TRANMODEDETL").val(TRANMODEVAL);
+                $("#TRANREFNO").val("");
+                $("#TRANREFDATE").val("");
+                $("#BANKMID").val("");
+            }
+            if (modeval == 1) {
+                $("#TRANREFNO").attr('disabled', true);
+                $("#TRANREFDATE").attr('disabled', true);
+                $("#BANKMID").attr('disabled', true);
+            }
+            else {
+                $("#TRANREFNO").attr('disabled', false);
+                $("#TRANREFDATE").attr('disabled', false);
+                $("#BANKMID").attr('disabled', false);
+            }
+        }
+        function autocomplete($obj, controls) {
+            var oldFn = $.ui.autocomplete.prototype._renderItem;
+            $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+                var re = new RegExp(this.term, "i");
+                var t = item.label.replace(re, "<strong style='font-weight:bold;background:#C7DFFE;border-radius:2px;border:1px solid #98B8E1'>" + this.term + "</strong>");
+                return $("<li></li>")
+                    .data("item.autocomplete", item)
+                    .append("<a>" + t + "</a>")
+                    .appendTo(ul);
+            };
+            $obj.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: $obj.data("autocomplete-url"),
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                count = 0;
+                                item_str = "";
+                                var jsonArg = new Object();
+                                count = 0;
+                                $.each(item, function (i, data) {
+                                    switch (count) {
+                                        case 0:
+                                            jsonArg.label = data;
+                                            jsonArg.value = data;
+                                            break;
+                                        case 1:
+                                            jsonArg.id = data;
+                                            break;
+                                        case 2:
+                                            jsonArg.desc = data;
+                                            break;
+                                        case 3:
+                                            jsonArg.xparam1 = data;
+                                            break;
+                                        case 4:
+                                            jsonArg.xparam2 = data;
+                                            break;
+                                        case 5:
+                                            jsonArg.xparam3 = data;
+                                            break
+                                    }
+                                    count++
+                                });
+                                return jsonArg
+                            }))
+                        }
+                    })
+                },
+                search: function () {
+                    var term = extractLast(this.value);
+                    if (term.length < 2) {
+                        return false
+                    }
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    count = 0;
+                    $.each(controls.split(','), function (index, value) {
+                        switch (count) {
+                            case 1:
+                                $("#" + value).val(ui.item.id);
+                                break;
+                            case 2:
+                                $("#" + value).val(ui.item.desc);
+                                break;
+                            case 3:
+                                $("#" + value).val(ui.item.xparam1);
+                                break;
+                            case 4:
+                                $("#" + value).val(ui.item.xparam2);
+                                break;
+                            case 5:
+                                $("#" + value).val(ui.item.xparam3);
+                                break;
+                        }
+                        count++
+                    });
+
+
+
+                    return false;
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            })
+        }////......end
+        //-----------------------Form Validation-------------------------//
+        function Validate() {
+
+            if ($(".DISPSTATUS option:selected").val() != "0") {
+                if ($(".TRANRMKS").val() == "") {
+                    alert("Please Enter Reason to Cancel..");
+                    $(".TRANRMKS").focus();
+                    return false;
+                }
+            }
+            else if ($("#TRANMODE").val() != "1") {
+                if ($("#TRANREFNO").val() == "") {
+                    alert("Please Enter Number");
+                    $("#TRANREFNO").focus();
+                    return false;
+                }
+                if ($("#TRANREFDATE").val() == "") {
+                    alert("Please Enter Date");
+                    $("#TRANREFDATE").focus();
+                    return false;
+                }
+                if ($(".TRANREFBNAME").val() == "") {
+                    alert("Select Bank Name Properly");
+                    $(".BANKMID").focus();
+                    return false;
+
+                }
+            }
+            else if ($(".TRANREFAMT").val() == "") {
+                alert("Please Enter Amount");
+                $(".TRANREFAMT").focus();
+                return false;
+            }
+
+        }//End of validation
+
+    </script>
+}

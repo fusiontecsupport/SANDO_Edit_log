@@ -1,0 +1,264 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.ExportShippingBillMaster
+
+@{
+    ViewBag.Title = "Export Shipping Bill";
+}
+
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+
+<div class="row">
+    <div id="fade"></div>
+    <div id="modal">
+        <img src="~/Content/themes/base/images/loading.gif" />
+        @*<img src="~/Content/themes/base/images/jQuery-Ajax-Loading-Overlay-with-Loading-Text-Spinner-Plugin.jpg" />*@
+    </div>
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>Export Shipping Bill form</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/ExportShippingBillMaster/savedata")" method="post" accept-charset="utf-8" id="exportshippingbillmasterform" data-ng-controller="myController" name="exportshippingbillmasterform" onsubmit="return Form_validate();">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ExportShippingBillForm_info">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-md-4 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => model.ESBMID, new { @class = "form-control  ESBMID", @id = "ESBMID" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>No </label>
+                                        @Html.TextBoxFor(model => Model.ESBMDNO, new { @class = "form-control  ESBMDNO", @id = "ESBMDNO", @onchange = "Duplicate()", @required = "required", tabindex = "1" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Date </label>
+                                        @Html.TextBoxFor(model => Model.ESBMDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker ESBMDATE ", @id = "ESBMDATE", @data_val = false, tabindex = "2" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Inspected </label>
+                                        @Html.DropDownList("ESBMITYPE", null, new { @class = "form-control", @onchange = "Inspected()", tabindex = "3" })
+                                    </div>
+                                </div>
+
+                                <div class="frm_hide" id="ESBMIDATE_F">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Inspected Date </label>
+                                            @Html.TextBoxFor(model => Model.ESBMIDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker ESBMIDATE ", @id = "ESBMIDATE", @data_val = false, tabindex = "4" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Exporter </label>
+                                        @Html.TextBoxFor(model => Model.EXPRTNAME, new { @class = "form-control EXPRTNAME", @id = "EXPRTNAME", data_autocomplete_url = Url.Action("AutoExporter", "ExportShippingBillMaster"), @placeholder = "----Please Select----", @required = "required", tabindex = "5" })
+                                        @Html.TextBoxFor(model => Model.EXPRTID, new { @class = "hide form-control EXPRTID", @id = "EXPRTID", @readonly = true })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>CHA </label>
+                                        @Html.TextBoxFor(model => Model.CHANAME, new { @class = "form-control CHANAME", @id = "CHANAME", data_autocomplete_url = Url.Action("AutoCha", "ExportShippingBillMaster"), @placeholder = "----Please Select----", @required = "required", tabindex = "6" })
+                                        @Html.TextBoxFor(model => Model.CHAID, new { @class = "hide form-control CHAID", @id = "CHAID", @readonly = true })
+                                    </div>
+                                </div>
+                            </div>
+                            <fieldset style="width:100%">
+                                <legend style="font-size:large">Invoice Details</legend>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Invoice No </label>
+                                        @Html.TextBoxFor(model => Model.ESBMREFNO, new { @class = "form-control  ESBMREFNO", @id = "ESBMREFNO", @required = "required", tabindex = "7" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Invoice Date </label>
+                                        @Html.TextBoxFor(model => Model.ESBMREFDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker ESBMREFDATE", @id = "ESBMREFDATE", @data_val = false, tabindex = "8" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Invoice Value </label>
+                                        @Html.TextBoxFor(model => Model.ESBMREFAMT, new { @class = "form-control  ESBMREFAMT", @id = "ESBMREFAMT", @required = "required", tabindex = "9" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>FOB Value </label>
+                                        @Html.TextBoxFor(model => Model.ESBMFOBAMT, new { @class = "form-control  ESBMFOBAMT", @id = "ESBMFOBAMT", @required = "required", tabindex = "10" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Destination Port </label>
+                                        @Html.TextBoxFor(model => Model.ESBMDPNAME, new { @class = "form-control ESBMDPNAME", @id = "ESBMDPNAME", @required = "required", tabindex = "11" })
+                                        @*<input type="text" class="form-control ESBMDPNAME" id="ESBMDPNAME" name="ESBMDPNAME" value="@Model.DESTINATION">*@
+                                    </div>
+                                </div>
+                                <div class="col-md-11">
+                                    <div class="form-group">
+                                        <label>Remarks </label>
+                                        @Html.TextAreaFor(model => Model.ESBMRMKS, 2, 2, new { @class = "form-control ESBMRMKS", @id = "ESBMRMKS", tabindex = "12" })
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset style="width:100%">
+                                <legend style="font-size:large">Product Details</legend>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Product Category </label>
+                                        @Html.DropDownList("PRDTGID", null, "Please select an option", new { @class = "form-control", @required = "required", tabindex = "13" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Product Description </label>
+                                        @Html.TextBoxFor(model => Model.PRDTDESC, new { @class = "form-control  PRDTDESC", @id = "PRDTDESC", @required = "required", tabindex = "14" })
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label>Nop </label>
+                                        @Html.TextBoxFor(model => Model.ESBMNOP, new { @class = "form-control number ESBMNOP", @id = "ESBMNOP", @required = "required", tabindex = "15" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Weight </label>
+                                        @Html.TextBoxFor(model => Model.ESBMQTY, new { @class = "form-control wgtnumber ESBMQTY", @id = "ESBMQTY", @required = "required", tabindex = "16" })
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 box-footer">
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" />
+                                <input type="button" name="submit2" value="Save as Estimate" class="btn btn-warning btn-xs hidden " hidden />
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs hidden " id="save" tabindex="200" />
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            $(".ESBMDNO").focus();
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+            //--------------------autocomplete--------//
+            add_autocomplete($("#CHANAME"), "CHANAME,CHAID");
+            add_autocomplete($("#EXPRTNAME"), "EXPRTNAME,EXPRTID");
+            //End
+
+            //-----Date controls
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', });
+            $('.datetime').datetimepicker({
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+            });
+            //$('.time').timepicker();
+
+            $('.number').keypress(function (event) {
+                if ((event.which < 48 || event.which > 57) &&
+                    (event.which != 0 && event.which != 8)) {
+                    event.preventDefault();
+                }
+
+
+            });
+            $('.wgtnumber').keypress(function (event) {
+                if ((event.which != 46 || $(this).val().indexOf('.') != -1) &&
+                    ((event.which < 48 || event.which > 57) &&
+                        (event.which != 0 && event.which != 8))) {
+                    event.preventDefault();
+                }
+
+                var text = $(this).val();
+
+                if ((text.indexOf('.') != -1) &&
+                    (text.substring(text.indexOf('.')).length > 4) &&
+                    (event.which != 0 && event.which != 8) &&
+                    ($(this)[0].selectionStart >= text.length - 4)) {
+                    event.preventDefault();
+                }
+            });
+            //--------------------Inspected----------------
+            if ($("#ESBMID").val() != 0) {
+                if ($("#ESBMITYPE").val() == 0)
+                    $("#ESBMITYPE").html("<option value=0>NO</option><option value=1>Yes</option>")
+                else
+                    $("#ESBMITYPE").html("<option value=0>NO</option><option value=1 selected>Yes</option>")
+
+                Inspected();
+            }
+
+        });
+
+        //-------------------Duplicate check ---------------------------------
+        function Duplicate() {
+            var ESBMDNO = $("#ESBMDNO").val();
+
+            base = window.location.origin;
+
+
+            $.post(base + "/ExportShippingBillMaster/NoCheck",
+                {
+                    No: ESBMDNO
+                },
+                function (data, status) {
+
+                    if (data == "") { return false; }
+                    else { alert(data); $("#ESBMDNO").val(""); $("#ESBMDNO").focus(); }
+                })
+        }//------End of Duplicate Check
+
+
+        function Inspected() {
+            if ($("#ESBMITYPE").val() == 1) {
+                $("#ESBMIDATE_F").removeClass("frm_hide");
+            }
+            else
+                $("#ESBMIDATE_F").addClass("frm_hide");
+        }
+
+        function Form_validate() {
+            temp2 = $("#EXPRTID").val();
+            if (temp2 == "0") {
+
+                alert("Please Select Exporter Properly");
+                $("#EXPRTNAME").val("");
+                $("#EXPRTNAME").focus();
+                return false;
+            }
+            temp1 = $("#CHAID").val();
+            if (temp1 == "0") {
+                alert("Please Select CHA Properly");
+                $("#CHANAME").val("");
+                $("#CHANAME").focus();
+                return false;
+            }
+        }
+
+    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

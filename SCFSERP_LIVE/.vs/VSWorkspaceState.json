@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\scfs",
+    "\\scfs\\Controllers",
+    "\\scfs\\Controllers\\Search",
+    "\\scfs\\Views",
+    "\\scfs\\Views\\ExBondVehicleTicket",
+    "\\scfs\\Views\\ImportManualBill",
+    "\\scfs\\Views\\OpenSheet",
+    "\\scfs\\Views\\Shared",
+    "\\scfs\\Views\\StuffingBill"
+  ],
+  "SelectedNode": "\\scfs\\Controllers\\Search\\IgmLineNoWiseDetailsController.cs",
+  "PreviewInSolutionExplorer": false
+}

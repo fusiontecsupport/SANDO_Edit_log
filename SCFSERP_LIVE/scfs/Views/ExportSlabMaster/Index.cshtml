@@ -1,0 +1,225 @@
+﻿@model IEnumerable<scfs_erp.Models.ExportSlabMaster>
+    @{
+        ViewBag.Title = "Export Slab Master";
+    }
+
+
+    <div class="col-lg-12 container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <i class="glyphicon glyphicon-share"></i><strong>Export Slab Master</strong>
+                    <a class="btn btn-success btn-sm pull-right btn-success" style="padding:5px;margin:0 2px 1px;border:1px solid black" href="@Url.Action("Form", "ExportSlabMaster")"><i class="fa fa-plus-square "></i> Create New </a>
+                    <a class="btn btn-success btn-sm pull-right btn-warning" style="padding:5px;margin:0 2px 1px;border:1px solid black" href="@Url.Action("NForm", "ExportSlabMaster")"><i class="fa fa-plus-square "></i> Transfer </a>
+
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body">
+                    <div class="col-lg-12">
+                        <form action="#" method="post" accept-charset="utf-8" id="exportgateinform" data-ng-controller="myController" name="exportgateinform">
+                            <table class="table">
+                                <tr>
+                                    <td>Tariff</td>
+                                    <td>
+                                        @Html.DropDownList("TARIFFMID", null, new { @class = "form-control", @onchange = "Cha()" })
+                                    </td>
+                                    <td class="CHA_LBL">CHA</td>
+                                    <td>
+                                        <div class="chaid">
+
+                                            <input type="text" name="CHADESC" id="CHADESC" value="@Session["FCHANAME"]" class="form-control CHADESC" data-autocomplete-url="/ExportSlabMaster/AutoCha" placeholder="Select CHA" />
+                                            <input type="text" class="hide form-control  CHAID" id="CHAID" name="CHAID" value="@Session["FCHAID"]" />
+
+                                        </div>
+                                    </td>
+                                    <td>Charge Type</td>
+                                    <td>
+                                        @Html.DropDownList("CHRGETYPE", null, new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </td>
+                                    <td>Slab Type</td>
+                                    <td>
+                                        @Html.DropDownList("SLABTID", null, new { @class = "form-control", @data_val = "true", @data_val_required = "Field is required" })
+                                    </td>
+                                    <td><input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" /></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        W.E. From
+                                    </th>
+                                    <th>
+                                        Size
+                                    </th>
+                                    <th>
+                                        Yard
+                                    </th>
+                                    <th>
+                                        Slab Days
+                                    </th>
+                                    
+                                    <th>
+                                        Opr. Type
+                                    </th>
+                                    <th>
+                                        W. Type
+                                    </th>
+                                    <th>
+                                        Min
+                                    </th>
+                                    <th>
+                                        Max
+                                    </th>
+                                    <th>
+                                        Value
+                                    </th>
+
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @*<div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="glyphicon glyphicon-share"></i><strong>ViewBag.Title</strong>
+                </div>
+                <div class="box-icons">
+                    <button onclick="parent.location = '@Url.Action("NForm","ExportSlabMaster")'; return false;" class="btn-warning"> Transfer</button>
+                    <button onclick="parent.location = '@Url.Action("Form","ExportSlabMaster")'; return false;" class="btn-success"> Create New </button>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content no-padding">
+                <br />
+                <div class="row">
+                    <div class="col-xs-1"> </div>
+                    <div class="col-lg-12">
+                        <form action="#" method="post" accept-charset="utf-8" id="exportgateinform" data-ng-controller="myController" name="exportgateinform">
+                            <table class="table">
+                                <tr>
+                                    <td>Tariff</td>
+                                    <td>
+                                        Html.DropDownList("TARIFFMID", null, new { class = "form-control", onchange = "Cha()" })
+                                    </td>
+                                    <td class="CHA_LBL">CHA</td>-->
+                                    <td>
+                                            <div class="chaid">
+
+
+                                                <input type="text" name="CHADESC" id="CHADESC" value="@Session["FCHANAME"]" class="form-control CHADESC" data-autocomplete-url="/ExportSlabMaster/AutoCha" placeholder="Select CHA" />
+                                                <input type="text" class="hide form-control  CHAID" id="CHAID" name="CHAID" value="@Session["FCHAID"]" />
+
+
+                                            </div>
+                                        </td>
+                                    <td>Charge Type</td>
+                                    <td>
+                                        Html.DropDownList("CHRGETYPE", null, new { class = "form-control", data_val = "true", data_val_required = "Field is required" })
+                                    </td>
+                                    <td>Slab Type</td>
+                                    <td>
+                                        Html.DropDownList("SLABTID", null, new { class = "form-control", data_val = "true", data_val_required = "Field is required" })
+                                    </td>
+                                    <td><input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" /></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>*@
+
+
+    @section Scripts {
+        <script>
+        $(document).ready(function () {
+            Cha(); add_autocomplete($("#CHADESC"), "CHADESC,CHAID");
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ExportSlabMaster")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+                "aoColumns": [
+                    { "sName": "" },
+                    { "sName": " " },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": " " },
+                    { "sName": " " },
+                    {
+                        "sClass": "col-md-2 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            console.log(oObj);
+                            return ' <a class="btn btn-primary hide btn-xs"   href="@Url.Action("Edit", "ExportSlabMaster")/' +
+                                oObj.aData[9] + '\"  " title="Copy"><i class="glyphicon glyphicon-copy"></i>C</a>  &nbsp;&nbsp;<a  class="btn btn-danger del btn-xs" href="#" id="' +
+                                oObj.aData[9] + '\" ><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+
+                ]
+            });
+            //----------------Delete Record-----------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ExportSlabMaster/Del",
+                        {
+                            id: idx, fld: ""
+                        },
+                        function (data, status) {
+                            alert(data);
+                            if (data == "Deleted Successfully ...") location.reload();
+                            //  location.replace(base + "/ExportSlabMaster");
+                        });
+                }
+                return false;
+            });//End
+
+        });
+
+        function Cha() {
+            if ($("#TARIFFMID").val() == 4) {
+                $(".chaid,.CHA_LBL").show();
+                $(".CHADESC").focus();
+
+            } else {
+
+                $(".chaid,.CHA_LBL").hide();
+                $("#CHAID").val(0);
+                $("#CHADESC").val("");
+            }
+        }
+        </script>
+    }

@@ -1,0 +1,306 @@
+﻿@model IEnumerable<scfs_erp.Models.CreditNoteMD>
+
+@{
+    ViewBag.Title = "Credit Note";
+}
+<style>
+    .frm_hide {
+        display: none;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: auto;
+    }
+</style>
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-credit-card"></i>&nbsp;Credit Note E-Invoice
+                                <a class="btn btn-success btn-sm pull-right hide" style="padding:3px;margin:0 0 10px" href="@Url.Action("CNForm", "CreditNote")"><i class="fa fa-plus-square "></i> Add New </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3"> </div>
+                        <div class="col-xs-6">
+                            <form action="#" method="post" accept-charset="utf-8" id="remotegateinform" data-ng-controller="myController" name="remotegateinform">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <label for="from">Invoice Type</label>
+                                            <div class="form-group">
+                                                @Html.DropDownList("SDPTID", null, new { @class = "form-control", @id = "SDPTID" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="from">From</label>
+                                            <div class="form-group">
+                                                <input type="text" id="from" name="from" class="form-control" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="from">To</label>
+                                            <div class="form-group">
+                                                <input type="text" id="to" name="to" class="form-control" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="from"></label>
+                                            <div class="form-group">
+                                                <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                                                <input type="text" id="txtgroup" name="txtgroup" class="form-control txtgroup hide" value="@System.Web.HttpContext.Current.Session["Group"]" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                    <br />
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th style="width:auto;">No</th>
+                                <th style="width:auto;">Bill No</th>
+                                <th style="width:auto;">Billing CHA&nbsp;Name</th>
+                                <th style="width:auto;">GST Amount</th>
+                                <th style="width:auto;">Net Amount</th>
+                                <th style="width:auto;">ACK No</th>
+                                <th style="width:auto;">S</th>
+                                <th style="width:auto;">Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "CreditNoteEInvoice")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sSearch": "Search: "
+                },
+
+                "aoColumns": [
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    { "sName": "" },
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+
+                             if ((oObj.aData[6] != null || oObj.aData[6] > 0) && ($('.txtgroup').val() == "Billing")) {
+                                return '<a   class="btn btn-warning btn-xs " target="_blank"  href="@Url.Action("UPrintView", "CreditNoteEInvoice")/' +
+                                    oObj.aData[8] + '\"  ><i class="glyphicon glyphicon-print"></i></a>  ';
+                            }
+                            else if ((oObj.aData[6] != null || oObj.aData[6] > 0)) {
+                                return '<a   class="btn btn-success btn-xs EInvoice @ViewBag.aaa"  href="#" id="' + oObj.aData[9] + '" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-magnet"></i></a>  &nbsp;&nbsp;<a   class="btn btn-warning btn-xs" target="_blank"  href="@Url.Action("UPrintView", "CreditNoteEInvoice")/' +
+                                    oObj.aData[8] + '\"  ><i class="glyphicon glyphicon-print"></i></a> ';
+
+                            }
+                            else if ((oObj.aData[6] == null || oObj.aData[6] == 0) && ($('.txtgroup').val() == "Billing")) {
+                                return '<a   class="btn btn-warning btn-xs" target="_blank"  href="@Url.Action("UPrintView", "CreditNoteEInvoice")/' +
+                                    oObj.aData[8] + '\"  ><i class="glyphicon glyphicon-print"></i></a> ';
+
+                            }
+                            else {
+                                return '<a   class="btn btn-primary btn-xs EInvoice @ViewBag.aaa"  href="#" id="' + oObj.aData[8] + '" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-magnet"></i></a>  &nbsp;&nbsp;<a   class="btn btn-warning btn-xs" target="_blank"  href="@Url.Action("UPrintView", "CreditNoteEInvoice")/' +
+                                    oObj.aData[8] + '\"  ><i class="glyphicon glyphicon-print"></i></a>  ';
+                            }
+
+
+                        }
+                    }
+                ],
+
+            });
+
+        });
+
+        $("#from").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            dateFormat: 'dd-mm-yy',
+            onClose: function (selectedDate) {
+                $("#to").datepicker("option", "minDate", selectedDate);
+            }
+        });
+
+        $("#to").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            dateFormat: 'dd-mm-yy',
+            onClose: function (selectedDate) {
+                $("#from").datepicker("option", "maxDate", selectedDate);
+            }
+        });
+
+        //--------------print------------------------//
+        $(".print-invoice").on("click", function () {
+            var idx = $(this).attr('id');
+
+            turl = "http://216.172.100.137:8080/cfsrpt/print.php?id" + "c" + idx;
+            cpurl = "http://216.172.100.137:8080/cfsrpt/egatein.pdf";
+
+            var pdf = $.post(turl, function () {
+                alert("success");
+            })
+                .success(function () { })
+                .complete(function () { });
+            pdf.complete(function () { window.open(cpurl, "_blank"); });
+
+            return false;
+        });
+
+        //end
+            $(document).on("click", "a.EInvoice", function () {
+                var idx = $(this).attr('id');
+                base = window.location.origin;
+                //const swalWithBootstrapButtons = Swal.mixin({
+                //    customClass: {
+                //        confirmButton: 'btn btn-success',
+                //        cancelButton: 'btn btn-danger'
+                //    },
+                //    buttonsStyling: false
+                //})
+                //swalWithBootstrapButtons.fire({  //Swal
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure to Upload this Invoice ?",
+                    type: "warning",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true,
+                    cancelButtonText: "No",
+                    showCloseButton: true
+                }).then((result) => {
+                        if (result.value) {
+                            //
+                            $.ajax({
+
+                                type: 'post',
+                                url: '@Url.Action("CInvoice", "CreditNoteEInvoice")/' + idx, // we are calling json method
+                                success: function (jdata) {
+                                    alert(jdata);
+                                    //if (data == "Item Saved") {
+                                    //} else {
+                                    //    //alert(window.location.origin + data);
+                                    //    location.replace(base + "/CreditNoteEInvoice");
+                                    //}
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "https://www.fusiontec.com/ebill2/upload.php?ids=c" + idx,
+                                        dataType: 'json',
+                                        data: { json: JSON.stringify(jdata) },
+                                        success: function (data) {
+                                            //alert(data);
+                                        },
+                                        error: function (ex) {
+                                            //alert(ex.responseJSON);
+                                            //alert('Failed to data ' + ex);
+                                        }
+                                        //alert(data);
+                                    });
+
+                                    $.ajax({
+                                        type: "post",
+                                        url: '@Url.Action("UInvoice", "CreditNoteEInvoice")/' + idx, // we are calling json method
+                                        success: function (data) {
+                                            //alert(data);
+                                            //location.replace(base + "/CreditNoteEInvoice");
+                                            if (data == "Uploaded Succesfully") {
+                                                swal({
+                                                    title: "Saved",
+                                                    text: "Import Invoice Uploaded Successfully !!",
+                                                    type: "success",
+                                                    timer: 10000
+                                                }).then(function () {
+                                                    location.replace(base + "/CreditNoteEInvoice");
+                                                }
+                                                );
+                                            }
+                                            else {
+                                                swal({
+                                                    title: "Error",
+                                                    text: data,
+                                                    type: "warning",
+                                                    //timer: 10000
+                                                }).then(function () {
+                                                    location.replace(base + "/CreditNoteEInvoice");
+                                                }
+                                                );
+                                            }
+
+                                        },
+                                        error: function (ex) {
+                                            //alert(ex.responseJSON);
+                                            //alert('Failed to data ' + ex);
+                                        }
+                                        //alert(data);
+                                    });
+
+                                    //swal({
+                                    //    title: "Saved",
+                                    //    text: "Import Invoice Uploaded Successfully !!",
+                                    //    type: "success"
+                                    //}
+                                    //    //, function () {
+                                    //    //    window.location = "index.php";
+                                    //    //}
+                                    //);
+                                },
+                                error: function (ex) {
+                                    alert('Failed to save data ' + ex);
+                                }
+                            });
+
+
+                        } else if (result.dismiss === 'cancel') {
+
+                            //
+                            location.replace(base + "/CreditNoteEInvoice");
+                            return false;
+                            //
+                        }
+                    })
+
+
+
+            });//End
+
+
+
+    </script>
+}
+
+

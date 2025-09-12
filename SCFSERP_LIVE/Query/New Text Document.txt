@@ -1,0 +1,23 @@
+ tab.COMPYID = 1;
+                tab.SDPTID = 2;
+                tab.GICCTLDATE = Convert.ToDateTime(tab.GICCTLTIME).Date;
+                tab.GIDATE = Convert.ToDateTime(tab.GITIME).Date;
+                tab.GINO = 0;
+                tab.GIDNO = "-";
+                tab.GIVHLTYPE = 0;
+                tab.TRNSPRTID = 0;
+                tab.TRNSPRTNAME = "";
+                tab.VHLNO = "--";
+                tab.AVHLNO = tab.VHLNO;
+                tab.DRVNAME = "-";
+                tab.GPREFNO = "-";
+                tab.IMPRTID = 0;
+                tab.IMPRTNAME = "-";
+                tab.STMRID = 0;
+                tab.STMRNAME="-";
+                tab.CONTNRTID = 0;
+                tab.CONTNRSID = 2;
+                tab.CONTNRNO = "-";
+
+                context.gateindetails.Add(tab);
+                context.SaveChanges();

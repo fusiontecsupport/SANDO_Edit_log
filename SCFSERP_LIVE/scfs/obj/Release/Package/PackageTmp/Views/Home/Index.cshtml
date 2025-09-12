@@ -1,0 +1,617 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+    h2 {
+        font-size: 18px;
+        padding: 5px;
+    }
+</style>
+@*<marquee><h2>Welcome to Online CFS</h2></marquee>*@
+
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            @*<form action="@Url.Content("~/Home/TotalContainerDetails")" method="post" accept-charset="utf-8" id="dashboardform" data-ng-controller="myController" name="dashboardform">*@
+                <div class="col-md-12">
+                    <div class="col-md-6" style="align-content:center">
+                        <table>
+                            <tr style="align-content:center">
+                                <td colspan="10"><label for="From" class="fa fa-dashboard fa-10x" style="font-size:30px;font-weight:bold">Dash Board</label></td>
+
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="col-md-6">
+                        <form action="#" method="post" accept-charset="utf-8" id="homeform" data-ng-controller="myController" name="homeform">
+
+                            <table>
+                                <tr>
+
+                                    <td><label for="From">From Date:</label></td>
+                                    <td>&nbsp;&nbsp;</td>
+                                    <td><input type="text" class="datepicker form-control txtfromdate" name="txtfromdate"  value="@System.Web.HttpContext.Current.Session["SDATE"]" id="txtfromdate" /></td>
+                                    <td>&nbsp;&nbsp;</td>
+                                    <td><label for="To">To Date:</label></td>
+                                    <td>&nbsp;&nbsp;</td>
+
+                                    <td><input type="text" class="datepicker form-control txttodate" name="txttodate" value="@System.Web.HttpContext.Current.Session["EDATE"]" id="txttodate" /></td>
+                                    <td>&nbsp;&nbsp;</td>
+                                    <td>&nbsp;&nbsp;</td>
+
+                                    <td>
+                                        <button type="submit" class="btnsubmit btn-primary btn-xs" id="btnsubmit" onclick="PageRefresh();"><i class="fa fa-eye"></i></button>
+                                    <input type="submit" name="submit" value="Search" onclick="PageRefresh();" class="hide btn btn-primary btn-xs" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+
+                </div>
+        </div>
+
+    </div>
+    <br />
+    <div class="col-md-12">
+        <br />
+        @if (System.Web.HttpContext.Current.Session["ImportDBRoleChk"].ToString() == "Y")
+        {
+            <div class="col-lg-12">
+                <legend>Import Gate In Details </legend>
+            </div>
+            <div class="col-lg-12">
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">@System.Web.HttpContext.Current.Session["GI20"]</div>
+                                    @*<div class="huge txtgi20"> <input type="text" value="@System.Web.HttpContext.Current.Session["GI20"]" id="txtgi20" class="txtgi20" style="background-color:orange;color:black" /></div>*@
+
+                                    <div>Total 20'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtgi40">@ViewBag.Total40</div>
+                                    <div>Total 40'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtgi45">@ViewBag.Total45</div>
+                                    <div>Total 45'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtgitu">@ViewBag.TotalTues</div>
+                                    <div>TUSES</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                @*<span class="pull-left">View Details</span>*@
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <legend> Import Gate Out Details  </legend>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtgo20">@ViewBag.GOTotal20</div>
+                                    <div>Total 20'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtgo40">@ViewBag.GOTotal40</div>
+                                    <div>Total 40'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtgo45">@ViewBag.GOTotal45</div>
+                                    <div>Total 45'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+
+                                    <div class="huge txtgotu">@ViewBag.GOTotalTues</div>
+                                    <div>TUSES</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                @*<span class="pull-left">View Details</span>*@
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (System.Web.HttpContext.Current.Session["ExportDBRoleChk"].ToString() == "Y")
+        {
+            <div class="col-lg-12">
+                <legend>Export Gate In Details </legend>
+            </div>
+            <div class="col-lg-12">
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">@System.Web.HttpContext.Current.Session["EGI20"]</div>
+                                    @*<div class="huge txtgi20"> <input type="text" value="@System.Web.HttpContext.Current.Session["GI20"]" id="txtgi20" class="txtgi20" style="background-color:orange;color:black" /></div>*@
+
+                                    <div>Total 20'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtegi40">@ViewBag.ETotal40</div>
+                                    <div>Total 40'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtegi45">@ViewBag.ETotal45</div>
+                                    <div>Total 45'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtegitu">@ViewBag.ETotalTues</div>
+                                    <div>TUSES</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                @*<span class="pull-left">View Details</span>*@
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <legend> Export Gate Out Details  </legend>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtego20">@ViewBag.EGOTotal20</div>
+                                    <div>Total 20'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtego40">@ViewBag.EGOTotal40</div>
+                                    <div>Total 40'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge txtego45">@ViewBag.EGOTotal45</div>
+                                    <div>Total 45'</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-truck fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+
+                                    <div class="huge txtegotu">@ViewBag.EGOTotalTues</div>
+                                    <div>TUSES</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                @*<span class="pull-left">View Details</span>*@
+                                <span class="pull-left">@System.Web.HttpContext.Current.Session["EDATE"].ToString().Replace(" 00:00:00", "")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+</div>
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            var dt = new Date();
+
+            var year = dt.getFullYear();
+            var month = (dt.getMonth() + 1).toString();
+            var day = dt.getDate().toString();
+
+            if (month < 10) month = "0" + month;
+            if (day < 10) day = "0" + day;
+
+            console.log(year + '/' + month + '/' + day);
+
+            var date = day + '/' + month + '/' + year;
+            //alert(isPostBack());
+            //if (isPostBack()) {
+
+            //    $("#txtfromdate").val(date);
+            //    $("#txttodate").val(date);
+            //}
+
+
+
+
+            $("#txtfromdate").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 1,
+                dateFormat: 'dd/mm/yy'
+                //,
+                //onClose: function (selectedDate) {
+                //    $("#txttodate").datepicker("option", "minDate", selectedDate);
+                //}
+            });
+            $("#txttodate").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 1,
+                dateFormat: 'dd/mm/yy'
+                //,
+                //onClose: function (selectedDate) {
+                //    $("#from").datepicker("option", "maxDate", selectedDate);
+                //}
+            });
+
+            //------------Delete Record-------------//
+            GetContainerDetails();
+        });
+        function isPostBack() {
+
+            return document.referrer.indexOf(document.location.href) > -1;
+        }
+        function PageRefresh() {
+            window.location.reload("/Home/Index");
+        }
+        function GetContainerDetails() {
+            var fromdate = $("#txtfromdate").val();
+            var todate = $("#txttodate").val(); var sdptid = 1;
+
+            if (fromdate == "") {
+                alert('Please Enter From Date !!')
+                $("#txtfromdate").focus();
+                return false;
+            }
+
+            if (todate == "") {
+                alert('Please Enter To Date !!')
+                $("#txttodate").focus();
+                return false;
+            }
+
+            url = '@Url.Action("TotalContainerDetails", "Home")';
+
+            $.ajax({
+                type: 'post',
+                url: url, // we are calling json method
+                data: { fromdate: fromdate, todate: todate, sdptid: sdptid },
+                dataType:'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.length != 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            //alert(data[i].Sno);
+                            if ((data[i].Sno == 1) && (data[i].Descriptn == "IMPORT - GATEIN")) {
+
+                                var gi20 = data[i].c_20;
+                                //alert(gi20);
+
+                                $('.txtgi20').val(gi20);
+                                $('.txtgi40').val(data[i].c_40);
+                                $('.txtgi45').val(data[i].c_45);
+                                $('.txtgitu').val(data[i].c_tues);
+
+
+                            }
+
+                            if ((data[i].Sno == 2) && (data[i].Descriptn == "IMPORT - GATEOUT")) {
+                                var go20 = data[i].c_20;
+                               // alert(go20);
+
+                                $('.txtgo20').val(data[i].c_20);
+                                $('.txtgo40').val(data[i].c_40);
+                                $('.txtgo45').val(data[i].c_45);
+                                $('.txtgotu').val(data[i].c_tues);
+                            }
+
+                            if ((data[i].Sno == 3) && (data[i].Descriptn == "EXPORT - GATEIN")) {
+
+                                var egi20 = data[i].c_20;
+                                //alert(egi20);
+
+                                $('.txtegi20').val(egi20);
+                                $('.txtegi40').val(data[i].c_40);
+                                $('.txtegi45').val(data[i].c_45);
+                                $('.txtegitu').val(data[i].c_tues);
+
+
+                            }
+
+                            if ((data[i].Sno == 4) && (data[i].Descriptn == "EXPORT - GATEOUT")) {
+                                var ego20 = data[i].c_20;
+                                // alert(ego20);
+
+                                $('.txtego20').val(data[i].c_20);
+                                $('.txtego40').val(data[i].c_40);
+                                $('.txtego45').val(data[i].c_45);
+                                $('.txtegotu').val(data[i].c_tues);
+                            }
+
+                        }
+
+                    }
+
+                },
+
+            });
+
+
+        }
+    </script>
+}

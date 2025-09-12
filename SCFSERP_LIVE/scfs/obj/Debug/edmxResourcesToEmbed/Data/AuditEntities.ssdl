@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AuditEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <Function Name="pr_Aud_Import_Invoice_IGMNO_Grid_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PIGMNO" Type="varchar" Mode="In" />
+    <Parameter Name="PLNO" Type="varchar" Mode="In" />
+    <Parameter Name="PTRANMID" Type="int" Mode="In" />
+    <Parameter Name="PTRANBTYPE" Type="int" Mode="In" />
+    <Parameter Name="verNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="PR_AUD_IMPORT_tbl_audit_AUTHORIZATION_DETAIL_CTRL_ASSGN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PASLMID" Type="int" Mode="In" />
+    <Parameter Name="VerNo" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="AuditEntitiesStoreContainer" />
+</Schema>

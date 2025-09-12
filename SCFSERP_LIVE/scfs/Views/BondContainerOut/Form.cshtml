@@ -1,0 +1,321 @@
+﻿@using scfs_erp.Models;
+@model scfs_erp.Models.BondContainerOut
+
+@{
+    ViewBag.Title = "Bond Container OUT Details";
+}
+
+<style>
+    .frm_hide {
+        display: none;
+    }
+</style>
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-search"></i>
+                    <strong>@ViewBag.Title</strong>
+                </div>
+            </div>
+            <div class="box-content" data-ng-app="myModule">
+                <form action="@Url.Content("~/BondContainerOut/savedata")" method="post" accept-charset="utf-8" id="ExBondVTForm" data-ng-controller="myController" name="ExBondVTForm" onsubmit="return  Form_validate()">
+                    @Html.ValidationSummary(true)
+                    <fieldset id="ExportDirectVT_info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2 hidden">
+                                    <div class="form-group">
+                                        <label>Primary  </label>
+                                        @Html.TextBoxFor(model => model.GODID, new { @class = "form-control  GODID", @id = "GODID" })
+                                        @Html.TextBoxFor(model => model.GONO, new { @class = "form-control  GONO", @id = "GONO", @data_val = false })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Date<span class="required-field"></span> </label>
+                                        @Html.TextBoxFor(model => model.GODATE, new { @class = "form-control GODATE", @id = "GODATE", @data_val = false, @tabindex = "1", @placeholder = "Please Select Date" })
+                                        @*@Html.TextBoxFor(model => model.vtdetail.GODATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker GODATE ", @id = "GODATE", @data_val = false, tabindex = "1" })*@
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Time<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.GOTIME, "{0:HH:mm:ss}", new { @class = "form-control timepicker GOTIME ", @id = "GOTIME", @data_Val = false, tabindex = "2" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>No </label>
+                                        @Html.TextBoxFor(model => model.GODNO, new { @class = "form-control GODNO ", @id = "GODNO", @data_val = false, @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Container No<span class="required-field"></span></label>
+                                        @Html.DropDownList("GIDID", null, "--Select Container No--", new { @class = "form-control GIDID", @id = "GIDID", @required = "required", @tabindex = "3", @onchange = "GetContnrDtl();" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>IGM No<span class="required-field"></span></label>
+                                        <input type="text" value="" id="IGMNO" class=" form-control IGMNO" name="IGMNO" readonly="readonly" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Line No</label>
+                                        <input type="text" value="" id="LINENO" class=" form-control LINENO" name="LINENO" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                
+
+                                <div class="col-md-4 ">
+                                    <div class="form-group">
+                                        <label>CHA Name</label>                                        
+                                        @Html.HiddenFor(model => model.CHAID, new { @class = "form-control CHAID", @id = "CHAID", @readonly = "readonly" })
+                                        @Html.TextBoxFor(model => model.CHASNAME, new { @class = "form-control CHASNAME", @id = "CHASNAME", @readonly = "readonly" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Importer</label>
+                                        <input type="text" value="" id="IMPRTRNAME" class=" form-control IMPRTRNAME" name="IMPRTRNAME" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Steamer</label>
+                                        <input type="text" value="" id="STMRNAME" class=" form-control STMRNAME" name="STMRNAME" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Vehicle No<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.VHLNO, new { @class = "form-control VHLNO", @id = "VHLNO", @required = "required", @tabindex = "4" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Driver Name<span class="required-field"></span></label>
+                                        @Html.TextBoxFor(model => model.GDRVNAME, new { @class = "form-control GDRVNAME", @id = "GDRVNAME", @tabindex = "5" })
+                                    </div>
+                                </div>
+                               
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    @Html.TextAreaFor(model => model.GOREMRKS, new { @class = "form-control GOREMRKS", @id = "GOREMRKS", @tabindex = "8" })
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 box-footer">
+                            <div class="col-md-12 box-footer">
+                                <input type="button" name="back" value="Go Back" class="btn btn-primary btn-xs  pull-left" onclick="JavaScript:history.back()" tabindex="10" />
+                                <input type="submit" name="submit" value="Submit" class="btn btn-success btn-xs" id="save" tabindex="9" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+    {
+    <script type="text/javascript" src="~/Scripts/CommonValidation.js"></script>
+    <script>
+        function GetFormattedDate(obj) {
+            var MyDate_String_Value = obj;
+            var value1 = new Date
+                (
+                    parseInt(MyDate_String_Value.replace(/(^.*\()|([+-].*$)/g, ''))
+                );
+            var dat = value1.getDate() +
+                "/" +
+                eval(value1.getMonth() + 1) +
+                "/" +
+                value1.getFullYear();
+            return dat;
+        }
+
+
+
+        function GetContnrDtl() {
+            id = $("#GIDID").val();
+            if (id != "" && id != null && id != "0") {
+                //alert(id);
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("GetContainerDtl", "BondContainerOut")?id=' + id, // we are calling json method
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data, function (i, dataval) {
+                            $("#BNDDNO").val(dataval.BNDDNO);
+                            $("#IMPRTID").val(dataval.IMPRTID);
+                            $("#CHAID").val(dataval.CHAID);                            
+                            $("#CHASNAME").val(dataval.CHANAME);   
+                            $("#STMRNAME").val(dataval.STMRNAME);
+                            $("#IMPRTRNAME").val(dataval.IMPRTRNAME);
+                            $("#IGMNO").val(dataval.IGMNO) 
+                            $("#LINENO").val(dataval.GPLNO) 
+
+
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to data ' + ex);
+                    }
+                });
+            }
+        }
+
+        $(window).bind("load", function () {
+            if ($(".GODID").val() == "") {
+                $(".GODID").val("0");
+            }
+
+            window.onbeforeunload = function () {
+                $("input[type=submit]").attr("disabled", "disabled");
+            };
+
+            if ($("#GODID").val() == "") {
+                $("#GODID").val("0");
+            }
+            $('input[id$=GODATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#GODATE").focus();
+                }
+            });
+
+            $('input[id$=EVSDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#EVSDATE").focus();
+                }
+            });
+
+            $('input[id$=EVLDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#EVLDATE").focus();
+                }
+            });
+
+            $('input[id$=ELRDATE]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                maxDate: new Date(),
+                onClose: function (dateText, inst) {
+                    $("#ELRDATE").focus();
+                }
+            });
+
+            $(".datepicker").removeAttr('GODATE').removeClass('hasDatepicker');
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+
+            if ($("#GODID").val() == 0) {
+                var dt = new Date();
+
+                var year = dt.getFullYear();
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+
+                //var month = dt.getMonth() + 1;
+                //var date = dt.getDate() + "/" + month + "/" + dt.getFullYear();
+                //console.log(year + '/' + month + '/' + day);
+
+                var date = day + '/' + month + '/' + year;
+
+                var hours = dt.getHours();
+                var minutes = dt.getMinutes();
+                var seconds = dt.getSeconds();
+
+                if (hours < 10) hours = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                var datetme = hours + ':' + minutes + ':' + seconds;
+
+                $(".GODATE").val(date);
+                $(".GOTIME").val(datetme);
+            }
+            else {
+                if ($(".GODID").val() != 0) {
+                    GetContnrDtl();
+
+                }
+            }
+        });
+
+        
+        function Form_validate() {
+            if ($("#GODATE").val() == "") {
+                alert("Please enter Date !!");
+                $(".GODATE").focus();
+                return false;
+            }
+            else if ($("#GOTIME").val() == "") {
+                alert("Please enter Time !!");
+                $(".GOTIME").focus();
+                return false;
+            }
+            var temp8 = $("#VHLNO").val();
+            if (temp8 == "") {
+                alert("Please enter vehicle no !!");
+                $("#VHLNO").focus();
+                return false;
+            }
+            else if ($("#GDRVNAME").val() == "") {
+                alert("Please enter driver name !!");
+                $(".GDRVNAME").focus();
+                return false;
+            }
+            
+        }
+
+        $(document).ready(function () {
+
+            $("#GIDID").focus();
+            EdBal();
+            $(".datepicker").removeAttr('GODATE').removeClass('hasDatepicker');
+
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('.timepicker').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+        });
+
+    </script>
+}
+@Scripts.Render("~/bundles/jqueryval")
+}

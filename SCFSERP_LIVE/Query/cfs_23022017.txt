@@ -1,0 +1,188 @@
+
+1.
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+Create VIEW [dbo].[VW_VEHICLETICKET_EXPORT_CONTAINER_CTRL_ASSGN_DIRECT]
+AS
+SELECT     TOP (100) PERCENT 0 AS STFDID, '---' AS STFMDNO, dbo.GATEINDETAIL.GIDATE AS STFMDATE, dbo.GATEINDETAIL.CHANAME, '---' AS EXPRTNAME, 
+                      dbo.GATEINDETAIL.GIDID, dbo.GATEINDETAIL.GIDATE, dbo.CONTAINERSIZEMASTER.CONTNRSDESC, dbo.GATEINDETAIL.PRDTDESC, '---' AS SBILLNO, 
+                      '---' AS SBILLDATE, '---' AS SBMDNO, '---' AS SBMDATE, dbo.GATEINDETAIL.SDPTID, dbo.GATEINDETAIL.GPSTYPE
+FROM         dbo.GATEINDETAIL INNER JOIN
+                      dbo.CONTAINERSIZEMASTER ON dbo.GATEINDETAIL.CONTNRSID = dbo.CONTAINERSIZEMASTER.CONTNRSID
+WHERE     (dbo.GATEINDETAIL.SDPTID = 2) AND (dbo.GATEINDETAIL.GPSTYPE = 4)
+
+GO
+
+
+
+2.
+
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+Create VIEW [dbo].[VW_VEHICLETICKET_EXPORT_CONTAINER_CBX_ASSGN_DIRECT]
+AS
+SELECT     TOP (100) PERCENT dbo.GATEINDETAIL.GIDID, dbo.GATEINDETAIL.CONTNRNO, dbo.CONTAINERSIZEMASTER.CONTNRSDESC
+FROM         dbo.STUFFINGDETAIL RIGHT OUTER JOIN
+                      dbo.GATEINDETAIL ON dbo.STUFFINGDETAIL.GIDID = dbo.GATEINDETAIL.GIDID LEFT OUTER JOIN
+                      dbo.VW_VEHICLETICKET_EXPORT_CONTAINER_CBX_ASSGN_01 ON 
+                      dbo.GATEINDETAIL.GIDID = dbo.VW_VEHICLETICKET_EXPORT_CONTAINER_CBX_ASSGN_01.GIDID LEFT OUTER JOIN
+                      dbo.CONTAINERSIZEMASTER ON dbo.GATEINDETAIL.CONTNRSID = dbo.CONTAINERSIZEMASTER.CONTNRSID LEFT OUTER JOIN
+                      dbo.GATEOUTDETAIL ON dbo.GATEINDETAIL.GIDID = dbo.GATEOUTDETAIL.GIDID
+WHERE     (ISNULL(dbo.VW_VEHICLETICKET_EXPORT_CONTAINER_CBX_ASSGN_01.VTDID, 0) = 0) AND (ISNULL(dbo.GATEOUTDETAIL.GODID, 0) = 0) AND 
+                      (dbo.GATEINDETAIL.GIDATE >= CONVERT(DATETIME, '2012-04-01 00:00:00', 102)) AND (dbo.GATEINDETAIL.DISPSTATUS = 0) AND (dbo.GATEINDETAIL.GPSTYPE = 4) 
+                      AND (dbo.STUFFINGDETAIL.STFDID IS NULL)
+GROUP BY dbo.GATEINDETAIL.CONTNRNO, dbo.CONTAINERSIZEMASTER.CONTNRSDESC, dbo.GATEINDETAIL.GIDID
+ORDER BY dbo.GATEINDETAIL.CONTNRNO
+
+GO
+
+
+3.
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[pr_Search_Export_Vehicle_Ticket_Master]  /* CHANGE */
+ @FilterTerm nvarchar(250) = NULL --parameter to search all columns by
+        , @SortIndex INT = 1 -- a one based index to indicate which column to order by
+        , @SortDirection CHAR(4) = 'ASC' --the direction to sort in, either ASC or DESC
+        , @StartRowNum INT = 1 --the first row to return
+        , @EndRowNum INT = 10 --the last row to return
+        , @TotalRowsCount INT OUTPUT
+        , @FilteredRowsCount INT OUTPUT
+        , @PCompyId INT
+        , @PSDate Smalldatetime
+        , @PEDate Smalldatetime
+ 
+AS BEGIN
+
+Declare @LCompyId int,@LSDate Smalldatetime, @LEDate Smalldatetime
+set @LCompyId = @PCompyId
+set @LSDate = @PSDate
+set @LEDate = @PEDate
+
+    --Wrap filter term with % to search for values that contain @FilterTerm
+    SET @FilterTerm = '%' + @FilterTerm + '%'
+
+
+    DECLARE @TableMaster TABLE
+    (
+      VTDATE SMALLDATETIME
+    , VTDNO VARCHAR(15)
+    , CONTNRNO  VARCHAR(15)
+    , CONTNRSDESC  VARCHAR(5)	
+    , STFMDNO VARCHAR(25)
+	, VTDESC VARCHAR(100)
+	, VTQTY numeric(18,2)
+	, VHLNO  VARCHAR(25)
+	, EGIDID int 
+	, GIDId int
+	, VTDID int
+	, CGIDID int,VTSSEALNO VARCHAR(50)
+	, GODID INT
+	, VTCTYPE smallint
+    , RowNum INT
+    )
+    INSERT INTO @TableMaster(VTDATE, VTDNO, CONTNRNO, CONTNRSDESC, STFMDNO, VTDESC, VTQTY, VHLNO, EGIDID, GIDId, VTDID, CGIDID,VTSSEALNO, GODID, VTCTYPE, RowNum)
+  
+    SELECT   dbo.VEHICLETICKETDETAIL.VTDATE, dbo.VEHICLETICKETDETAIL.VTDNO,  
+    dbo.GATEINDETAIL.CONTNRNO, dbo.CONTAINERSIZEMASTER.CONTNRSCODE, dbo.STUFFINGMASTER.STFMDNO,
+    dbo.VEHICLETICKETDETAIL.VTDESC, dbo.VEHICLETICKETDETAIL.VTQTY, dbo.VEHICLETICKETDETAIL.VHLNO,
+    dbo.VEHICLETICKETDETAIL.EGIDID, dbo.GATEINDETAIL.GIDID, dbo.VEHICLETICKETDETAIL.VTDID,
+    dbo.VEHICLETICKETDETAIL.CGIDID,dbo.VEHICLETICKETDETAIL.VTSSEALNO, ISNULL(dbo.GATEOUTDETAIL.GODID, 0) AS GODID, VTCTYPE
+
+            , Row_Number() OVER (
+            ORDER BY
+            
+            /*VARCHAR, NVARCHAR, CHAR ORDER BY*/
+            
+            CASE @SortDirection
+                 WHEN 'ASC'  THEN
+                      CASE @SortIndex
+           				  WHEN 1 then VTDNO
+			  			  WHEN 2 then CONTNRNO
+					      WHEN 3 then CONTNRSDESC
+			  			  WHEN 4 then STFMDNO
+						  WHEN 5 then VTDESC
+					   END             
+				 END ASC,
+            CASE @SortDirection
+              WHEN 'DESC' THEN 
+                   CASE @SortIndex
+           			    WHEN 1 then VTDNO
+			  		    WHEN 2 then CONTNRNO
+					    WHEN 3 then CONTNRSDESC
+			  			WHEN 4 then STFMDNO
+						WHEN 5 then VTDESC
+                    END
+               END DESC,
+            
+            CASE @SortDirection
+              WHEN 'ASC'  THEN
+                   CASE @SortIndex
+                     WHEN 0 THEN VTDATE
+                   END             
+            END ASC,
+            CASE @SortDirection
+              WHEN 'DESC' THEN 
+                CASE @SortIndex
+                  WHEN 0 THEN VTDATE
+                END
+            END DESC
+            
+            ) AS RowNum
+
+/*
+FROM         dbo.VEHICLETICKETDETAIL INNER JOIN
+                      dbo.STUFFINGDETAIL INNER JOIN
+                      dbo.STUFFINGMASTER ON dbo.STUFFINGDETAIL.STFMID = dbo.STUFFINGMASTER.STFMID INNER JOIN
+                      dbo.GATEINDETAIL INNER JOIN
+                      dbo.CONTAINERSIZEMASTER ON dbo.GATEINDETAIL.CONTNRSID = dbo.CONTAINERSIZEMASTER.CONTNRSID ON 
+                      dbo.STUFFINGDETAIL.GIDID = dbo.GATEINDETAIL.GIDID ON dbo.VEHICLETICKETDETAIL.GIDID = dbo.GATEINDETAIL.GIDID LEFT OUTER JOIN
+                      dbo.GATEOUTDETAIL ON dbo.GATEINDETAIL.GIDID = dbo.GATEOUTDETAIL.GIDID
+*/
+FROM         dbo.STUFFINGMASTER RIGHT OUTER JOIN
+                      dbo.VEHICLETICKETDETAIL INNER JOIN
+                      dbo.GATEINDETAIL INNER JOIN
+                      dbo.CONTAINERSIZEMASTER ON dbo.GATEINDETAIL.CONTNRSID = dbo.CONTAINERSIZEMASTER.CONTNRSID ON 
+                      dbo.VEHICLETICKETDETAIL.GIDID = dbo.GATEINDETAIL.GIDID LEFT OUTER JOIN
+                      dbo.STUFFINGDETAIL ON dbo.GATEINDETAIL.GIDID = dbo.STUFFINGDETAIL.GIDID LEFT OUTER JOIN
+                      dbo.GATEOUTDETAIL ON dbo.GATEINDETAIL.GIDID = dbo.GATEOUTDETAIL.GIDID ON dbo.STUFFINGMASTER.STFMID = dbo.STUFFINGDETAIL.STFMID
+                                            
+WHERE (dbo.VEHICLETICKETDETAIL.COMPYID = @LCompyId) and
+(VTDATE BETWEEN @PSDate AND @PEDate) AND (VEHICLETICKETDETAIL.SDPTID=2) AND (@FilterTerm IS NULL 
+             OR VTDATE LIKE @FilterTerm
+              OR VTDNO LIKE @FilterTerm
+              OR CONTNRNO  LIKE @FilterTerm
+              OR CONTNRSDESC    LIKE @FilterTerm
+              oR STFMDNO LIKE @FilterTerm
+              OR VTDESC    LIKE @FilterTerm
+              OR VTQTY    LIKE @FilterTerm)
+			   
+ORDER BY VTDNO 
+            
+    SELECT VTDATE, VTDNO, CONTNRNO, CONTNRSDESC, STFMDNO, VTDESC, VTQTY, VHLNO, EGIDID, GIDId, VTDID, CGIDID,VTSSEALNO,GODID,VTCTYPE
+    FROM    @TableMaster
+    WHERE   RowNum BETWEEN @StartRowNum AND @EndRowNum
+	ORDER BY VTDNO  DESC
+    
+
+SELECT    @TotalRowsCount = COUNT(*)
+FROM VEHICLETICKETDETAIL
+WHERE  dbo.VEHICLETICKETDETAIL.SDPTID = 2 AND  dbo.VEHICLETICKETDETAIL.COMPYID = @LCompyId AND VTDATE BETWEEN @LSDate AND @LEDate
+
+    
+    SELECT @FilteredRowsCount = COUNT(*)
+    FROM   @TableMaster
+        
+END

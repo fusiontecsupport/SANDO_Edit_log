@@ -1,0 +1,343 @@
+﻿@model IEnumerable<scfs_erp.Models.GateInDetail>
+
+@{
+    ViewBag.Title = "Export Gate In";
+}
+<div id="main-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="panel panel-primary" style="background: #323C55;">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <i class="glyphicon glyphicon-export"></i>@ViewBag.Title
+                                <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("NForm", "ExportGateIn")"><i class="fa fa-plus-square "></i> Add New </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                       
+                        <div class="col-xs-3"> </div>
+                        <div class="col-xs-12">
+                            <form action="#" method="post" accept-charset="utf-8" id="remotegateinform" data-ng-controller="myController" name="remotegateinform">
+                                <div class="row">
+                                    <div class="col-lg-12" style="margin-left:7%">
+                                        <div class="col-lg-2">
+                                            <label for="from">From</label>
+                                            <input type="text" id="from" name="from" class="form-control" value="@System.Web.HttpContext.Current.Session["SDATE"]">
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <label for="to">To</label>
+                                            <input type="text" id="to" class="form-control" name="to" value="@System.Web.HttpContext.Current.Session["EDATE"]">
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <label for="GPWTYPE">By</label>
+                                            @Html.DropDownList("GPWTYPE", null, new { @class = "form-control GPWTYPE", @onchange = "GetVechileGroup()" })                                         
+                                        </div>
+
+                                        <div class="col-lg-2">
+                                            <label for="GPSTYPE">Type</label>
+                                            @Html.DropDownList("GPSTYPE", null, new { @class = "form-control GPSTYPE" })                                            
+                                        </div>
+
+                                        <div class="col-lg-2">
+                                           <br />
+                                            <input type="submit" name="submit" value="Search" class="btn btn-primary btn-xs" />
+                                        </div>
+
+                                       
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th style="width:auto;">Date</th>
+                                <th style="width:auto;">Time</th>
+                                <th style="width:auto;">No</th>
+                                <th style="width:auto;">CHA&nbsp;Name</th>
+                                <th style="width:auto;">Product</th>
+                                <th style="width:auto;">Container&nbsp;No</th>
+                                <th style="width:auto;">Size</th>
+                                <th style="width:auto;">Vehicle No</th>
+                                <th style="width:auto;">S</th>
+                                <th style="width:auto;">Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                
+                                <th colspan="10" style="text-align:center"></th>
+                            </tr>
+
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            $('#dataTables-example').dataTable({
+                "bServerSide": true,
+                "sAjaxSource": "@Url.Action("GetAjaxData", "ExportGateIn")",
+                "bProcessing": true,
+                "bStateSave": true,
+                "oLanguage": { "sSearch": "Search:" },
+                "aaSorting": [[1, "desc"]],
+
+                "aoColumns": [
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-4" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    { "sName": "", "sClass": "col-lg-2" },
+                    { "sName": "", "sClass": "col-lg-1" },
+                    {
+                        "sClass": "col-sm-1 cent",
+                        "sName": "ID",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "fnRender": function (oObj) {
+                            return ' <a class="btn btn-primary btn-xs" href="@Url.Action("Edit", "ExportGateIn")/' +
+                                oObj.aData[9] + '\"><i class="glyphicon glyphicon-edit"></i></a>  &nbsp;&nbsp;' +
+                                '<a class="btn btn-default btn-xs" href="@Url.Action("PrintView", "ExportGateIn")/' + oObj.aData[9] + '\"  target="_blank"><i class="glyphicon glyphicon-print"></i></a>  &nbsp;&nbsp;' +
+                                '<a class="btn btn-danger del btn-xs" href="#" id="' + oObj.aData[9] + '" "><i class="glyphicon glyphicon-trash"></i> </a> ';
+                        }
+                    }
+                ],
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData[8] == "Cancel") {
+                        $(nRow).find('td:eq(8)').css('background-color', '#f36b55');
+                        
+                    }                 
+                },
+                "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+                    //alert(2);
+                    var TNOS = 0; var FNOS = 0; var TUES = 0; var FNOSS = 0; var Total = 0;
+
+                    /*
+                     * Calculate the total market share for all browsers in this table (ie inc. outside
+                     * the pagination)
+                     */
+
+                    /* Calculate the market share for browsers on this page */
+
+                    for (var i = 0; i < aaData.length; i++) {
+                        //alert("2" + aaData[aiDisplay[i]][3]);
+                        if (aaData[aiDisplay[i]][6] == 20) TNOS++;
+                        if (aaData[aiDisplay[i]][6] == 40) FNOS++;
+                        if (aaData[aiDisplay[i]][6] == 45) FNOSS++;
+                        TUES = eval(TNOS) + eval(2 * FNOS) + eval(2 * FNOSS);
+                        Total = eval(TNOS) + eval(FNOS) + eval(FNOSS);
+
+
+                    }
+
+                    var nCells = nRow.getElementsByTagName('th'); nCells[0].innerHTML = '<span style="color:red">20":</span>' + eval(TNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">40":</span>' + eval(FNOS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '<span style="color:red">45":</span>' + eval(FNOSS) + '&nbsp;&nbsp;&nbsp;&nbsp;<th></th>' + '&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red">TOTAL: </span>' + eval(Total) + '&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red">TUES:</span>' + eval(TUES)
+                    //  nCells[1].innerHTML = eval(TNOS); nCells[1].innerHTML = '<span style="color:red">20":</span>' + nCells[1].innerHTML + '<th></th><th></th><th></th><th></th><th></th>'
+                    //  nCells[3].innerHTML = '<span style="color:red">40":</span>' + eval(FNOS);
+                    // //nCells[2].innerHTML = nCells[2].innerHTML + '<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>'
+                    //  nCells[5].innerHTML = '<span style="color:red">TUES:</span>' + eval(TUES);
+                    // //nCells[3].innerHTML = '<th></th><th></th><th></th><th></th><th></th><th></th><th></th>' + nCells[3].innerHTML + '<th></th><th></th>'
+
+                }
+
+            });
+
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                dateFormat: 'dd-mm-yy',
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+
+            GetVechileGroup();
+            @*$("#GPWTYPE").change(function () {
+                $("#GPSTYPE").empty();
+
+                id = $("#GPWTYPE").val();
+
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("GetVehicleGroup","ExportGateIn")?id=' + id, // we are calling json method
+
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data == "") {
+                            $("#GPSTYPE").append('<option value="6">ALL</option>');
+                        }
+                        else {
+                            $.each(data, function (i, dataval) {
+                                $("#GPSTYPE").append('<option value="' + dataval.GPSTYPE + '">' + dataval.GPSTYPEDESC + '</option>');
+                            });
+                        }
+                    },
+                    complete: function (data) {
+                        if (id == 1)
+                            $("#GPSTYPE").val("4");
+                        if (id == 0)
+                            $("#GPSTYPE").val("1");
+
+                        vehicle();
+                    },
+                    error: function (ex) {
+                        alert('Failed to data ' + ex);
+                    }
+                });
+
+                return false;
+
+            });*@
+
+            //--------------print------------------------//
+            $(".print-invoice").on("click", function () {
+                var idx = $(this).attr('id');
+
+                turl = "http://216.172.100.137:8080/cfsrpt/print.php?id" + idx;
+                cpurl = "http://216.172.100.137:8080/cfsrpt/egatein.pdf";
+
+                var pdf = $.post(turl, function () {
+                    alert("success");
+                })
+                    .success(function () { })
+                    .complete(function () { });
+                pdf.complete(function () { window.open(cpurl, "_blank"); });
+
+                return false;
+            });
+
+            //end
+
+
+            //----------------Delete Record event----------//
+            $(document).on("click", "a.del", function () {
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+                    var idx = $(this).attr('id');
+                    base = window.location.origin;
+                    $.post(base + "/ExportGateIn/Del",
+                        {
+                            id: idx, fld: "EXPORTGATEIN"
+                        },
+                        function (data, status) {
+                            if (data == "") {
+                                //alert("You are not Authorized to Delete....!");
+
+                                $('<div></div>').dialog({
+                                    modal: true,
+                                    title: "Information",
+                                    open: function () {
+                                        var markup = '<b>' + 'You are not Authorized to Delete....!' + '<b>';
+                                        $(this).html(markup);
+                                    },
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                        }
+                                    }
+                                }); //end confirm dialog
+                            }
+                            else if (data != "Deleted successfully...") {
+                                //alert(data);
+
+                                $('<div></div>').dialog({
+                                    modal: true,
+                                    title: "Information",
+                                    open: function () {
+                                        var markup = '<b>' + data + '<b>';
+                                        $(this).html(markup);
+                                    },
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                        }
+                                    }
+                                }); //end confirm dialog
+                            }
+                            else {
+                                //alert(data);
+
+                                $('<div></div>').dialog({
+                                    modal: true,
+                                    title: "Information",
+                                    open: function () {
+                                        var markup = '<b>' + data + '<b>';
+                                        $(this).html(markup);
+                                    },
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                        }
+                                    }
+                                }); //end confirm dialog
+                                location.replace(base + "/ExportGateIn");
+                            }
+                        });
+                }
+                return false;
+            });//End of delete
+        });
+
+
+        function GetVechileGroup() {
+            $("#GPSTYPE").empty();
+
+            id = $("#GPWTYPE").val();
+
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetVehicleGroup","ExportGateIn")?id=' + id, // we are calling json method
+
+                dataType: 'json',
+                success: function (data) {
+                    if (data == "") {
+                        $("#GPSTYPE").append('<option value="6">ALL</option>');
+                    }
+                    else {
+                        $.each(data, function (i, dataval) {
+                            $("#GPSTYPE").append('<option value="' + dataval.GPSTYPE + '">' + dataval.GPSTYPEDESC + '</option>');
+                        });
+                    }
+                },
+                complete: function (data) {
+                    if (id == 1)
+                        $("#GPSTYPE").val("4");
+                    if (id == 0)
+                        $("#GPSTYPE").val("1");
+                },
+                error: function (ex) {
+                    alert('Failed to data ' + ex);
+                }
+            });
+
+        }
+    </script>
+}

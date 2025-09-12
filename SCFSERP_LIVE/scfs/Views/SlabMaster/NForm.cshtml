@@ -1,0 +1,174 @@
+﻿
+@using scfs_erp.Models;
+@model scfs_erp.Models.SlabMaster
+
+@{
+    ViewBag.Title = "Slab Master";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="glyphicon glyphicon-share"></i><strong>@ViewBag.Title</strong>
+                </div>
+
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content no-padding">
+                <form action="@Url.Content("~/Slabmaster/nsavedata")" method="post" accept-charset="utf-8" id="slabmasterform" data-ng-controller="myController" name="slabmasterform">
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-1"> </div>
+                        <div class="col-lg-12">
+
+                            <table class="table">
+                                <tr>
+                                    <td>Type</td>
+                                    <td>
+                                        @Html.DropDownList("ASDPTTYPEID", null, new { @class = "form-control ASDPTTYPEID", @onchange = "GetStreamer()" })
+                                    </td>
+                                    <td>Tariff</td>
+                                    <td>
+                                        @Html.DropDownList("ATARIFFMID", null, new { @class = "form-control ATARIFFMID", @onchange = "GetStreamer()" })
+                                    </td>
+
+                                    <td class="CHA_LBL">Steamer</td>
+                                    <td>
+                                        <div class="chaid">
+                                            <input type="text" name="ASTMRDESC" id="ASTMRDESC" value="@Session["FSTMRNAME"]" class="form-control ASTMRDESC" data-autocomplete-url="~/scfs/SlabMaster/AutoStreamer" placeholder="Select Steamer" />
+                                            <input type="text" class="hide form-control  ASTMRID" id="ASTMRID" name="ASTMRID" value="@Session["FSTMRID"]" />
+
+                                        </div>
+                                    </td>
+                                    <td>Charge Type</td>
+                                    <td>
+                                        @Html.DropDownList("CHRGETYPE", null, new { @class = "form-control CHRGETYPE", @data_val = "true", @data_val_required = "Field is required" })
+                                    </td>
+                                    <td>Slab Type</td>
+                                    <td>
+                                        @Html.DropDownList("ASLABTID", null, new { @class = "form-control ASLABTID", @data_val = "true", @data_val_required = "Field is required" })
+                                    </td>
+                                    <td><input type="button" name="submit" value="Search" class="btn btn-primary btn-xs" onclick="GetDetail()" /></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="dataTables-example">
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    W.E. From
+                                </th>
+                                <th>
+                                    Size
+                                </th>
+                                <th>
+                                    Yard
+                                </th>
+                                <th>
+                                    Slab Days
+                                </th>
+                                <th>
+                                    Handling
+                                </th>
+                                <th>
+                                    Wages
+                                </th>
+                                <th>
+                                    Min
+                                </th>
+                                <th>
+                                    Max
+                                </th>
+                                <th>
+                                    Value
+                                </th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="TMPBODY"></tbody>
+                    </table>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Transfrred To</div>
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <td>W.E. From</td>
+                                <td>@Html.TextBoxFor(model => Model.SLABMDATE, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker SLABMDATE", @id = "SLABMDATE", @data_val = false })</td>
+                                <td>Type</td>
+                                <td>
+                                    @Html.DropDownList("SDPTTYPEID", null, new { @class = "form-control SDPTTYPEID", @onchange = "GetStreamer()" })
+                                </td>
+                                <td>Tariff</td>
+                                <td>
+                                    @Html.DropDownList("TARIFFMID", null, new { @class = "form-control TARIFFMID", @onchange = "GetStreamer()" })
+                                </td>
+                                <td class="CHA_LBL">Steamer</td>
+                                <td>
+                                    <div class="chaid">
+                                        <input type="text" name="STMRDESC" id="STMRDESC" value="@Session["FSTMRNAME"]" class="form-control STMRDESC" data-autocomplete-url="/SlabMaster/AutoStreamer" placeholder="Select Steamer" />
+                                        <input type="text" class="hide form-control  STMRID" id="STMRID" name="STMRID" value="@Session["FSTMRID"]" />
+
+                                    </div>
+                                </td>
+
+                                <td>Slab Type</td>
+                                <td>
+                                    @Html.DropDownList("SLABTID", null, new { @class = "form-control SLABTID", @data_val = "true", @data_val_required = "Field is required" })
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="box-footer">
+                        <input type="submit" name="save" value="Transfer" class="btn btn-success btn-xs" id="save" />
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            GetStreamer(); add_autocomplete($("#STMRDESC"), "STMRDESC,STMRID");
+            add_autocomplete($("#ASTMRDESC"), "ASTMRDESC,ASTMRID");
+
+
+            $(".datepicker").datepicker({ dateFormat: 'dd/mm/yy', changeMonth: true, changeYear: true });
+            $('.datetime').datetimepicker({
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'hh:mm'
+            });
+        });
+
+        function GetDetail() {
+           // alert('@Url.Action("GetDetail", "SlabMaster")/' + $(".ATARIFFMID option:selected").val() + "~" + $(".ACHRGETYPE option:selected").val() + "~" + $(".ASLABTID option:selected").val());
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("GetDetail", "SlabMaster")/' + $(".ATARIFFMID option:selected").val() + "~" + $(".CHRGETYPE option:selected").val() + "~" + $(".ASLABTID option:selected").val() + '~' + $(".ASDPTTYPEID option:selected").val(), // we are calling json method
+
+                success: function (data) { $("#TMPBODY").html(data); }
+            });
+        }
+
+        function GetStreamer() {
+            if (($('#TARIFFMID').val() == 4) || ($('#TARIFFMID').val() == 6)) {
+                $(".chaid,.CHA_LBL").show();
+                var Sel_text = $('#TARIFFMID option:selected').val();
+                $("#STMRID").val(Sel_text);
+            }
+            else {
+                $('.chaid,.CHA_LBL').hide();
+                $("#STMRID").val(0);
+            }
+        }
+    </script>
+}
+

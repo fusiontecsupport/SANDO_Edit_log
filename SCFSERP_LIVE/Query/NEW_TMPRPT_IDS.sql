@@ -1,0 +1,25 @@
+USE [SCFS_ERP]
+GO
+
+/****** Object:  Table [dbo].[NEW_TMPRPT_IDS]    Script Date: 10-08-2021 16:54:59 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[NEW_TMPRPT_IDS](
+	[KUSRID] [varchar](100) NOT NULL,
+	[OPTNSTR] [varchar](50) NOT NULL,
+	[RPTID] [int] NOT NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
