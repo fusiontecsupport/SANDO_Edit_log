@@ -1254,7 +1254,18 @@ namespace scfs_erp.Controllers.Import
             try
             {
                 using (var sql = new SqlConnection(cs.ConnectionString))
-                using (var cmd = new SqlCommand("SELECT ISNULL(MAX([Version]), 0) + 1 FROM [GateInDetailEditLog] WHERE [GIDID] = @GIDID", sql))
+                using (var cmd = new SqlCommand(@"
+                    SELECT ISNULL(
+                        MAX(TRY_CAST(
+                            SUBSTRING([Version], 2, 
+                                CASE WHEN CHARINDEX('-', [Version]) > 0 
+                                     THEN CHARINDEX('-', [Version]) - 2 
+                                     ELSE LEN([Version]) - 1
+                                END
+                            ) AS INT)
+                        ), 0) + 1
+                    FROM [dbo].[GateInDetailEditLog]
+                    WHERE [GIDID] = @GIDID", sql))
                 {
                     cmd.Parameters.AddWithValue("@GIDID", after.GIDID);
                     sql.Open();
