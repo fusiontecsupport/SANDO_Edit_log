@@ -1239,6 +1239,22 @@ namespace scfs_erp.Controllers.Import
                 "GPTWGHT", "GPHEIGHT", "GPWIDTH", "GPLENGTH", "GPCBM", "GPGWGHT", "GPNWGHT", "GPNOP"
             };
 
+            // Compute the next version ONCE per save so all rows for this edit share the same Version
+            int nextVersion = 1;
+            try
+            {
+                using (var sql = new SqlConnection(cs.ConnectionString))
+                using (var cmd = new SqlCommand("SELECT ISNULL(MAX([Version]), 0) + 1 FROM [GateInDetailEditLog] WHERE [GIDID] = @GIDID", sql))
+                {
+                    cmd.Parameters.AddWithValue("@GIDID", after.GIDID);
+                    sql.Open();
+                    var obj = cmd.ExecuteScalar();
+                    if (obj != null && obj != DBNull.Value)
+                        nextVersion = Convert.ToInt32(obj);
+                }
+            }
+            catch { /* ignore logging version errors */ }
+
             var props = typeof(GateInDetail).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (var p in props)
             {
@@ -1310,7 +1326,7 @@ namespace scfs_erp.Controllers.Import
                 var os = FormatVal(ov);
                 var ns = FormatVal(nv);
 
-                InsertEditLogRow(cs.ConnectionString, after.GIDID, p.Name, os, ns, userId);
+                InsertEditLogRow(cs.ConnectionString, after.GIDID, p.Name, os, ns, userId, nextVersion, "ImportGateIn");
             }
         }
 
@@ -1341,20 +1357,24 @@ namespace scfs_erp.Controllers.Import
             return decimal.TryParse(Convert.ToString(v), out parsed) ? parsed : (decimal?)null;
         }
 
-        private static void InsertEditLogRow(string connectionString, int gidid, string fieldName, string oldValue, string newValue, string changedBy)
+        private static void InsertEditLogRow(string connectionString, int gidid, string fieldName, string oldValue, string newValue, string changedBy, int version, string modules)
         {
             using (var sql = new SqlConnection(connectionString))
-            using (var cmd = new SqlCommand(@"INSERT INTO GateInDetailEditLog
-                (GIDID, FieldName, OldValue, NewValue, ChangedBy, ChangedOn)
-                VALUES (@GIDID, @FieldName, @OldValue, @NewValue, @ChangedBy, GETDATE())", sql))
             {
-                cmd.Parameters.AddWithValue("@GIDID", gidid);
-                cmd.Parameters.AddWithValue("@FieldName", fieldName);
-                cmd.Parameters.AddWithValue("@OldValue", (object)oldValue ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@NewValue", (object)newValue ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ChangedBy", changedBy ?? "");
                 sql.Open();
-                cmd.ExecuteNonQuery();
+                using (var cmd = new SqlCommand(@"INSERT INTO [GateInDetailEditLog]
+                    ([GIDID], [FieldName], [OldValue], [NewValue], [ChangedBy], [ChangedOn], [Version], [Modules])
+                    VALUES (@GIDID, @FieldName, @OldValue, @NewValue, @ChangedBy, GETDATE(), @Version, @Modules)", sql))
+                {
+                    cmd.Parameters.AddWithValue("@GIDID", gidid);
+                    cmd.Parameters.AddWithValue("@FieldName", fieldName);
+                    cmd.Parameters.AddWithValue("@OldValue", (object)oldValue ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@NewValue", (object)newValue ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@ChangedBy", changedBy ?? "");
+                    cmd.Parameters.AddWithValue("@Version", version);
+                    cmd.Parameters.AddWithValue("@Modules", modules ?? string.Empty);
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
     }
