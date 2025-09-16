@@ -822,9 +822,19 @@ namespace scfs_erp.Controllers.Import
 
             if (tab.GIDID.ToString() != "0")
             {
+                // Load original row for logging (no tracking to avoid state conflicts)
+                var original = context.gateindetails.AsNoTracking().FirstOrDefault(x => x.GIDID == tab.GIDID);
+
                 context.Entry(tab).Entity.NGIDID = tab.GIDID + 1;
                 context.Entry(tab).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
+
+                // Best-effort logging to SCFS_LOG
+                try
+                {
+                    LogGateInEdits(original, tab, Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "");
+                }
+                catch { }
             }
 
             else
@@ -1326,7 +1336,8 @@ namespace scfs_erp.Controllers.Import
                 var os = FormatVal(ov);
                 var ns = FormatVal(nv);
 
-                InsertEditLogRow(cs.ConnectionString, after.GIDID, p.Name, os, ns, userId, nextVersion, "ImportGateIn");
+                var versionLabel = $"V{nextVersion}-GID{after.GIDID}";
+                InsertEditLogRow(cs.ConnectionString, after.GIDID, p.Name, os, ns, userId, versionLabel, "ImportGateIn");
             }
         }
 
@@ -1357,12 +1368,12 @@ namespace scfs_erp.Controllers.Import
             return decimal.TryParse(Convert.ToString(v), out parsed) ? parsed : (decimal?)null;
         }
 
-        private static void InsertEditLogRow(string connectionString, int gidid, string fieldName, string oldValue, string newValue, string changedBy, int version, string modules)
+        private static void InsertEditLogRow(string connectionString, int gidid, string fieldName, string oldValue, string newValue, string changedBy, string versionLabel, string modules)
         {
             using (var sql = new SqlConnection(connectionString))
             {
                 sql.Open();
-                using (var cmd = new SqlCommand(@"INSERT INTO [GateInDetailEditLog]
+                using (var cmd = new SqlCommand(@"INSERT INTO [dbo].[GateInDetailEditLog]
                     ([GIDID], [FieldName], [OldValue], [NewValue], [ChangedBy], [ChangedOn], [Version], [Modules])
                     VALUES (@GIDID, @FieldName, @OldValue, @NewValue, @ChangedBy, GETDATE(), @Version, @Modules)", sql))
                 {
@@ -1371,7 +1382,7 @@ namespace scfs_erp.Controllers.Import
                     cmd.Parameters.AddWithValue("@OldValue", (object)oldValue ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@NewValue", (object)newValue ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@ChangedBy", changedBy ?? "");
-                    cmd.Parameters.AddWithValue("@Version", version);
+                    cmd.Parameters.AddWithValue("@Version", (object)versionLabel ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Modules", modules ?? string.Empty);
                     cmd.ExecuteNonQuery();
                 }
