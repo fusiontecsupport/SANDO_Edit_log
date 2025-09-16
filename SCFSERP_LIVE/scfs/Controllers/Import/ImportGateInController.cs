@@ -1,4 +1,3 @@
-﻿
 using scfs.Data;
 using scfs_erp.Context;
 using scfs_erp.Helper;
@@ -13,6 +12,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+using System.Reflection;
 
 namespace scfs_erp.Controllers.Import
 {
@@ -648,9 +649,20 @@ namespace scfs_erp.Controllers.Import
             tab.LMUSRID = Session["CUSRID"].ToString();
             if (tab.GIDID.ToString() != "0")
             {
+                // Load original row for logging (no tracking to avoid state conflicts)
+                var original = context.gateindetails.AsNoTracking().FirstOrDefault(x => x.GIDID == tab.GIDID);
+
                 context.Entry(tab).Entity.NGIDID = tab.GIDID + 1;
                 context.Entry(tab).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
+
+                // Best-effort logging to SCFS_LOG
+                try
+                {
+                    LogGateInEdits(original, tab, Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "");
+                }
+                catch { }
+
                 Response.Write("saved");
             }
 
@@ -667,13 +679,11 @@ namespace scfs_erp.Controllers.Import
                 }
                 else
                 {
+                    string sqry1 = "SELECT *FROM GATEINDETAIL  WHERE VOYNO='" + tab.VOYNO + "' And IGMNO='" + tab.IGMNO + "' ";
+                    sqry1 += " And GPLNO='" + tab.GPLNO + "' And CONTNRNO ='" + tab.CONTNRNO + "' And COMPYID=" + tab.COMPYID + " And SDPTID=1";
+                    var sl1 = context.Database.SqlQuery<GateInDetail>(sqry1).ToList();
 
-                    //----------------first record------------------//              
-                    tab.CUSRID = Session["CUSRID"].ToString();
-                    tab.GINO = Convert.ToInt32(Autonumber.autonum("gateindetail", "GINO", "GINO <> 0 AND SDPTID = 1 and compyid = " + Convert.ToInt32(Session["compyid"]) + "").ToString());
-                    int ano = tab.GINO;
-                    string prfx = string.Format("{0:D5}", ano);
-                    tab.GIDNO = prfx.ToString();
+                    if (sl1.Count > 0)
 
                     if (R_GIDID != null)
                         tab.RGIDID = Convert.ToInt32(R_GIDID);
@@ -830,8 +840,7 @@ namespace scfs_erp.Controllers.Import
 
                 if (R_GIDID != null)
                     tab.RGIDID = Convert.ToInt32(R_GIDID);
-                //    tab.CUSRID = Session["CUSRID"].ToString();
-                //else tab.CUSRID = "0";
+
                 context.gateindetails.Add(tab);
                 context.SaveChanges();
                 context.Entry(tab).Entity.NGIDID = tab.GIDID + 1;
@@ -844,7 +853,7 @@ namespace scfs_erp.Controllers.Import
                     RemoteGateIn remotegatein = context.remotegateindetails.Find(Convert.ToInt32(R_GIDID));
                     remotegatein.GIDID = tab.GIDID;
 
-                    // context.remotegateindetails.Remove(remotegatein);
+                    //context.remotegateindetails.Remove(remotegatein);
                     context.SaveChanges();
 
                 }/*end*/
@@ -1213,5 +1222,140 @@ namespace scfs_erp.Controllers.Import
                 Response.Write(temp);
 
         }//-----End of Delete Row
+
+        // ========================= Edit Logging (SCFS_LOG) =========================
+        private void LogGateInEdits(GateInDetail before, GateInDetail after, string userId)
+        {
+            if (before == null || after == null) return;
+            var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+            if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString)) return;
+
+            // Exclude system or noisy fields and those you don't want to log
+            var exclude = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                // system/housekeeping fields
+                "NGIDID", "PRCSDATE", "ESBDATE", "LMUSRID", "CUSRID",
+                // the unwanted gate pass dimension/weight fields
+                "GPTWGHT", "GPHEIGHT", "GPWIDTH", "GPLENGTH", "GPCBM", "GPGWGHT", "GPNWGHT", "GPNOP"
+            };
+
+            var props = typeof(GateInDetail).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var p in props)
+            {
+                if (!p.CanRead) continue;
+                // Skip complex navigation properties
+                if (p.PropertyType.IsClass && p.PropertyType != typeof(string) && !p.PropertyType.IsValueType)
+                    continue;
+                if (exclude.Contains(p.Name)) continue;
+
+                var ov = p.GetValue(before, null);
+                var nv = p.GetValue(after, null);
+
+                if (BothNull(ov, nv)) continue;
+
+                // Compare by underlying type to avoid logging formatting-only differences
+                var type = Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType;
+                bool changed;
+
+                if (type == typeof(decimal))
+                {
+                    var d1 = ToNullableDecimal(ov) ?? 0m;
+                    var d2 = ToNullableDecimal(nv) ?? 0m;
+                    // skip if both are zero-equivalent
+                    if (d1 == 0m && d2 == 0m) continue;
+                    changed = d1 != d2;
+                }
+                else if (type == typeof(double) || type == typeof(float))
+                {
+                    var d1 = Convert.ToDouble(ov ?? 0.0);
+                    var d2 = Convert.ToDouble(nv ?? 0.0);
+                    if (Math.Abs(d1) < 1e-9 && Math.Abs(d2) < 1e-9) continue;
+                    changed = Math.Abs(d1 - d2) > 1e-9;
+                }
+                else if (type == typeof(int) || type == typeof(long) || type == typeof(short))
+                {
+                    var i1 = Convert.ToInt64(ov ?? 0);
+                    var i2 = Convert.ToInt64(nv ?? 0);
+                    if (i1 == 0 && i2 == 0) continue;
+                    changed = i1 != i2;
+                }
+                else if (type == typeof(DateTime))
+                {
+                    var t1 = (ov as DateTime?) ?? default(DateTime);
+                    var t2 = (nv as DateTime?) ?? default(DateTime);
+                    // ignore millisecond differences
+                    t1 = new DateTime(t1.Year, t1.Month, t1.Day, t1.Hour, t1.Minute, t1.Second);
+                    t2 = new DateTime(t2.Year, t2.Month, t2.Day, t2.Hour, t2.Minute, t2.Second);
+                    changed = t1 != t2;
+                }
+                else if (type == typeof(string))
+                {
+                    var s1 = (Convert.ToString(ov) ?? string.Empty).Trim();
+                    var s2 = (Convert.ToString(nv) ?? string.Empty).Trim();
+                    // treat "-" and empty as same default; skip if both default/empty
+                    bool def1 = string.IsNullOrEmpty(s1) || s1 == "-" || s1 == "0" || s1 == "0.0" || s1 == "0.00" || s1 == "0.000" || s1 == "0.0000";
+                    bool def2 = string.IsNullOrEmpty(s2) || s2 == "-" || s2 == "0" || s2 == "0.0" || s2 == "0.00" || s2 == "0.000" || s2 == "0.0000";
+                    if (def1 && def2) continue;
+                    changed = !string.Equals(s1, s2, StringComparison.Ordinal);
+                }
+                else
+                {
+                    var s1 = FormatVal(ov);
+                    var s2 = FormatVal(nv);
+                    changed = !string.Equals(s1, s2, StringComparison.Ordinal);
+                }
+
+                if (!changed) continue;
+
+                var os = FormatVal(ov);
+                var ns = FormatVal(nv);
+
+                InsertEditLogRow(cs.ConnectionString, after.GIDID, p.Name, os, ns, userId);
+            }
+        }
+
+        private static string FormatVal(object value)
+        {
+            if (value == null) return null;
+            if (value is DateTime dt) return dt.ToString("yyyy-MM-dd HH:mm:ss");
+            if (value is DateTime?)
+            {
+                var ndt = (DateTime?)value;
+                return ndt.HasValue ? ndt.Value.ToString("yyyy-MM-dd HH:mm:ss") : null;
+            }
+            if (value is decimal dec) return dec.ToString("0.####");
+            var ndecs = value as decimal?;
+            if (ndecs.HasValue) return ndecs.Value.ToString("0.####");
+            return Convert.ToString(value);
+        }
+
+        private static bool BothNull(object a, object b) => a == null && b == null;
+
+        private static decimal? ToNullableDecimal(object v)
+        {
+            if (v == null) return null;
+            if (v is decimal d) return d;
+            var nd = v as decimal?;
+            if (nd.HasValue) return nd.Value;
+            decimal parsed;
+            return decimal.TryParse(Convert.ToString(v), out parsed) ? parsed : (decimal?)null;
+        }
+
+        private static void InsertEditLogRow(string connectionString, int gidid, string fieldName, string oldValue, string newValue, string changedBy)
+        {
+            using (var sql = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(@"INSERT INTO GateInDetailEditLog
+                (GIDID, FieldName, OldValue, NewValue, ChangedBy, ChangedOn)
+                VALUES (@GIDID, @FieldName, @OldValue, @NewValue, @ChangedBy, GETDATE())", sql))
+            {
+                cmd.Parameters.AddWithValue("@GIDID", gidid);
+                cmd.Parameters.AddWithValue("@FieldName", fieldName);
+                cmd.Parameters.AddWithValue("@OldValue", (object)oldValue ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NewValue", (object)newValue ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ChangedBy", changedBy ?? "");
+                sql.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }
