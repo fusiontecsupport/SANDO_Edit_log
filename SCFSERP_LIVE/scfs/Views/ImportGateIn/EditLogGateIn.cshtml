@@ -1,0 +1,77 @@
+@model IEnumerable<scfs_erp.Models.GateInDetailEditLogRow>
+@{
+    ViewBag.Title = "Gate In - Edit log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/dataTables.bootstrap.css" rel="stylesheet" />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="page-header">Gate In - Edit log</h2>
+            <p class="text-muted">Showing the latest changes from <code>GateInDetailEditLog</code>. You can filter by GIDID from the previous page.</p>
+            <a class="btn btn-default" href="@Url.Action("EditLog", "ImportGateIn")"><i class="fa fa-arrow-left"></i> Back</a>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:15px;">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>Log Entries</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="logTable" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Changed On</th>
+                                    <th>GIDID</th>
+                                    <th>Version</th>
+                                    <th>Field</th>
+                                    <th>Old Value</th>
+                                    <th>New Value</th>
+                                    <th>Changed By</th>
+                                    <th>Module</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var row in Model)
+                                {
+                                    <tr>
+                                        <td>@row.ChangedOn.ToString("dd-MMM-yyyy HH:mm")</td>
+                                        <td>@row.GIDID</td>
+                                        <td>@row.Version</td>
+                                        <td><code>@row.FieldName</code></td>
+                                        <td>@row.OldValue</td>
+                                        <td>@row.NewValue</td>
+                                        <td>@row.ChangedBy</td>
+                                        <td>@row.Modules</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/datatables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/datatables/dataTables.bootstrap.js"></script>
+    <script>
+        $(function () {
+            $('#logTable').DataTable({
+                order: [[0, 'desc']],
+                pageLength: 25,
+                lengthMenu: [10, 25, 50, 100],
+                columnDefs: [
+                    { targets: [4, 5], render: function (data) { return data ? $('<div/>').text(data).html() : ''; } }
+                ]
+            });
+        });
+    </script>
+}

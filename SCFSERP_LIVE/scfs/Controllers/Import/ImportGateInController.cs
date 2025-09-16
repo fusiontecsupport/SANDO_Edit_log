@@ -95,6 +95,169 @@ namespace scfs_erp.Controllers.Import
 
             }
         }
+
+        // ========================= Edit Log Pages =========================
+        public ActionResult EditLog()
+        {
+            if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
+            return View();
+        }
+
+        public ActionResult EditLogGateIn(int? gidid)
+        {
+            if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
+
+            var list = new List<scfs_erp.Models.GateInDetailEditLogRow>();
+            var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+            if (cs != null && !string.IsNullOrWhiteSpace(cs.ConnectionString))
+            {
+                using (var sql = new SqlConnection(cs.ConnectionString))
+                using (var cmd = new SqlCommand(@"SELECT TOP 1000 [GIDID],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
+                                                FROM [dbo].[GateInDetailEditLog]
+                                                WHERE (@GIDID IS NULL OR [GIDID] = @GIDID)
+                                                ORDER BY [ChangedOn] DESC, [GIDID] DESC", sql))
+                {
+                    cmd.Parameters.AddWithValue("@GIDID", (object)gidid ?? DBNull.Value);
+                    sql.Open();
+                    using (var r = cmd.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            list.Add(new scfs_erp.Models.GateInDetailEditLogRow
+                            {
+                                GIDID = r["GIDID"] != DBNull.Value ? Convert.ToInt32(r["GIDID"]) : 0,
+                                FieldName = Convert.ToString(r["FieldName"]),
+                                OldValue = r["OldValue"] == DBNull.Value ? null : Convert.ToString(r["OldValue"]),
+                                NewValue = r["NewValue"] == DBNull.Value ? null : Convert.ToString(r["NewValue"]),
+                                ChangedBy = Convert.ToString(r["ChangedBy"]),
+                                ChangedOn = r["ChangedOn"] != DBNull.Value ? Convert.ToDateTime(r["ChangedOn"]) : DateTime.MinValue,
+                                Version = r["Version"] == DBNull.Value ? null : Convert.ToString(r["Version"]),
+                                Modules = r["Modules"] == DBNull.Value ? null : Convert.ToString(r["Modules"])
+                            });
+                        }
+                    }
+                }
+            }
+            // Map raw DB codes to form-friendly display values for known fields
+            try
+            {
+                // Build lookup dictionaries once
+                var dictSlot = context.slotmasters.ToDictionary(x => x.SLOTID, x => x.SLOTDESC);
+                var dictRow = context.rowmasters.ToDictionary(x => x.ROWID, x => x.ROWDESC);
+                var dictPrdtGrp = context.productgroupmasters.ToDictionary(x => x.PRDTGID, x => x.PRDTGDESC);
+                var dictContType = context.containertypemasters.ToDictionary(x => x.CONTNRTID, x => x.CONTNRTDESC);
+                var dictContSize = context.containersizemasters.ToDictionary(x => x.CONTNRSID, x => x.CONTNRSDESC);
+                var dictGpMode = context.gpmodemasters.ToDictionary(x => x.GPMODEID, x => x.GPMODEDESC);
+                var dictPortType = context.porttypemaster.ToDictionary(x => x.GPPTYPE, x => x.GPPTYPEDESC);
+
+                string Map(string field, string raw)
+                {
+                    if (string.IsNullOrWhiteSpace(raw)) return raw;
+                    int ival;
+                    switch (field?.ToUpperInvariant())
+                    {
+                        case "SLOTID":
+                            return int.TryParse(raw, out ival) && dictSlot.ContainsKey(ival) ? dictSlot[ival] : raw;
+                        case "ROWID":
+                            return int.TryParse(raw, out ival) && dictRow.ContainsKey(ival) ? dictRow[ival] : raw;
+                        case "PRDTGID":
+                            return int.TryParse(raw, out ival) && dictPrdtGrp.ContainsKey(ival) ? dictPrdtGrp[ival] : raw;
+                        case "CONTNRTID":
+                            return int.TryParse(raw, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
+                        case "CONTNRSID":
+                            return int.TryParse(raw, out ival) && dictContSize.ContainsKey(ival) ? dictContSize[ival] : raw;
+                        case "GPMODEID":
+                            return int.TryParse(raw, out ival) && dictGpMode.ContainsKey(ival) ? dictGpMode[ival] : raw;
+                        case "GPPTYPE":
+                            return int.TryParse(raw, out ival) && dictPortType.ContainsKey(ival) ? dictPortType[ival] : raw;
+                        case "GPETYPE":
+                        case "GPSTYPE":
+                        case "GPWTYPE":
+                        case "GPSCNTYPE":
+                            return raw == "1" ? "YES" : raw == "0" ? "NO" : raw;
+                        case "GPSCNMTYPE":
+                            if (raw == "1") return "MISMATCH";
+                            if (raw == "2") return "CLEAN";
+                            if (raw == "3") return "NOT SCANNED";
+                            return raw;
+                        case "GFCLTYPE":
+                            return raw == "1" ? "FCL" : raw == "0" ? "LCL" : raw;
+                        case "GRADEID":
+                            return raw == "2" ? "YES" : raw == "1" ? "NO" : raw;
+                        default:
+                            return raw;
+                    }
+                }
+
+                string Friendly(string field)
+                {
+                    if (string.IsNullOrWhiteSpace(field)) return field;
+                    switch (field.ToUpperInvariant())
+                    {
+                        case "GIDATE": return "In Date";
+                        case "GITIME": return "In Time";
+                        case "GICCTLDATE": return "Port Out Date";
+                        case "GICCTLTIME": return "Port Out Time";
+                        case "GINO": return "Gate In No";
+                        case "GIDNO": return "No";
+                        case "GPREFNO": return "Ref No";
+                        case "DRVNAME": return "Driver Name";
+                        case "TRNSPRTNAME": return "Transpoter Name";
+                        case "GTRNSPRTNAME": return "Other Transpoter Name";
+                        case "VHLNO": return "Vehicle No";
+                        case "GPNRNO": return "PNR No";
+                        case "VSLNAME":
+                        case "VSLID": return "Vessel Name";
+                        case "VOYNO": return "Voyage No";
+                        case "IGMNO": return "IGM No.";
+                        case "GPLNO": return "Line No";
+                        case "IMPRTNAME":
+                        case "IMPRTID": return "Importer Name";
+                        case "STMRNAME":
+                        case "STMRID": return "Steamer Name";
+                        case "CHANAME": return "CHA Name";
+                        case "BOENO": return "Bill of Entry No";
+                        case "BOEDATE": return "Bill of Entry Date";
+                        case "CONTNRNO": return "Container No";
+                        case "CONTNRSID": return "Size";
+                        case "CONTNRTID": return "Type";
+                        case "GIISOCODE": return "ISO Code";
+                        case "LPSEALNO": return "L.seal no";
+                        case "CSEALNO": return "C.seal no";
+                        case "ROWID": return "Row";
+                        case "SLOTID": return "Slot";
+                        case "PRDTGID": return "Product Category";
+                        case "PRDTDESC": return "Product Description";
+                        case "GPWTYPE": return "Weightment";
+                        case "GPWGHT": return "Weight";
+                        case "GPPTYPE": return "Port";
+                        case "IGMDATE": return "IGM Date";
+                        case "BLNO": return "BL No.";
+                        case "GFCLTYPE": return "FCL";
+                        case "GIDMGDESC": return "Damage";
+                        case "GPMODEID": return "GP Mode";
+                        case "GPETYPE": return "SSR/Escort";
+                        case "GPSTYPE": return "S.Amend / Mismatch";
+                        case "GPEAMT": return "SSR/Escort Amount";
+                        case "GPAAMT": return "Addtnl. Amount";
+                        case "GPSCNTYPE": return "Scanned";
+                        case "GPSCNMTYPE": return "Scan Type";
+                        case "GRADEID": return "Refer(Plug)";
+                        default: return field; // fallback to technical name
+                    }
+                }
+
+                foreach (var row in list)
+                {
+                    row.OldValue = Map(row.FieldName, row.OldValue);
+                    row.NewValue = Map(row.FieldName, row.NewValue);
+                    row.FieldName = Friendly(row.FieldName);
+                }
+            }
+            catch { /* Best-effort mapping; do not fail page if lookups have issues */ }
+
+            return View(list);
+        }
         #endregion
 
         #region TotalContainerDetails

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -293,6 +293,9 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li style="width:20px">
                         <a class="navbar_me"><i class="fa fa-bars fa-fw"></i></a>
+                    </li>
+                    <li>
+                        @Html.ActionLink("Edit log", "EditLog", "ImportGateIn")
                     </li>
                     @if ((Session["Group"].ToString() == "SuperAdmin") || (Session["Group"].ToString() == "Admin"))
                     {
@@ -1351,6 +1354,11 @@
 
 
                     </div>
+                    <ul class="nav" id="side-static-menu">
+                        <li>
+                            @Html.ActionLink("Edit log", "EditLog", "ImportGateIn")
+                        </li>
+                    </ul>
                 </nav>
             </div>
 
