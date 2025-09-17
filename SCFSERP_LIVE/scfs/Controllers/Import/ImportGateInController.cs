@@ -1,4 +1,4 @@
-﻿using scfs.Data;
+using scfs.Data;
 using scfs_erp.Context;
 using scfs_erp.Helper;
 using scfs_erp.Models;
@@ -150,6 +150,8 @@ namespace scfs_erp.Controllers.Import
                         }
                     }
                 }
+
+                // Removed invalid fallback block that referenced undefined variables (a, b, versionA, versionB)
             }
             // Map raw DB codes to form-friendly display values for known fields
             try
@@ -351,9 +353,30 @@ namespace scfs_erp.Controllers.Import
         }
 
         // Compare two versions for a given GIDID
-        public ActionResult EditLogGateInCompare(int gidid, string versionA, string versionB)
+        public ActionResult EditLogGateInCompare(int? gidid, string versionA, string versionB)
         {
             if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
+
+            // Fallbacks: try alternate parameter names that routing might provide
+            if (gidid == null)
+            {
+                int tmp;
+                var qsGid = Request["gidid"] ?? Request["id"];
+                if (!string.IsNullOrWhiteSpace(qsGid) && int.TryParse(qsGid, out tmp))
+                {
+                    gidid = tmp;
+                }
+            }
+
+            if (gidid == null || string.IsNullOrWhiteSpace(versionA) || string.IsNullOrWhiteSpace(versionB))
+            {
+                TempData["Err"] = "Please provide GIDID, Version A and Version B to compare.";
+                return RedirectToAction("EditLogGateIn", new { gidid = gidid });
+            }
+
+            // Normalize version strings (trim whitespace)
+            versionA = (versionA ?? string.Empty).Trim();
+            versionB = (versionB ?? string.Empty).Trim();
 
             var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
             var a = new List<scfs_erp.Models.GateInDetailEditLogRow>();
@@ -363,13 +386,13 @@ namespace scfs_erp.Controllers.Import
                 using (var sql = new SqlConnection(cs.ConnectionString))
                 using (var cmd = new SqlCommand(@"SELECT [GIDID],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
                                                 FROM [dbo].[GateInDetailEditLog]
-                                                WHERE [GIDID]=@GIDID AND [Version]=@V", sql))
+                                                WHERE [GIDID]=@GIDID AND RTRIM(LTRIM([Version]))=@V", sql))
                 {
                     cmd.Parameters.Add("@GIDID", System.Data.SqlDbType.Int);
-                    cmd.Parameters.Add("@V", System.Data.SqlDbType.VarChar, 50);
+                    cmd.Parameters.Add("@V", System.Data.SqlDbType.NVarChar, 100);
 
                     sql.Open();
-                    cmd.Parameters["@GIDID"].Value = gidid;
+                    cmd.Parameters["@GIDID"].Value = gidid.Value;
                     cmd.Parameters["@V"].Value = versionA;
                     using (var r = cmd.ExecuteReader())
                     {
@@ -377,14 +400,14 @@ namespace scfs_erp.Controllers.Import
                         {
                             a.Add(new scfs_erp.Models.GateInDetailEditLogRow
                             {
-                                GIDID = gidid,
+                                GIDID = gidid.Value,
                                 FieldName = Convert.ToString(r["FieldName"]),
                                 OldValue = r["OldValue"] == DBNull.Value ? null : Convert.ToString(r["OldValue"]),
                                 NewValue = r["NewValue"] == DBNull.Value ? null : Convert.ToString(r["NewValue"]),
                                 ChangedBy = Convert.ToString(r["ChangedBy"]),
                                 ChangedOn = r["ChangedOn"] != DBNull.Value ? Convert.ToDateTime(r["ChangedOn"]) : DateTime.MinValue,
                                 Version = versionA,
-                                Modules = r["Modules"] == DBNull.Value ? null : Convert.ToString(r["Modules"])
+                                Modules = r["Modules"] == DBNull.Value ? null : Convert.ToString(r["Modules"]) 
                             });
                         }
                     }
@@ -396,21 +419,21 @@ namespace scfs_erp.Controllers.Import
                         {
                             b.Add(new scfs_erp.Models.GateInDetailEditLogRow
                             {
-                                GIDID = gidid,
+                                GIDID = gidid.Value,
                                 FieldName = Convert.ToString(r2["FieldName"]),
                                 OldValue = r2["OldValue"] == DBNull.Value ? null : Convert.ToString(r2["OldValue"]),
                                 NewValue = r2["NewValue"] == DBNull.Value ? null : Convert.ToString(r2["NewValue"]),
                                 ChangedBy = Convert.ToString(r2["ChangedBy"]),
                                 ChangedOn = r2["ChangedOn"] != DBNull.Value ? Convert.ToDateTime(r2["ChangedOn"]) : DateTime.MinValue,
                                 Version = versionB,
-                                Modules = r2["Modules"] == DBNull.Value ? null : Convert.ToString(r2["Modules"])
+                                Modules = r2["Modules"] == DBNull.Value ? null : Convert.ToString(r2["Modules"]) 
                             });
                         }
                     }
                 }
             }
 
-            ViewBag.GIDID = gidid;
+            ViewBag.GIDID = gidid.Value;
             ViewBag.VersionA = versionA;
             ViewBag.VersionB = versionB;
             ViewBag.RowsA = a;

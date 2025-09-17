@@ -42,6 +42,71 @@
                     <span class="muted"> – Click a column header to sort. Use the second header row to filter specific columns.</span>
                 </div>
                 <div class="panel-body">
+                    @if (TempData["Err"] != null)
+                    {
+                        <div class="alert alert-danger">@TempData["Err"]</div>
+                    }
+                    <div class="toolbar">
+                        @* Server-side filter form (GET) *@
+                        <form class="form-inline" method="get" action="@Url.Action("EditLogGateIn","ImportGateIn")">
+                            <div class="form-group">
+                                <label for="cmpGid">GIDID</label>
+                                <input type="number" id="cmpGid" name="gidid" class="form-control input-sm" placeholder="Enter GIDID" />
+                            </div>
+                            <div class="form-group filter-group">
+                                <label for="startDate">From</label>
+                                <input type="text" id="startDate" name="from" class="form-control input-sm" placeholder="yyyy-MM-dd" />
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">To</label>
+                                <input type="text" id="endDate" name="to" class="form-control input-sm" placeholder="yyyy-MM-dd" />
+                            </div>
+                            <div class="form-group filter-group">
+                                <label for="fltUser">User</label>
+                                <input type="text" id="fltUser" name="user" class="form-control input-sm" placeholder="Changed by" />
+                            </div>
+                            <div class="form-group">
+                                <label for="fltField">Field</label>
+                                <input type="text" id="fltField" name="fieldName" class="form-control input-sm" placeholder="Field name" />
+                            </div>
+                            <div class="form-group">
+                                <label for="fltVersion">Version</label>
+                                <input type="text" id="fltVersion" name="version" class="form-control input-sm" placeholder="Version" />
+                            </div>
+                            <div class="form-group filter-group">
+                                <button id="applyServer" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-filter"></i> Apply</button>
+                                <button id="clearDate" class="btn btn-default btn-sm"><i class="fa fa-ban"></i> Clear Date</button>
+                                @* Export via GET to Export action *@
+                                <button formaction="@Url.Action("EditLogGateInExport","ImportGateIn")" formmethod="get" id="exportCsv" class="btn btn-success btn-sm"><i class="fa fa-file-excel-o"></i> Export CSV</button>
+                                <button id="resetTable" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i> Reset Table</button>
+                            </div>
+                        </form>
+
+                        @* Compare form (GET) *@
+                        <form class="form-inline" method="get" action="@Url.Action("EditLogGateInCompare","ImportGateIn")" style="margin-top:8px;">
+                            <div class="form-group">
+                                <label for="cmpGidCompare">Compare Versions for GIDID</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" id="cmpGidCompare" name="gidid" class="form-control input-sm" placeholder="Enter GIDID" value="@Request["gidid"]" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="cmpA">Version A</label>
+                                <input type="text" id="cmpA" name="versionA" class="form-control input-sm" placeholder="e.g. 1" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="cmpB">Version B</label>
+                                <input type="text" id="cmpB" name="versionB" class="form-control input-sm" placeholder="e.g. 2" required />
+                            </div>
+                            <div class="form-group">
+                                <button id="goCompare" type="submit" class="btn btn-info btn-sm"><i class="fa fa-exchange"></i> Compare</button>
+                            </div>
+                            <div class="legend pull-right">
+                                <span><span class="old-badge">Old</span></span>
+                                <span><span class="new-badge">New</span></span>
+                            </div>
+                        </form>
+                    </div>
                     <div class="table-responsive">
                         <table id="logTable" class="table table-striped table-bordered table-hover">
                             <thead>
@@ -102,6 +167,22 @@
     <script src="~/Scripts/datatables/dataTables.bootstrap.js"></script>
     <script>
         $(function () {
+            // Populate toolbar inputs from query string (so filters persist after navigation)
+            (function syncToolbarFromQuery(){
+                function qparam(name){
+                    var regex = new RegExp('[?&]' + name.replace(/[\[\]]/g,'\\$&') + '=([^&]*)');
+                    var match = regex.exec(window.location.search);
+                    return match ? decodeURIComponent(match[1].replace(/\+/g,' ')) : null;
+                }
+                function setVal(id, key){ var v = qparam(key); if(v !== null && v !== undefined && v !== '') { $('#' + id).val(v); } }
+                setVal('cmpGid','gidid');
+                setVal('fltUser','user');
+                setVal('fltField','fieldName');
+                setVal('fltVersion','version');
+                // Dates are yyyy-MM-dd already from toIsoDate
+                setVal('startDate','from');
+                setVal('endDate','to');
+            })();
             var table = $('#logTable').DataTable({
                 order: [[2, 'desc'], [3, 'desc'], [1, 'desc']],
                 pageLength: 50,
@@ -183,6 +264,7 @@
             });
             $('#applyDate').on('click', function (e) { e.preventDefault(); table.draw(); });
             $('#clearDate').on('click', function (e) { e.preventDefault(); $('#startDate,#endDate').val(''); table.draw(); });
+            $('#resetTable').on('click', function(e){ e.preventDefault(); try { table.state.clear(); } catch(ex){} window.location.href = '@Url.Action("EditLogGateIn","ImportGateIn")'; });
 
             // Expand/collapse details rows
             function formatDetails(tr) {
@@ -215,15 +297,16 @@
                 }
             });
 
-            // Helper to format date to ISO yyyy-MM-dd for server query
+            // Helper to format date to ISO yyyy-MM-dd for server query (older browser safe)
             function toIsoDate(val) {
                 if (!val) return '';
-                // new Date(val) supports dd-MMM-yyyy in most browsers; fallback to raw
                 var d = new Date(val);
                 if (isNaN(d.getTime())) return val; // send as-is
-                var m = ('' + (d.getMonth() + 1)).padStart(2, '0');
-                var day = ('' + d.getDate()).padStart(2, '0');
-                return d.getFullYear() + '-' + m + '-' + day;
+                var m = (d.getMonth() + 1);
+                var day = d.getDate();
+                var mm = (m < 10 ? '0' + m : '' + m);
+                var dd = (day < 10 ? '0' + day : '' + day);
+                return d.getFullYear() + '-' + mm + '-' + dd;
             }
 
             // Server-side filter: navigate with query params so server applies filters
@@ -254,10 +337,16 @@
                 window.location.href = url;
             });
 
-            // Version compare: navigate to compare page
+            // Version compare button: if inside a form, allow normal submit (no JS).
+            // If not inside a form context, fallback to JS navigation for backward compat.
             $('#goCompare').on('click', function (e) {
+                var $form = $(this).closest('form');
+                if ($form.length) {
+                    // Let the form submit normally to send gidid/versionA/versionB
+                    return; // do not preventDefault
+                }
                 e.preventDefault();
-                var gid = $('#cmpGid').val();
+                var gid = $('#cmpGidCompare').val() || $('#cmpGid').val();
                 var a = $('#cmpA').val();
                 var b = $('#cmpB').val();
                 if (!gid || !a || !b) {
