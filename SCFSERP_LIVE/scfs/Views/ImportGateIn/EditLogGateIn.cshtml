@@ -47,41 +47,6 @@
                         <div class="alert alert-danger">@TempData["Err"]</div>
                     }
                     <div class="toolbar">
-                        @* Server-side filter form (GET) *@
-                        <form class="form-inline" method="get" action="@Url.Action("EditLogGateIn","ImportGateIn")">
-                            <div class="form-group">
-                                <label for="cmpGid">GIDID</label>
-                                <input type="number" id="cmpGid" name="gidid" class="form-control input-sm" placeholder="Enter GIDID" />
-                            </div>
-                            <div class="form-group filter-group">
-                                <label for="startDate">From</label>
-                                <input type="text" id="startDate" name="from" class="form-control input-sm" placeholder="yyyy-MM-dd" />
-                            </div>
-                            <div class="form-group">
-                                <label for="endDate">To</label>
-                                <input type="text" id="endDate" name="to" class="form-control input-sm" placeholder="yyyy-MM-dd" />
-                            </div>
-                            <div class="form-group filter-group">
-                                <label for="fltUser">User</label>
-                                <input type="text" id="fltUser" name="user" class="form-control input-sm" placeholder="Changed by" />
-                            </div>
-                            <div class="form-group">
-                                <label for="fltField">Field</label>
-                                <input type="text" id="fltField" name="fieldName" class="form-control input-sm" placeholder="Field name" />
-                            </div>
-                            <div class="form-group">
-                                <label for="fltVersion">Version</label>
-                                <input type="text" id="fltVersion" name="version" class="form-control input-sm" placeholder="Version" />
-                            </div>
-                            <div class="form-group filter-group">
-                                <button id="applyServer" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-filter"></i> Apply</button>
-                                <button id="clearDate" class="btn btn-default btn-sm"><i class="fa fa-ban"></i> Clear Date</button>
-                                @* Export via GET to Export action *@
-                                <button formaction="@Url.Action("EditLogGateInExport","ImportGateIn")" formmethod="get" id="exportCsv" class="btn btn-success btn-sm"><i class="fa fa-file-excel-o"></i> Export CSV</button>
-                                <button id="resetTable" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i> Reset Table</button>
-                            </div>
-                        </form>
-
                         @* Compare form (GET) *@
                         <form class="form-inline" method="get" action="@Url.Action("EditLogGateInCompare","ImportGateIn")" style="margin-top:8px;">
                             <div class="form-group">
@@ -167,22 +132,7 @@
     <script src="~/Scripts/datatables/dataTables.bootstrap.js"></script>
     <script>
         $(function () {
-            // Populate toolbar inputs from query string (so filters persist after navigation)
-            (function syncToolbarFromQuery(){
-                function qparam(name){
-                    var regex = new RegExp('[?&]' + name.replace(/[\[\]]/g,'\\$&') + '=([^&]*)');
-                    var match = regex.exec(window.location.search);
-                    return match ? decodeURIComponent(match[1].replace(/\+/g,' ')) : null;
-                }
-                function setVal(id, key){ var v = qparam(key); if(v !== null && v !== undefined && v !== '') { $('#' + id).val(v); } }
-                setVal('cmpGid','gidid');
-                setVal('fltUser','user');
-                setVal('fltField','fieldName');
-                setVal('fltVersion','version');
-                // Dates are yyyy-MM-dd already from toIsoDate
-                setVal('startDate','from');
-                setVal('endDate','to');
-            })();
+            // No server-side toolbar filters
             var table = $('#logTable').DataTable({
                 order: [[2, 'desc'], [3, 'desc'], [1, 'desc']],
                 pageLength: 50,
@@ -239,32 +189,7 @@
                 col.visible(this.checked);
             });
 
-            // Date range filter (client-side) on Changed On column (index 1)
-            function parseDt(s) {
-                // expects dd-MMM-yyyy HH:mm
-                if (!s) return null;
-                return new Date(s);
-            }
-            $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-                var from = $('#startDate').val();
-                var to = $('#endDate').val();
-                if (!from && !to) return true;
-                var d = parseDt(data[1]);
-                if (!(d instanceof Date) || isNaN(d.getTime())) return true;
-                var ok = true;
-                if (from) {
-                    var fd = new Date(from + ' 00:00');
-                    if (d < fd) ok = false;
-                }
-                if (to) {
-                    var td = new Date(to + ' 23:59');
-                    if (d > td) ok = false;
-                }
-                return ok;
-            });
-            $('#applyDate').on('click', function (e) { e.preventDefault(); table.draw(); });
-            $('#clearDate').on('click', function (e) { e.preventDefault(); $('#startDate,#endDate').val(''); table.draw(); });
-            $('#resetTable').on('click', function(e){ e.preventDefault(); try { table.state.clear(); } catch(ex){} window.location.href = '@Url.Action("EditLogGateIn","ImportGateIn")'; });
+            // Removed date range filter and toolbar-related handlers
 
             // Expand/collapse details rows
             function formatDetails(tr) {
@@ -309,33 +234,7 @@
                 return d.getFullYear() + '-' + mm + '-' + dd;
             }
 
-            // Server-side filter: navigate with query params so server applies filters
-            $('#applyServer').on('click', function (e) {
-                e.preventDefault();
-                var gid = $('#cmpGid').val();
-                var user = $('#fltUser').val();
-                var field = $('#fltField').val();
-                var version = $('#fltVersion').val();
-                var from = toIsoDate($('#startDate').val());
-                var to = toIsoDate($('#endDate').val());
-                var url = '@Url.Action("EditLogGateIn","ImportGateIn")' +
-                    '?' + $.param({ gidid: gid || null, from: from || null, to: to || null, user: user || null, fieldName: field || null, version: version || null });
-                window.location.href = url;
-            });
-
-            // Export CSV with current server-side filters
-            $('#exportCsv').on('click', function (e) {
-                e.preventDefault();
-                var gid = $('#cmpGid').val();
-                var user = $('#fltUser').val();
-                var field = $('#fltField').val();
-                var version = $('#fltVersion').val();
-                var from = toIsoDate($('#startDate').val());
-                var to = toIsoDate($('#endDate').val());
-                var url = '@Url.Action("EditLogGateInExport","ImportGateIn")' +
-                    '?' + $.param({ gidid: gid || null, from: from || null, to: to || null, user: user || null, fieldName: field || null, version: version || null });
-                window.location.href = url;
-            });
+            // Removed server-side filter and export handlers
 
             // Version compare button: if inside a form, allow normal submit (no JS).
             // If not inside a form context, fallback to JS navigation for backward compat.

@@ -167,38 +167,41 @@ namespace scfs_erp.Controllers.Import
 
                 string Map(string field, string raw)
                 {
-                    if (string.IsNullOrWhiteSpace(raw)) return raw;
+                    if (raw == null) return raw;
+                    var f = (field ?? string.Empty).Trim();
+                    var val = raw.Trim();
+                    if (string.IsNullOrEmpty(val)) return raw;
                     int ival;
-                    switch (field?.ToUpperInvariant())
+                    switch (f.ToUpperInvariant())
                     {
                         case "SLOTID":
-                            return int.TryParse(raw, out ival) && dictSlot.ContainsKey(ival) ? dictSlot[ival] : raw;
+                            return int.TryParse(val, out ival) && dictSlot.ContainsKey(ival) ? dictSlot[ival] : raw;
                         case "ROWID":
-                            return int.TryParse(raw, out ival) && dictRow.ContainsKey(ival) ? dictRow[ival] : raw;
+                            return int.TryParse(val, out ival) && dictRow.ContainsKey(ival) ? dictRow[ival] : raw;
                         case "PRDTGID":
-                            return int.TryParse(raw, out ival) && dictPrdtGrp.ContainsKey(ival) ? dictPrdtGrp[ival] : raw;
+                            return int.TryParse(val, out ival) && dictPrdtGrp.ContainsKey(ival) ? dictPrdtGrp[ival] : raw;
                         case "CONTNRTID":
-                            return int.TryParse(raw, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
+                            return int.TryParse(val, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
                         case "CONTNRSID":
-                            return int.TryParse(raw, out ival) && dictContSize.ContainsKey(ival) ? dictContSize[ival] : raw;
+                            return int.TryParse(val, out ival) && dictContSize.ContainsKey(ival) ? dictContSize[ival] : raw;
                         case "GPMODEID":
-                            return int.TryParse(raw, out ival) && dictGpMode.ContainsKey(ival) ? dictGpMode[ival] : raw;
+                            return int.TryParse(val, out ival) && dictGpMode.ContainsKey(ival) ? dictGpMode[ival] : raw;
                         case "GPPTYPE":
-                            return int.TryParse(raw, out ival) && dictPortType.ContainsKey(ival) ? dictPortType[ival] : raw;
+                            return int.TryParse(val, out ival) && dictPortType.ContainsKey(ival) ? dictPortType[ival] : raw;
                         case "GPETYPE":
                         case "GPSTYPE":
                         case "GPWTYPE":
                         case "GPSCNTYPE":
-                            return raw == "1" ? "YES" : raw == "0" ? "NO" : raw;
+                            return val == "1" ? "YES" : val == "0" ? "NO" : raw;
                         case "GPSCNMTYPE":
-                            if (raw == "1") return "MISMATCH";
-                            if (raw == "2") return "CLEAN";
-                            if (raw == "3") return "NOT SCANNED";
+                            if (val == "1") return "MISMATCH";
+                            if (val == "2") return "CLEAN";
+                            if (val == "3") return "NOT SCANNED";
                             return raw;
                         case "GFCLTYPE":
-                            return raw == "1" ? "FCL" : raw == "0" ? "LCL" : raw;
+                            return val == "1" ? "FCL" : val == "0" ? "LCL" : raw;
                         case "GRADEID":
-                            return raw == "2" ? "YES" : raw == "1" ? "NO" : raw;
+                            return val == "2" ? "YES" : val == "1" ? "NO" : raw;
                         default:
                             return raw;
                     }
@@ -207,7 +210,8 @@ namespace scfs_erp.Controllers.Import
                 string Friendly(string field)
                 {
                     if (string.IsNullOrWhiteSpace(field)) return field;
-                    switch (field.ToUpperInvariant())
+                    var f = field.Trim();
+                    switch (f.ToUpperInvariant())
                     {
                         case "GIDATE": return "In Date";
                         case "GITIME": return "In Time";
@@ -324,13 +328,122 @@ namespace scfs_erp.Controllers.Import
                 }
             }
 
-            // Map display values for CSV too
-            foreach (var row in rows)
+            // Map friendly labels and display values for CSV
+            try
             {
-                // reuse mapping methods
-                row.OldValue = row.OldValue; // already mapped earlier in UI path; keep raw if called directly
-                row.NewValue = row.NewValue;
+                var dictSlot = context.slotmasters.ToDictionary(x => x.SLOTID, x => x.SLOTDESC);
+                var dictRow = context.rowmasters.ToDictionary(x => x.ROWID, x => x.ROWDESC);
+                var dictPrdtGrp = context.productgroupmasters.ToDictionary(x => x.PRDTGID, x => x.PRDTGDESC);
+                var dictContType = context.containertypemasters.ToDictionary(x => x.CONTNRTID, x => x.CONTNRTDESC);
+                var dictContSize = context.containersizemasters.ToDictionary(x => x.CONTNRSID, x => x.CONTNRSDESC);
+                var dictGpMode = context.gpmodemasters.ToDictionary(x => x.GPMODEID, x => x.GPMODEDESC);
+                var dictPortType = context.porttypemaster.ToDictionary(x => x.GPPTYPE, x => x.GPPTYPEDESC);
+
+                string Map(string field, string raw)
+                {
+                    if (string.IsNullOrWhiteSpace(raw)) return raw;
+                    int ival;
+                    switch (field?.ToUpperInvariant())
+                    {
+                        case "SLOTID":
+                            return int.TryParse(raw, out ival) && dictSlot.ContainsKey(ival) ? dictSlot[ival] : raw;
+                        case "ROWID":
+                            return int.TryParse(raw, out ival) && dictRow.ContainsKey(ival) ? dictRow[ival] : raw;
+                        case "PRDTGID":
+                            return int.TryParse(raw, out ival) && dictPrdtGrp.ContainsKey(ival) ? dictPrdtGrp[ival] : raw;
+                        case "CONTNRTID":
+                            return int.TryParse(raw, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
+                        case "CONTNRSID":
+                            return int.TryParse(raw, out ival) && dictContSize.ContainsKey(ival) ? dictContSize[ival] : raw;
+                        case "GPMODEID":
+                            return int.TryParse(raw, out ival) && dictGpMode.ContainsKey(ival) ? dictGpMode[ival] : raw;
+                        case "GPPTYPE":
+                            return int.TryParse(raw, out ival) && dictPortType.ContainsKey(ival) ? dictPortType[ival] : raw;
+                        case "GPETYPE":
+                        case "GPSTYPE":
+                        case "GPWTYPE":
+                        case "GPSCNTYPE":
+                            return raw == "1" ? "YES" : raw == "0" ? "NO" : raw;
+                        case "GPSCNMTYPE":
+                            if (raw == "1") return "MISMATCH";
+                            if (raw == "2") return "CLEAN";
+                            if (raw == "3") return "NOT SCANNED";
+                            return raw;
+                        case "GFCLTYPE":
+                            return raw == "1" ? "FCL" : raw == "0" ? "LCL" : raw;
+                        case "GRADEID":
+                            return raw == "2" ? "YES" : raw == "1" ? "NO" : raw;
+                        default:
+                            return raw;
+                    }
+                }
+
+                string Friendly(string field)
+                {
+                    if (string.IsNullOrWhiteSpace(field)) return field;
+                    switch (field.ToUpperInvariant())
+                    {
+                        case "GIDATE": return "In Date";
+                        case "GITIME": return "In Time";
+                        case "GICCTLDATE": return "Port Out Date";
+                        case "GICCTLTIME": return "Port Out Time";
+                        case "GINO": return "Gate In No";
+                        case "GIDNO": return "No";
+                        case "GPREFNO": return "Ref No";
+                        case "DRVNAME": return "Driver Name";
+                        case "TRNSPRTNAME": return "Transpoter Name";
+                        case "GTRNSPRTNAME": return "Other Transpoter Name";
+                        case "VHLNO": return "Vehicle No";
+                        case "GPNRNO": return "PNR No";
+                        case "VSLNAME":
+                        case "VSLID": return "Vessel Name";
+                        case "VOYNO": return "Voyage No";
+                        case "IGMNO": return "IGM No.";
+                        case "GPLNO": return "Line No";
+                        case "IMPRTNAME":
+                        case "IMPRTID": return "Importer Name";
+                        case "STMRNAME":
+                        case "STMRID": return "Steamer Name";
+                        case "CHANAME": return "CHA Name";
+                        case "BOENO": return "Bill of Entry No";
+                        case "BOEDATE": return "Bill of Entry Date";
+                        case "CONTNRNO": return "Container No";
+                        case "CONTNRSID": return "Size";
+                        case "CONTNRTID": return "Type";
+                        case "GIISOCODE": return "ISO Code";
+                        case "LPSEALNO": return "L.seal no";
+                        case "CSEALNO": return "C.seal no";
+                        case "ROWID": return "Row";
+                        case "SLOTID": return "Slot";
+                        case "PRDTGID": return "Product Category";
+                        case "PRDTDESC": return "Product Description";
+                        case "GPWTYPE": return "Weightment";
+                        case "GPWGHT": return "Weight";
+                        case "GPPTYPE": return "Port";
+                        case "IGMDATE": return "IGM Date";
+                        case "BLNO": return "BL No.";
+                        case "GFCLTYPE": return "FCL";
+                        case "GIDMGDESC": return "Damage";
+                        case "GPMODEID": return "GP Mode";
+                        case "GPETYPE": return "SSR/Escort";
+                        case "GPSTYPE": return "S.Amend / Mismatch";
+                        case "GPEAMT": return "SSR/Escort Amount";
+                        case "GPAAMT": return "Addtnl. Amount";
+                        case "GPSCNTYPE": return "Scanned";
+                        case "GPSCNMTYPE": return "Scan Type";
+                        case "GRADEID": return "Refer(Plug)";
+                        default: return field;
+                    }
+                }
+
+                foreach (var row in rows)
+                {
+                    row.OldValue = Map(row.FieldName, row.OldValue);
+                    row.NewValue = Map(row.FieldName, row.NewValue);
+                    row.FieldName = Friendly(row.FieldName);
+                }
             }
+            catch { /* best-effort mapping for CSV export */ }
 
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("ChangedOn,GIDID,Version,Field,OldValue,NewValue,ChangedBy,Module");
@@ -432,6 +545,130 @@ namespace scfs_erp.Controllers.Import
                     }
                 }
             }
+
+            // Map technical field names to friendly form labels and raw codes to display values
+            try
+            {
+                // Build lookup dictionaries once
+                var dictSlot = context.slotmasters.ToDictionary(x => x.SLOTID, x => x.SLOTDESC);
+                var dictRow = context.rowmasters.ToDictionary(x => x.ROWID, x => x.ROWDESC);
+                var dictPrdtGrp = context.productgroupmasters.ToDictionary(x => x.PRDTGID, x => x.PRDTGDESC);
+                var dictContType = context.containertypemasters.ToDictionary(x => x.CONTNRTID, x => x.CONTNRTDESC);
+                var dictContSize = context.containersizemasters.ToDictionary(x => x.CONTNRSID, x => x.CONTNRSDESC);
+                var dictGpMode = context.gpmodemasters.ToDictionary(x => x.GPMODEID, x => x.GPMODEDESC);
+                var dictPortType = context.porttypemaster.ToDictionary(x => x.GPPTYPE, x => x.GPPTYPEDESC);
+
+                string Map(string field, string raw)
+                {
+                    if (string.IsNullOrWhiteSpace(raw)) return raw;
+                    int ival;
+                    switch (field?.ToUpperInvariant())
+                    {
+                        case "SLOTID":
+                            return int.TryParse(raw, out ival) && dictSlot.ContainsKey(ival) ? dictSlot[ival] : raw;
+                        case "ROWID":
+                            return int.TryParse(raw, out ival) && dictRow.ContainsKey(ival) ? dictRow[ival] : raw;
+                        case "PRDTGID":
+                            return int.TryParse(raw, out ival) && dictPrdtGrp.ContainsKey(ival) ? dictPrdtGrp[ival] : raw;
+                        case "CONTNRTID":
+                            return int.TryParse(raw, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
+                        case "CONTNRSID":
+                            return int.TryParse(raw, out ival) && dictContSize.ContainsKey(ival) ? dictContSize[ival] : raw;
+                        case "GPMODEID":
+                            return int.TryParse(raw, out ival) && dictGpMode.ContainsKey(ival) ? dictGpMode[ival] : raw;
+                        case "GPPTYPE":
+                            return int.TryParse(raw, out ival) && dictPortType.ContainsKey(ival) ? dictPortType[ival] : raw;
+                        case "GPETYPE":
+                        case "GPSTYPE":
+                        case "GPWTYPE":
+                        case "GPSCNTYPE":
+                            return raw == "1" ? "YES" : raw == "0" ? "NO" : raw;
+                        case "GPSCNMTYPE":
+                            if (raw == "1") return "MISMATCH";
+                            if (raw == "2") return "CLEAN";
+                            if (raw == "3") return "NOT SCANNED";
+                            return raw;
+                        case "GFCLTYPE":
+                            return raw == "1" ? "FCL" : raw == "0" ? "LCL" : raw;
+                        case "GRADEID":
+                            return raw == "2" ? "YES" : raw == "1" ? "NO" : raw;
+                        default:
+                            return raw;
+                    }
+                }
+
+                string Friendly(string field)
+                {
+                    if (string.IsNullOrWhiteSpace(field)) return field;
+                    switch (field.ToUpperInvariant())
+                    {
+                        case "GIDATE": return "In Date";
+                        case "GITIME": return "In Time";
+                        case "GICCTLDATE": return "Port Out Date";
+                        case "GICCTLTIME": return "Port Out Time";
+                        case "GINO": return "Gate In No";
+                        case "GIDNO": return "No";
+                        case "GPREFNO": return "Ref No";
+                        case "DRVNAME": return "Driver Name";
+                        case "TRNSPRTNAME": return "Transpoter Name";
+                        case "GTRNSPRTNAME": return "Other Transpoter Name";
+                        case "VHLNO": return "Vehicle No";
+                        case "GPNRNO": return "PNR No";
+                        case "VSLNAME":
+                        case "VSLID": return "Vessel Name";
+                        case "VOYNO": return "Voyage No";
+                        case "IGMNO": return "IGM No.";
+                        case "GPLNO": return "Line No";
+                        case "IMPRTNAME":
+                        case "IMPRTID": return "Importer Name";
+                        case "STMRNAME":
+                        case "STMRID": return "Steamer Name";
+                        case "CHANAME": return "CHA Name";
+                        case "BOENO": return "Bill of Entry No";
+                        case "BOEDATE": return "Bill of Entry Date";
+                        case "CONTNRNO": return "Container No";
+                        case "CONTNRSID": return "Size";
+                        case "CONTNRTID": return "Type";
+                        case "GIISOCODE": return "ISO Code";
+                        case "LPSEALNO": return "L.seal no";
+                        case "CSEALNO": return "C.seal no";
+                        case "ROWID": return "Row";
+                        case "SLOTID": return "Slot";
+                        case "PRDTGID": return "Product Category";
+                        case "PRDTDESC": return "Product Description";
+                        case "GPWTYPE": return "Weightment";
+                        case "GPWGHT": return "Weight";
+                        case "GPPTYPE": return "Port";
+                        case "IGMDATE": return "IGM Date";
+                        case "BLNO": return "BL No.";
+                        case "GFCLTYPE": return "FCL";
+                        case "GIDMGDESC": return "Damage";
+                        case "GPMODEID": return "GP Mode";
+                        case "GPETYPE": return "SSR/Escort";
+                        case "GPSTYPE": return "S.Amend / Mismatch";
+                        case "GPEAMT": return "SSR/Escort Amount";
+                        case "GPAAMT": return "Addtnl. Amount";
+                        case "GPSCNTYPE": return "Scanned";
+                        case "GPSCNMTYPE": return "Scan Type";
+                        case "GRADEID": return "Refer(Plug)";
+                        default: return field; // fallback to technical name
+                    }
+                }
+
+                foreach (var row in a)
+                {
+                    row.OldValue = Map(row.FieldName, row.OldValue);
+                    row.NewValue = Map(row.FieldName, row.NewValue);
+                    row.FieldName = Friendly(row.FieldName);
+                }
+                foreach (var row in b)
+                {
+                    row.OldValue = Map(row.FieldName, row.OldValue);
+                    row.NewValue = Map(row.FieldName, row.NewValue);
+                    row.FieldName = Friendly(row.FieldName);
+                }
+            }
+            catch { /* best-effort mapping for compare page */ }
 
             ViewBag.GIDID = gidid.Value;
             ViewBag.VersionA = versionA;
