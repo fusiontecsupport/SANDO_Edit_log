@@ -1,0 +1,103 @@
+@{
+    ViewBag.Title = "Gate In - Edit log Compare";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var gid = (int)ViewBag.GIDID;
+    var verA = (string)ViewBag.VersionA;
+    var verB = (string)ViewBag.VersionB;
+    var rowsA = (IEnumerable<scfs_erp.Models.GateInDetailEditLogRow>)ViewBag.RowsA;
+    var rowsB = (IEnumerable<scfs_erp.Models.GateInDetailEditLogRow>)ViewBag.RowsB;
+
+    Func<scfs_erp.Models.GateInDetailEditLogRow, string> pickVal = r => string.IsNullOrEmpty(r.NewValue) ? (r.OldValue ?? "") : r.NewValue;
+
+    // Build dictionaries keyed by field name for both versions
+    var dictA = rowsA
+        .GroupBy(r => r.FieldName)
+        .ToDictionary(g => g.Key, g => pickVal(g.Last()));
+    var dictB = rowsB
+        .GroupBy(r => r.FieldName)
+        .ToDictionary(g => g.Key, g => pickVal(g.Last()));
+
+    var allFields = dictA.Keys.Union(dictB.Keys).OrderBy(k => k).ToList();
+}
+
+<style>
+    .diff-yes { background: #fff3cd; }
+    .diff-no { background: #e8f5e9; }
+    .sticky th { position: sticky; top: 0; background: #2e3e4e; color: #fff; z-index: 2; }
+    .nowrap { white-space: nowrap; }
+    .filterbar { margin: 10px 0; }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="page-header">Gate In - Version Compare</h2>
+            <p class="text-muted">
+                Comparing <strong>GIDID</strong> <code>@gid</code> between <strong>Version A</strong> <code>@verA</code> and <strong>Version B</strong> <code>@verB</code>.
+            </p>
+            <div class="btn-group">
+                <a class="btn btn-default" href="@Url.Action("EditLogGateIn", "ImportGateIn", new { gidid = gid })"><i class="fa fa-arrow-left"></i> Back to Log</a>
+            </div>
+            <div class="filterbar">
+                <label>Filter field:</label>
+                <input type="text" id="fltField" class="form-control input-sm" style="display:inline-block; width:220px;" placeholder="Type to filter fields..." />
+                <label class="checkbox-inline" style="margin-left:10px;"><input type="checkbox" id="onlyDiff" /> Show only differences</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table id="cmpTable" class="table table-bordered table-striped sticky">
+                    <thead>
+                        <tr>
+                            <th class="nowrap">Field</th>
+                            <th class="nowrap">Version @verA</th>
+                            <th class="nowrap">Version @verB</th>
+                            <th class="nowrap">Different?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var f in allFields)
+                    {
+                        var va = dictA.ContainsKey(f) ? dictA[f] : "";
+                        var vb = dictB.ContainsKey(f) ? dictB[f] : "";
+                        bool diff = (va ?? "") != (vb ?? "");
+                        <tr class="row-item @(diff ? "diff-yes" : "diff-no")" data-field="@f" data-diff="@(diff ? "1" : "0")">
+                            <td class="field-name">@f</td>
+                            <td>@Html.Raw(HttpUtility.HtmlEncode(va))</td>
+                            <td>@Html.Raw(HttpUtility.HtmlEncode(vb))</td>
+                            <td class="nowrap">@(diff ? "Yes" : "No")</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<script>
+    (function(){
+        function applyFilters(){
+            var q = ($('#fltField').val() || '').toLowerCase();
+            var onlyDiff = $('#onlyDiff').prop('checked');
+            $('#cmpTable tbody tr').each(function(){
+                var $tr = $(this);
+                var fname = ($tr.data('field') + '').toLowerCase();
+                var isDiff = $tr.data('diff') === 1 || $tr.data('diff') === '1';
+                var match = !q || fname.indexOf(q) !== -1;
+                if (match && (!onlyDiff || isDiff)) {
+                    $tr.show();
+                } else {
+                    $tr.hide();
+                }
+            });
+        }
+        $('#fltField').on('keyup change', applyFilters);
+        $('#onlyDiff').on('change', applyFilters);
+    })();
+</script>
+}

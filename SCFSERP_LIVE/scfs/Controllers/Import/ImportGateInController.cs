@@ -1,4 +1,4 @@
-using scfs.Data;
+﻿using scfs.Data;
 using scfs_erp.Context;
 using scfs_erp.Helper;
 using scfs_erp.Models;
@@ -103,7 +103,7 @@ namespace scfs_erp.Controllers.Import
             return View();
         }
 
-        public ActionResult EditLogGateIn(int? gidid)
+        public ActionResult EditLogGateIn(int? gidid, DateTime? from = null, DateTime? to = null, string user = null, string fieldName = null, string version = null)
         {
             if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
 
@@ -112,12 +112,25 @@ namespace scfs_erp.Controllers.Import
             if (cs != null && !string.IsNullOrWhiteSpace(cs.ConnectionString))
             {
                 using (var sql = new SqlConnection(cs.ConnectionString))
-                using (var cmd = new SqlCommand(@"SELECT TOP 1000 [GIDID],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
+                using (var cmd = new SqlCommand(@"SELECT TOP 2000 [GIDID],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
                                                 FROM [dbo].[GateInDetailEditLog]
                                                 WHERE (@GIDID IS NULL OR [GIDID] = @GIDID)
+                                                  AND (@FROM IS NULL OR [ChangedOn] >= @FROM)
+                                                  AND (@TO   IS NULL OR [ChangedOn] <  DATEADD(day, 1, @TO))
+                                                  AND (@USER IS NULL OR [ChangedBy] LIKE @USERPAT)
+                                                  AND (@FIELD IS NULL OR [FieldName] LIKE @FIELDPAT)
+                                                  AND (@VERSION IS NULL OR [Version] LIKE @VERPAT)
                                                 ORDER BY [ChangedOn] DESC, [GIDID] DESC", sql))
                 {
                     cmd.Parameters.AddWithValue("@GIDID", (object)gidid ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@FROM", (object)from ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@TO", (object)to ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@USER", string.IsNullOrWhiteSpace(user) ? (object)DBNull.Value : user);
+                    cmd.Parameters.AddWithValue("@USERPAT", string.IsNullOrWhiteSpace(user) ? (object)DBNull.Value : (object)("%" + user + "%"));
+                    cmd.Parameters.AddWithValue("@FIELD", string.IsNullOrWhiteSpace(fieldName) ? (object)DBNull.Value : fieldName);
+                    cmd.Parameters.AddWithValue("@FIELDPAT", string.IsNullOrWhiteSpace(fieldName) ? (object)DBNull.Value : (object)("%" + fieldName + "%"));
+                    cmd.Parameters.AddWithValue("@VERSION", string.IsNullOrWhiteSpace(version) ? (object)DBNull.Value : version);
+                    cmd.Parameters.AddWithValue("@VERPAT", string.IsNullOrWhiteSpace(version) ? (object)DBNull.Value : (object)("%" + version + "%"));
                     sql.Open();
                     using (var r = cmd.ExecuteReader())
                     {
@@ -257,6 +270,152 @@ namespace scfs_erp.Controllers.Import
             catch { /* Best-effort mapping; do not fail page if lookups have issues */ }
 
             return View(list);
+        }
+
+        // Export current filtered GateIn log as CSV
+        public ActionResult EditLogGateInExport(int? gidid, DateTime? from = null, DateTime? to = null, string user = null, string fieldName = null, string version = null)
+        {
+            if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
+
+            var rows = new List<scfs_erp.Models.GateInDetailEditLogRow>();
+            var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+            if (cs != null && !string.IsNullOrWhiteSpace(cs.ConnectionString))
+            {
+                using (var sql = new SqlConnection(cs.ConnectionString))
+                using (var cmd = new SqlCommand(@"SELECT [GIDID],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
+                                                FROM [dbo].[GateInDetailEditLog]
+                                                WHERE (@GIDID IS NULL OR [GIDID] = @GIDID)
+                                                  AND (@FROM IS NULL OR [ChangedOn] >= @FROM)
+                                                  AND (@TO   IS NULL OR [ChangedOn] <  DATEADD(day, 1, @TO))
+                                                  AND (@USER IS NULL OR [ChangedBy] LIKE @USERPAT)
+                                                  AND (@FIELD IS NULL OR [FieldName] LIKE @FIELDPAT)
+                                                  AND (@VERSION IS NULL OR [Version] LIKE @VERPAT)
+                                                ORDER BY [ChangedOn] DESC, [GIDID] DESC", sql))
+                {
+                    cmd.Parameters.AddWithValue("@GIDID", (object)gidid ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@FROM", (object)from ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@TO", (object)to ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@USER", string.IsNullOrWhiteSpace(user) ? (object)DBNull.Value : user);
+                    cmd.Parameters.AddWithValue("@USERPAT", string.IsNullOrWhiteSpace(user) ? (object)DBNull.Value : (object)("%" + user + "%"));
+                    cmd.Parameters.AddWithValue("@FIELD", string.IsNullOrWhiteSpace(fieldName) ? (object)DBNull.Value : fieldName);
+                    cmd.Parameters.AddWithValue("@FIELDPAT", string.IsNullOrWhiteSpace(fieldName) ? (object)DBNull.Value : (object)("%" + fieldName + "%"));
+                    cmd.Parameters.AddWithValue("@VERSION", string.IsNullOrWhiteSpace(version) ? (object)DBNull.Value : version);
+                    cmd.Parameters.AddWithValue("@VERPAT", string.IsNullOrWhiteSpace(version) ? (object)DBNull.Value : (object)("%" + version + "%"));
+                    sql.Open();
+                    using (var r = cmd.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            rows.Add(new scfs_erp.Models.GateInDetailEditLogRow
+                            {
+                                GIDID = r["GIDID"] != DBNull.Value ? Convert.ToInt32(r["GIDID"]) : 0,
+                                FieldName = Convert.ToString(r["FieldName"]),
+                                OldValue = r["OldValue"] == DBNull.Value ? null : Convert.ToString(r["OldValue"]),
+                                NewValue = r["NewValue"] == DBNull.Value ? null : Convert.ToString(r["NewValue"]),
+                                ChangedBy = Convert.ToString(r["ChangedBy"]),
+                                ChangedOn = r["ChangedOn"] != DBNull.Value ? Convert.ToDateTime(r["ChangedOn"]) : DateTime.MinValue,
+                                Version = r["Version"] == DBNull.Value ? null : Convert.ToString(r["Version"]),
+                                Modules = r["Modules"] == DBNull.Value ? null : Convert.ToString(r["Modules"])
+                            });
+                        }
+                    }
+                }
+            }
+
+            // Map display values for CSV too
+            foreach (var row in rows)
+            {
+                // reuse mapping methods
+                row.OldValue = row.OldValue; // already mapped earlier in UI path; keep raw if called directly
+                row.NewValue = row.NewValue;
+            }
+
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine("ChangedOn,GIDID,Version,Field,OldValue,NewValue,ChangedBy,Module");
+            foreach (var x in rows)
+            {
+                string esc(string s) => string.IsNullOrEmpty(s) ? "" : ("\"" + s.Replace("\"", "\"\"") + "\"");
+                sb.AppendLine(string.Join(",",
+                    esc(x.ChangedOn.ToString("yyyy-MM-dd HH:mm:ss")),
+                    x.GIDID.ToString(),
+                    esc(x.Version),
+                    esc(x.FieldName),
+                    esc(x.OldValue),
+                    esc(x.NewValue),
+                    esc(x.ChangedBy),
+                    esc(x.Modules)));
+            }
+
+            var bytes = System.Text.Encoding.UTF8.GetBytes(sb.ToString());
+            return File(bytes, "text/csv", "GateInEditLog.csv");
+        }
+
+        // Compare two versions for a given GIDID
+        public ActionResult EditLogGateInCompare(int gidid, string versionA, string versionB)
+        {
+            if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
+
+            var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+            var a = new List<scfs_erp.Models.GateInDetailEditLogRow>();
+            var b = new List<scfs_erp.Models.GateInDetailEditLogRow>();
+            if (cs != null && !string.IsNullOrWhiteSpace(cs.ConnectionString))
+            {
+                using (var sql = new SqlConnection(cs.ConnectionString))
+                using (var cmd = new SqlCommand(@"SELECT [GIDID],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
+                                                FROM [dbo].[GateInDetailEditLog]
+                                                WHERE [GIDID]=@GIDID AND [Version]=@V", sql))
+                {
+                    cmd.Parameters.Add("@GIDID", System.Data.SqlDbType.Int);
+                    cmd.Parameters.Add("@V", System.Data.SqlDbType.VarChar, 50);
+
+                    sql.Open();
+                    cmd.Parameters["@GIDID"].Value = gidid;
+                    cmd.Parameters["@V"].Value = versionA;
+                    using (var r = cmd.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            a.Add(new scfs_erp.Models.GateInDetailEditLogRow
+                            {
+                                GIDID = gidid,
+                                FieldName = Convert.ToString(r["FieldName"]),
+                                OldValue = r["OldValue"] == DBNull.Value ? null : Convert.ToString(r["OldValue"]),
+                                NewValue = r["NewValue"] == DBNull.Value ? null : Convert.ToString(r["NewValue"]),
+                                ChangedBy = Convert.ToString(r["ChangedBy"]),
+                                ChangedOn = r["ChangedOn"] != DBNull.Value ? Convert.ToDateTime(r["ChangedOn"]) : DateTime.MinValue,
+                                Version = versionA,
+                                Modules = r["Modules"] == DBNull.Value ? null : Convert.ToString(r["Modules"])
+                            });
+                        }
+                    }
+
+                    cmd.Parameters["@V"].Value = versionB;
+                    using (var r2 = cmd.ExecuteReader())
+                    {
+                        while (r2.Read())
+                        {
+                            b.Add(new scfs_erp.Models.GateInDetailEditLogRow
+                            {
+                                GIDID = gidid,
+                                FieldName = Convert.ToString(r2["FieldName"]),
+                                OldValue = r2["OldValue"] == DBNull.Value ? null : Convert.ToString(r2["OldValue"]),
+                                NewValue = r2["NewValue"] == DBNull.Value ? null : Convert.ToString(r2["NewValue"]),
+                                ChangedBy = Convert.ToString(r2["ChangedBy"]),
+                                ChangedOn = r2["ChangedOn"] != DBNull.Value ? Convert.ToDateTime(r2["ChangedOn"]) : DateTime.MinValue,
+                                Version = versionB,
+                                Modules = r2["Modules"] == DBNull.Value ? null : Convert.ToString(r2["Modules"])
+                            });
+                        }
+                    }
+                }
+            }
+
+            ViewBag.GIDID = gidid;
+            ViewBag.VersionA = versionA;
+            ViewBag.VersionB = versionB;
+            ViewBag.RowsA = a;
+            ViewBag.RowsB = b;
+            return View();
         }
         #endregion
 
