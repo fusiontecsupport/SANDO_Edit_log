@@ -26,7 +26,7 @@ namespace scfs_erp.Controllers.Import
         #endregion
 
         #region Index Form
-        [Authorize(Roles = "ImportGateInIndex")]
+        //[Authorize(Roles = "ImportGateInIndex")] // Role-based restriction removed to allow broader access
         public ActionResult Index()
         {
             if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
@@ -736,7 +736,7 @@ namespace scfs_erp.Controllers.Import
         #endregion
 
         #region Redirect to form from index
-        [Authorize(Roles = "ImportGateInEdit")]
+        //[Authorize(Roles = "ImportGateInEdit")] // Role-based restriction removed to allow broader access
         public void Edit(string id)
         {
             var strPath = ConfigurationManager.AppSettings["BaseURL"];
@@ -748,7 +748,7 @@ namespace scfs_erp.Controllers.Import
         #endregion
 
         #region Creating or Modify Form
-        [Authorize(Roles = "ImportGateInCreate")]
+        //[Authorize(Roles = "ImportGateInCreate")] // Role-based restriction removed to allow broader access
         public ActionResult Form(string id = "0")
         {
             if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
@@ -1228,7 +1228,8 @@ namespace scfs_erp.Controllers.Import
                 tab.GPSCNMTYPE = 0;
             }
 
-            tab.LMUSRID = Session["CUSRID"].ToString();
+            // Ensure last modified user ID is set safely even if session CUSRID is not present
+            tab.LMUSRID = Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "";
             if (tab.GIDID.ToString() != "0")
             {
                 // Load original row for logging (no tracking to avoid state conflicts)

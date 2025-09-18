@@ -1,4 +1,4 @@
-﻿
+
 @using scfs_erp.Models;
 @model scfs_erp.Models.GateInDetail
 
@@ -924,31 +924,12 @@
                 }
 
                 if ($("#GIDID").val() != "0") {
+                    // Always enable submit for all users; removed role-based restriction
                     if ($(".Del_check").html() != "PROCEED") {
                         alert($(".Del_check").html());
-                        var UserGroup = $('.txtGroup').val();
-                        //alert(UserGroup);
-                        if ((UserGroup == "SuperAdmin" || UserGroup == "Admin" || UserGroup == "GroupAdmin")) {
-                            $(".btnsave").removeAttr("disabled", "disabled");
-                        }
-                        else {
-                            $(".btnsave").attr("disabled", "disabled");
-                        }
-                        //$(".btnsave").attr("disabled", "disabled");
-                        //$("#gateinform input:submit").attr("disabled", "disabled");
-                    } else {
-                        var UserGroup = $('.txtGroup').val();
-                        //alert(UserGroup);
-                        if ((UserGroup == "SuperAdmin" || UserGroup == "Admin" || UserGroup == "GroupAdmin")) {
-                            $(".btnsave").removeAttr("disabled", "disabled");
-                        }
-                        else {
-                            $(".btnsave").attr("disabled", "disabled");
-                        }
-
-
-                        //$("#gateinform input:submit").removeAttr("disabled", "disabled");
                     }
+                    $(".btnsave").removeAttr("disabled");
+                    //$("#gateinform input:submit").removeAttr("disabled");
                 }
                 else {
 
