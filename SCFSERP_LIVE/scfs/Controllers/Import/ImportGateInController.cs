@@ -1932,6 +1932,21 @@ namespace scfs_erp.Controllers.Import
                     continue;
                 if (exclude.Contains(p.Name)) continue;
 
+                // If this is an '*ID' field and a corresponding string name property exists,
+                // skip logging the ID to avoid noisy numeric codes (e.g., STMRID vs STMRNAME)
+                if (p.Name.EndsWith("ID", StringComparison.OrdinalIgnoreCase))
+                {
+                    var baseName = p.Name.Substring(0, p.Name.Length - 2); // remove 'ID'
+                    var nameProp = props.FirstOrDefault(q =>
+                        q.PropertyType == typeof(string) &&
+                        (
+                            q.Name.Equals(baseName, StringComparison.OrdinalIgnoreCase) ||
+                            q.Name.Equals(baseName + "NAME", StringComparison.OrdinalIgnoreCase) ||
+                            (q.Name.EndsWith("NAME", StringComparison.OrdinalIgnoreCase) && q.Name.StartsWith(baseName, StringComparison.OrdinalIgnoreCase))
+                        ));
+                    if (nameProp != null) continue;
+                }
+
                 var ov = p.GetValue(before, null);
                 var nv = p.GetValue(after, null);
 
