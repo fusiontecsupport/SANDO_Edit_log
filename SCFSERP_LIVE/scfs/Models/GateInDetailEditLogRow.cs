@@ -4,7 +4,7 @@ namespace scfs_erp.Models
 {
     public class GateInDetailEditLogRow
     {
-        public int GIDID { get; set; }
+        public int GIDNO { get; set; }
         public string FieldName { get; set; }
         public string OldValue { get; set; }
         public string NewValue { get; set; }

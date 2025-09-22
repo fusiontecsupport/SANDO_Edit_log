@@ -1,4 +1,4 @@
-﻿using scfs.Data;
+using scfs.Data;
 using scfs_erp.Context;
 using scfs_erp.Helper;
 using scfs_erp.Models;
@@ -150,7 +150,7 @@ namespace scfs_erp.Controllers.Import
                                                 totalRowsCount,
                                                 filteredRowsCount, Convert.ToDateTime(Session["SDATE"]), Convert.ToDateTime(Session["EDATE"]));
 
-                var aaData = data.Select(d => new string[] { d.GIDATE.ToString(), d.GIDNO, d.CONTNRNO, d.CONTNRSID, d.IGMNO, d.GPLNO, d.VSLNAME, d.STMRNAME, d.PRDTDESC, d.DISPSTATUS, d.GIDID.ToString(), d.AGIDID.ToString() }).ToArray();
+                var aaData = data.Select(d => new string[] { d.GIDATE.ToString(), d.GIDNO, d.CONTNRNO, d.CONTNRSID, d.IGMNO, d.GPLNO, d.VSLNAME, d.STMRNAME, d.PRDTDESC, d.DISPSTATUS, d.GIDID.ToString(), d.AGIDNO ?? "" }).ToArray();
 
                 return Json(new
                 {
@@ -177,7 +177,7 @@ namespace scfs_erp.Controllers.Import
                                                 totalRowsCount,
                                                 filteredRowsCount);
 
-                var aaData = data.Select(d => new string[] { d.GIDATE.ToString(), d.GIDNO, d.CONTNRNO, d.CONTNRSID, d.IGMNO, d.GPLNO, d.VSLNAME, d.STMRNAME, d.PRDTDESC, d.DISPSTATUS, d.GIDID.ToString(), d.AGIDID.ToString() }).ToArray();
+                var aaData = data.Select(d => new string[] { d.GIDATE.ToString(), d.GIDNO, d.CONTNRNO, d.CONTNRSID, d.IGMNO, d.GPLNO, d.VSLNAME, d.STMRNAME, d.PRDTDESC, d.DISPSTATUS, d.GIDID.ToString(), d.AGIDNO ?? "" }).ToArray();
 
                 return Json(new
                 {
@@ -244,7 +244,7 @@ namespace scfs_erp.Controllers.Import
 
                         remotegatein.COMPYID = Convert.ToInt32(Session["compyid"]);
                         remotegatein.SDPTID = 1;
-                        remotegatein.AGIDID = 0;
+                        remotegatein.AGIDNO = "0";
 
                         //remotegatein.GIDATE = Convert.ToDateTime(remotegatein.GITIME).Date;
                         //remotegatein.GICCTLDATE = Convert.ToDateTime(remotegatein.GICCTLTIME).Date;

@@ -1,4 +1,4 @@
-﻿using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 using scfs_erp.Context;
 using scfs_erp.Helper;

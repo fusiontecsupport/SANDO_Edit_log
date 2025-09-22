@@ -1,4 +1,4 @@
-﻿using scfs.Data;
+using scfs.Data;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 using scfs_erp.Context;
@@ -58,7 +58,7 @@ namespace scfs_erp.Controllers.Import
 
                 var data = e.pr_Search_Import_TruckIn(param.sSearch, Convert.ToInt32(Request["iSortCol_0"]), Request["sSortDir_0"], param.iDisplayStart, param.iDisplayStart + param.iDisplayLength,
                    totalRowsCount, filteredRowsCount, Convert.ToDateTime(Session["SDATE"]), Convert.ToDateTime(Session["EDATE"]), Convert.ToInt32(Session["compyid"]));
-                var aaData = data.Select(d => new string[] { d.GIDATE, d.GITIME, d.GIDNO.ToString(), d.IGMNO, d.TRANSPORTER, d.VHLNO, d.DRVNAME, d.DISPSTATUS, d.GIDID.ToString() }).ToArray();
+                var aaData = data.Select(d => new string[] { d.GIDATE, d.GITIME, d.GIDNO, d.IGMNO, d.TRANSPORTER, d.VHLNO, d.DRVNAME, d.DISPSTATUS, d.GIDID.ToString() }).ToArray();
                 return Json(new
                 {
                     sEcho = param.sEcho,

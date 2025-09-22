@@ -1,7 +1,7 @@
 @{
     ViewBag.Title = "Gate In - Edit log Compare";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var gid = (int)ViewBag.GIDID;
+    var gid = (int)ViewBag.GIDNO;
     var verA = (string)ViewBag.VersionA;
     var verB = (string)ViewBag.VersionB;
     var rowsA = (IEnumerable<scfs_erp.Models.GateInDetailEditLogRow>)ViewBag.RowsA;
@@ -35,7 +35,7 @@
         <div class="col-md-12">
             <h2 class="page-header">Gate In - Version Compare</h2>
             <p class="text-muted">
-                Comparing <strong>GIDID</strong> <code>@gid</code> between <strong>Version A</strong> <code>@verA</code> and <strong>Version B</strong> <code>@verB</code>.
+                Comparing <strong>GIDNO</strong> <code>@gid</code> between <strong>Version A</strong> <code>@verA</code> and <strong>Version B</strong> <code>@verB</code>.
             </p>
             <div class="btn-group">
                 <a class="btn btn-default" href="@Url.Action("EditLogGateIn", "ImportGateIn", new { gidid = gid })"><i class="fa fa-arrow-left"></i> Back to Log</a>

@@ -66,33 +66,67 @@ namespace scfs_erp.Controllers.Import
 
         public JsonResult GetAjaxData(JQueryDataTableParamModel param)
         {
-
-            using (var e = new CFSImportEntities())
+            try
             {
-                var totalRowsCount = new System.Data.Entity.Core.Objects.ObjectParameter("TotalRowsCount", typeof(int));
-                var filteredRowsCount = new System.Data.Entity.Core.Objects.ObjectParameter("FilteredRowsCount", typeof(int));
-
-                var data = e.pr_Search_Import_GateInGridAssgn(param.sSearch,
-                                                Convert.ToInt32(Request["iSortCol_0"]),
-                                                Request["sSortDir_0"],
-                                                param.iDisplayStart,
-                                                param.iDisplayStart + param.iDisplayLength,
-                                                totalRowsCount,
-                                                filteredRowsCount, Convert.ToDateTime(Session["SDATE"]),
-                                                Convert.ToDateTime(Session["EDATE"]),
-                                                Convert.ToInt32(System.Web.HttpContext.Current.Session["compyid"]));
-                var aaData = data.Select(d => new string[] { d.GIDATE.Value.ToString("dd/MM/yyyy"), d.GIDNO,
-                    d.CONTNRNO, d.CONTNRSID, d.IGMNO, d.GPLNO, d.IMPRTNAME, d.STMRNAME,  d.VSLNAME, d.BLNO,
-                    d.PRDTDESC, d.DISPSTATUS, d.GIDID.ToString() }).ToList();
-
-                return Json(new
+                using (var e = new CFSImportEntities())
                 {
-                    sEcho = param.sEcho,
-                    aaData = aaData,
-                    iTotalRecords = Convert.ToInt32(totalRowsCount.Value),
-                    iTotalDisplayRecords = Convert.ToInt32(filteredRowsCount.Value)
-                }, JsonRequestBehavior.AllowGet);
+                    var totalRowsCount = new System.Data.Entity.Core.Objects.ObjectParameter("TotalRowsCount", typeof(int));
+                    var filteredRowsCount = new System.Data.Entity.Core.Objects.ObjectParameter("FilteredRowsCount", typeof(int));
 
+                    // Safely get session values with defaults
+                    var startDate = Session["SDATE"] != null ? Convert.ToDateTime(Session["SDATE"]) : DateTime.Now.Date;
+                    var endDate = Session["EDATE"] != null ? Convert.ToDateTime(Session["EDATE"]) : DateTime.Now.Date;
+                    var companyId = Session["compyid"] != null ? Convert.ToInt32(Session["compyid"]) : 0;
+
+                    if (companyId == 0)
+                    {
+                        return Json(new { error = "Invalid company ID" }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    var data = e.pr_Search_Import_GateInGridAssgn(param.sSearch ?? "",
+                                                    Convert.ToInt32(Request["iSortCol_0"] ?? "0"),
+                                                    Request["sSortDir_0"] ?? "asc",
+                                                    param.iDisplayStart,
+                                                    param.iDisplayStart + param.iDisplayLength,
+                                                    totalRowsCount,
+                                                    filteredRowsCount, 
+                                                    startDate,
+                                                    endDate,
+                                                    companyId);
+
+                    var aaData = data.Select(d => new string[] { 
+                        d.GIDATE?.ToString("dd/MM/yyyy") ?? "",
+                        d.GIDNO ?? "",
+                        d.CONTNRNO ?? "", 
+                        d.CONTNRSID ?? "", 
+                        d.IGMNO ?? "", 
+                        d.GPLNO ?? "", 
+                        d.IMPRTNAME ?? "", 
+                        d.STMRNAME ?? "",  
+                        d.VSLNAME ?? "", 
+                        d.BLNO ?? "",
+                        d.PRDTDESC ?? "", 
+                        d.DISPSTATUS ?? "", 
+                        d.GIDID?.ToString() ?? "" 
+                    }).ToList();
+
+                    return Json(new
+                    {
+                        sEcho = param.sEcho,
+                        aaData = aaData,
+                        iTotalRecords = Convert.ToInt32(totalRowsCount.Value),
+                        iTotalDisplayRecords = Convert.ToInt32(filteredRowsCount.Value)
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error details for debugging
+                return Json(new { 
+                    error = "Database error occurred", 
+                    details = ex.Message,
+                    innerException = ex.InnerException?.Message 
+                }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -112,17 +146,17 @@ namespace scfs_erp.Controllers.Import
             if (cs != null && !string.IsNullOrWhiteSpace(cs.ConnectionString))
             {
                 using (var sql = new SqlConnection(cs.ConnectionString))
-                using (var cmd = new SqlCommand(@"SELECT TOP 2000 [GIDID],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
+                using (var cmd = new SqlCommand(@"SELECT TOP 2000 [GIDNO],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
                                                 FROM [dbo].[GateInDetailEditLog]
-                                                WHERE (@GIDID IS NULL OR [GIDID] = @GIDID)
+                                                WHERE (@GIDNO IS NULL OR [GIDNO] = @GIDNO)
                                                   AND (@FROM IS NULL OR [ChangedOn] >= @FROM)
                                                   AND (@TO   IS NULL OR [ChangedOn] <  DATEADD(day, 1, @TO))
                                                   AND (@USER IS NULL OR [ChangedBy] LIKE @USERPAT)
                                                   AND (@FIELD IS NULL OR [FieldName] LIKE @FIELDPAT)
                                                   AND (@VERSION IS NULL OR [Version] LIKE @VERPAT)
-                                                ORDER BY [ChangedOn] DESC, [GIDID] DESC", sql))
+                                                ORDER BY [ChangedOn] DESC, [GIDNO] DESC", sql))
                 {
-                    cmd.Parameters.AddWithValue("@GIDID", (object)gidid ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@GIDNO", (object)gidid ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@FROM", (object)from ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@TO", (object)to ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@USER", string.IsNullOrWhiteSpace(user) ? (object)DBNull.Value : user);
@@ -138,7 +172,7 @@ namespace scfs_erp.Controllers.Import
                         {
                             list.Add(new scfs_erp.Models.GateInDetailEditLogRow
                             {
-                                GIDID = r["GIDID"] != DBNull.Value ? Convert.ToInt32(r["GIDID"]) : 0,
+                                GIDNO = r["GIDNO"] != DBNull.Value ? Convert.ToInt32(r["GIDNO"]) : 0,
                                 FieldName = Convert.ToString(r["FieldName"]),
                                 OldValue = r["OldValue"] == DBNull.Value ? null : Convert.ToString(r["OldValue"]),
                                 NewValue = r["NewValue"] == DBNull.Value ? null : Convert.ToString(r["NewValue"]),
@@ -288,17 +322,17 @@ namespace scfs_erp.Controllers.Import
             if (cs != null && !string.IsNullOrWhiteSpace(cs.ConnectionString))
             {
                 using (var sql = new SqlConnection(cs.ConnectionString))
-                using (var cmd = new SqlCommand(@"SELECT [GIDID],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
+                using (var cmd = new SqlCommand(@"SELECT [GIDNO],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
                                                 FROM [dbo].[GateInDetailEditLog]
-                                                WHERE (@GIDID IS NULL OR [GIDID] = @GIDID)
+                                                WHERE (@GIDNO IS NULL OR [GIDNO] = @GIDNO)
                                                   AND (@FROM IS NULL OR [ChangedOn] >= @FROM)
                                                   AND (@TO   IS NULL OR [ChangedOn] <  DATEADD(day, 1, @TO))
                                                   AND (@USER IS NULL OR [ChangedBy] LIKE @USERPAT)
                                                   AND (@FIELD IS NULL OR [FieldName] LIKE @FIELDPAT)
                                                   AND (@VERSION IS NULL OR [Version] LIKE @VERPAT)
-                                                ORDER BY [ChangedOn] DESC, [GIDID] DESC", sql))
+                                                ORDER BY [ChangedOn] DESC, [GIDNO] DESC", sql))
                 {
-                    cmd.Parameters.AddWithValue("@GIDID", (object)gidid ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@GIDNO", (object)gidid ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@FROM", (object)from ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@TO", (object)to ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@USER", string.IsNullOrWhiteSpace(user) ? (object)DBNull.Value : user);
@@ -314,7 +348,7 @@ namespace scfs_erp.Controllers.Import
                         {
                             rows.Add(new scfs_erp.Models.GateInDetailEditLogRow
                             {
-                                GIDID = r["GIDID"] != DBNull.Value ? Convert.ToInt32(r["GIDID"]) : 0,
+                                GIDNO = r["GIDNO"] != DBNull.Value ? Convert.ToInt32(r["GIDNO"]) : 0,
                                 FieldName = Convert.ToString(r["FieldName"]),
                                 OldValue = r["OldValue"] == DBNull.Value ? null : Convert.ToString(r["OldValue"]),
                                 NewValue = r["NewValue"] == DBNull.Value ? null : Convert.ToString(r["NewValue"]),
@@ -446,13 +480,13 @@ namespace scfs_erp.Controllers.Import
             catch { /* best-effort mapping for CSV export */ }
 
             var sb = new System.Text.StringBuilder();
-            sb.AppendLine("ChangedOn,GIDID,Version,Field,OldValue,NewValue,ChangedBy,Module");
+            sb.AppendLine("ChangedOn,GIDNO,Version,Field,OldValue,NewValue,ChangedBy,Module");
             foreach (var x in rows)
             {
                 string esc(string s) => string.IsNullOrEmpty(s) ? "" : ("\"" + s.Replace("\"", "\"\"") + "\"");
                 sb.AppendLine(string.Join(",",
                     esc(x.ChangedOn.ToString("yyyy-MM-dd HH:mm:ss")),
-                    x.GIDID.ToString(),
+                    x.GIDNO,
                     esc(x.Version),
                     esc(x.FieldName),
                     esc(x.OldValue),
@@ -465,7 +499,7 @@ namespace scfs_erp.Controllers.Import
             return File(bytes, "text/csv", "GateInEditLog.csv");
         }
 
-        // Compare two versions for a given GIDID
+        // Compare two versions for a given GIDNO
         public ActionResult EditLogGateInCompare(int? gidid, string versionA, string versionB)
         {
             if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
@@ -483,7 +517,7 @@ namespace scfs_erp.Controllers.Import
 
             if (gidid == null || string.IsNullOrWhiteSpace(versionA) || string.IsNullOrWhiteSpace(versionB))
             {
-                TempData["Err"] = "Please provide GIDID, Version A and Version B to compare.";
+                TempData["Err"] = "Please provide GIDNO, Version A and Version B to compare.";
                 return RedirectToAction("EditLogGateIn", new { gidid = gidid });
             }
 
@@ -497,15 +531,15 @@ namespace scfs_erp.Controllers.Import
             if (cs != null && !string.IsNullOrWhiteSpace(cs.ConnectionString))
             {
                 using (var sql = new SqlConnection(cs.ConnectionString))
-                using (var cmd = new SqlCommand(@"SELECT [GIDID],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
+                using (var cmd = new SqlCommand(@"SELECT [GIDNO],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
                                                 FROM [dbo].[GateInDetailEditLog]
-                                                WHERE [GIDID]=@GIDID AND RTRIM(LTRIM([Version]))=@V", sql))
+                                                WHERE [GIDNO]=@GIDNO AND RTRIM(LTRIM([Version]))=@V", sql))
                 {
-                    cmd.Parameters.Add("@GIDID", System.Data.SqlDbType.Int);
+                    cmd.Parameters.Add("@GIDNO", System.Data.SqlDbType.Int);
                     cmd.Parameters.Add("@V", System.Data.SqlDbType.NVarChar, 100);
 
                     sql.Open();
-                    cmd.Parameters["@GIDID"].Value = gidid.Value;
+                    cmd.Parameters["@GIDNO"].Value = gidid.Value;
                     cmd.Parameters["@V"].Value = versionA;
                     using (var r = cmd.ExecuteReader())
                     {
@@ -513,7 +547,7 @@ namespace scfs_erp.Controllers.Import
                         {
                             a.Add(new scfs_erp.Models.GateInDetailEditLogRow
                             {
-                                GIDID = gidid.Value,
+                                GIDNO = gidid.Value,
                                 FieldName = Convert.ToString(r["FieldName"]),
                                 OldValue = r["OldValue"] == DBNull.Value ? null : Convert.ToString(r["OldValue"]),
                                 NewValue = r["NewValue"] == DBNull.Value ? null : Convert.ToString(r["NewValue"]),
@@ -532,7 +566,7 @@ namespace scfs_erp.Controllers.Import
                         {
                             b.Add(new scfs_erp.Models.GateInDetailEditLogRow
                             {
-                                GIDID = gidid.Value,
+                                GIDNO = gidid.Value,
                                 FieldName = Convert.ToString(r2["FieldName"]),
                                 OldValue = r2["OldValue"] == DBNull.Value ? null : Convert.ToString(r2["OldValue"]),
                                 NewValue = r2["NewValue"] == DBNull.Value ? null : Convert.ToString(r2["NewValue"]),
@@ -670,7 +704,7 @@ namespace scfs_erp.Controllers.Import
             }
             catch { /* best-effort mapping for compare page */ }
 
-            ViewBag.GIDID = gidid.Value;
+            ViewBag.GIDNO = gidid.Value;
             ViewBag.VersionA = versionA;
             ViewBag.VersionB = versionB;
             ViewBag.RowsA = a;
@@ -780,7 +814,7 @@ namespace scfs_erp.Controllers.Import
             {
                 remotegatein = context.remotegateindetails.Find(RGId);
                 tab.RGIDID = RGId;
-                //tab.RGIDID = remotegatein.GIDID;
+                //tab.RGIDID = remotegatein.GIDNO;
                 tab.VSLNAME = remotegatein.VSLNAME;
                 tab.VSLID = remotegatein.VSLID;
                 tab.GINO = remotegatein.GINO;
@@ -1094,7 +1128,7 @@ namespace scfs_erp.Controllers.Import
         [HttpPost]
         public void saveidata(GateInDetail tab)
         {
-            var R_GIDID = Request.Form.Get("R_GIDID");
+            var R_GIDNO = Request.Form.Get("R_GIDNO");
 
             string todaydt = Convert.ToString(DateTime.Now);
             string todayd = Convert.ToString(DateTime.Now.Date);
@@ -1230,7 +1264,7 @@ namespace scfs_erp.Controllers.Import
 
             // Ensure last modified user ID is set safely even if session CUSRID is not present
             tab.LMUSRID = Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "";
-            if (tab.GIDID.ToString() != "0")
+            if (tab.GIDNO != "0" && !string.IsNullOrEmpty(tab.GIDNO))
             {
                 // Load original row for logging (no tracking to avoid state conflicts)
                 var original = context.gateindetails.AsNoTracking().FirstOrDefault(x => x.GIDID == tab.GIDID);
@@ -1242,9 +1276,24 @@ namespace scfs_erp.Controllers.Import
                 // Best-effort logging to SCFS_LOG
                 try
                 {
-                    LogGateInEdits(original, tab, Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "");
+                    System.Diagnostics.Debug.WriteLine($"SAVE METHOD CALLED: GIDID={tab.GIDID}, GIDNO={tab.GIDNO}");
+                    if (original != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"ORIGINAL RECORD FOUND: GIDID={original.GIDID}, calling LogGateInEdits");
+                        LogGateInEdits(original, tab, Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "");
+                        System.Diagnostics.Debug.WriteLine($"LogGateInEdits completed successfully");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"ORIGINAL RECORD NOT FOUND for GIDID={tab.GIDID}");
+                    }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    // Log the error for debugging
+                    System.Diagnostics.Debug.WriteLine($"Edit logging failed: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                }
 
                 Response.Write("saved");
             }
@@ -1268,8 +1317,8 @@ namespace scfs_erp.Controllers.Import
 
                     if (sl1.Count > 0)
 
-                    if (R_GIDID != null)
-                        tab.RGIDID = Convert.ToInt32(R_GIDID);
+                    if (R_GIDNO != null)
+                        tab.RGIDID = Convert.ToInt32(R_GIDNO);
 
                     context.gateindetails.Add(tab);
                     context.SaveChanges();
@@ -1278,10 +1327,10 @@ namespace scfs_erp.Controllers.Import
                     context.SaveChanges();
 
                     ///*/.....delete remote gate in*/
-                    if (R_GIDID != "0")
+                    if (R_GIDNO != "0")
                     {
-                        RemoteGateIn remotegatein = context.remotegateindetails.Find(Convert.ToInt32(R_GIDID));
-                        remotegatein.AGIDID = tab.GIDID;
+                        RemoteGateIn remotegatein = context.remotegateindetails.Find(Convert.ToInt32(R_GIDNO));
+                        remotegatein.AGIDNO = tab.GIDNO;
 
                         //context.remotegateindetails.Remove(remotegatein);
                         context.SaveChanges();
@@ -1354,7 +1403,7 @@ namespace scfs_erp.Controllers.Import
 
         public void savedata(GateInDetail tab)
         {
-            var R_GIDID = Request.Form.Get("R_GIDID");
+            var R_GIDNO = Request.Form.Get("R_GIDNO");
 
             string todaydt = Convert.ToString(DateTime.Now);
             string todayd = Convert.ToString(DateTime.Now.Date);
@@ -1403,7 +1452,7 @@ namespace scfs_erp.Controllers.Import
             }
             tab.BOEDATE = Convert.ToDateTime(tab.BOEDATE).Date;
 
-            if (tab.GIDID.ToString() != "0")
+            if (tab.GIDNO != "0" && !string.IsNullOrEmpty(tab.GIDNO))
             {
                 // Load original row for logging (no tracking to avoid state conflicts)
                 var original = context.gateindetails.AsNoTracking().FirstOrDefault(x => x.GIDID == tab.GIDID);
@@ -1415,9 +1464,16 @@ namespace scfs_erp.Controllers.Import
                 // Best-effort logging to SCFS_LOG
                 try
                 {
-                    LogGateInEdits(original, tab, Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "");
+                    if (original != null)
+                    {
+                        LogGateInEdits(original, tab, Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "");
+                    }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    // Log the error for debugging
+                    System.Diagnostics.Debug.WriteLine($"Edit logging failed: {ex.Message}");
+                }
             }
 
             else
@@ -1431,8 +1487,8 @@ namespace scfs_erp.Controllers.Import
                 tab.GIDNO = prfx.ToString();
 
 
-                if (R_GIDID != null)
-                    tab.RGIDID = Convert.ToInt32(R_GIDID);
+                if (R_GIDNO != null)
+                    tab.RGIDID = Convert.ToInt32(R_GIDNO);
 
                 context.gateindetails.Add(tab);
                 context.SaveChanges();
@@ -1441,10 +1497,10 @@ namespace scfs_erp.Controllers.Import
                 context.SaveChanges();
 
                 ///*/.....delete remote gate in*/
-                if (R_GIDID != "0")
+                if (R_GIDNO != "0")
                 {
-                    RemoteGateIn remotegatein = context.remotegateindetails.Find(Convert.ToInt32(R_GIDID));
-                    remotegatein.GIDID = tab.GIDID;
+                    RemoteGateIn remotegatein = context.remotegateindetails.Find(Convert.ToInt32(R_GIDNO));
+                    remotegatein.GIDNO = tab.GIDNO;
 
                     //context.remotegateindetails.Remove(remotegatein);
                     context.SaveChanges();
@@ -1724,7 +1780,7 @@ namespace scfs_erp.Controllers.Import
                 Tables CrTables;
 
                 cryRpt.Load(ConfigurationManager.AppSettings["Reporturl"] + "Import_GateIn.rpt");
-                cryRpt.RecordSelectionFormula = "{VW_IMPORT_GATE_IN_PRINT_ASSGN.KUSRID} ='" + Session["CUSRID"].ToString() + "' and {VW_IMPORT_GATE_IN_PRINT_ASSGN.GIDID} =" + id;
+                cryRpt.RecordSelectionFormula = "{VW_IMPORT_GATE_IN_PRINT_ASSGN.KUSRID} ='" + Session["CUSRID"].ToString() + "' and {VW_IMPORT_GATE_IN_PRINT_ASSGN.GIDNO} =" + id;
 
                 crConnectionInfo.ServerName = stringbuilder.DataSource;
                 crConnectionInfo.DatabaseName = stringbuilder.InitialCatalog;
@@ -1764,7 +1820,7 @@ namespace scfs_erp.Controllers.Import
                 Tables CrTables;
 
                 cryRpt.Load(ConfigurationManager.AppSettings["Reporturl"] + "Import_TruckIn.rpt");
-                cryRpt.RecordSelectionFormula = "{VW_IMPORT_GATE_IN_PRINT_ASSGN.KUSRID} ='" + Session["CUSRID"].ToString() + "' and {VW_IMPORT_GATE_IN_PRINT_ASSGN.GIDID} =" + id;
+                cryRpt.RecordSelectionFormula = "{VW_IMPORT_GATE_IN_PRINT_ASSGN.KUSRID} ='" + Session["CUSRID"].ToString() + "' and {VW_IMPORT_GATE_IN_PRINT_ASSGN.GIDNO} =" + id;
 
                 crConnectionInfo.ServerName = stringbuilder.DataSource;
                 crConnectionInfo.DatabaseName = stringbuilder.InitialCatalog;
@@ -1798,7 +1854,7 @@ namespace scfs_erp.Controllers.Import
             if (temp.Equals("PROCEED"))
             {
                 GateInDetail gateindetails = new GateInDetail();
-                //var sql = context.Database.SqlQuery<int>("SELECT GIDID from GATEINDETAIL where BOEDID=" + Convert.ToInt32(id)).ToList();
+                //var sql = context.Database.SqlQuery<int>("SELECT GIDNO from GATEINDETAIL where BOEDID=" + Convert.ToInt32(id)).ToList();
                 //var gidid = (sql[0]).ToString();
 
                 //gateindetails = context.gateindetails.Find(Convert.ToInt32(gidid));
@@ -1819,9 +1875,17 @@ namespace scfs_erp.Controllers.Import
         // ========================= Edit Logging (SCFS_LOG) =========================
         private void LogGateInEdits(GateInDetail before, GateInDetail after, string userId)
         {
-            if (before == null || after == null) return;
+            if (before == null || after == null) 
+            {
+                System.Diagnostics.Debug.WriteLine($"LogGateInEdits: before={before != null}, after={after != null}");
+                return;
+            }
             var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
-            if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString)) return;
+            if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString)) 
+            {
+                System.Diagnostics.Debug.WriteLine("LogGateInEdits: No SCFSERP_EditLog connection string found");
+                return;
+            }
 
             // Exclude system or noisy fields and those you don't want to log
             var exclude = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -1848,9 +1912,9 @@ namespace scfs_erp.Controllers.Import
                             ) AS INT)
                         ), 0) + 1
                     FROM [dbo].[GateInDetailEditLog]
-                    WHERE [GIDID] = @GIDID", sql))
+                    WHERE [GIDNO] = @GIDNO", sql))
                 {
-                    cmd.Parameters.AddWithValue("@GIDID", after.GIDID);
+                    cmd.Parameters.AddWithValue("@GIDNO", Convert.ToInt32(after.GIDNO));
                     sql.Open();
                     var obj = cmd.ExecuteScalar();
                     if (obj != null && obj != DBNull.Value)
@@ -1930,8 +1994,8 @@ namespace scfs_erp.Controllers.Import
                 var os = FormatVal(ov);
                 var ns = FormatVal(nv);
 
-                var versionLabel = $"V{nextVersion}-GID{after.GIDID}";
-                InsertEditLogRow(cs.ConnectionString, after.GIDID, p.Name, os, ns, userId, versionLabel, "ImportGateIn");
+                var versionLabel = $"V{nextVersion}-{after.GIDNO}"; // Version label e.g., V1-518084
+                InsertEditLogRow(cs.ConnectionString, Convert.ToInt32(after.GIDNO), p.Name, os, ns, userId, versionLabel, "ImportGateIn");
             }
         }
 
@@ -1964,22 +2028,153 @@ namespace scfs_erp.Controllers.Import
 
         private static void InsertEditLogRow(string connectionString, int gidid, string fieldName, string oldValue, string newValue, string changedBy, string versionLabel, string modules)
         {
-            using (var sql = new SqlConnection(connectionString))
+            try
             {
-                sql.Open();
-                using (var cmd = new SqlCommand(@"INSERT INTO [dbo].[GateInDetailEditLog]
-                    ([GIDID], [FieldName], [OldValue], [NewValue], [ChangedBy], [ChangedOn], [Version], [Modules])
-                    VALUES (@GIDID, @FieldName, @OldValue, @NewValue, @ChangedBy, GETDATE(), @Version, @Modules)", sql))
+                using (var sql = new SqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@GIDID", gidid);
-                    cmd.Parameters.AddWithValue("@FieldName", fieldName);
-                    cmd.Parameters.AddWithValue("@OldValue", (object)oldValue ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@NewValue", (object)newValue ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ChangedBy", changedBy ?? "");
-                    cmd.Parameters.AddWithValue("@Version", (object)versionLabel ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Modules", modules ?? string.Empty);
-                    cmd.ExecuteNonQuery();
+                    sql.Open();
+                    using (var cmd = new SqlCommand(@"INSERT INTO [dbo].[GateInDetailEditLog]
+                        ([GIDNO], [FieldName], [OldValue], [NewValue], [ChangedBy], [ChangedOn], [Version], [Modules])
+                        VALUES (@GIDNO, @FieldName, @OldValue, @NewValue, @ChangedBy, GETDATE(), @Version, @Modules)", sql))
+                    {
+                        cmd.Parameters.AddWithValue("@GIDNO", gidid);
+                        cmd.Parameters.AddWithValue("@FieldName", fieldName);
+                        cmd.Parameters.AddWithValue("@OldValue", (object)oldValue ?? DBNull.Value);
+                        cmd.Parameters.AddWithValue("@NewValue", (object)newValue ?? DBNull.Value);
+                        cmd.Parameters.AddWithValue("@ChangedBy", changedBy ?? "");
+                        // Store version label as string (e.g., V1-518084)
+                        cmd.Parameters.AddWithValue("@Version", (object)versionLabel ?? DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Modules", modules ?? string.Empty);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to insert edit log: {ex.Message}");
+                throw; // Re-throw to be caught by the calling method
+            }
+        }
+
+        // Test method to verify edit logging is working
+        public JsonResult TestEditLogging(int gidid)
+        {
+            try
+            {
+                var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+                if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString))
+                {
+                    return Json(new { success = false, message = "SCFSERP_EditLog connection string not found" }, JsonRequestBehavior.AllowGet);
+                }
+
+                using (var testContext = new SCFSERPContext())
+                {
+                    var record = testContext.gateindetails.FirstOrDefault(x => x.GIDID == gidid);
+                    if (record == null)
+                    {
+                        return Json(new { success = false, message = $"No record found with GIDID {gidid}" }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    // Test inserting a log entry
+                    InsertEditLogRow(cs.ConnectionString, gidid, "TEST_FIELD", "OLD_VALUE", "NEW_VALUE", 
+                        Session["CUSRID"]?.ToString() ?? "TEST_USER", "1", "ImportGateIn");
+
+                    // Test reading back the log entry
+                    using (var sql = new SqlConnection(cs.ConnectionString))
+                    {
+                        sql.Open();
+                        using (var cmd = new SqlCommand("SELECT COUNT(*) FROM [dbo].[GateInDetailEditLog] WHERE [GIDNO] = @GIDNO AND [FieldName] = 'TEST_FIELD'", sql))
+                        {
+                            cmd.Parameters.AddWithValue("@GIDNO", gidid);
+                            var count = (int)cmd.ExecuteScalar();
+                            
+                            return Json(new { 
+                                success = true, 
+                                message = $"Edit logging test successful. Found {count} test records for GIDID {gidid}",
+                                connectionString = cs.ConnectionString,
+                                gidid = gidid,
+                                gidno = record.GIDNO
+                            }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { 
+                    success = false, 
+                    message = $"Edit logging test failed: {ex.Message}",
+                    innerException = ex.InnerException?.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        // Debug method to check if logging is being called during save
+        public JsonResult DebugEditLogging()
+        {
+            try
+            {
+                var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+                var results = new List<object>();
+                
+                results.Add(new { 
+                    check = "Connection String", 
+                    status = cs != null ? "Found" : "Missing",
+                    value = cs?.ConnectionString ?? "NULL"
+                });
+
+                if (cs != null)
+                {
+                    try
+                    {
+                        using (var sql = new SqlConnection(cs.ConnectionString))
+                        {
+                            sql.Open();
+                            results.Add(new { check = "Database Connection", status = "Success", value = "Connected" });
+                            
+                            // Check if table exists
+                            using (var cmd = new SqlCommand("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'GateInDetailEditLog'", sql))
+                            {
+                                var tableExists = (int)cmd.ExecuteScalar() > 0;
+                                results.Add(new { check = "Table Exists", status = tableExists ? "Yes" : "No", value = tableExists.ToString() });
+                            }
+                            
+                            // Check total records in table
+                            using (var cmd = new SqlCommand("SELECT COUNT(*) FROM [dbo].[GateInDetailEditLog]", sql))
+                            {
+                                var totalRecords = (int)cmd.ExecuteScalar();
+                                results.Add(new { check = "Total Records", status = "Info", value = totalRecords.ToString() });
+                            }
+                            
+                            // Check recent records
+                            using (var cmd = new SqlCommand("SELECT TOP 5 GIDNO, FieldName, ChangedBy, ChangedOn FROM [dbo].[GateInDetailEditLog] ORDER BY ChangedOn DESC", sql))
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                var recentRecords = new List<object>();
+                                while (reader.Read())
+                                {
+                                    recentRecords.Add(new {
+                                        GIDNO = reader["GIDNO"],
+                                        FieldName = reader["FieldName"],
+                                        ChangedBy = reader["ChangedBy"],
+                                        ChangedOn = reader["ChangedOn"]
+                                    });
+                                }
+                                results.Add(new { check = "Recent Records", status = "Info", value = recentRecords });
+                            }
+                        }
+                    }
+                    catch (Exception dbEx)
+                    {
+                        results.Add(new { check = "Database Connection", status = "Failed", value = dbEx.Message });
+                    }
+                }
+
+                return Json(new { success = true, results = results }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

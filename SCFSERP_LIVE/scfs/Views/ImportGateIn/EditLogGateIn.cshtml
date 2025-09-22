@@ -50,10 +50,10 @@
                         @* Compare form (GET) *@
                         <form class="form-inline" method="get" action="@Url.Action("EditLogGateInCompare","ImportGateIn")" style="margin-top:8px;">
                             <div class="form-group">
-                                <label for="cmpGidCompare">Compare Versions for GIDID</label>
+                                <label for="cmpGidCompare">Compare Versions for GIDNO</label>
                             </div>
                             <div class="form-group">
-                                <input type="number" id="cmpGidCompare" name="gidid" class="form-control input-sm" placeholder="Enter GIDID" value="@Request["gidid"]" required />
+                                <input type="number" id="cmpGidCompare" name="gidid" class="form-control input-sm" placeholder="Enter GIDNO" value="@Request["gidid"]" required />
                             </div>
                             <div class="form-group">
                                 <label for="cmpA">Version A</label>
@@ -78,7 +78,7 @@
                                 <tr>
                                     <th></th>
                                     <th class="nowrap w-150">Changed On</th>
-                                    <th class="nowrap">GIDID</th>
+                                    <th class="nowrap">GIDNO</th>
                                     <th class="nowrap">Version</th>
                                     <th class="w-220">Field</th>
                                     <th class="w-220">Old Value</th>
@@ -90,7 +90,7 @@
                                 <tr>
                                     <th></th>
                                     <th><input type="text" placeholder="Search date/time" class="form-control input-sm" /></th>
-                                    <th><input type="text" placeholder="GIDID" class="form-control input-sm" /></th>
+                                    <th><input type="text" placeholder="GIDNO" class="form-control input-sm" /></th>
                                     <th><input type="text" placeholder="Version" class="form-control input-sm" /></th>
                                     <th><input type="text" placeholder="Field" class="form-control input-sm" /></th>
                                     <th><input type="text" placeholder="Old value" class="form-control input-sm" /></th>
@@ -105,7 +105,7 @@
                                     <tr>
                                         <td class="details-control"><span class="toggle">+</span></td>
                                         <td class="nowrap">@row.ChangedOn.ToString("dd-MMM-yyyy HH:mm")</td>
-                                        <td class="nowrap">@row.GIDID</td>
+                                        <td class="nowrap">@row.GIDNO</td>
                                         <td class="nowrap">@row.Version</td>
                                         <td class="field-label">@row.FieldName</td>
                                         <td>
@@ -142,7 +142,7 @@
                 columns: [
                     { orderable: false, searchable: false }, // details-control
                     { type: 'string' }, // Changed On
-                    { type: 'num' },    // GIDID
+                    { type: 'num' },    // GIDNO
                     { type: 'string' }, // Version
                     { type: 'string' }, // Field
                     { type: 'html' },   // Old
@@ -151,7 +151,7 @@
                     { type: 'string' }  // Module
                 ],
                 drawCallback: function (settings) {
-                    // Group rows by GIDID + Version for better readability
+                    // Group rows by GIDNO + Version for better readability
                     var api = this.api();
                     var rows = api.rows({ page: 'current' }).nodes();
                     var last = null;
@@ -161,7 +161,7 @@
                         if (last !== grp) {
                             $(rows).eq(i).before(
                                 '<tr class="group-header"><td colspan="8">' +
-                                '<i class="fa fa-folder-open"></i> <strong>GIDID:</strong> ' + gid +
+                                '<i class="fa fa-folder-open"></i> <strong>GIDNO:</strong> ' + gid +
                                 ' &nbsp; <strong>Version:</strong> ' + ver +
                                 '</td></tr>'
                             );

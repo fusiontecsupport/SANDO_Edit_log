@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +13,7 @@ namespace scfs_erp.Models
     {
         [Key]
         public int GIDID { get; set; }
-        public int AGIDID { get; set; }
+        public string AGIDNO { get; set; }
 
         public int COMPYID { get; set; }
 

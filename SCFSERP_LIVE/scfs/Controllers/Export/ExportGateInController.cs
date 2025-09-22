@@ -1,4 +1,4 @@
-﻿using scfs_erp.Context;
+using scfs_erp.Context;
 using scfs_erp.Helper;
 using scfs_erp.Models;
 using System;
@@ -106,7 +106,7 @@ namespace scfs_erp.Controllers.Export
 
                 var data = e.pr_Search_Export_GateIn(param.sSearch, Convert.ToInt32(Request["iSortCol_0"]), Request["sSortDir_0"], param.iDisplayStart, param.iDisplayStart + param.iDisplayLength,
                     totalRowsCount, filteredRowsCount, Convert.ToDateTime(Session["SDATE"]), Convert.ToDateTime(Session["EDATE"]), Convert.ToInt32(Session["compyid"]), Convert.ToInt32(Session["GPWTYPE"]), Convert.ToInt32(Session["GPSTYPE"]));
-                var aaData = data.Select(d => new string[] { d.GIDATE.Value.ToString("dd/MM/yyyy"), d.GITIME.Value.ToString("hh:mm tt"), d.GIDNO.ToString(), d.CHANAME, d.PRDTDESC, d.CONTNRNO, d.CONTNRSID, d.VHLNO, d.DISPSTATUS, d.GIDID.ToString() }).ToArray();
+                var aaData = data.Select(d => new string[] { d.GIDATE.Value.ToString("dd/MM/yyyy"), d.GITIME.Value.ToString("hh:mm tt"), d.GIDNO, d.CHANAME, d.PRDTDESC, d.CONTNRNO, d.CONTNRSID, d.VHLNO, d.DISPSTATUS, d.GIDID.ToString() }).ToArray();
                 return Json(new
                 {
                     sEcho = param.sEcho,

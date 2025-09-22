@@ -26,6 +26,6 @@ namespace scfs.Data
         public string PRDTDESC { get; set; }
         public string DISPSTATUS { get; set; }
         public Nullable<int> GIDID { get; set; }
-        public Nullable<int> AGIDID { get; set; }
+        public string AGIDNO { get; set; }
     }
 }

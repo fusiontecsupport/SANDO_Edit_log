@@ -1,4 +1,4 @@
-﻿using scfs_erp.Context;
+using scfs_erp.Context;
 using scfs_erp.Helper;
 using scfs_erp.Models;
 using System;
@@ -61,7 +61,7 @@ namespace scfs_erp.Controllers.ESeal
 
                 var data = e.pr_Search_ESeal_GateIn(param.sSearch, Convert.ToInt32(Request["iSortCol_0"]), Request["sSortDir_0"], param.iDisplayStart, param.iDisplayStart + param.iDisplayLength,
                     totalRowsCount, filteredRowsCount, Convert.ToDateTime(Session["SDATE"]), Convert.ToDateTime(Session["EDATE"]), Convert.ToInt32(Session["compyid"]));
-                var aaData = data.Select(d => new string[] { d.GIDATE.Value.ToString("dd/MM/yyyy"), d.GITIME.Value.ToString("hh:mm tt"), d.GIDNO.ToString(), d.CHANAME, d.EXPORTER, d.CONTNRNO, d.CONTNRSID, d.VHLNO, d.DRVNAME, d.DISPSTATUS, d.GIDID.ToString(), d.Edchk }).ToArray();
+                var aaData = data.Select(d => new string[] { d.GIDATE.Value.ToString("dd/MM/yyyy"), d.GITIME.Value.ToString("hh:mm tt"), d.GIDNO, d.CHANAME, d.EXPORTER, d.CONTNRNO, d.CONTNRSID, d.VHLNO, d.DRVNAME, d.DISPSTATUS, d.GIDID.ToString(), d.Edchk }).ToArray();
                 return Json(new
                 {
                     sEcho = param.sEcho,
