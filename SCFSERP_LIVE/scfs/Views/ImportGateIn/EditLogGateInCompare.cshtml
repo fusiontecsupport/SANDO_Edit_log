@@ -35,7 +35,7 @@
         <div class="col-md-12">
             <h2 class="page-header">Gate In - Version Compare</h2>
             <p class="text-muted">
-                Comparing <strong>GIDNO</strong> <code>@gid</code> between <strong>Version A</strong> <code>@verA</code> and <strong>Version B</strong> <code>@verB</code>.
+                Comparing <strong>GateIn Number</strong> <code>@gid</code> between <strong>Version A</strong> <code>@verA</code> and <strong>Version B</strong> <code>@verB</code>.
             </p>
             <div class="btn-group">
                 <a class="btn btn-default" href="@Url.Action("EditLogGateIn", "ImportGateIn", new { gidid = gid })"><i class="fa fa-arrow-left"></i> Back to Log</a>
@@ -43,7 +43,6 @@
             <div class="filterbar">
                 <label>Filter field:</label>
                 <input type="text" id="fltField" class="form-control input-sm" style="display:inline-block; width:220px;" placeholder="Type to filter fields..." />
-                <label class="checkbox-inline" style="margin-left:10px;"><input type="checkbox" id="onlyDiff" /> Show only differences</label>
             </div>
         </div>
     </div>
@@ -57,13 +56,11 @@
                             <th class="nowrap">Field</th>
                             <th class="nowrap">Old Value (Version @verA)</th>
                             <th class="nowrap">New Value (Version @verB)</th>
-                            <th class="nowrap">Different?</th>
                         </tr>
                         <tr>
                             <th><input type="text" id="fltField2" class="form-control input-sm" placeholder="Field" /></th>
                             <th><input type="text" id="fltOld" class="form-control input-sm" placeholder="Old value" /></th>
                             <th><input type="text" id="fltNew" class="form-control input-sm" placeholder="New value" /></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,11 +69,10 @@
                         var va = dictA.ContainsKey(f) ? dictA[f] : "";
                         var vb = dictB.ContainsKey(f) ? dictB[f] : "";
                         bool diff = (va ?? "") != (vb ?? "");
-                        <tr class="row-item @(diff ? "diff-yes" : "diff-no")" data-field="@f" data-diff="@(diff ? "1" : "0")">
+                        <tr class="row-item @(diff ? "diff-yes" : "diff-no")" data-field="@f">
                             <td class="field-name">@f</td>
                             <td><span class="old-badge">@Html.Raw(HttpUtility.HtmlEncode(va))</span></td>
                             <td><span class="new-badge">@Html.Raw(HttpUtility.HtmlEncode(vb))</span></td>
-                            <td class="nowrap">@(diff ? "Yes" : "No")</td>
                         </tr>
                     }
                     </tbody>
@@ -91,32 +87,25 @@
     (function(){
         function applyFilters(){
             var q = ($('#fltField').val() || '').toLowerCase();
-            var onlyDiff = $('#onlyDiff').prop('checked');
             var q2 = ($('#fltField2').val() || '').toLowerCase();
             var qo = ($('#fltOld').val() || '').toLowerCase();
             var qn = ($('#fltNew').val() || '').toLowerCase();
             $('#cmpTable tbody tr').each(function(){
                 var $tr = $(this);
                 var fname = ($tr.data('field') + '').toLowerCase();
-                var isDiff = $tr.data('diff') === 1 || $tr.data('diff') === '1';
                 var textOld = ($tr.find('td:nth-child(2)').text() || '').toLowerCase();
                 var textNew = ($tr.find('td:nth-child(3)').text() || '').toLowerCase();
                 var matchField = (!q && !q2) || fname.indexOf(q) !== -1 || fname.indexOf(q2) !== -1;
                 var matchOld = !qo || textOld.indexOf(qo) !== -1;
                 var matchNew = !qn || textNew.indexOf(qn) !== -1;
                 var match = matchField && matchOld && matchNew;
-                if (match && (!onlyDiff || isDiff)) {
-                    $tr.show();
-                } else {
-                    $tr.hide();
-                }
+                $tr.toggle(match);
             });
         }
         $('#fltField').on('keyup change', applyFilters);
         $('#fltField2').on('keyup change', applyFilters);
         $('#fltOld').on('keyup change', applyFilters);
         $('#fltNew').on('keyup change', applyFilters);
-        $('#onlyDiff').on('change', applyFilters);
     })();
 </script>
 }
