@@ -17,7 +17,8 @@
         .GroupBy(r => r.FieldName)
         .ToDictionary(g => g.Key, g => pickVal(g.Last()));
 
-    var allFields = dictA.Keys.Union(dictB.Keys).OrderBy(k => k).ToList();
+    // Only fields present (changed) in both versions
+    var commonFields = dictA.Keys.Intersect(dictB.Keys).OrderBy(k => k).ToList();
 }
 
 <style>
@@ -64,16 +65,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach (var f in allFields)
+                    @if (commonFields.Count == 0)
                     {
-                        var va = dictA.ContainsKey(f) ? dictA[f] : "";
-                        var vb = dictB.ContainsKey(f) ? dictB[f] : "";
-                        bool diff = (va ?? "") != (vb ?? "");
-                        <tr class="row-item @(diff ? "diff-yes" : "diff-no")" data-field="@f">
-                            <td class="field-name">@f</td>
-                            <td><span class="old-badge">@Html.Raw(HttpUtility.HtmlEncode(va))</span></td>
-                            <td><span class="new-badge">@Html.Raw(HttpUtility.HtmlEncode(vb))</span></td>
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">No matched found</td>
                         </tr>
+                    }
+                    else
+                    {
+                        foreach (var f in commonFields)
+                        {
+                            var va = dictA.ContainsKey(f) ? dictA[f] : "";
+                            var vb = dictB.ContainsKey(f) ? dictB[f] : "";
+                            bool diff = (va ?? "") != (vb ?? "");
+                            <tr class="row-item @(diff ? "diff-yes" : "diff-no")" data-field="@f">
+                                <td class="field-name">@f</td>
+                                <td><span class="old-badge">@Html.Raw(HttpUtility.HtmlEncode(va))</span></td>
+                                <td><span class="new-badge">@Html.Raw(HttpUtility.HtmlEncode(vb))</span></td>
+                            </tr>
+                        }
                     }
                     </tbody>
                 </table>

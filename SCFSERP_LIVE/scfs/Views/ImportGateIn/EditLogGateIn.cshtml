@@ -102,11 +102,14 @@
                             <tbody>
                                 @foreach (var row in Model)
                                 {
+                                    var vraw = (row.Version ?? string.Empty).Trim();
+                                    var isBaseline = string.IsNullOrEmpty(vraw) || vraw == "0" || vraw.Equals("V0", StringComparison.OrdinalIgnoreCase) || vraw.StartsWith("v0-", StringComparison.OrdinalIgnoreCase) || vraw.StartsWith("V0-", StringComparison.OrdinalIgnoreCase);
+                                    if (isBaseline) { continue; }
                                     <tr>
                                         <td class="details-control"><span class="toggle">+</span></td>
                                         <td class="nowrap">@row.ChangedOn.ToString("dd-MMM-yyyy HH:mm")</td>
                                         <td class="nowrap">@row.GIDNO</td>
-                                        <td class="nowrap">@row.Version</td>
+                                        <td class="nowrap">@vraw</td>
                                         <td class="field-label">@row.FieldName</td>
                                         <td>
                                             <span class="old-badge">@Html.Raw(HttpUtility.HtmlEncode(row.OldValue ?? string.Empty))</span>
