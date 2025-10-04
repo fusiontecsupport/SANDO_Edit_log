@@ -1279,6 +1279,12 @@ namespace scfs_erp.Controllers.Import
                 // Load original row for logging (no tracking to avoid state conflicts)
                 var original = context.gateindetails.AsNoTracking().FirstOrDefault(x => x.GIDID == tab.GIDID);
 
+                // Do not overwrite AVHLNO on edit; preserve original value
+                if (original != null)
+                {
+                    tab.AVHLNO = original.AVHLNO;
+                }
+
                 context.Entry(tab).Entity.NGIDID = tab.GIDID + 1;
                 context.Entry(tab).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
@@ -1468,6 +1474,12 @@ namespace scfs_erp.Controllers.Import
             {
                 // Load original row for logging (no tracking to avoid state conflicts)
                 var original = context.gateindetails.AsNoTracking().FirstOrDefault(x => x.GIDID == tab.GIDID);
+
+                // Do not overwrite AVHLNO on edit; preserve original value
+                if (original != null)
+                {
+                    tab.AVHLNO = original.AVHLNO;
+                }
 
                 context.Entry(tab).Entity.NGIDID = tab.GIDID + 1;
                 context.Entry(tab).State = System.Data.Entity.EntityState.Modified;
@@ -1907,7 +1919,9 @@ namespace scfs_erp.Controllers.Import
                 // system/housekeeping fields
                 "NGIDID", "PRCSDATE", "ESBDATE", "LMUSRID", "CUSRID",
                 // the unwanted gate pass dimension/weight fields
-                "GPTWGHT", "GPHEIGHT", "GPWIDTH", "GPLENGTH", "GPCBM", "GPGWGHT", "GPNWGHT", "GPNOP"
+                "GPTWGHT", "GPHEIGHT", "GPWIDTH", "GPLENGTH", "GPCBM", "GPGWGHT", "GPNWGHT", "GPNOP",
+                // system-mirrored fields
+                "AVHLNO"
             };
 
             // Compute the next version ONCE per save so all rows for this edit share the same Version
@@ -2134,7 +2148,8 @@ namespace scfs_erp.Controllers.Import
             var exclude = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
                 "NGIDID", "PRCSDATE", "ESBDATE", "LMUSRID", "CUSRID",
-                "GPTWGHT", "GPHEIGHT", "GPWIDTH", "GPLENGTH", "GPCBM", "GPGWGHT", "GPNWGHT", "GPNOP"
+                "GPTWGHT", "GPHEIGHT", "GPWIDTH", "GPLENGTH", "GPCBM", "GPGWGHT", "GPNWGHT", "GPNOP",
+                "AVHLNO"
             };
 
             var props = typeof(GateInDetail).GetProperties(BindingFlags.Public | BindingFlags.Instance);
