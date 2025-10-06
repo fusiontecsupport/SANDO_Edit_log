@@ -13,6 +13,10 @@ using System.Web;
 using System.Web.Mvc;
 using scfs.Data;
 using scfs_erp;
+using System.Data.Entity;
+using System.Reflection;
+using System.Collections;
+using System.Text;
 
 namespace scfs_erp.Controllers.Export
 {
@@ -1041,14 +1045,36 @@ namespace scfs_erp.Controllers.Export
 
                     if (gidid != 0)//-----------Insert (OR) Update Mode CheckPoint
                     {
-                        //using (var trans = context.Database.BeginTransaction())
-                        //{
+                        // Load original record for logging (no tracking to avoid state conflicts)
+                        var original = context.gateindetails.AsNoTracking().FirstOrDefault(x => x.GIDID == gidid);
 
                         context.Entry(tab).Entity.NGIDID = tab.GIDID + 1;
                         context.Entry(tab).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
-                        //    trans.Commit();
-                        //}
+
+                        // Best-effort logging to SCFS_LOG
+                        try
+                        {
+                            System.Diagnostics.Debug.WriteLine($"EXPORT GATEIN SAVE METHOD CALLED: GIDID={tab.GIDID}, GIDNO={tab.GIDNO}");
+                            if (original != null)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"ORIGINAL RECORD FOUND: GIDID={original.GIDID}, calling LogGateInEdits");
+                                // Ensure baseline snapshot (Version = "0") exists for this record before logging diffs
+                                EnsureBaselineVersionZero(original, Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "");
+                                LogGateInEdits(original, tab, Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "");
+                                System.Diagnostics.Debug.WriteLine($"LogGateInEdits completed successfully");
+                            }
+                            else
+                            {
+                                System.Diagnostics.Debug.WriteLine($"ORIGINAL RECORD NOT FOUND for GIDID={tab.GIDID}");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Log the error for debugging
+                            System.Diagnostics.Debug.WriteLine($"Export GateIn edit logging failed: {ex.Message}");
+                            System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                        }
                     }
                     else
                     {
@@ -1392,6 +1418,369 @@ namespace scfs_erp.Controllers.Export
 
         }
         #endregion
+
+        // ========================= Edit Log Pages =========================
+        public ActionResult EditLog()
+        {
+            if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
+            return View();
+        }
+
+        public ActionResult EditLogGateIn(int? gidid, DateTime? from = null, DateTime? to = null, string user = null, string fieldName = null, string version = null)
+        {
+            if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
+
+            var list = new List<scfs_erp.Models.GateInDetailEditLogRow>();
+            var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+            if (cs != null && !string.IsNullOrWhiteSpace(cs.ConnectionString))
+            {
+                using (var sql = new SqlConnection(cs.ConnectionString))
+                using (var cmd = new SqlCommand(@"SELECT TOP 2000 [GIDNO],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
+                                                FROM [dbo].[GateInDetailEditLog]
+                                                WHERE (@GIDNO IS NULL OR [GIDNO] = @GIDNO)
+                                                  AND (@FROM IS NULL OR [ChangedOn] >= @FROM)
+                                                  AND (@TO   IS NULL OR [ChangedOn] <  DATEADD(day, 1, @TO))
+                                                  AND (@USER IS NULL OR [ChangedBy] LIKE '%' + @USER + '%')
+                                                  AND (@FIELD IS NULL OR [FieldName] LIKE '%' + @FIELD + '%')
+                                                  AND (@VERSION IS NULL OR [Version] LIKE '%' + @VERSION + '%')
+                                                  AND [Modules] = 'ExportGateIn'
+                                                ORDER BY [GIDNO] DESC, [Version] DESC, [ChangedOn] DESC", sql))
+                {
+                    cmd.Parameters.Add("@GIDNO", System.Data.SqlDbType.Int);
+                    cmd.Parameters.Add("@FROM", System.Data.SqlDbType.DateTime);
+                    cmd.Parameters.Add("@TO", System.Data.SqlDbType.DateTime);
+                    cmd.Parameters.Add("@USER", System.Data.SqlDbType.VarChar, 100);
+                    cmd.Parameters.Add("@FIELD", System.Data.SqlDbType.VarChar, 100);
+                    cmd.Parameters.Add("@VERSION", System.Data.SqlDbType.VarChar, 50);
+
+                    cmd.Parameters["@GIDNO"].Value = gidid.HasValue ? (object)gidid.Value : DBNull.Value;
+                    cmd.Parameters["@FROM"].Value = from.HasValue ? (object)from.Value : DBNull.Value;
+                    cmd.Parameters["@TO"].Value = to.HasValue ? (object)to.Value : DBNull.Value;
+                    cmd.Parameters["@USER"].Value = !string.IsNullOrWhiteSpace(user) ? (object)user : DBNull.Value;
+                    cmd.Parameters["@FIELD"].Value = !string.IsNullOrWhiteSpace(fieldName) ? (object)fieldName : DBNull.Value;
+                    cmd.Parameters["@VERSION"].Value = !string.IsNullOrWhiteSpace(version) ? (object)version : DBNull.Value;
+
+                    sql.Open();
+                    using (var r = cmd.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            list.Add(new scfs_erp.Models.GateInDetailEditLogRow
+                            {
+                                GIDNO = Convert.ToString(r["GIDNO"]),
+                                FieldName = Convert.ToString(r["FieldName"]),
+                                OldValue = Convert.ToString(r["OldValue"]),
+                                NewValue = Convert.ToString(r["NewValue"]),
+                                ChangedBy = Convert.ToString(r["ChangedBy"]),
+                                ChangedOn = r["ChangedOn"] != DBNull.Value ? Convert.ToDateTime(r["ChangedOn"]) : DateTime.MinValue,
+                                Version = Convert.ToString(r["Version"]),
+                                Modules = Convert.ToString(r["Modules"])
+                            });
+                        }
+                    }
+                }
+            }
+            return View("~/Views/ImportGateIn/EditLogGateIn.cshtml", list);
+        }
+
+        // ========================= Edit Logging (SCFS_LOG) =========================
+        private void LogGateInEdits(GateInDetail before, GateInDetail after, string userId)
+        {
+            if (before == null || after == null) 
+            {
+                System.Diagnostics.Debug.WriteLine($"LogGateInEdits: before={before != null}, after={after != null}");
+                return;
+            }
+            var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+            if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString)) 
+            {
+                System.Diagnostics.Debug.WriteLine("LogGateInEdits: No SCFSERP_EditLog connection string found");
+                return;
+            }
+
+            // Exclude system or noisy fields and those you don't want to log
+            var exclude = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                // system/housekeeping fields
+                "NGIDID", "PRCSDATE", "ESBDATE", "LMUSRID", "CUSRID",
+                // the unwanted gate pass dimension/weight fields
+                "GPTWGHT", "GPHEIGHT", "GPWIDTH", "GPLENGTH", "GPCBM", "GPGWGHT", "GPNWGHT", "GPNOP",
+                // system-mirrored fields
+                "AVHLNO"
+            };
+
+            // Compute the next version ONCE per save so all rows for this edit share the same Version
+            int nextVersion = 1;
+            try
+            {
+                using (var sql = new SqlConnection(cs.ConnectionString))
+                using (var cmd = new SqlCommand(@"
+                    SELECT ISNULL(
+                        MAX(TRY_CAST(
+                            SUBSTRING([Version], 2, 
+                                CASE WHEN CHARINDEX('-', [Version]) > 0 
+                                     THEN CHARINDEX('-', [Version]) - 2 
+                                     ELSE LEN([Version]) - 1
+                                END
+                            ) AS INT)
+                        ), 0) + 1
+                    FROM [dbo].[GateInDetailEditLog]
+                    WHERE [GIDNO] = @GIDNO AND [Modules] = 'ExportGateIn'", sql))
+                {
+                    cmd.Parameters.AddWithValue("@GIDNO", after.GIDNO);
+                    sql.Open();
+                    var obj = cmd.ExecuteScalar();
+                    if (obj != null && obj != DBNull.Value)
+                        nextVersion = Convert.ToInt32(obj);
+                }
+            }
+            catch { /* ignore logging version errors */ }
+
+            var props = typeof(GateInDetail).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var p in props)
+            {
+                if (!p.CanRead) continue;
+                // Skip complex navigation properties
+                if (p.PropertyType.IsClass && p.PropertyType != typeof(string) && !p.PropertyType.IsValueType)
+                    continue;
+                if (exclude.Contains(p.Name)) continue;
+
+                // If this is an '*ID' field and a corresponding string name property exists,
+                // skip logging the ID to avoid noisy numeric codes (e.g., STMRID vs STMRNAME)
+                if (p.Name.EndsWith("ID", StringComparison.OrdinalIgnoreCase))
+                {
+                    var baseName = p.Name.Substring(0, p.Name.Length - 2); // remove 'ID'
+                    var nameProp = props.FirstOrDefault(q =>
+                        q.PropertyType == typeof(string) &&
+                        (
+                            q.Name.Equals(baseName, StringComparison.OrdinalIgnoreCase) ||
+                            q.Name.Equals(baseName + "NAME", StringComparison.OrdinalIgnoreCase) ||
+                            (q.Name.EndsWith("NAME", StringComparison.OrdinalIgnoreCase) && q.Name.StartsWith(baseName, StringComparison.OrdinalIgnoreCase))
+                        ));
+                    if (nameProp != null) continue;
+                }
+
+                var ov = p.GetValue(before, null);
+                var nv = p.GetValue(after, null);
+
+                if (BothNull(ov, nv)) continue;
+
+                // Compare by underlying type to avoid logging formatting-only differences
+                var type = Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType;
+                bool changed;
+
+                if (type == typeof(decimal))
+                {
+                    var d1 = ToNullableDecimal(ov) ?? 0m;
+                    var d2 = ToNullableDecimal(nv) ?? 0m;
+                    // skip if both are zero-equivalent
+                    if (d1 == 0m && d2 == 0m) continue;
+                    changed = d1 != d2;
+                }
+                else if (type == typeof(double) || type == typeof(float))
+                {
+                    var d1 = Convert.ToDouble(ov ?? 0.0);
+                    var d2 = Convert.ToDouble(nv ?? 0.0);
+                    if (Math.Abs(d1) < 1e-9 && Math.Abs(d2) < 1e-9) continue;
+                    changed = Math.Abs(d1 - d2) > 1e-9;
+                }
+                else if (type == typeof(int) || type == typeof(long) || type == typeof(short))
+                {
+                    var i1 = Convert.ToInt64(ov ?? 0);
+                    var i2 = Convert.ToInt64(nv ?? 0);
+                    if (i1 == 0 && i2 == 0) continue;
+                    changed = i1 != i2;
+                }
+                else if (type == typeof(DateTime))
+                {
+                    var t1 = (ov as DateTime?) ?? default(DateTime);
+                    var t2 = (nv as DateTime?) ?? default(DateTime);
+                    // ignore millisecond differences
+                    t1 = new DateTime(t1.Year, t1.Month, t1.Day, t1.Hour, t1.Minute, t1.Second);
+                    t2 = new DateTime(t2.Year, t2.Month, t2.Day, t2.Hour, t2.Minute, t2.Second);
+                    changed = t1 != t2;
+                }
+                else if (type == typeof(string))
+                {
+                    var s1 = (Convert.ToString(ov) ?? string.Empty).Trim();
+                    var s2 = (Convert.ToString(nv) ?? string.Empty).Trim();
+                    // treat "-" and empty as same default; skip if both default/empty
+                    bool def1 = string.IsNullOrEmpty(s1) || s1 == "-" || s1 == "0" || s1 == "0.0" || s1 == "0.00" || s1 == "0.000" || s1 == "0.0000";
+                    bool def2 = string.IsNullOrEmpty(s2) || s2 == "-" || s2 == "0" || s2 == "0.0" || s2 == "0.00" || s2 == "0.000" || s2 == "0.0000";
+                    if (def1 && def2) continue;
+                    changed = !string.Equals(s1, s2, StringComparison.Ordinal);
+                }
+                else
+                {
+                    var s1 = FormatVal(ov);
+                    var s2 = FormatVal(nv);
+                    changed = !string.Equals(s1, s2, StringComparison.Ordinal);
+                }
+
+                if (!changed) continue;
+
+                var os = FormatVal(ov);
+                var ns = FormatVal(nv);
+
+                var versionLabel = $"V{nextVersion}-{after.GIDNO}"; // Version label e.g., V1-04097
+                InsertEditLogRow(cs.ConnectionString, after.GIDNO, p.Name, os, ns, userId, versionLabel, "ExportGateIn");
+            }
+        }
+
+        private static bool BothNull(object a, object b)
+        {
+            return (a == null || a == DBNull.Value) && (b == null || b == DBNull.Value);
+        }
+
+        private static decimal? ToNullableDecimal(object v)
+        {
+            if (v == null || v == DBNull.Value) return null;
+            decimal parsed;
+            return decimal.TryParse(Convert.ToString(v), out parsed) ? parsed : (decimal?)null;
+        }
+
+        private static string FormatVal(object value)
+        {
+            if (value == null) return null;
+            if (value is DateTime dt) return dt.ToString("yyyy-MM-dd HH:mm:ss");
+            if (value is DateTime?)
+            {
+                var ndt = (DateTime?)value;
+                return ndt.HasValue ? ndt.Value.ToString("yyyy-MM-dd HH:mm:ss") : null;
+            }
+            return Convert.ToString(value);
+        }
+
+        // Ensure a baseline snapshot (Version = "0") exists for the given record.
+        // It captures the pre-edit values as NewValue with OldValue set to NULL, one row per field.
+        private void EnsureBaselineVersionZero(GateInDetail snapshot, string userId)
+        {
+            try
+            {
+                var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+                if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString)) return;
+
+                // GIDNO is stored as string in entity; preserve it as-is with leading zeros
+                if (string.IsNullOrWhiteSpace(snapshot.GIDNO)) return;
+
+                using (var sql = new SqlConnection(cs.ConnectionString))
+                using (var cmd = new SqlCommand("SELECT COUNT(1) FROM [dbo].[GateInDetailEditLog] WHERE [GIDNO]=@GIDNO AND [Modules]='ExportGateIn' AND (RTRIM(LTRIM([Version]))=@VLower OR RTRIM(LTRIM([Version]))=@VUpper OR RTRIM(LTRIM([Version]))='0' OR RTRIM(LTRIM([Version]))='V0')", sql))
+                {
+                    cmd.Parameters.AddWithValue("@GIDNO", snapshot.GIDNO);
+                    var baselineVerLower = "v0-" + snapshot.GIDNO;
+                    var baselineVerUpper = "V0-" + snapshot.GIDNO;
+                    cmd.Parameters.AddWithValue("@VLower", baselineVerLower);
+                    cmd.Parameters.AddWithValue("@VUpper", baselineVerUpper);
+                    sql.Open();
+                    var exists = Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                    if (exists) return; // baseline already present
+                }
+
+                InsertBaselineSnapshot(snapshot, userId);
+            }
+            catch (Exception ex)
+            {
+                // Do not block the main flow if baseline creation fails
+                System.Diagnostics.Debug.WriteLine($"EnsureBaselineVersionZero failed: {ex.Message}");
+            }
+        }
+
+        // Insert one row per relevant field for Version = "0" using the provided snapshot values
+        private void InsertBaselineSnapshot(GateInDetail snapshot, string userId)
+        {
+            var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+            if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString)) return;
+
+            if (string.IsNullOrWhiteSpace(snapshot.GIDNO)) return;
+            var baselineVer = "v0-" + snapshot.GIDNO;
+
+            // Use the same exclusion rules as differential logging
+            var exclude = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "NGIDID", "PRCSDATE", "ESBDATE", "LMUSRID", "CUSRID",
+                "GPTWGHT", "GPHEIGHT", "GPWIDTH", "GPLENGTH", "GPCBM", "GPGWGHT", "GPNWGHT", "GPNOP",
+                "AVHLNO"
+            };
+
+            var props = typeof(GateInDetail).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var p in props)
+            {
+                if (!p.CanRead) continue;
+                if (p.PropertyType.IsClass && p.PropertyType != typeof(string) && !p.PropertyType.IsValueType) continue;
+                if (exclude.Contains(p.Name)) continue;
+
+                // Skip numeric code fields when a companion NAME string exists
+                if (p.Name.EndsWith("ID", StringComparison.OrdinalIgnoreCase))
+                {
+                    var baseName = p.Name.Substring(0, p.Name.Length - 2);
+                    var nameProp = props.FirstOrDefault(q => q.PropertyType == typeof(string) && (
+                        q.Name.Equals(baseName, StringComparison.OrdinalIgnoreCase) ||
+                        q.Name.Equals(baseName + "NAME", StringComparison.OrdinalIgnoreCase) ||
+                        (q.Name.EndsWith("NAME", StringComparison.OrdinalIgnoreCase) && q.Name.StartsWith(baseName, StringComparison.OrdinalIgnoreCase))
+                    ));
+                    if (nameProp != null) continue;
+                }
+
+                var valObj = p.GetValue(snapshot, null);
+                var type = Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType;
+
+                // Skip empty/defaults for strings and zero-equivalents for numbers to reduce noise
+                if (type == typeof(string))
+                {
+                    var s = (Convert.ToString(valObj) ?? string.Empty).Trim();
+                    bool isDefault = string.IsNullOrEmpty(s) || s == "-" || s == "0" || s == "0.0" || s == "0.00" || s == "0.000" || s == "0.0000";
+                    if (isDefault) continue;
+                }
+                else if (type == typeof(int) || type == typeof(long) || type == typeof(short))
+                {
+                    var i = Convert.ToInt64(valObj ?? 0);
+                    if (i == 0) continue;
+                }
+                else if (type == typeof(decimal))
+                {
+                    var d = ToNullableDecimal(valObj) ?? 0m;
+                    if (d == 0m) continue;
+                }
+                else if (type == typeof(double) || type == typeof(float))
+                {
+                    var d = Convert.ToDouble(valObj ?? 0.0);
+                    if (Math.Abs(d) < 1e-9) continue;
+                }
+
+                // Format value consistently and insert with Version = "0"
+                var newVal = FormatVal(valObj);
+                InsertEditLogRow(cs.ConnectionString, snapshot.GIDNO, p.Name, null, newVal, userId, baselineVer, "ExportGateIn");
+            }
+        }
+
+        private static void InsertEditLogRow(string connectionString, string gidno, string fieldName, string oldValue, string newValue, string changedBy, string versionLabel, string modules)
+        {
+            try
+            {
+                using (var sql = new SqlConnection(connectionString))
+                {
+                    sql.Open();
+                    using (var cmd = new SqlCommand(@"INSERT INTO [dbo].[GateInDetailEditLog]
+                        ([GIDNO], [FieldName], [OldValue], [NewValue], [ChangedBy], [ChangedOn], [Version], [Modules])
+                        VALUES (@GIDNO, @FieldName, @OldValue, @NewValue, @ChangedBy, @ChangedOn, @Version, @Modules)", sql))
+                    {
+                        cmd.Parameters.AddWithValue("@GIDNO", gidno);
+                        cmd.Parameters.AddWithValue("@FieldName", fieldName ?? "");
+                        cmd.Parameters.AddWithValue("@OldValue", oldValue ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@NewValue", newValue ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@ChangedBy", changedBy ?? "");
+                        cmd.Parameters.AddWithValue("@ChangedOn", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@Version", versionLabel ?? "");
+                        cmd.Parameters.AddWithValue("@Modules", modules ?? "");
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"InsertEditLogRow failed: {ex.Message}");
+            }
+        }
 
     }
 }

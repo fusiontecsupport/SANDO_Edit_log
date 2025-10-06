@@ -15,17 +15,36 @@
         <div class="col-sm-6 col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-sign-in"></i> Gate In</h3>
+                    <h3 class="panel-title"><i class="fa fa-sign-in"></i> Import Gate In</h3>
                 </div>
                 <div class="panel-body">
-                    <p>View changes captured in <strong>GateInDetailEditLog</strong>, including field-wise old and new values, who changed it, and when.</p>
+                    <p>View changes captured in <strong>GateInDetailEditLog</strong> for Import operations, including field-wise old and new values, who changed it, and when.</p>
                     <form method="get" action="@Url.Action("EditLogGateIn", "ImportGateIn")" class="form-inline" role="form">
                         <div class="form-group">
                             <label for="gidid" class="control-label">Filter by GIDID (optional)</label>
                             <input type="number" min="1" class="form-control" id="gidid" name="gidid" placeholder="e.g. 12345" />
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fa fa-sign-in"></i> GateIn
+                            <i class="fa fa-sign-in"></i> Import GateIn
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-sign-out"></i> Export Gate In</h3>
+                </div>
+                <div class="panel-body">
+                    <p>View changes captured in <strong>GateInDetailEditLog</strong> for Export operations, including field-wise old and new values, who changed it, and when.</p>
+                    <form method="get" action="@Url.Action("EditLogGateIn", "ExportGateIn")" class="form-inline" role="form">
+                        <div class="form-group">
+                            <label for="export_gidid" class="control-label">Filter by GIDID (optional)</label>
+                            <input type="number" min="1" class="form-control" id="export_gidid" name="gidid" placeholder="e.g. 12345" />
+                        </div>
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fa fa-sign-out"></i> Export GateIn
                         </button>
                     </form>
                 </div>

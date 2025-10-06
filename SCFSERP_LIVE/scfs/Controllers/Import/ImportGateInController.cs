@@ -173,7 +173,7 @@ namespace scfs_erp.Controllers.Import
                         {
                             list.Add(new scfs_erp.Models.GateInDetailEditLogRow
                             {
-                                GIDNO = r["GIDNO"] != DBNull.Value ? Convert.ToInt32(r["GIDNO"]) : 0,
+                                GIDNO = Convert.ToString(r["GIDNO"]),
                                 FieldName = Convert.ToString(r["FieldName"]),
                                 OldValue = r["OldValue"] == DBNull.Value ? null : Convert.ToString(r["OldValue"]),
                                 NewValue = r["NewValue"] == DBNull.Value ? null : Convert.ToString(r["NewValue"]),
@@ -349,7 +349,7 @@ namespace scfs_erp.Controllers.Import
                         {
                             rows.Add(new scfs_erp.Models.GateInDetailEditLogRow
                             {
-                                GIDNO = r["GIDNO"] != DBNull.Value ? Convert.ToInt32(r["GIDNO"]) : 0,
+                                GIDNO = Convert.ToString(r["GIDNO"]),
                                 FieldName = Convert.ToString(r["FieldName"]),
                                 OldValue = r["OldValue"] == DBNull.Value ? null : Convert.ToString(r["OldValue"]),
                                 NewValue = r["NewValue"] == DBNull.Value ? null : Convert.ToString(r["NewValue"]),
@@ -557,7 +557,7 @@ namespace scfs_erp.Controllers.Import
                         {
                             a.Add(new scfs_erp.Models.GateInDetailEditLogRow
                             {
-                                GIDNO = gidid.Value,
+                                GIDNO = gidid.Value.ToString(),
                                 FieldName = Convert.ToString(r["FieldName"]),
                                 OldValue = r["OldValue"] == DBNull.Value ? null : Convert.ToString(r["OldValue"]),
                                 NewValue = r["NewValue"] == DBNull.Value ? null : Convert.ToString(r["NewValue"]),
@@ -576,7 +576,7 @@ namespace scfs_erp.Controllers.Import
                         {
                             b.Add(new scfs_erp.Models.GateInDetailEditLogRow
                             {
-                                GIDNO = gidid.Value,
+                                GIDNO = gidid.Value.ToString(),
                                 FieldName = Convert.ToString(r2["FieldName"]),
                                 OldValue = r2["OldValue"] == DBNull.Value ? null : Convert.ToString(r2["OldValue"]),
                                 NewValue = r2["NewValue"] == DBNull.Value ? null : Convert.ToString(r2["NewValue"]),
@@ -1942,7 +1942,7 @@ namespace scfs_erp.Controllers.Import
                     FROM [dbo].[GateInDetailEditLog]
                     WHERE [GIDNO] = @GIDNO", sql))
                 {
-                    cmd.Parameters.AddWithValue("@GIDNO", Convert.ToInt32(after.GIDNO));
+                    cmd.Parameters.AddWithValue("@GIDNO", after.GIDNO);
                     sql.Open();
                     var obj = cmd.ExecuteScalar();
                     if (obj != null && obj != DBNull.Value)
@@ -2037,8 +2037,8 @@ namespace scfs_erp.Controllers.Import
                 var os = FormatVal(ov);
                 var ns = FormatVal(nv);
 
-                var versionLabel = $"V{nextVersion}-{after.GIDNO}"; // Version label e.g., V1-518084
-                InsertEditLogRow(cs.ConnectionString, Convert.ToInt32(after.GIDNO), p.Name, os, ns, userId, versionLabel, "ImportGateIn");
+                var versionLabel = $"V{nextVersion}-{after.GIDNO}"; // Version label e.g., V1-04097
+                InsertEditLogRow(cs.ConnectionString, after.GIDNO, p.Name, os, ns, userId, versionLabel, "ImportGateIn");
             }
         }
 
@@ -2069,7 +2069,7 @@ namespace scfs_erp.Controllers.Import
             return decimal.TryParse(Convert.ToString(v), out parsed) ? parsed : (decimal?)null;
         }
 
-        private static void InsertEditLogRow(string connectionString, int gidid, string fieldName, string oldValue, string newValue, string changedBy, string versionLabel, string modules)
+        private static void InsertEditLogRow(string connectionString, string gidno, string fieldName, string oldValue, string newValue, string changedBy, string versionLabel, string modules)
         {
             try
             {
@@ -2080,7 +2080,7 @@ namespace scfs_erp.Controllers.Import
                         ([GIDNO], [FieldName], [OldValue], [NewValue], [ChangedBy], [ChangedOn], [Version], [Modules])
                         VALUES (@GIDNO, @FieldName, @OldValue, @NewValue, @ChangedBy, GETDATE(), @Version, @Modules)", sql))
                     {
-                        cmd.Parameters.AddWithValue("@GIDNO", gidid);
+                        cmd.Parameters.AddWithValue("@GIDNO", gidno);
                         cmd.Parameters.AddWithValue("@FieldName", fieldName);
                         cmd.Parameters.AddWithValue("@OldValue", (object)oldValue ?? DBNull.Value);
                         cmd.Parameters.AddWithValue("@NewValue", (object)newValue ?? DBNull.Value);
@@ -2108,16 +2108,15 @@ namespace scfs_erp.Controllers.Import
                 var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
                 if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString)) return;
 
-                int gidno;
-                // GIDNO is stored as string in entity; ensure it's numeric for the log table
-                if (!int.TryParse(snapshot.GIDNO, out gidno)) return;
+                // GIDNO is stored as string in entity; preserve it as-is with leading zeros
+                if (string.IsNullOrWhiteSpace(snapshot.GIDNO)) return;
 
                 using (var sql = new SqlConnection(cs.ConnectionString))
                 using (var cmd = new SqlCommand("SELECT COUNT(1) FROM [dbo].[GateInDetailEditLog] WHERE [GIDNO]=@GIDNO AND (RTRIM(LTRIM([Version]))=@VLower OR RTRIM(LTRIM([Version]))=@VUpper OR RTRIM(LTRIM([Version]))='0' OR RTRIM(LTRIM([Version]))='V0')", sql))
                 {
-                    cmd.Parameters.AddWithValue("@GIDNO", gidno);
-                    var baselineVerLower = "v0-" + gidno;
-                    var baselineVerUpper = "V0-" + gidno;
+                    cmd.Parameters.AddWithValue("@GIDNO", snapshot.GIDNO);
+                    var baselineVerLower = "v0-" + snapshot.GIDNO;
+                    var baselineVerUpper = "V0-" + snapshot.GIDNO;
                     cmd.Parameters.AddWithValue("@VLower", baselineVerLower);
                     cmd.Parameters.AddWithValue("@VUpper", baselineVerUpper);
                     sql.Open();
@@ -2140,9 +2139,8 @@ namespace scfs_erp.Controllers.Import
             var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
             if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString)) return;
 
-            int gidno;
-            if (!int.TryParse(snapshot.GIDNO, out gidno)) return;
-            var baselineVer = "v0-" + gidno;
+            if (string.IsNullOrWhiteSpace(snapshot.GIDNO)) return;
+            var baselineVer = "v0-" + snapshot.GIDNO;
 
             // Use the same exclusion rules as differential logging
             var exclude = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -2199,7 +2197,7 @@ namespace scfs_erp.Controllers.Import
 
                 // Format value consistently and insert with Version = "0"
                 var newVal = FormatVal(valObj);
-                InsertEditLogRow(cs.ConnectionString, gidno, p.Name, null, newVal, userId, baselineVer, "ImportGateIn");
+                InsertEditLogRow(cs.ConnectionString, snapshot.GIDNO, p.Name, null, newVal, userId, baselineVer, "ImportGateIn");
             }
         }
 
@@ -2223,7 +2221,7 @@ namespace scfs_erp.Controllers.Import
                     }
 
                     // Test inserting a log entry
-                    InsertEditLogRow(cs.ConnectionString, gidid, "TEST_FIELD", "OLD_VALUE", "NEW_VALUE", 
+                    InsertEditLogRow(cs.ConnectionString, record.GIDNO, "TEST_FIELD", "OLD_VALUE", "NEW_VALUE", 
                         Session["CUSRID"]?.ToString() ?? "TEST_USER", "1", "ImportGateIn");
 
                     // Test reading back the log entry
@@ -2232,7 +2230,7 @@ namespace scfs_erp.Controllers.Import
                         sql.Open();
                         using (var cmd = new SqlCommand("SELECT COUNT(*) FROM [dbo].[GateInDetailEditLog] WHERE [GIDNO] = @GIDNO AND [FieldName] = 'TEST_FIELD'", sql))
                         {
-                            cmd.Parameters.AddWithValue("@GIDNO", gidid);
+                            cmd.Parameters.AddWithValue("@GIDNO", record.GIDNO);
                             var count = (int)cmd.ExecuteScalar();
                             
                             return Json(new { 
