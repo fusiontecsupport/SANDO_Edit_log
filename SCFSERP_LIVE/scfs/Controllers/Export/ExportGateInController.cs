@@ -1588,8 +1588,10 @@ namespace scfs_erp.Controllers.Export
             // Exclude system or noisy fields and those you don't want to log
             var exclude = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
-                // system/housekeeping fields
+                // system/housekeeping fields that auto-update
                 "GIDID", "NGIDID", "PRCSDATE", "ESBDATE", "LMUSRID", "CUSRID",
+                "GICCTLDATE", "GICCTLTIME",  // Port Out Date/Time - auto-updated by system
+                "GIDATE", "GITIME",  // Gate In Date/Time - often auto-updated
                 // the unwanted gate pass dimension/weight fields
                 "GPTWGHT", "GPHEIGHT", "GPWIDTH", "GPLENGTH", "GPCBM", "GPGWGHT", "GPNWGHT", "GPNOP",
                 // system-mirrored fields
@@ -1671,10 +1673,22 @@ namespace scfs_erp.Controllers.Export
                 {
                     var t1 = (ov as DateTime?) ?? default(DateTime);
                     var t2 = (nv as DateTime?) ?? default(DateTime);
-                    // ignore millisecond differences
-                    t1 = new DateTime(t1.Year, t1.Month, t1.Day, t1.Hour, t1.Minute, t1.Second);
-                    t2 = new DateTime(t2.Year, t2.Month, t2.Day, t2.Hour, t2.Minute, t2.Second);
-                    changed = t1 != t2;
+                    
+                    // Skip if both are default/empty dates
+                    if (t1 == default(DateTime) && t2 == default(DateTime)) continue;
+                    
+                    // For date-only fields, compare only date part
+                    if (p.Name.Contains("DATE") && !p.Name.Contains("TIME"))
+                    {
+                        changed = t1.Date != t2.Date;
+                    }
+                    else
+                    {
+                        // For datetime fields, ignore millisecond differences
+                        t1 = new DateTime(t1.Year, t1.Month, t1.Day, t1.Hour, t1.Minute, t1.Second);
+                        t2 = new DateTime(t2.Year, t2.Month, t2.Day, t2.Hour, t2.Minute, t2.Second);
+                        changed = t1 != t2;
+                    }
                 }
                 else if (type == typeof(string))
                 {
