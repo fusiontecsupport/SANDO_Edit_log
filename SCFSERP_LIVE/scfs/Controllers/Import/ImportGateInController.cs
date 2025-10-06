@@ -148,7 +148,8 @@ namespace scfs_erp.Controllers.Import
                 using (var sql = new SqlConnection(cs.ConnectionString))
                 using (var cmd = new SqlCommand(@"SELECT TOP 2000 [GIDNO],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
                                                 FROM [dbo].[GateInDetailEditLog]
-                                                WHERE (@GIDNO IS NULL OR [GIDNO] = @GIDNO)
+                                                WHERE [Modules] = 'ImportGateIn'
+                                                  AND (@GIDNO IS NULL OR [GIDNO] = @GIDNO)
                                                   AND (@FROM IS NULL OR [ChangedOn] >= @FROM)
                                                   AND (@TO   IS NULL OR [ChangedOn] <  DATEADD(day, 1, @TO))
                                                   AND (@USER IS NULL OR [ChangedBy] LIKE @USERPAT)
