@@ -1484,6 +1484,90 @@ namespace scfs_erp.Controllers.Export
         }
 
         // ========================= Edit Logging (SCFS_LOG) =========================
+        
+        // Map database field names to user-friendly display names
+        private static Dictionary<string, string> GetFieldDisplayNames()
+        {
+            return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                // Date & Time Fields
+                {"GIDATE", "Gate In Date"},
+                {"GITIME", "Gate In Time"},
+                {"GICCTLDATE", "Port Out Date"},
+                {"GICCTLTIME", "Port Out Time"},
+                {"IGMDATE", "IGM Date"},
+                {"BOEDATE", "BOE Date"},
+                
+                // Reference Numbers
+                {"GINO", "Gate In No"},
+                {"GIDNO", "Gate In Detail No"},
+                {"GPREFNO", "GP Reference No"},
+                {"IGMNO", "IGM No"},
+                {"GPLNO", "GPL No"},
+                {"BLNO", "BL No"},
+                {"BOENO", "BOE No"},
+                {"ESBNO", "ESB No"},
+                {"GPNRNO", "GP NR No"},
+                {"EVSLRNO", "E-Vessel Rotation No"},
+                {"EMONO", "E-MO No"},
+                {"EEGMNO", "E-EGM No"},
+                
+                // Container Details
+                {"CONTNRNO", "Container No"},
+                {"CONTNRSID", "Container Size"},
+                {"CONTNRTID", "Container Type"},
+                {"LPSEALNO", "Line Seal No"},
+                {"CSEALNO", "Custom Seal No"},
+                {"GIISOCODE", "ISO Code"},
+                
+                // Vehicle Details
+                {"VHLNO", "Vehicle No"},
+                {"DRVNAME", "Driver Name"},
+                {"DRVMBLNO", "Driver Mobile No"},
+                {"DRVLCNO", "Driver License No"},
+                {"GPWTYPE", "Vehicle Type"},
+                {"GPSTYPE", "Status Type"},
+                
+                // Party Details
+                {"TRNSPRTNAME", "Transporter Name"},
+                {"IMPRTNAME", "Importer Name"},
+                {"STMRNAME", "Shipping Line Name"},
+                {"CHANAME", "CHA Name"},
+                {"BCHANAME", "Broker CHA Name"},
+                {"EXPRTRNAME", "Exporter Name"},
+                {"CLNTNAME", "Client Name"},
+                {"SHPRNAME", "Shipper Name"},
+                
+                // Vessel Details
+                {"VSLNAME", "Vessel Name"},
+                {"VOYNO", "Voyage No"},
+                
+                // Product Details
+                {"PRDTDESC", "Product Description"},
+                {"PRDTGID", "Product Group"},
+                {"PRDTTID", "Product Type"},
+                
+                // Weight & Measurements
+                {"GPWGHT", "Weight"},
+                
+                // Location Details
+                {"ROWID", "Row"},
+                {"SLOTID", "Slot"},
+                {"STAGID", "Stage"},
+                {"GDWNID", "Godown"},
+                {"GPPLCNAME", "Place Name"},
+                {"CFSNAME", "CFS Name"},
+                
+                // Other Fields
+                {"GIREMKRS", "Remarks"},
+                {"GPETYPE", "Escort Type"},
+                {"GPEAMT", "Escort Amount"},
+                {"DISPSTATUS", "Status"},
+                {"GPSCNTYPE", "Scan Type"},
+                {"GPSCNMTYPE", "Scan Mode Type"}
+            };
+        }
+        
         private void LogGateInEdits(GateInDetail before, GateInDetail after, string userId)
         {
             if (before == null || after == null) 
@@ -1498,15 +1582,22 @@ namespace scfs_erp.Controllers.Export
                 return;
             }
 
+            // Get field display name mapping
+            var fieldDisplayNames = GetFieldDisplayNames();
+
             // Exclude system or noisy fields and those you don't want to log
             var exclude = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
                 // system/housekeeping fields
-                "NGIDID", "PRCSDATE", "ESBDATE", "LMUSRID", "CUSRID",
+                "GIDID", "NGIDID", "PRCSDATE", "ESBDATE", "LMUSRID", "CUSRID",
                 // the unwanted gate pass dimension/weight fields
                 "GPTWGHT", "GPHEIGHT", "GPWIDTH", "GPLENGTH", "GPCBM", "GPGWGHT", "GPNWGHT", "GPNOP",
                 // system-mirrored fields
-                "AVHLNO"
+                "AVHLNO", "CONTNRID", "YRDID", "COMPYID", "SDPTID", "GIVHLTYPE", "UNITID",
+                // IDs that have corresponding NAME fields
+                "TRNSPRTID", "IMPRTID", "STMRID", "CHAID", "BCHAID", "EXPRTRID", "CLNTID",
+                "VSLID", "BOEDID", "INVDID", "RGIDID", "ESBMID", "VHLMID", "PRE_CHAID",
+                "CONTNRFID", "CONDTNID", "GRADEID", "CNTNRSID", "GFCLTYPE", "GSEALTYPE", "GSECTYPE"
             };
 
             // Compute the next version ONCE per save so all rows for this edit share the same Version
@@ -1544,21 +1635,6 @@ namespace scfs_erp.Controllers.Export
                 if (p.PropertyType.IsClass && p.PropertyType != typeof(string) && !p.PropertyType.IsValueType)
                     continue;
                 if (exclude.Contains(p.Name)) continue;
-
-                // If this is an '*ID' field and a corresponding string name property exists,
-                // skip logging the ID to avoid noisy numeric codes (e.g., STMRID vs STMRNAME)
-                if (p.Name.EndsWith("ID", StringComparison.OrdinalIgnoreCase))
-                {
-                    var baseName = p.Name.Substring(0, p.Name.Length - 2); // remove 'ID'
-                    var nameProp = props.FirstOrDefault(q =>
-                        q.PropertyType == typeof(string) &&
-                        (
-                            q.Name.Equals(baseName, StringComparison.OrdinalIgnoreCase) ||
-                            q.Name.Equals(baseName + "NAME", StringComparison.OrdinalIgnoreCase) ||
-                            (q.Name.EndsWith("NAME", StringComparison.OrdinalIgnoreCase) && q.Name.StartsWith(baseName, StringComparison.OrdinalIgnoreCase))
-                        ));
-                    if (nameProp != null) continue;
-                }
 
                 var ov = p.GetValue(before, null);
                 var nv = p.GetValue(after, null);
@@ -1622,6 +1698,7 @@ namespace scfs_erp.Controllers.Export
                 var os = FormatVal(ov);
                 var ns = FormatVal(nv);
 
+                // Save the ORIGINAL property name (database column name) to maintain consistency
                 var versionLabel = $"V{nextVersion}-{after.GIDNO}"; // Version label e.g., V1-04097
                 InsertEditLogRow(cs.ConnectionString, after.GIDNO, p.Name, os, ns, userId, versionLabel, "ExportGateIn");
             }

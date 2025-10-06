@@ -9,6 +9,51 @@
 
     Func<scfs_erp.Models.GateInDetailEditLogRow, string> pickVal = r => string.IsNullOrEmpty(r.NewValue) ? (r.OldValue ?? "") : r.NewValue;
 
+    // Map database field names to user-friendly display names
+    var fieldNameMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        // Date & Time Fields
+        {"GIDATE", "Gate In Date"}, {"GITIME", "Gate In Time"}, {"GICCTLDATE", "Port Out Date"}, {"GICCTLTIME", "Port Out Time"},
+        {"IGMDATE", "IGM Date"}, {"BOEDATE", "BOE Date"},
+        // Reference Numbers
+        {"GINO", "Gate In No"}, {"GIDNO", "Gate In Detail No"}, {"GPREFNO", "GP Reference No"}, {"IGMNO", "IGM No"},
+        {"GPLNO", "GPL No"}, {"BLNO", "BL No"}, {"BOENO", "BOE No"}, {"ESBNO", "ESB No"}, {"GPNRNO", "GP NR No"},
+        {"EVSLRNO", "E-Vessel Rotation No"}, {"EMONO", "E-MO No"}, {"EEGMNO", "E-EGM No"},
+        // Container Details
+        {"CONTNRNO", "Container No"}, {"CONTNRSID", "Container Size"}, {"CONTNRTID", "Container Type"},
+        {"LPSEALNO", "Line Seal No"}, {"CSEALNO", "Custom Seal No"}, {"GIISOCODE", "ISO Code"},
+        // Vehicle Details
+        {"VHLNO", "Vehicle No"}, {"DRVNAME", "Driver Name"}, {"DRVMBLNO", "Driver Mobile No"},
+        {"DRVLCNO", "Driver License No"}, {"GPWTYPE", "Vehicle Type"}, {"GPSTYPE", "Status Type"},
+        // Party Details
+        {"TRNSPRTNAME", "Transporter Name"}, {"IMPRTNAME", "Importer Name"}, {"STMRNAME", "Shipping Line Name"},
+        {"CHANAME", "CHA Name"}, {"BCHANAME", "Broker CHA Name"}, {"EXPRTRNAME", "Exporter Name"},
+        {"CLNTNAME", "Client Name"}, {"SHPRNAME", "Shipper Name"},
+        // Vessel Details
+        {"VSLNAME", "Vessel Name"}, {"VOYNO", "Voyage No"},
+        // Product Details
+        {"PRDTDESC", "Product Description"}, {"PRDTGID", "Product Group"}, {"PRDTTID", "Product Type"},
+        // Weight & Measurements
+        {"GPWGHT", "Weight"},
+        // Location Details
+        {"ROWID", "Row"}, {"SLOTID", "Slot"}, {"STAGID", "Stage"}, {"GDWNID", "Godown"},
+        {"GPPLCNAME", "Place Name"}, {"CFSNAME", "CFS Name"},
+        // Other Fields
+        {"GIREMKRS", "Remarks"}, {"GPETYPE", "Escort Type"}, {"GPEAMT", "Escort Amount"},
+        {"DISPSTATUS", "Status"}, {"GPSCNTYPE", "Scan Type"}, {"GPSCNMTYPE", "Scan Mode Type"},
+        // Legacy field names (with underscores or suffixes)
+        {"CHA_Name (GID)", "CHA Name"}, {"Broker_CHA_Name", "Broker CHA Name"},
+        {"Transporter_Name", "Transporter Name"}, {"Importer_Name", "Importer Name"}
+    };
+    
+    Func<string, string> getFriendlyName = fieldName => 
+    {
+        if (fieldNameMap.ContainsKey(fieldName)) return fieldNameMap[fieldName];
+        // Try to clean up field name by removing underscores and suffixes
+        var cleaned = fieldName.Replace("_", " ").Replace(" (GID)", "").Trim();
+        return cleaned;
+    };
+
     // Build dictionaries keyed by field name for both versions
     var dictA = rowsA
         .GroupBy(r => r.FieldName)
@@ -17,18 +62,20 @@
         .GroupBy(r => r.FieldName)
         .ToDictionary(g => g.Key, g => pickVal(g.Last()));
 
-    // Only fields present (changed) in both versions
-    var commonFields = dictA.Keys.Intersect(dictB.Keys).OrderBy(k => k).ToList();
+    // Show ALL fields from both versions (Union instead of Intersect)
+    var allFields = dictA.Keys.Union(dictB.Keys).OrderBy(k => k).ToList();
 }
 
 <style>
     .diff-yes { background: #fff3cd; }
     .diff-no { background: #e8f5e9; }
+    .new-field { background: #d9edf7; border-left: 4px solid #31708f; }
     .sticky th { position: sticky; top: 0; background: #2e3e4e; color: #fff; z-index: 2; }
     .nowrap { white-space: nowrap; }
     .filterbar { margin: 10px 0; }
     .old-badge { background: #f2dede; color: #a94442; border-radius: 3px; padding: 2px 6px; display: inline-block; }
     .new-badge { background: #dff0d8; color: #3c763d; border-radius: 3px; padding: 2px 6px; display: inline-block; }
+    .empty-value { color: #999; font-style: italic; }
 </style>
 
 <div class="container-fluid">
@@ -37,6 +84,8 @@
             <h2 class="page-header">Gate In - Version Compare</h2>
             <p class="text-muted">
                 Comparing <strong>GateIn Number</strong> <code>@gid</code> between <strong>Version A</strong> <code>@verA</code> and <strong>Version B</strong> <code>@verB</code>.
+                <br/>
+                <span id="changedCount" style="color: #31708f; font-weight: bold;"></span>
             </p>
             <div class="btn-group">
                 <a class="btn btn-default" href="@Url.Action("EditLogGateIn", "ImportGateIn", new { gidid = gid })"><i class="fa fa-arrow-left"></i> Back to Log</a>
@@ -44,6 +93,10 @@
             <div class="filterbar">
                 <label>Filter field:</label>
                 <input type="text" id="fltField" class="form-control input-sm" style="display:inline-block; width:220px;" placeholder="Type to filter fields..." />
+            </div>
+            <div class="alert alert-info" style="margin-top: 10px;">
+                <strong>Note:</strong> Only showing fields that <strong>exist in BOTH versions</strong> and have <strong>different values</strong>.
+                <span style="background: #fff3cd; padding: 2px 8px; margin: 0 10px; border-radius: 3px;">Yellow = Changed Field</span>
             </div>
         </div>
     </div>
@@ -65,25 +118,51 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @if (commonFields.Count == 0)
+                    @{
+                        var changedFieldsCount = 0;
+                    }
+                    @if (allFields.Count == 0)
                     {
                         <tr>
-                            <td colspan="3" class="text-center text-muted">No matched found</td>
+                            <td colspan="3" class="text-center text-muted">No fields found</td>
                         </tr>
                     }
                     else
                     {
-                        foreach (var f in commonFields)
+                        foreach (var f in allFields)
                         {
                             var va = dictA.ContainsKey(f) ? dictA[f] : "";
                             var vb = dictB.ContainsKey(f) ? dictB[f] : "";
+                            
+                            // Skip if either value is empty - we only want fields that exist in BOTH versions
+                            if (string.IsNullOrEmpty(va) || string.IsNullOrEmpty(vb)) { continue; }
+                            
                             bool diff = (va ?? "") != (vb ?? "");
-                            <tr class="row-item @(diff ? "diff-yes" : "diff-no")" data-field="@f">
-                                <td class="field-name">@f</td>
-                                <td><span class="old-badge">@Html.Raw(HttpUtility.HtmlEncode(va))</span></td>
-                                <td><span class="new-badge">@Html.Raw(HttpUtility.HtmlEncode(vb))</span></td>
+                            
+                            // ONLY show fields that actually changed
+                            if (!diff) { continue; }
+                            
+                            changedFieldsCount++;
+                            var rowClass = "diff-yes";
+                            
+                            <tr class="row-item @rowClass" data-field="@f">
+                                <td class="field-name">@getFriendlyName(f)</td>
+                                <td>
+                                    <span class="old-badge">@Html.Raw(HttpUtility.HtmlEncode(va))</span>
+                                </td>
+                                <td>
+                                    <span class="new-badge">@Html.Raw(HttpUtility.HtmlEncode(vb))</span>
+                                </td>
                             </tr>
                         }
+                    }
+                    @if (changedFieldsCount == 0 && allFields.Count > 0)
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">
+                                <i class="fa fa-info-circle"></i> No changes found between these versions
+                            </td>
+                        </tr>
                     }
                     </tbody>
                 </table>
@@ -95,11 +174,18 @@
 @section scripts{
 <script>
     (function(){
+        // Count and display changed fields
+        var totalChanged = $('#cmpTable tbody tr.row-item').length;
+        if (totalChanged > 0) {
+            $('#changedCount').text('Total ' + totalChanged + ' field(s) changed');
+        }
+        
         function applyFilters(){
             var q = ($('#fltField').val() || '').toLowerCase();
             var q2 = ($('#fltField2').val() || '').toLowerCase();
             var qo = ($('#fltOld').val() || '').toLowerCase();
             var qn = ($('#fltNew').val() || '').toLowerCase();
+            var visibleCount = 0;
             $('#cmpTable tbody tr').each(function(){
                 var $tr = $(this);
                 var fname = ($tr.data('field') + '').toLowerCase();
@@ -110,7 +196,15 @@
                 var matchNew = !qn || textNew.indexOf(qn) !== -1;
                 var match = matchField && matchOld && matchNew;
                 $tr.toggle(match);
+                if (match && $tr.hasClass('row-item')) visibleCount++;
             });
+            
+            // Update count based on filter
+            if (q || q2 || qo || qn) {
+                $('#changedCount').text('Showing ' + visibleCount + ' of ' + totalChanged + ' changed field(s)');
+            } else {
+                $('#changedCount').text('Total ' + totalChanged + ' field(s) changed');
+            }
         }
         $('#fltField').on('keyup change', applyFilters);
         $('#fltField2').on('keyup change', applyFilters);

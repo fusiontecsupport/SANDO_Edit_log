@@ -2,6 +2,39 @@
 @{
     ViewBag.Title = "Gate In - Edit log";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    // Map database field names to user-friendly display names
+    var fieldNameMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        {"GIDATE", "Gate In Date"}, {"GITIME", "Gate In Time"}, {"GICCTLDATE", "Port Out Date"}, {"GICCTLTIME", "Port Out Time"},
+        {"IGMDATE", "IGM Date"}, {"BOEDATE", "BOE Date"},
+        {"GINO", "Gate In No"}, {"GIDNO", "Gate In Detail No"}, {"GPREFNO", "GP Reference No"}, {"IGMNO", "IGM No"},
+        {"GPLNO", "GPL No"}, {"BLNO", "BL No"}, {"BOENO", "BOE No"}, {"ESBNO", "ESB No"}, {"GPNRNO", "GP NR No"},
+        {"EVSLRNO", "E-Vessel Rotation No"}, {"EMONO", "E-MO No"}, {"EEGMNO", "E-EGM No"},
+        {"CONTNRNO", "Container No"}, {"CONTNRSID", "Container Size"}, {"CONTNRTID", "Container Type"},
+        {"LPSEALNO", "Line Seal No"}, {"CSEALNO", "Custom Seal No"}, {"GIISOCODE", "ISO Code"},
+        {"VHLNO", "Vehicle No"}, {"DRVNAME", "Driver Name"}, {"DRVMBLNO", "Driver Mobile No"},
+        {"DRVLCNO", "Driver License No"}, {"GPWTYPE", "Vehicle Type"}, {"GPSTYPE", "Status Type"},
+        {"TRNSPRTNAME", "Transporter Name"}, {"IMPRTNAME", "Importer Name"}, {"STMRNAME", "Shipping Line Name"},
+        {"CHANAME", "CHA Name"}, {"BCHANAME", "Broker CHA Name"}, {"EXPRTRNAME", "Exporter Name"},
+        {"CLNTNAME", "Client Name"}, {"SHPRNAME", "Shipper Name"},
+        {"VSLNAME", "Vessel Name"}, {"VOYNO", "Voyage No"},
+        {"PRDTDESC", "Product Description"}, {"PRDTGID", "Product Group"}, {"PRDTTID", "Product Type"},
+        {"GPWGHT", "Weight"},
+        {"ROWID", "Row"}, {"SLOTID", "Slot"}, {"STAGID", "Stage"}, {"GDWNID", "Godown"},
+        {"GPPLCNAME", "Place Name"}, {"CFSNAME", "CFS Name"},
+        {"GIREMKRS", "Remarks"}, {"GPETYPE", "Escort Type"}, {"GPEAMT", "Escort Amount"},
+        {"DISPSTATUS", "Status"}, {"GPSCNTYPE", "Scan Type"}, {"GPSCNMTYPE", "Scan Mode Type"},
+        {"CHA_Name (GID)", "CHA Name"}, {"Broker_CHA_Name", "Broker CHA Name"},
+        {"Transporter_Name", "Transporter Name"}, {"Importer_Name", "Importer Name"}
+    };
+    
+    Func<string, string> getFriendlyName = fieldName => 
+    {
+        if (fieldNameMap.ContainsKey(fieldName)) return fieldNameMap[fieldName];
+        var cleaned = fieldName.Replace("_", " ").Replace(" (GID)", "").Trim();
+        return cleaned;
+    };
 }
 
 <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet" />
@@ -110,7 +143,7 @@
                                         <td class="nowrap">@row.ChangedOn.ToString("dd-MMM-yyyy HH:mm")</td>
                                         <td class="nowrap">@row.GIDNO</td>
                                         <td class="nowrap">@vraw</td>
-                                        <td class="field-label">@row.FieldName</td>
+                                        <td class="field-label">@getFriendlyName(row.FieldName)</td>
                                         <td>
                                             <span class="old-badge">@Html.Raw(HttpUtility.HtmlEncode(row.OldValue ?? string.Empty))</span>
                                         </td>
