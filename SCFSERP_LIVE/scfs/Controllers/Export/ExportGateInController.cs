@@ -1480,6 +1480,133 @@ namespace scfs_erp.Controllers.Export
                     }
                 }
             }
+
+            // Map raw DB codes to form-friendly display values for known fields
+            try
+            {
+                // Build lookup dictionaries once
+                var dictSlot = context.slotmasters.ToDictionary(x => x.SLOTID, x => x.SLOTDESC);
+                var dictRow = context.rowmasters.ToDictionary(x => x.ROWID, x => x.ROWDESC);
+                var dictPrdtGrp = context.productgroupmasters.ToDictionary(x => x.PRDTGID, x => x.PRDTGDESC);
+                var dictPrdtType = context.producttypemasters.ToDictionary(x => x.PRDTTID, x => x.PRDTTDESC);
+                var dictContType = context.containertypemasters.ToDictionary(x => x.CONTNRTID, x => x.CONTNRTDESC);
+                var dictContSize = context.containersizemasters.ToDictionary(x => x.CONTNRSID, x => x.CONTNRSDESC);
+                var dictGpMode = context.gpmodemasters.ToDictionary(x => x.GPMODEID, x => x.GPMODEDESC);
+                var dictPortType = context.porttypemaster.ToDictionary(x => x.GPPTYPE, x => x.GPPTYPEDESC);
+
+                string Map(string field, string raw)
+                {
+                    if (raw == null) return raw;
+                    var f = (field ?? string.Empty).Trim();
+                    var val = raw.Trim();
+                    if (string.IsNullOrEmpty(val)) return raw;
+                    int ival;
+                    switch (f.ToUpperInvariant())
+                    {
+                        case "SLOTID":
+                            return int.TryParse(val, out ival) && dictSlot.ContainsKey(ival) ? dictSlot[ival] : raw;
+                        case "ROWID":
+                            return int.TryParse(val, out ival) && dictRow.ContainsKey(ival) ? dictRow[ival] : raw;
+                        case "PRDTGID":
+                            return int.TryParse(val, out ival) && dictPrdtGrp.ContainsKey(ival) ? dictPrdtGrp[ival] : raw;
+                        case "PRDTTID":
+                            return int.TryParse(val, out ival) && dictPrdtType.ContainsKey(ival) ? dictPrdtType[ival] : raw;
+                        case "CONTNRTID":
+                            return int.TryParse(val, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
+                        case "CONTNRSID":
+                            return int.TryParse(val, out ival) && dictContSize.ContainsKey(ival) ? dictContSize[ival] : raw;
+                        case "GPMODEID":
+                            return int.TryParse(val, out ival) && dictGpMode.ContainsKey(ival) ? dictGpMode[ival] : raw;
+                        case "GPPTYPE":
+                            return int.TryParse(val, out ival) && dictPortType.ContainsKey(ival) ? dictPortType[ival] : raw;
+                        case "GPETYPE":
+                        case "GPSTYPE":
+                        case "GPWTYPE":
+                        case "GPSCNTYPE":
+                            return val == "1" ? "YES" : val == "0" ? "NO" : raw;
+                        case "GPSCNMTYPE":
+                            if (val == "1") return "MISMATCH";
+                            if (val == "2") return "CLEAN";
+                            if (val == "3") return "NOT SCANNED";
+                            return raw;
+                        case "GFCLTYPE":
+                            return val == "1" ? "FCL" : val == "0" ? "LCL" : raw;
+                        case "GRADEID":
+                            return val == "2" ? "YES" : val == "1" ? "NO" : raw;
+                        default:
+                            return raw;
+                    }
+                }
+
+                string Friendly(string field)
+                {
+                    if (string.IsNullOrWhiteSpace(field)) return field;
+                    var f = field.Trim();
+                    switch (f.ToUpperInvariant())
+                    {
+                        case "GIDATE": return "In Date";
+                        case "GITIME": return "In Time";
+                        case "GICCTLDATE": return "Port Out Date";
+                        case "GICCTLTIME": return "Port Out Time";
+                        case "GINO": return "Gate In No";
+                        case "GIDNO": return "No";
+                        case "GPREFNO": return "Ref No";
+                        case "DRVNAME": return "Driver Name";
+                        case "TRNSPRTNAME": return "Transpoter Name";
+                        case "GTRNSPRTNAME": return "Other Transpoter Name";
+                        case "VHLNO": return "Vehicle No";
+                        case "GPNRNO": return "PNR No";
+                        case "VSLNAME":
+                        case "VSLID": return "Vessel Name";
+                        case "VOYNO": return "Voyage No";
+                        case "IGMNO": return "IGM No.";
+                        case "GPLNO": return "Line No";
+                        case "IMPRTNAME":
+                        case "IMPRTID": return "Importer Name";
+                        case "STMRNAME":
+                        case "STMRID": return "Steamer Name";
+                        case "CHANAME": return "CHA Name";
+                        case "BOENO": return "Bill of Entry No";
+                        case "BOEDATE": return "Bill of Entry Date";
+                        case "CONTNRNO": return "Container No";
+                        case "CONTNRSID": return "Size";
+                        case "CONTNRTID": return "Type";
+                        case "GIISOCODE": return "ISO Code";
+                        case "LPSEALNO": return "L.seal no";
+                        case "CSEALNO": return "C.seal no";
+                        case "ROWID": return "Row";
+                        case "SLOTID": return "Slot";
+                        case "PRDTGID": return "Product Category";
+                        case "PRDTDESC": return "Product Description";
+                        case "PRDTTID": return "Product Type";
+                        case "GPWTYPE": return "Weightment";
+                        case "GPWGHT": return "Weight";
+                        case "GPPTYPE": return "Port";
+                        case "IGMDATE": return "IGM Date";
+                        case "BLNO": return "BL No.";
+                        case "GFCLTYPE": return "FCL";
+                        case "GIDMGDESC": return "Damage";
+                        case "GPMODEID": return "GP Mode";
+                        case "GPETYPE": return "SSR/Escort";
+                        case "GPSTYPE": return "S.Amend / Mismatch";
+                        case "GPEAMT": return "SSR/Escort Amount";
+                        case "GPAAMT": return "Addtnl. Amount";
+                        case "GPSCNTYPE": return "Scanned";
+                        case "GPSCNMTYPE": return "Scan Type";
+                        case "GRADEID": return "Refer(Plug)";
+                        default: return field; // fallback to technical name
+                    }
+                }
+
+                foreach (var row in list)
+                {
+                    row.OldValue = Map(row.FieldName, row.OldValue);
+                    row.NewValue = Map(row.FieldName, row.NewValue);
+                    row.FieldName = Friendly(row.FieldName);
+                }
+            }
+            catch { /* Best-effort mapping; do not fail page if lookups have issues */ }
+
             return View("~/Views/ImportGateIn/EditLogGateIn.cshtml", list);
         }
 
@@ -1709,8 +1836,9 @@ namespace scfs_erp.Controllers.Export
 
                 if (!changed) continue;
 
-                var os = FormatVal(ov);
-                var ns = FormatVal(nv);
+                // Convert lookup IDs to display values before logging
+                var os = FormatValForLogging(p.Name, ov);
+                var ns = FormatValForLogging(p.Name, nv);
 
                 // Save the ORIGINAL property name (database column name) to maintain consistency
                 var versionLabel = $"V{nextVersion}-{after.GIDNO}"; // Version label e.g., V1-04097
@@ -1740,6 +1868,40 @@ namespace scfs_erp.Controllers.Export
                 return ndt.HasValue ? ndt.Value.ToString("yyyy-MM-dd HH:mm:ss") : null;
             }
             return Convert.ToString(value);
+        }
+
+        // Format value for logging - converts lookup IDs to display values
+        private string FormatValForLogging(string fieldName, object value)
+        {
+            // First format the value normally
+            var formattedValue = FormatVal(value);
+            if (string.IsNullOrEmpty(formattedValue)) return formattedValue;
+
+            // Convert lookup field IDs to their display values
+            try
+            {
+                // Product Type lookup
+                if (fieldName.Equals("PRDTTID", StringComparison.OrdinalIgnoreCase))
+                {
+                    int productTypeId;
+                    if (int.TryParse(formattedValue, out productTypeId) && productTypeId > 0)
+                    {
+                        var productType = context.producttypemasters.FirstOrDefault(p => p.PRDTTID == productTypeId);
+                        if (productType != null && !string.IsNullOrEmpty(productType.PRDTTDESC))
+                        {
+                            return productType.PRDTTDESC;
+                        }
+                    }
+                }
+                // Add other lookup fields here as needed
+            }
+            catch (Exception ex)
+            {
+                // If lookup fails, return the original formatted value
+                System.Diagnostics.Debug.WriteLine($"FormatValForLogging lookup failed for {fieldName}: {ex.Message}");
+            }
+
+            return formattedValue;
         }
 
         // Ensure a baseline snapshot (Version = "0") exists for the given record.
@@ -1838,8 +2000,8 @@ namespace scfs_erp.Controllers.Export
                     if (Math.Abs(d) < 1e-9) continue;
                 }
 
-                // Format value consistently and insert with Version = "0"
-                var newVal = FormatVal(valObj);
+                // Format value consistently and insert with Version = "0" - convert lookup IDs to display values
+                var newVal = FormatValForLogging(p.Name, valObj);
                 InsertEditLogRow(cs.ConnectionString, snapshot.GIDNO, p.Name, null, newVal, userId, baselineVer, "ExportGateIn");
             }
         }

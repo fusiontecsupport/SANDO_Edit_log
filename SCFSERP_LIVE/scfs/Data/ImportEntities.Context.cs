@@ -14,6 +14,7 @@ namespace scfs.Data
     using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Core.Objects;
     using System.Linq;
+    using ImportEntities;
     
     public partial class CFSImportEntities : DbContext
     {

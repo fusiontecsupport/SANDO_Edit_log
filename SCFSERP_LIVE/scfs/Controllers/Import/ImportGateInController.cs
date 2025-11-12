@@ -196,6 +196,7 @@ namespace scfs_erp.Controllers.Import
                 var dictSlot = context.slotmasters.ToDictionary(x => x.SLOTID, x => x.SLOTDESC);
                 var dictRow = context.rowmasters.ToDictionary(x => x.ROWID, x => x.ROWDESC);
                 var dictPrdtGrp = context.productgroupmasters.ToDictionary(x => x.PRDTGID, x => x.PRDTGDESC);
+                var dictPrdtType = context.producttypemasters.ToDictionary(x => x.PRDTTID, x => x.PRDTTDESC);
                 var dictContType = context.containertypemasters.ToDictionary(x => x.CONTNRTID, x => x.CONTNRTDESC);
                 var dictContSize = context.containersizemasters.ToDictionary(x => x.CONTNRSID, x => x.CONTNRSDESC);
                 var dictGpMode = context.gpmodemasters.ToDictionary(x => x.GPMODEID, x => x.GPMODEDESC);
@@ -216,6 +217,8 @@ namespace scfs_erp.Controllers.Import
                             return int.TryParse(val, out ival) && dictRow.ContainsKey(ival) ? dictRow[ival] : raw;
                         case "PRDTGID":
                             return int.TryParse(val, out ival) && dictPrdtGrp.ContainsKey(ival) ? dictPrdtGrp[ival] : raw;
+                        case "PRDTTID":
+                            return int.TryParse(val, out ival) && dictPrdtType.ContainsKey(ival) ? dictPrdtType[ival] : raw;
                         case "CONTNRTID":
                             return int.TryParse(val, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
                         case "CONTNRSID":
@@ -370,6 +373,7 @@ namespace scfs_erp.Controllers.Import
                 var dictSlot = context.slotmasters.ToDictionary(x => x.SLOTID, x => x.SLOTDESC);
                 var dictRow = context.rowmasters.ToDictionary(x => x.ROWID, x => x.ROWDESC);
                 var dictPrdtGrp = context.productgroupmasters.ToDictionary(x => x.PRDTGID, x => x.PRDTGDESC);
+                var dictPrdtType = context.producttypemasters.ToDictionary(x => x.PRDTTID, x => x.PRDTTDESC);
                 var dictContType = context.containertypemasters.ToDictionary(x => x.CONTNRTID, x => x.CONTNRTDESC);
                 var dictContSize = context.containersizemasters.ToDictionary(x => x.CONTNRSID, x => x.CONTNRSDESC);
                 var dictGpMode = context.gpmodemasters.ToDictionary(x => x.GPMODEID, x => x.GPMODEDESC);
@@ -387,6 +391,8 @@ namespace scfs_erp.Controllers.Import
                             return int.TryParse(raw, out ival) && dictRow.ContainsKey(ival) ? dictRow[ival] : raw;
                         case "PRDTGID":
                             return int.TryParse(raw, out ival) && dictPrdtGrp.ContainsKey(ival) ? dictPrdtGrp[ival] : raw;
+                        case "PRDTTID":
+                            return int.TryParse(raw, out ival) && dictPrdtType.ContainsKey(ival) ? dictPrdtType[ival] : raw;
                         case "CONTNRTID":
                             return int.TryParse(raw, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
                         case "CONTNRSID":
@@ -598,6 +604,7 @@ namespace scfs_erp.Controllers.Import
                 var dictSlot = context.slotmasters.ToDictionary(x => x.SLOTID, x => x.SLOTDESC);
                 var dictRow = context.rowmasters.ToDictionary(x => x.ROWID, x => x.ROWDESC);
                 var dictPrdtGrp = context.productgroupmasters.ToDictionary(x => x.PRDTGID, x => x.PRDTGDESC);
+                var dictPrdtType = context.producttypemasters.ToDictionary(x => x.PRDTTID, x => x.PRDTTDESC);
                 var dictContType = context.containertypemasters.ToDictionary(x => x.CONTNRTID, x => x.CONTNRTDESC);
                 var dictContSize = context.containersizemasters.ToDictionary(x => x.CONTNRSID, x => x.CONTNRSDESC);
                 var dictGpMode = context.gpmodemasters.ToDictionary(x => x.GPMODEID, x => x.GPMODEDESC);
@@ -615,6 +622,8 @@ namespace scfs_erp.Controllers.Import
                             return int.TryParse(raw, out ival) && dictRow.ContainsKey(ival) ? dictRow[ival] : raw;
                         case "PRDTGID":
                             return int.TryParse(raw, out ival) && dictPrdtGrp.ContainsKey(ival) ? dictPrdtGrp[ival] : raw;
+                        case "PRDTTID":
+                            return int.TryParse(raw, out ival) && dictPrdtType.ContainsKey(ival) ? dictPrdtType[ival] : raw;
                         case "CONTNRTID":
                             return int.TryParse(raw, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
                         case "CONTNRSID":
@@ -2125,8 +2134,9 @@ namespace scfs_erp.Controllers.Import
 
                 if (!changed) continue;
 
-                var os = FormatVal(ov);
-                var ns = FormatVal(nv);
+                // Convert lookup IDs to display values before logging
+                var os = FormatValForLogging(p.Name, ov);
+                var ns = FormatValForLogging(p.Name, nv);
 
                 // Save the ORIGINAL property name (database column name) to maintain consistency
                 var versionLabel = $"V{nextVersion}-{after.GIDNO}"; // Version label e.g., V1-04097
@@ -2147,6 +2157,45 @@ namespace scfs_erp.Controllers.Import
             var ndecs = value as decimal?;
             if (ndecs.HasValue) return ndecs.Value.ToString("0.####");
             return Convert.ToString(value);
+        }
+
+        // Format value for logging - converts lookup IDs to display values
+        private string FormatValForLogging(string fieldName, object value)
+        {
+            // First format the value normally
+            var formattedValue = FormatVal(value);
+            if (string.IsNullOrEmpty(formattedValue)) return formattedValue;
+
+            // Convert lookup field IDs to their display values
+            try
+            {
+                // Product Type lookup
+                if (fieldName.Equals("PRDTTID", StringComparison.OrdinalIgnoreCase))
+                {
+                    int productTypeId;
+                    if (int.TryParse(formattedValue, out productTypeId) && productTypeId > 0)
+                    {
+                        var productType = context.producttypemasters.FirstOrDefault(p => p.PRDTTID == productTypeId);
+                        if (productType != null && !string.IsNullOrEmpty(productType.PRDTTDESC))
+                        {
+                            return productType.PRDTTDESC;
+                        }
+                    }
+                }
+                // Add other lookup fields here as needed
+                // Example:
+                // else if (fieldName.Equals("CONTAINERSIZEID", StringComparison.OrdinalIgnoreCase))
+                // {
+                //     // Convert container size ID to description
+                // }
+            }
+            catch (Exception ex)
+            {
+                // If lookup fails, return the original formatted value
+                System.Diagnostics.Debug.WriteLine($"FormatValForLogging lookup failed for {fieldName}: {ex.Message}");
+            }
+
+            return formattedValue;
         }
 
         private static bool BothNull(object a, object b) => a == null && b == null;
@@ -2287,8 +2336,8 @@ namespace scfs_erp.Controllers.Import
                     if (Math.Abs(d) < 1e-9) continue;
                 }
 
-                // Format value consistently and insert with Version = "0"
-                var newVal = FormatVal(valObj);
+                // Format value consistently and insert with Version = "0" - convert lookup IDs to display values
+                var newVal = FormatValForLogging(p.Name, valObj);
                 InsertEditLogRow(cs.ConnectionString, snapshot.GIDNO, p.Name, null, newVal, userId, baselineVer, "ImportGateIn");
             }
         }
