@@ -116,13 +116,12 @@
                             var va = dictA.ContainsKey(f) ? dictA[f] : "";
                             var vb = dictB.ContainsKey(f) ? dictB[f] : "";
                             
-                            // Show fields if they exist in either version (to show blank to value or value to blank changes)
-                            // Skip only if both are empty/null
-                            if (string.IsNullOrEmpty(va) && string.IsNullOrEmpty(vb)) { continue; }
+                            // Skip if either value is empty - we only want fields that exist in BOTH versions
+                            if (string.IsNullOrEmpty(va) || string.IsNullOrEmpty(vb)) { continue; }
                             
                             bool diff = (va ?? "") != (vb ?? "");
                             
-                            // ONLY show fields that actually changed (including blank to value or value to blank)
+                            // ONLY show fields that actually changed
                             if (!diff) { continue; }
                             
                             changedFieldsCount++;
@@ -131,24 +130,10 @@
                             <tr class="row-item @rowClass" data-field="@f">
                                 <td class="field-name">@getFriendlyName(f)</td>
                                 <td>
-                                    @if (string.IsNullOrEmpty(va))
-                                    {
-                                        <span class="old-badge empty-value">(empty)</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="old-badge">@Html.Raw(HttpUtility.HtmlEncode(va))</span>
-                                    }
+                                    <span class="old-badge">@Html.Raw(HttpUtility.HtmlEncode(va))</span>
                                 </td>
                                 <td>
-                                    @if (string.IsNullOrEmpty(vb))
-                                    {
-                                        <span class="new-badge empty-value">(empty)</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="new-badge">@Html.Raw(HttpUtility.HtmlEncode(vb))</span>
-                                    }
+                                    <span class="new-badge">@Html.Raw(HttpUtility.HtmlEncode(vb))</span>
                                 </td>
                             </tr>
                         }

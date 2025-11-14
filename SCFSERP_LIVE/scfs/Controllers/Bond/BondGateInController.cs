@@ -802,7 +802,12 @@ namespace scfs_erp.Controllers.Bond
                         case "CONTNRTID":
                             return int.TryParse(val, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
                         case "CONTNRSID":
-                            return int.TryParse(val, out ival) && dictContSize.ContainsKey(ival) ? dictContSize[ival] : raw;
+                            if (int.TryParse(val, out ival))
+                            {
+                                if (ival == 0) return "Not Required";
+                                if (dictContSize.ContainsKey(ival)) return dictContSize[ival];
+                            }
+                            return raw;
                         case "DISPSTATUS":
                             return val == "1" ? "Disabled" : val == "0" ? "Enabled" : raw;
                         case "CONTNRRCVFRM":
@@ -1030,7 +1035,12 @@ namespace scfs_erp.Controllers.Bond
                         case "CONTNRTID":
                             return int.TryParse(raw, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
                         case "CONTNRSID":
-                            return int.TryParse(raw, out ival) && dictContSize.ContainsKey(ival) ? dictContSize[ival] : raw;
+                            if (int.TryParse(raw, out ival))
+                            {
+                                if (ival == 0) return "Not Required";
+                                if (dictContSize.ContainsKey(ival)) return dictContSize[ival];
+                            }
+                            return raw;
                         case "DISPSTATUS":
                             return raw == "1" ? "Disabled" : raw == "0" ? "Enabled" : raw;
                         case "CONTNRRCVFRM":
@@ -1214,14 +1224,21 @@ namespace scfs_erp.Controllers.Bond
                 {
                     var i1 = ov == null ? (long?)null : Convert.ToInt64(ov);
                     var i2 = nv == null ? (long?)null : Convert.ToInt64(nv);
-                    // Only skip if both are null or both are zero
+                    // Only skip if both are null
                     if (!i1.HasValue && !i2.HasValue) { shouldLog = false; }
-                    else if (i1.HasValue && i2.HasValue && i1.Value == 0 && i2.Value == 0) { shouldLog = false; }
                     else
                     {
+                        // Always check for changes, including 0 values (for fields like CONTNRSID that can be "not required")
                         var val1 = i1 ?? 0;
                         var val2 = i2 ?? 0;
                         changed = val1 != val2;
+                        // Only skip if both are 0 AND the field is not one that should log 0 changes
+                        // For Container Size (CONTNRSID), we want to log even when changing to/from 0
+                        if (val1 == 0 && val2 == 0)
+                        {
+                            // Skip only if both are 0 and unchanged
+                            shouldLog = false;
+                        }
                     }
                 }
                 else if (type == typeof(DateTime) || type == typeof(DateTime?))
@@ -1389,12 +1406,19 @@ namespace scfs_erp.Controllers.Bond
                 else if (fieldName.Equals("CONTNRSID", StringComparison.OrdinalIgnoreCase))
                 {
                     int containerSizeId;
-                    if (int.TryParse(formattedValue, out containerSizeId) && containerSizeId > 0)
+                    if (int.TryParse(formattedValue, out containerSizeId))
                     {
-                        var containerSize = context.containersizemasters.FirstOrDefault(c => c.CONTNRSID == containerSizeId);
-                        if (containerSize != null && !string.IsNullOrEmpty(containerSize.CONTNRSDESC))
+                        if (containerSizeId == 0)
                         {
-                            return containerSize.CONTNRSDESC;
+                            return "Not Required";
+                        }
+                        else if (containerSizeId > 0)
+                        {
+                            var containerSize = context.containersizemasters.FirstOrDefault(c => c.CONTNRSID == containerSizeId);
+                            if (containerSize != null && !string.IsNullOrEmpty(containerSize.CONTNRSDESC))
+                            {
+                                return containerSize.CONTNRSDESC;
+                            }
                         }
                     }
                 }
