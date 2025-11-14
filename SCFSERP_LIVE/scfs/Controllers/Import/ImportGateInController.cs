@@ -705,6 +705,7 @@ namespace scfs_erp.Controllers.Import
                         case "GPSCNTYPE": return "Scanned";
                         case "GPSCNMTYPE": return "Scan Type";
                         case "GRADEID": return "Refer(Plug)";
+                        case "EXPRTRNAME": return "Exporter Name";
                         default: return field; // fallback to technical name
                     }
                 }

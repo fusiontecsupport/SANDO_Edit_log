@@ -6,6 +6,8 @@
     var verB = (string)ViewBag.VersionB;
     var rowsA = (IEnumerable<scfs_erp.Models.GateInDetailEditLogRow>)ViewBag.RowsA;
     var rowsB = (IEnumerable<scfs_erp.Models.GateInDetailEditLogRow>)ViewBag.RowsB;
+    var module = ViewBag.Module as string ?? "ImportGateIn";
+    var controllerName = module == "ExportGateIn" ? "ExportGateIn" : "ImportGateIn";
 
     Func<scfs_erp.Models.GateInDetailEditLogRow, string> pickVal = r => string.IsNullOrEmpty(r.NewValue) ? (r.OldValue ?? "") : r.NewValue;
 
@@ -18,29 +20,31 @@
         // Reference Numbers
         {"GINO", "Gate In No"}, {"GIDNO", "Gate In Detail No"}, {"GPREFNO", "GP Reference No"}, {"IGMNO", "IGM No"},
         {"GPLNO", "GPL No"}, {"BLNO", "BL No"}, {"BOENO", "BOE No"}, {"ESBNO", "ESB No"}, {"GPNRNO", "GP NR No"},
-        {"EVSLRNO", "E-Vessel Rotation No"}, {"EMONO", "E-MO No"}, {"EEGMNO", "E-EGM No"},
+        {"EMONO", "IMO No"}, {"EEGMNO", "EGMNO"}, {"EVSLRNO", "Vessel Rotation No"},
         // Container Details
         {"CONTNRNO", "Container No"}, {"CONTNRSID", "Container Size"}, {"CONTNRTID", "Container Type"},
-        {"LPSEALNO", "Line Seal No"}, {"CSEALNO", "Custom Seal No"}, {"GIISOCODE", "ISO Code"},
+        {"LPSEALNO", "W/H Point"}, {"CSEALNO", "Custom Seal No"}, {"GIISOCODE", "ISO Code"},
         // Vehicle Details
         {"VHLNO", "Vehicle No"}, {"DRVNAME", "Driver Name"}, {"DRVMBLNO", "Driver Mobile No"},
         {"DRVLCNO", "Driver License No"}, {"GPWTYPE", "Vehicle Type"}, {"GPSTYPE", "Status Type"},
         // Party Details
         {"TRNSPRTNAME", "Transporter Name"}, {"IMPRTNAME", "Importer Name"}, {"STMRNAME", "Shipping Line Name"},
         {"CHANAME", "CHA Name"}, {"BCHANAME", "Broker CHA Name"}, {"EXPRTRNAME", "Exporter Name"},
+        {"Exporter Name", "Exporter Name"}, // Also map the friendly name in case controller already transformed it
         {"CLNTNAME", "Client Name"}, {"SHPRNAME", "Shipper Name"},
         // Vessel Details
         {"VSLNAME", "Vessel Name"}, {"VOYNO", "Voyage No"},
         // Product Details
-        {"PRDTDESC", "Product Description"}, {"PRDTGID", "Product Group"}, {"PRDTTID", "Product Type"},
+        {"PRDTDESC", "Product Description"}, {"PRDTGID", "Product Category"}, {"PRDTTID", "Product Type"},
         // Weight & Measurements
-        {"GPWGHT", "Weight"},
+        {"GPWGHT", "Weight"}, {"GPNOP", "NOP"},
         // Location Details
         {"ROWID", "Row"}, {"SLOTID", "Slot"}, {"STAGID", "Stage"}, {"GDWNID", "Godown"},
-        {"GPPLCNAME", "Place Name"}, {"CFSNAME", "CFS Name"},
+        {"CFSNAME", "CFS Name"},
         // Other Fields
         {"GIREMKRS", "Remarks"}, {"GPETYPE", "Escort Type"}, {"GPEAMT", "Escort Amount"},
         {"DISPSTATUS", "Status"}, {"GPSCNTYPE", "Scan Type"}, {"GPSCNMTYPE", "Scan Mode Type"},
+        {"GSEALTYPE", "Seal Type"},
         // Legacy field names (with underscores or suffixes)
         {"CHA_Name (GID)", "CHA Name"}, {"Broker_CHA_Name", "Broker CHA Name"},
         {"Transporter_Name", "Transporter Name"}, {"Importer_Name", "Importer Name"}
@@ -88,7 +92,7 @@
                 <span id="changedCount" style="color: #31708f; font-weight: bold;"></span>
             </p>
             <div class="btn-group">
-                <a class="btn btn-default" href="@Url.Action("EditLogGateIn", "ImportGateIn", new { gidid = gid })"><i class="fa fa-arrow-left"></i> Back to Log</a>
+                <a class="btn btn-default" href="@Url.Action("EditLogGateIn", controllerName, new { gidid = gid })"><i class="fa fa-arrow-left"></i> Back to Log</a>
             </div>
             <div class="filterbar">
                 <label>Filter field:</label>
