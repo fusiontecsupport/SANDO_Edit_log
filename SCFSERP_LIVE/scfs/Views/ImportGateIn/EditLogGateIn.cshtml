@@ -3,12 +3,32 @@
     ViewBag.Title = "Gate In - Edit log";
     Layout = "~/Views/Shared/_Layout.cshtml";
     
+    // Determine module and controller from ViewBag or Request
+    var module = ViewBag.Module as string;
+    var controllerName = "ImportGateIn";
+    var idParamName = "gidid";
+    var idParamValue = Request["gidid"] ?? Request["vtdid"];
+    
+    if (module == "ExportGateIn")
+    {
+        controllerName = "ExportGateIn";
+    }
+    else if (module == "ImportVehicleTicket")
+    {
+        controllerName = "ImportVehicleTicket";
+        idParamName = "vtdid";
+    }
+    else if (module == "BondGateIn")
+    {
+        controllerName = "BondGateIn";
+    }
+    
     // Map database field names to user-friendly display names
     var fieldNameMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
     {
         {"GIDATE", "Gate In Date"}, {"GITIME", "Gate In Time"}, {"GICCTLDATE", "Port Out Date"}, {"GICCTLTIME", "Port Out Time"},
         {"IGMDATE", "IGM Date"}, {"BOEDATE", "BOE Date"},
-        {"GINO", "Gate In No"}, {"GIDNO", "Gate In Detail No"}, {"GPREFNO", "GP Reference No"}, {"IGMNO", "IGM No"},
+        {"GINO", "Gate In No"}, {"GIDNO", module == "ImportVehicleTicket" ? "Vehicle Ticket Detail No" : "Gate In Detail No"}, {"GPREFNO", "GP Reference No"}, {"IGMNO", "IGM No"},
         {"GPLNO", "GPL No"}, {"BLNO", "BL No"}, {"BOENO", "BOE No"}, {"ESBNO", "ESB No"}, {"GPNRNO", "GP NR No"},
         {"EMONO", "IMO No"}, {"EEGMNO", "EGMNO"}, {"EVSLRNO", "Vessel Rotation No"},
         {"CONTNRNO", "Container No"}, {"CONTNRSID", "Container Size"}, {"CONTNRTID", "Container Type"},
@@ -26,6 +46,15 @@
         {"GIREMKRS", "Remarks"}, {"GPETYPE", "Escort Type"}, {"GPEAMT", "Escort Amount"},
         {"DISPSTATUS", "Status"}, {"GPSCNTYPE", "Scan Type"}, {"GPSCNMTYPE", "Scan Mode Type"},
         {"GSEALTYPE", "Seal Type"},
+        // Vehicle Ticket fields (only unique fields - VHLNO, DRVNAME, TRNSPRTNAME already exist above)
+        {"VTDATE", "Date"}, {"VTTIME", "Time"}, {"VTNO", "Ticket No"}, {"VTDNO", "Ticket Detail No"},
+        {"ASLDID", "ASL ID"}, {"VTDESC", "Description"},
+        {"VTQTY", "Quantity"}, {"VTTYPE", "Type"}, {"VTSTYPE", "Status Type"}, {"VTREMRKS", "Remarks"},
+        {"GIDID", "Gate In ID"}, {"EGIDID", "Export Gate In ID"}, {"VTSSEALNO", "Seal No"},
+        {"VTCTYPE", "Container Type"}, {"CGIDID", "Cargo Gate In ID"}, {"STFDID", "Stuffing ID"},
+        {"EVLDATE", "Empty Vehicle Load Date"}, {"EVSDATE", "Empty Vehicle Stuff Date"}, {"ELRDATE", "Empty Load Return Date"},
+        {"GTRNSPRTNAME", "Other Transporter Name"},
+        {"QRCDIMGPATH", "QR Code Image Path"},
         {"CHA_Name (GID)", "CHA Name"}, {"Broker_CHA_Name", "Broker CHA Name"},
         {"Transporter_Name", "Transporter Name"}, {"Importer_Name", "Importer Name"}
     };
@@ -64,7 +93,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <h2 class="page-header">Gate In - Edit log</h2>
+            <h2 class="page-header">@(module == "ImportVehicleTicket" ? "Vehicle Ticket" : module == "ExportGateIn" ? "Export Gate In" : module == "BondGateIn" ? "Bond Gate In" : "Gate In") - Edit log</h2>
         </div>
     </div>
 
@@ -82,12 +111,12 @@
                     }
                     <div class="toolbar">
                         @* Compare form (GET) *@
-                        <form class="form-inline" method="get" action="@Url.Action("EditLogGateInCompare","ImportGateIn")" style="margin-top:8px;">
+                        <form class="form-inline" method="get" action="@Url.Action(module == "ImportVehicleTicket" ? "EditLogVehicleTicketCompare" : "EditLogGateInCompare", controllerName)" style="margin-top:8px;">
                             <div class="form-group">
-                                <label for="cmpGidCompare">Compare Versions for GateIn Number</label>
+                                <label for="cmpGidCompare">Compare Versions for @(module == "ImportVehicleTicket" ? "Vehicle Ticket" : "GateIn") Number</label>
                             </div>
                             <div class="form-group">
-                                <input type="number" id="cmpGidCompare" name="gidid" class="form-control input-sm" placeholder="Enter GateIn Number" value="@Request["gidid"]" required />
+                                <input type="number" id="cmpGidCompare" name="@idParamName" class="form-control input-sm" placeholder="Enter @(module == "ImportVehicleTicket" ? "Vehicle Ticket" : "GateIn") Number" value="@idParamValue" required />
                             </div>
                             <div class="form-group">
                                 <label for="cmpA">Version A</label>
@@ -112,7 +141,7 @@
                                 <tr>
                                     <th></th>
                                     <th class="nowrap w-150">Changed On</th>
-                                    <th class="nowrap">GateIn Number</th>
+                                    <th class="nowrap">@(module == "ImportVehicleTicket" ? "Vehicle Ticket Number" : "GateIn Number")</th>
                                     <th class="nowrap">Version</th>
                                     <th class="w-220">Field</th>
                                     <th class="w-220">Old Value</th>
@@ -124,7 +153,7 @@
                                 <tr>
                                     <th></th>
                                     <th><input type="text" placeholder="Search date/time" class="form-control input-sm" /></th>
-                                    <th><input type="text" placeholder="GateIn Number" class="form-control input-sm" /></th>
+                                    <th><input type="text" placeholder="@(module == "ImportVehicleTicket" ? "Vehicle Ticket Number" : "GateIn Number")" class="form-control input-sm" /></th>
                                     <th><input type="text" placeholder="Version" class="form-control input-sm" /></th>
                                     <th><input type="text" placeholder="Field" class="form-control input-sm" /></th>
                                     <th><input type="text" placeholder="Old value" class="form-control input-sm" /></th>
@@ -169,6 +198,9 @@
     <script src="~/Scripts/datatables/dataTables.bootstrap.js"></script>
     <script>
         $(function () {
+            // Set dynamic label for Vehicle Ticket
+            var numberLabel = '@(module == "ImportVehicleTicket" ? "Vehicle Ticket Number" : "GateIn Number")';
+            
             // No server-side toolbar filters
             var table = $('#logTable').DataTable({
                 order: [[2, 'desc'], [3, 'desc'], [1, 'desc']],
@@ -198,7 +230,7 @@
                         if (last !== grp) {
                             $(rows).eq(i).before(
                                 '<tr class="group-header"><td colspan="8">' +
-                                '<i class="fa fa-folder-open"></i> <strong>GateIn Number:</strong> ' + gid +
+                                '<i class="fa fa-folder-open"></i> <strong>' + numberLabel + ':</strong> ' + gid +
                                 ' &nbsp; <strong>Version:</strong> ' + ver +
                                 '</td></tr>'
                             );

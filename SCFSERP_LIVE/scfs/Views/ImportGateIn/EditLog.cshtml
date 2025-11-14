@@ -69,5 +69,24 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-ticket"></i> Vehicle Ticket Import</h3>
+                </div>
+                <div class="panel-body">
+                    <p>View changes captured in <strong>GateInDetailEditLog</strong> for Vehicle Ticket Import operations, including field-wise old and new values, who changed it, and when.</p>
+                    <form method="get" action="@Url.Action("EditLogVehicleTicket", "ImportVehicleTicket")" class="form-inline" role="form">
+                        <div class="form-group">
+                            <label for="vt_vtdid" class="control-label">Filter by VTDID (optional)</label>
+                            <input type="number" min="1" class="form-control" id="vt_vtdid" name="vtdid" placeholder="e.g. 222394" />
+                        </div>
+                        <button type="submit" class="btn btn-warning btn-lg">
+                            <i class="fa fa-ticket"></i> Vehicle Ticket
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

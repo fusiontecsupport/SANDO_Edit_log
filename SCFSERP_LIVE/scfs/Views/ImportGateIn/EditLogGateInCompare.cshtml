@@ -7,7 +7,24 @@
     var rowsA = (IEnumerable<scfs_erp.Models.GateInDetailEditLogRow>)ViewBag.RowsA;
     var rowsB = (IEnumerable<scfs_erp.Models.GateInDetailEditLogRow>)ViewBag.RowsB;
     var module = ViewBag.Module as string ?? "ImportGateIn";
-    var controllerName = module == "ExportGateIn" ? "ExportGateIn" : "ImportGateIn";
+    var controllerName = "ImportGateIn";
+    var actionName = "EditLogGateInCompare";
+    var idParamName = "gidid";
+    
+    if (module == "ExportGateIn")
+    {
+        controllerName = "ExportGateIn";
+    }
+    else if (module == "ImportVehicleTicket")
+    {
+        controllerName = "ImportVehicleTicket";
+        actionName = "EditLogVehicleTicketCompare";
+        idParamName = "vtdid";
+    }
+    else if (module == "BondGateIn")
+    {
+        controllerName = "BondGateIn";
+    }
 
     Func<scfs_erp.Models.GateInDetailEditLogRow, string> pickVal = r => string.IsNullOrEmpty(r.NewValue) ? (r.OldValue ?? "") : r.NewValue;
 
@@ -45,6 +62,15 @@
         {"GIREMKRS", "Remarks"}, {"GPETYPE", "Escort Type"}, {"GPEAMT", "Escort Amount"},
         {"DISPSTATUS", "Status"}, {"GPSCNTYPE", "Scan Type"}, {"GPSCNMTYPE", "Scan Mode Type"},
         {"GSEALTYPE", "Seal Type"},
+        // Vehicle Ticket fields (only unique fields - VHLNO, DRVNAME, TRNSPRTNAME already exist above)
+        {"VTDATE", "Date"}, {"VTTIME", "Time"}, {"VTNO", "Ticket No"}, {"VTDNO", "Ticket Detail No"},
+        {"ASLDID", "ASL ID"}, {"VTDESC", "Description"},
+        {"VTQTY", "Quantity"}, {"VTTYPE", "Type"}, {"VTSTYPE", "Status Type"}, {"VTREMRKS", "Remarks"},
+        {"GIDID", "Gate In ID"}, {"EGIDID", "Export Gate In ID"}, {"VTSSEALNO", "Seal No"},
+        {"VTCTYPE", "Container Type"}, {"CGIDID", "Cargo Gate In ID"}, {"STFDID", "Stuffing ID"},
+        {"EVLDATE", "Empty Vehicle Load Date"}, {"EVSDATE", "Empty Vehicle Stuff Date"}, {"ELRDATE", "Empty Load Return Date"},
+        {"GTRNSPRTNAME", "Other Transporter Name"},
+        {"QRCDIMGPATH", "QR Code Image Path"},
         // Legacy field names (with underscores or suffixes)
         {"CHA_Name (GID)", "CHA Name"}, {"Broker_CHA_Name", "Broker CHA Name"},
         {"Transporter_Name", "Transporter Name"}, {"Importer_Name", "Importer Name"}
@@ -85,14 +111,14 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <h2 class="page-header">Gate In - Version Compare</h2>
+            <h2 class="page-header">@(module == "ImportVehicleTicket" ? "Vehicle Ticket" : module == "ExportGateIn" ? "Export Gate In" : module == "BondGateIn" ? "Bond Gate In" : "Gate In") - Version Compare</h2>
             <p class="text-muted">
-                Comparing <strong>GateIn Number</strong> <code>@gid</code> between <strong>Version A</strong> <code>@verA</code> and <strong>Version B</strong> <code>@verB</code>.
+                Comparing <strong>@(module == "ImportVehicleTicket" ? "Vehicle Ticket" : "GateIn") Number</strong> <code>@gid</code> between <strong>Version A</strong> <code>@verA</code> and <strong>Version B</strong> <code>@verB</code>.
                 <br/>
                 <span id="changedCount" style="color: #31708f; font-weight: bold;"></span>
             </p>
             <div class="btn-group">
-                <a class="btn btn-default" href="@Url.Action("EditLogGateIn", controllerName, new { gidid = gid })"><i class="fa fa-arrow-left"></i> Back to Log</a>
+                <a class="btn btn-default" href="@Url.Action(module == "ImportVehicleTicket" ? "EditLogVehicleTicket" : "EditLogGateIn", controllerName, new { gidid = module == "ImportVehicleTicket" ? (object)null : gid, vtdid = module == "ImportVehicleTicket" ? gid : (object)null })"><i class="fa fa-arrow-left"></i> Back to Log</a>
             </div>
             <div class="filterbar">
                 <label>Filter field:</label>
