@@ -50,5 +50,24 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-lock"></i> Bond Gate In</h3>
+                </div>
+                <div class="panel-body">
+                    <p>View changes captured in <strong>GateInDetailEditLog</strong> for Bond Gate In operations, including field-wise old and new values, who changed it, and when.</p>
+                    <form method="get" action="@Url.Action("EditLogGateIn", "BondGateIn")" class="form-inline" role="form">
+                        <div class="form-group">
+                            <label for="bond_gidid" class="control-label">Filter by GIDID (optional)</label>
+                            <input type="number" min="1" class="form-control" id="bond_gidid" name="gidid" placeholder="e.g. 12345" />
+                        </div>
+                        <button type="submit" class="btn btn-info btn-lg">
+                            <i class="fa fa-lock"></i> Bond GateIn
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
