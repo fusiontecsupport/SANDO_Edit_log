@@ -129,31 +129,57 @@ namespace scfs.Controllers.Bond
             {
                 tab = context.exbondinfodtls.Find(id);
 
-                CategoryMaster CHA = new CategoryMaster();
-                CHA = context.categorymasters.Find(tab.CHAID);
-                ViewBag.CHANAME = CHA.CATENAME.ToString();
-                CHA = context.categorymasters.Find(tab.IMPRTID);
-                ViewBag.IMPRTRNAME = CHA.CATENAME.ToString();
+                if (tab != null)
+                {
+                    CategoryMaster CHA = new CategoryMaster();
+                    if (tab.CHAID != null && tab.CHAID != 0)
+                    {
+                        CHA = context.categorymasters.Find(tab.CHAID);
+                        if (CHA != null)
+                        {
+                            ViewBag.CHANAME = CHA.CATENAME.ToString();
+                        }
+                    }
+                    if (tab.IMPRTID != null && tab.IMPRTID != 0)
+                    {
+                        CHA = context.categorymasters.Find(tab.IMPRTID);
+                        if (CHA != null)
+                        {
+                            ViewBag.IMPRTRNAME = CHA.CATENAME.ToString();
+                        }
+                    }
 
-                mtqry = context.Database.SqlQuery<pr_get_BondMaster_Status_Result>("exec pr_get_Ex_BondMaster_Status ").ToList();
-                ViewBag.DISPSTATUS = new SelectList(mtqry, "dval", "dtxt", tab.DISPSTATUS).ToList();
+                    mtqry = context.Database.SqlQuery<pr_get_BondMaster_Status_Result>("exec pr_get_Ex_BondMaster_Status ").ToList();
+                    ViewBag.DISPSTATUS = new SelectList(mtqry, "dval", "dtxt", tab.DISPSTATUS).ToList();
 
 
-                mtqry = context.Database.SqlQuery<pr_get_BondMaster_Status_Result>("exec pr_get_Bond_Types ").ToList();
-                ViewBag.EBNDCTYPE = new SelectList(mtqry, "dval", "dtxt", tab.EBNDCTYPE).ToList();
-                BondMaster bm = new BondMaster();
-                bm = context.bondinfodtls.Find(tab.BNDID);
-                List<SelectListItem> selectedBond = new List<SelectListItem>();
-                SelectListItem selectedItemBond = new SelectListItem { Text = bm.BNDDNO, Value = bm.BNDID.ToString(), Selected = true };
-                selectedBond.Add(selectedItemBond);
-                ViewBag.BNDID = selectedBond;
+                    mtqry = context.Database.SqlQuery<pr_get_BondMaster_Status_Result>("exec pr_get_Bond_Types ").ToList();
+                    ViewBag.EBNDCTYPE = new SelectList(mtqry, "dval", "dtxt", tab.EBNDCTYPE).ToList();
+                    
+                    if (tab.BNDID != null && tab.BNDID != 0)
+                    {
+                        BondMaster bm = context.bondinfodtls.Find(tab.BNDID);
+                        if (bm != null)
+                        {
+                            List<SelectListItem> selectedBond = new List<SelectListItem>();
+                            SelectListItem selectedItemBond = new SelectListItem { Text = bm.BNDDNO, Value = bm.BNDID.ToString(), Selected = true };
+                            selectedBond.Add(selectedItemBond);
+                            ViewBag.BNDID = selectedBond;
+                        }
+                        else
+                        {
+                            ViewBag.BNDID = new SelectList("");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.BNDID = new SelectList("");
+                    }
 
-                ViewBag.CONTNRSID = new SelectList(context.containersizemasters.Where(m => m.CONTNRSID > 1).Where(x => x.DISPSTATUS == 0), "CONTNRSID", "CONTNRSDESC", tab.CONTNRSID);
+                    ViewBag.CONTNRSID = new SelectList(context.containersizemasters.Where(m => m.CONTNRSID > 1).Where(x => x.DISPSTATUS == 0), "CONTNRSID", "CONTNRSDESC", tab.CONTNRSID);
 
-                ViewBag.PRDTGID = new SelectList(context.bondproductgroupmasters.Where(x => x.DISPSTATUS == 0).OrderBy(x => x.PRDTGDESC), "PRDTGID", "PRDTGDESC", tab.PRDTGID);
-                
-
-
+                    ViewBag.PRDTGID = new SelectList(context.bondproductgroupmasters.Where(x => x.DISPSTATUS == 0).OrderBy(x => x.PRDTGDESC), "PRDTGID", "PRDTGDESC", tab.PRDTGID);
+                }
             }
 
 
