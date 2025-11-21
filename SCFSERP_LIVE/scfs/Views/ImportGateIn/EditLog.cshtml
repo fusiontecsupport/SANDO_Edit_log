@@ -88,5 +88,24 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-export"></i> ExBond GateIn Detail</h3>
+                </div>
+                <div class="panel-body">
+                    <p>View changes captured in <strong>GateInDetailEditLog</strong> for ExBond Gate In operations, including field-wise old and new values, who changed it, and when.</p>
+                    <form method="get" action="@Url.Action("EditLogGateInExBond", "ImportGateIn")" class="form-inline" role="form">
+                        <div class="form-group">
+                            <label for="exbond_gidid" class="control-label">Filter by GIDID (optional)</label>
+                            <input type="number" min="1" class="form-control" id="exbond_gidid" name="gidid" placeholder="e.g. 12345" />
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="fa fa-export"></i> ExBond GateIn
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

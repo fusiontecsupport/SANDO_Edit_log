@@ -264,12 +264,39 @@ namespace scfs.Controllers.Bond
 
                         if (tab.EBNDID.ToString() != "0")
                         {
+                            // Load original record for logging (no tracking to avoid state conflicts)
+                            var original = context.exbondinfodtls.AsNoTracking().FirstOrDefault(x => x.EBNDID == tab.EBNDID);
+
                             using (var trans = context.Database.BeginTransaction())
                             {
 
                                 context.Entry(tab).State = System.Data.Entity.EntityState.Modified;
                                 context.SaveChanges();
                                 trans.Commit();
+                            }
+
+                            // Best-effort logging to SCFSERP_EditLog
+                            try
+                            {
+                                System.Diagnostics.Debug.WriteLine($"EXBOND INFORMATION SAVE METHOD CALLED: EBNDID={tab.EBNDID}, EBNDDNO={tab.EBNDDNO}");
+                                if (original != null)
+                                {
+                                    System.Diagnostics.Debug.WriteLine($"ORIGINAL RECORD FOUND: EBNDID={original.EBNDID}, calling LogExBondEdits");
+                                    // Ensure baseline snapshot (Version = "0") exists for this record before logging diffs
+                                    EnsureBaselineVersionZero(original, Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "");
+                                    LogExBondEdits(original, tab, Session["CUSRID"] != null ? Session["CUSRID"].ToString() : "");
+                                    System.Diagnostics.Debug.WriteLine($"LogExBondEdits completed successfully");
+                                }
+                                else
+                                {
+                                    System.Diagnostics.Debug.WriteLine($"ORIGINAL RECORD NOT FOUND for EBNDID={tab.EBNDID}");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                // Log the error for debugging but don't fail the save
+                                System.Diagnostics.Debug.WriteLine($"ExBond Information edit logging failed: {ex.Message}");
+                                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
                             }
                         }
 
@@ -480,6 +507,328 @@ namespace scfs.Controllers.Bond
                 // Code Modified for validating the by Rajesh / Yamuna on 16-Jul-2021 <End>
             }
 
+        }
+        #endregion
+
+        #region Edit Logging Methods
+        private void LogExBondEdits(Ex_BondMaster before, Ex_BondMaster after, string userId)
+        {
+            if (before == null || after == null)
+            {
+                System.Diagnostics.Debug.WriteLine($"LogExBondEdits: before={before != null}, after={after != null}");
+                return;
+            }
+            var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+            if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString))
+            {
+                System.Diagnostics.Debug.WriteLine("LogExBondEdits: No SCFSERP_EditLog connection string found");
+                return;
+            }
+
+            // Exclude system or noisy fields
+            var exclude = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "EBNDID", "PRCSDATE", "LMUSRID", "CUSRID", "COMPYID", "SDPTID",
+                "IMPRTID", "CHAID", "BNDID", "CONTNRSID", "PRDTGID", "EBNDCTYPE"
+            };
+
+            // Compute the next version ONCE per save
+            int nextVersion = 1;
+            try
+            {
+                using (var sql = new SqlConnection(cs.ConnectionString))
+                using (var cmd = new SqlCommand(@"
+                    SELECT ISNULL(
+                        MAX(TRY_CAST(
+                            SUBSTRING([Version], 2, 
+                                CASE WHEN CHARINDEX('-', [Version]) > 0 
+                                     THEN CHARINDEX('-', [Version]) - 2 
+                                     ELSE LEN([Version]) - 1
+                                END
+                            ) AS INT)
+                        ), 0) + 1
+                    FROM [dbo].[GateInDetailEditLog]
+                    WHERE [GIDNO] = @GIDNO AND [Modules] = 'ExBondGateIn'", sql))
+                {
+                    cmd.Parameters.AddWithValue("@GIDNO", after.EBNDDNO ?? after.EBNDID.ToString());
+                    sql.Open();
+                    var obj = cmd.ExecuteScalar();
+                    if (obj != null && obj != DBNull.Value)
+                        nextVersion = Convert.ToInt32(obj);
+                }
+            }
+            catch { /* ignore logging version errors */ }
+
+            var props = typeof(Ex_BondMaster).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            int fieldsChecked = 0;
+            int fieldsChanged = 0;
+
+            foreach (var p in props)
+            {
+                if (!p.CanRead) continue;
+                if (p.PropertyType.IsClass && p.PropertyType != typeof(string) && !p.PropertyType.IsValueType)
+                    continue;
+                if (exclude.Contains(p.Name)) continue;
+
+                fieldsChecked++;
+                var ov = p.GetValue(before, null);
+                var nv = p.GetValue(after, null);
+
+                if (BothNull(ov, nv)) continue;
+
+                var type = Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType;
+                bool changed = false;
+                bool shouldLog = true;
+
+                if (type == typeof(decimal) || type == typeof(decimal?))
+                {
+                    var d1 = ToNullableDecimal(ov) ?? 0m;
+                    var d2 = ToNullableDecimal(nv) ?? 0m;
+                    if (d1 == 0m && d2 == 0m) { shouldLog = false; continue; }
+                    changed = d1 != d2;
+                }
+                else if (type == typeof(int) || type == typeof(int?) || type == typeof(long) || type == typeof(long?) || type == typeof(short) || type == typeof(short?))
+                {
+                    var i1 = ov == null ? (long?)null : Convert.ToInt64(ov);
+                    var i2 = nv == null ? (long?)null : Convert.ToInt64(nv);
+                    if (!i1.HasValue && !i2.HasValue) continue;
+                    var val1 = i1 ?? 0;
+                    var val2 = i2 ?? 0;
+                    changed = val1 != val2;
+                    if (val1 == 0 && val2 == 0) { shouldLog = false; continue; }
+                }
+                else if (type == typeof(DateTime) || type == typeof(DateTime?))
+                {
+                    var t1 = (ov as DateTime?) ?? default(DateTime);
+                    var t2 = (nv as DateTime?) ?? default(DateTime);
+                    if (t1 == default(DateTime) && t2 == default(DateTime)) continue;
+                    if (p.Name.Contains("DATE") && !p.Name.Contains("TIME"))
+                    {
+                        changed = t1.Date != t2.Date;
+                    }
+                    else
+                    {
+                        changed = t1 != t2;
+                    }
+                }
+                else if (type == typeof(string))
+                {
+                    var s1 = (Convert.ToString(ov) ?? string.Empty).Trim();
+                    var s2 = (Convert.ToString(nv) ?? string.Empty).Trim();
+                    bool def1 = string.IsNullOrEmpty(s1) || s1 == "-" || s1 == "0";
+                    bool def2 = string.IsNullOrEmpty(s2) || s2 == "-" || s2 == "0";
+                    if (def1 && def2) { shouldLog = false; continue; }
+                    changed = !string.Equals(s1, s2, StringComparison.Ordinal);
+                }
+                else
+                {
+                    var s1 = FormatVal(ov);
+                    var s2 = FormatVal(nv);
+                    if (string.IsNullOrEmpty(s1) && string.IsNullOrEmpty(s2)) { shouldLog = false; continue; }
+                    changed = !string.Equals(s1 ?? "", s2 ?? "", StringComparison.Ordinal);
+                }
+
+                if (!shouldLog || !changed) continue;
+
+                fieldsChanged++;
+                var os = FormatValForLogging(p.Name, ov) ?? "";
+                var ns = FormatValForLogging(p.Name, nv) ?? "";
+
+                var gidno = after.EBNDDNO ?? after.EBNDID.ToString();
+                var versionLabel = $"V{nextVersion}-{gidno}";
+                InsertEditLogRow(cs.ConnectionString, gidno, p.Name, os, ns, userId, versionLabel, "ExBondGateIn");
+            }
+
+            System.Diagnostics.Debug.WriteLine($"LogExBondEdits: Checked {fieldsChecked} fields, {fieldsChanged} fields changed");
+        }
+
+        private static string FormatVal(object value)
+        {
+            if (value == null) return null;
+            if (value is DateTime dt) return dt.ToString("dd/MM/yyyy");
+            if (value is DateTime?)
+            {
+                var ndt = (DateTime?)value;
+                return ndt.HasValue ? ndt.Value.ToString("dd/MM/yyyy") : null;
+            }
+            if (value is decimal dec) return dec.ToString("0.####");
+            var ndecs = value as decimal?;
+            if (ndecs.HasValue) return ndecs.Value.ToString("0.####");
+            return Convert.ToString(value);
+        }
+
+        private string FormatValForLogging(string fieldName, object value)
+        {
+            if (value == null) return null;
+
+            if (value is DateTime dt)
+            {
+                return dt.ToString("dd/MM/yyyy");
+            }
+            if (value is DateTime?)
+            {
+                var ndt = (DateTime?)value;
+                if (!ndt.HasValue) return null;
+                return ndt.Value.ToString("dd/MM/yyyy");
+            }
+
+            var formattedValue = FormatVal(value);
+            if (string.IsNullOrEmpty(formattedValue)) return formattedValue;
+
+            try
+            {
+                if (fieldName.Equals("PRDTGID", StringComparison.OrdinalIgnoreCase))
+                {
+                    int productGroupId;
+                    if (int.TryParse(formattedValue, out productGroupId) && productGroupId > 0)
+                    {
+                        var productGroup = context.bondproductgroupmasters.FirstOrDefault(p => p.PRDTGID == productGroupId);
+                        if (productGroup != null && !string.IsNullOrEmpty(productGroup.PRDTGDESC))
+                            return productGroup.PRDTGDESC;
+                    }
+                }
+                else if (fieldName.Equals("CONTNRSID", StringComparison.OrdinalIgnoreCase))
+                {
+                    int containerSizeId;
+                    if (int.TryParse(formattedValue, out containerSizeId) && containerSizeId > 0)
+                    {
+                        var containerSize = context.containersizemasters.FirstOrDefault(c => c.CONTNRSID == containerSizeId);
+                        if (containerSize != null && !string.IsNullOrEmpty(containerSize.CONTNRSDESC))
+                            return containerSize.CONTNRSDESC;
+                    }
+                }
+                else if (fieldName.Equals("EBNDCTYPE", StringComparison.OrdinalIgnoreCase))
+                {
+                    int bondTypeId;
+                    if (int.TryParse(formattedValue, out bondTypeId) && bondTypeId > 0)
+                    {
+                        try
+                        {
+                            var bondTypes = context.Database.SqlQuery<pr_get_BondMaster_Status_Result>("exec pr_get_Bond_Types").ToList();
+                            var bondType = bondTypes.FirstOrDefault(b => b.dval == bondTypeId);
+                            if (bondType != null && !string.IsNullOrEmpty(bondType.dtxt))
+                                return bondType.dtxt;
+                        }
+                        catch { }
+                    }
+                }
+                else if (fieldName.Equals("DISPSTATUS", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (formattedValue == "1") return "Disabled";
+                    if (formattedValue == "0") return "Enabled";
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"FormatValForLogging lookup failed for {fieldName}: {ex.Message}");
+            }
+
+            return formattedValue;
+        }
+
+        private static bool BothNull(object a, object b) => a == null && b == null;
+
+        private static decimal? ToNullableDecimal(object v)
+        {
+            if (v == null) return null;
+            if (v is decimal d) return d;
+            var nd = v as decimal?;
+            if (nd.HasValue) return nd.Value;
+            decimal parsed;
+            return decimal.TryParse(Convert.ToString(v), out parsed) ? parsed : (decimal?)null;
+        }
+
+        private static void InsertEditLogRow(string connectionString, string gidno, string fieldName, string oldValue, string newValue, string changedBy, string versionLabel, string modules)
+        {
+            try
+            {
+                using (var sql = new SqlConnection(connectionString))
+                {
+                    sql.Open();
+                    using (var cmd = new SqlCommand(@"INSERT INTO [dbo].[GateInDetailEditLog]
+                        ([GIDNO], [FieldName], [OldValue], [NewValue], [ChangedBy], [ChangedOn], [Version], [Modules])
+                        VALUES (@GIDNO, @FieldName, @OldValue, @NewValue, @ChangedBy, GETDATE(), @Version, @Modules)", sql))
+                    {
+                        cmd.Parameters.AddWithValue("@GIDNO", gidno);
+                        cmd.Parameters.AddWithValue("@FieldName", fieldName);
+                        cmd.Parameters.AddWithValue("@OldValue", (object)oldValue ?? DBNull.Value);
+                        cmd.Parameters.AddWithValue("@NewValue", (object)newValue ?? DBNull.Value);
+                        cmd.Parameters.AddWithValue("@ChangedBy", changedBy ?? "");
+                        cmd.Parameters.AddWithValue("@Version", (object)versionLabel ?? DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Modules", modules ?? string.Empty);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to insert edit log: {ex.Message}");
+                throw;
+            }
+        }
+
+        private void EnsureBaselineVersionZero(Ex_BondMaster snapshot, string userId)
+        {
+            try
+            {
+                var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+                if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString)) return;
+
+                var gidno = snapshot.EBNDDNO ?? snapshot.EBNDID.ToString();
+                if (string.IsNullOrWhiteSpace(gidno)) return;
+
+                using (var sql = new SqlConnection(cs.ConnectionString))
+                using (var cmd = new SqlCommand("SELECT COUNT(1) FROM [dbo].[GateInDetailEditLog] WHERE [GIDNO]=@GIDNO AND [Modules]='ExBondGateIn' AND (RTRIM(LTRIM([Version]))=@VLower OR RTRIM(LTRIM([Version]))=@VUpper OR RTRIM(LTRIM([Version]))='0' OR RTRIM(LTRIM([Version]))='V0')", sql))
+                {
+                    cmd.Parameters.AddWithValue("@GIDNO", gidno);
+                    var baselineVerLower = "v0-" + gidno;
+                    var baselineVerUpper = "V0-" + gidno;
+                    cmd.Parameters.AddWithValue("@VLower", baselineVerLower);
+                    cmd.Parameters.AddWithValue("@VUpper", baselineVerUpper);
+                    sql.Open();
+                    var exists = Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                    if (exists) return;
+                }
+
+                InsertBaselineSnapshot(snapshot, userId);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"EnsureBaselineVersionZero failed: {ex.Message}");
+            }
+        }
+
+        private void InsertBaselineSnapshot(Ex_BondMaster snapshot, string userId)
+        {
+            var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+            if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString)) return;
+
+            var gidno = snapshot.EBNDDNO ?? snapshot.EBNDID.ToString();
+            if (string.IsNullOrWhiteSpace(gidno)) return;
+            var baselineVer = "v0-" + gidno;
+
+            var exclude = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "EBNDID", "PRCSDATE", "LMUSRID", "CUSRID", "COMPYID", "SDPTID",
+                "IMPRTID", "CHAID", "BNDID", "CONTNRSID", "PRDTGID", "EBNDCTYPE"
+            };
+
+            var props = typeof(Ex_BondMaster).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            foreach (var p in props)
+            {
+                if (!p.CanRead) continue;
+                if (p.PropertyType.IsClass && p.PropertyType != typeof(string) && !p.PropertyType.IsValueType)
+                    continue;
+                if (exclude.Contains(p.Name)) continue;
+
+                var val = p.GetValue(snapshot, null);
+                if (val == null) continue;
+
+                var formatted = FormatValForLogging(p.Name, val);
+                if (string.IsNullOrEmpty(formatted)) continue;
+
+                InsertEditLogRow(cs.ConnectionString, gidno, p.Name, null, formatted, userId, baselineVer, "ExBondGateIn");
+            }
         }
         #endregion
     }

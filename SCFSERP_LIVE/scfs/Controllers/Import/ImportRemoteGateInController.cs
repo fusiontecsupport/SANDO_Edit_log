@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System;
 using System.Configuration;
+using System.Data.SqlClient;
 
 
 namespace scfs_erp.Controllers.Import
@@ -16,6 +17,23 @@ namespace scfs_erp.Controllers.Import
     [SessionExpire]
     public class ImportRemoteGateInController : Controller
     {
+        private class RemoteGateInTransferRow
+        {
+            public string GIDATE { get; set; }
+            public int? GINO { get; set; }
+            public string GIDNO { get; set; }
+            public string CONTNRNO { get; set; }
+            public string CONTNRSID { get; set; }
+            public string IGMNO { get; set; }
+            public string GPLNO { get; set; }
+            public string STMRNAME { get; set; }
+            public string IMPRTNAME { get; set; }
+            public string VSLNAME { get; set; }
+            public string PRDTDESC { get; set; }
+            public string DISPSTATUS { get; set; }
+            public int? GIDID { get; set; }
+            public string AGIDNO { get; set; }
+        }
         // GET: ImportRemoteGateIn
         #region Context declaration
         SCFSERPContext context = new SCFSERPContext();
@@ -164,27 +182,45 @@ namespace scfs_erp.Controllers.Import
 
         public JsonResult RTGateinGetAjaxData(JQueryDataTableParamModel param)
         {
-            using (var e = new CFSImportEntities())
+            using (var db = new SCFSERPContext())
             {
-                var totalRowsCount = new System.Data.Entity.Core.Objects.ObjectParameter("TotalRowsCount", typeof(int));
-                var filteredRowsCount = new System.Data.Entity.Core.Objects.ObjectParameter("FilteredRowsCount", typeof(int));
+                var filterTermParam = new SqlParameter("@FilterTerm", string.IsNullOrWhiteSpace(param.sSearch) ? (object)DBNull.Value : param.sSearch);
+                var sortIndexParam = new SqlParameter("@SortIndex", Convert.ToInt32(Request["iSortCol_0"]));
+                var sortDirParam = new SqlParameter("@SortDirection", string.IsNullOrWhiteSpace(Request["sSortDir_0"]) ? (object)DBNull.Value : Request["sSortDir_0"]);
+                var startParam = new SqlParameter("@StartRowNum", param.iDisplayStart);
+                var endParam = new SqlParameter("@EndRowNum", param.iDisplayStart + param.iDisplayLength);
+                var totalRowsParam = new SqlParameter("@TotalRowsCount", System.Data.SqlDbType.Int) { Direction = System.Data.ParameterDirection.Output };
+                var filteredRowsParam = new SqlParameter("@FilteredRowsCount", System.Data.SqlDbType.Int) { Direction = System.Data.ParameterDirection.Output };
 
-                var data = e.pr_Search_Import_RemoteGateInTransfer(param.sSearch,
-                                                Convert.ToInt32(Request["iSortCol_0"]),
-                                                Request["sSortDir_0"],
-                                                param.iDisplayStart,
-                                                param.iDisplayStart + param.iDisplayLength,
-                                                totalRowsCount,
-                                                filteredRowsCount);
+                var cmdText = "exec pr_Search_Import_RemoteGateInTransfer @FilterTerm, @SortIndex, @SortDirection, @StartRowNum, @EndRowNum, @TotalRowsCount OUTPUT, @FilteredRowsCount OUTPUT";
+                var data = db.Database.SqlQuery<RemoteGateInTransferRow>(cmdText,
+                    filterTermParam, sortIndexParam, sortDirParam, startParam, endParam, totalRowsParam, filteredRowsParam).ToList();
 
-                var aaData = data.Select(d => new string[] { d.GIDATE.ToString(), d.GIDNO, d.CONTNRNO, d.CONTNRSID, d.IGMNO, d.GPLNO, d.VSLNAME, d.STMRNAME, d.PRDTDESC, d.DISPSTATUS, d.GIDID.ToString(), d.AGIDNO ?? "" }).ToArray();
+                var aaData = data.Select(d => new[]
+                {
+                    d.GIDATE ?? string.Empty,
+                    d.GIDNO ?? string.Empty,
+                    d.CONTNRNO ?? string.Empty,
+                    d.CONTNRSID ?? string.Empty,
+                    d.IGMNO ?? string.Empty,
+                    d.GPLNO ?? string.Empty,
+                    d.VSLNAME ?? string.Empty,
+                    d.STMRNAME ?? string.Empty,
+                    d.PRDTDESC ?? string.Empty,
+                    d.DISPSTATUS ?? string.Empty,
+                    d.GIDID.HasValue ? d.GIDID.Value.ToString() : string.Empty,
+                    d.AGIDNO ?? string.Empty
+                }).ToArray();
+
+                int totalRecords = totalRowsParam.Value != DBNull.Value ? Convert.ToInt32(totalRowsParam.Value) : aaData.Length;
+                int filteredRecords = filteredRowsParam.Value != DBNull.Value ? Convert.ToInt32(filteredRowsParam.Value) : aaData.Length;
 
                 return Json(new
                 {
                     sEcho = param.sEcho,
                     aaData = aaData,
-                    iTotalRecords = Convert.ToInt32(totalRowsCount.Value),
-                    iTotalDisplayRecords = Convert.ToInt32(filteredRowsCount.Value)
+                    iTotalRecords = totalRecords,
+                    iTotalDisplayRecords = filteredRecords
                 }, JsonRequestBehavior.AllowGet);
             }
         }

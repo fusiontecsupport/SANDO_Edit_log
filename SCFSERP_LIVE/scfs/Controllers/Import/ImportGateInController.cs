@@ -317,6 +317,236 @@ namespace scfs_erp.Controllers.Import
             return View(list);
         }
 
+        public ActionResult EditLogGateInExBond(int? gidid, DateTime? from = null, DateTime? to = null, string user = null, string fieldName = null, string version = null)
+        {
+            if (Convert.ToInt32(Session["compyid"]) == 0) { return RedirectToAction("Login", "Account"); }
+
+            // For ExBond, if gidid (EBNDID) is provided, look up the corresponding EBNDDNO
+            string searchGidno = null;
+            if (gidid.HasValue)
+            {
+                try
+                {
+                    using (var bondContext = new scfs_erp.Context.BondContext())
+                    {
+                        var exBond = bondContext.exbondinfodtls.AsNoTracking().FirstOrDefault(x => x.EBNDID == gidid.Value);
+                        if (exBond != null)
+                        {
+                            searchGidno = exBond.EBNDDNO ?? gidid.Value.ToString();
+                        }
+                        else
+                        {
+                            // If not found, use the gidid as string (might be EBNDDNO already)
+                            searchGidno = gidid.Value.ToString();
+                        }
+                    }
+                }
+                catch
+                {
+                    // Fallback to using gidid as string
+                    searchGidno = gidid.Value.ToString();
+                }
+            }
+
+            var list = new List<scfs_erp.Models.GateInDetailEditLogRow>();
+            var cs = ConfigurationManager.ConnectionStrings["SCFSERP_EditLog"];
+            if (cs != null && !string.IsNullOrWhiteSpace(cs.ConnectionString))
+            {
+                using (var sql = new SqlConnection(cs.ConnectionString))
+                using (var cmd = new SqlCommand(@"SELECT TOP 2000 [GIDNO],[FieldName],[OldValue],[NewValue],[ChangedBy],[ChangedOn],[Version],[Modules]
+                                                FROM [dbo].[GateInDetailEditLog]
+                                                WHERE (@GIDNO IS NULL OR [GIDNO] = @GIDNO)
+                                                  AND (@FROM IS NULL OR [ChangedOn] >= @FROM)
+                                                  AND (@TO   IS NULL OR [ChangedOn] <  DATEADD(day, 1, @TO))
+                                                  AND (@USER IS NULL OR [ChangedBy] LIKE '%' + @USER + '%')
+                                                  AND (@FIELD IS NULL OR [FieldName] LIKE '%' + @FIELD + '%')
+                                                  AND (@VERSION IS NULL OR [Version] LIKE '%' + @VERSION + '%')
+                                                  AND [Modules] = 'ExBondGateIn'
+                                                ORDER BY [GIDNO] DESC, [Version] DESC, [ChangedOn] DESC", sql))
+                {
+                    cmd.Parameters.Add("@GIDNO", System.Data.SqlDbType.VarChar, 50);
+                    cmd.Parameters.Add("@FROM", System.Data.SqlDbType.DateTime);
+                    cmd.Parameters.Add("@TO", System.Data.SqlDbType.DateTime);
+                    cmd.Parameters.Add("@USER", System.Data.SqlDbType.VarChar, 100);
+                    cmd.Parameters.Add("@FIELD", System.Data.SqlDbType.VarChar, 100);
+                    cmd.Parameters.Add("@VERSION", System.Data.SqlDbType.VarChar, 50);
+
+                    // For ExBond, GIDNO is actually EBNDDNO (string)
+                    cmd.Parameters["@GIDNO"].Value = !string.IsNullOrEmpty(searchGidno) ? (object)searchGidno : DBNull.Value;
+                    cmd.Parameters["@FROM"].Value = from.HasValue ? (object)from.Value : DBNull.Value;
+                    cmd.Parameters["@TO"].Value = to.HasValue ? (object)to.Value : DBNull.Value;
+                    cmd.Parameters["@USER"].Value = !string.IsNullOrWhiteSpace(user) ? (object)user : DBNull.Value;
+                    cmd.Parameters["@FIELD"].Value = !string.IsNullOrWhiteSpace(fieldName) ? (object)fieldName : DBNull.Value;
+                    cmd.Parameters["@VERSION"].Value = !string.IsNullOrWhiteSpace(version) ? (object)version : DBNull.Value;
+
+                    sql.Open();
+                    using (var r = cmd.ExecuteReader())
+                    {
+                        while (r.Read())
+                        {
+                            list.Add(new scfs_erp.Models.GateInDetailEditLogRow
+                            {
+                                GIDNO = Convert.ToString(r["GIDNO"]),
+                                FieldName = Convert.ToString(r["FieldName"]),
+                                OldValue = Convert.ToString(r["OldValue"]),
+                                NewValue = Convert.ToString(r["NewValue"]),
+                                ChangedBy = Convert.ToString(r["ChangedBy"]),
+                                ChangedOn = r["ChangedOn"] != DBNull.Value ? Convert.ToDateTime(r["ChangedOn"]) : DateTime.MinValue,
+                                Version = Convert.ToString(r["Version"]),
+                                Modules = Convert.ToString(r["Modules"])
+                            });
+                        }
+                    }
+                }
+            }
+
+            // Map raw DB codes to form-friendly display values for known fields
+            try
+            {
+                // Build lookup dictionaries once
+                var dictSlot = context.slotmasters.ToDictionary(x => x.SLOTID, x => x.SLOTDESC);
+                var dictRow = context.rowmasters.ToDictionary(x => x.ROWID, x => x.ROWDESC);
+                var dictPrdtGrp = context.productgroupmasters.ToDictionary(x => x.PRDTGID, x => x.PRDTGDESC);
+                var dictPrdtType = context.producttypemasters.ToDictionary(x => x.PRDTTID, x => x.PRDTTDESC);
+                var dictContType = context.containertypemasters.ToDictionary(x => x.CONTNRTID, x => x.CONTNRTDESC);
+                var dictContSize = context.containersizemasters.ToDictionary(x => x.CONTNRSID, x => x.CONTNRSDESC);
+                var dictGpMode = context.gpmodemasters.ToDictionary(x => x.GPMODEID, x => x.GPMODEDESC);
+                var dictPortType = context.porttypemaster.ToDictionary(x => x.GPPTYPE, x => x.GPPTYPEDESC);
+
+                string Map(string field, string raw)
+                {
+                    if (raw == null) return raw;
+                    var f = (field ?? string.Empty).Trim();
+                    var val = raw.Trim();
+                    if (string.IsNullOrEmpty(val)) return raw;
+                    int ival;
+                    switch (f.ToUpperInvariant())
+                    {
+                        case "SLOTID":
+                            return int.TryParse(val, out ival) && dictSlot.ContainsKey(ival) ? dictSlot[ival] : raw;
+                        case "ROWID":
+                            return int.TryParse(val, out ival) && dictRow.ContainsKey(ival) ? dictRow[ival] : raw;
+                        case "PRDTGID":
+                            return int.TryParse(val, out ival) && dictPrdtGrp.ContainsKey(ival) ? dictPrdtGrp[ival] : raw;
+                        case "PRDTTID":
+                            return int.TryParse(val, out ival) && dictPrdtType.ContainsKey(ival) ? dictPrdtType[ival] : raw;
+                        case "CONTNRTID":
+                            return int.TryParse(val, out ival) && dictContType.ContainsKey(ival) ? dictContType[ival] : raw;
+                        case "CONTNRSID":
+                            return int.TryParse(val, out ival) && dictContSize.ContainsKey(ival) ? dictContSize[ival] : raw;
+                        case "GPMODEID":
+                            return int.TryParse(val, out ival) && dictGpMode.ContainsKey(ival) ? dictGpMode[ival] : raw;
+                        case "GPPTYPE":
+                            return int.TryParse(val, out ival) && dictPortType.ContainsKey(ival) ? dictPortType[ival] : raw;
+                        case "GPETYPE":
+                        case "GPSTYPE":
+                        case "GPWTYPE":
+                        case "GPSCNTYPE":
+                            return val == "1" ? "YES" : val == "0" ? "NO" : raw;
+                        case "GPSCNMTYPE":
+                            if (val == "1") return "MISMATCH";
+                            if (val == "2") return "CLEAN";
+                            if (val == "3") return "NOT SCANNED";
+                            return raw;
+                        case "GFCLTYPE":
+                            return val == "1" ? "FCL" : val == "0" ? "LCL" : raw;
+                        case "GRADEID":
+                            return val == "2" ? "YES" : val == "1" ? "NO" : raw;
+                        case "GSEALTYPE":
+                            if (int.TryParse(val, out ival) && ival > 0)
+                            {
+                                var sealType = context.exportsealtypemasters.FirstOrDefault(s => s.GPETYPE == ival);
+                                if (sealType != null && !string.IsNullOrEmpty(sealType.GPETYPEDESC))
+                                    return sealType.GPETYPEDESC;
+                            }
+                            return raw;
+                        case "DISPSTATUS":
+                            return val == "1" ? "Disabled" : val == "0" ? "Enabled" : raw;
+                        default:
+                            return raw;
+                    }
+                }
+
+                string Friendly(string field)
+                {
+                    if (string.IsNullOrWhiteSpace(field)) return field;
+                    var f = field.Trim();
+                    switch (f.ToUpperInvariant())
+                    {
+                        case "GIDATE": return "In Date";
+                        case "GITIME": return "In Time";
+                        case "GICCTLDATE": return "Port Out Date";
+                        case "GICCTLTIME": return "Port Out Time";
+                        case "GINO": return "Gate In No";
+                        case "GIDNO": return "No";
+                        case "GPREFNO": return "Ref No";
+                        case "DRVNAME": return "Driver Name";
+                        case "TRNSPRTNAME": return "Transpoter Name";
+                        case "GTRNSPRTNAME": return "Other Transpoter Name";
+                        case "VHLNO": return "Vehicle No";
+                        case "GPNRNO": return "PNR No";
+                        case "VSLNAME":
+                        case "VSLID": return "Vessel Name";
+                        case "VOYNO": return "Voyage No";
+                        case "IGMNO": return "IGM No.";
+                        case "GPLNO": return "Line No";
+                        case "IMPRTNAME":
+                        case "IMPRTID": return "Importer Name";
+                        case "STMRNAME":
+                        case "STMRID": return "Steamer Name";
+                        case "CHANAME": return "CHA Name";
+                        case "BOENO": return "Bill of Entry No";
+                        case "BOEDATE": return "Bill of Entry Date";
+                        case "CONTNRNO": return "Container No";
+                        case "CONTNRSID": return "Size";
+                        case "CONTNRTID": return "Container Type";
+                        case "GIISOCODE": return "ISO Code";
+                        case "LPSEALNO": return "W/H Point";
+                        case "CSEALNO": return "C.seal no";
+                        case "ROWID": return "Row";
+                        case "SLOTID": return "Slot";
+                        case "PRDTGID": return "Product Category";
+                        case "PRDTDESC": return "Product Description";
+                        case "PRDTTID": return "Product Type";
+                        case "GPWTYPE": return "Weightment";
+                        case "GPWGHT": return "Weight";
+                        case "GPPTYPE": return "Port";
+                        case "IGMDATE": return "IGM Date";
+                        case "BLNO": return "BL No.";
+                        case "GFCLTYPE": return "FCL";
+                        case "GIDMGDESC": return "Damage";
+                        case "GPMODEID": return "GP Mode";
+                        case "GPETYPE": return "SSR/Escort";
+                        case "GPSTYPE": return "S.Amend / Mismatch";
+                        case "GPEAMT": return "SSR/Escort Amount";
+                        case "GPAAMT": return "Addtnl. Amount";
+                        case "GPSCNTYPE": return "Scanned";
+                        case "GPSCNMTYPE": return "Scan Type";
+                        case "GRADEID": return "Refer(Plug)";
+                        case "GPNOP": return "NOP";
+                        case "GSEALTYPE": return "Seal Type";
+                        case "DISPSTATUS": return "Status";
+                        case "EXPRTRNAME": return "Exporter Name";
+                        case "EMONO": return "IMO No";
+                        case "EEGMNO": return "EGMNO";
+                        case "EVSLRNO": return "Vessel Rotation No";
+                        case "BCHANAME": return "Broker CHA Name";
+                        default: return field; // fallback to technical name
+                    }
+                }
+
+                foreach (var row in list)
+                {
+                    row.OldValue = Map(row.FieldName, row.OldValue);
+                    row.NewValue = Map(row.FieldName, row.NewValue);
+                    row.FieldName = Friendly(row.FieldName);
+                }
+            }
+            catch { /* Best-effort mapping; do not fail page if lookups have issues */ }
+
+            return View("~/Views/ImportGateIn/EditLogGateIn.cshtml", list);
+        }
+
         // Export current filtered GateIn log as CSV
         public ActionResult EditLogGateInExport(int? gidid, DateTime? from = null, DateTime? to = null, string user = null, string fieldName = null, string version = null)
         {

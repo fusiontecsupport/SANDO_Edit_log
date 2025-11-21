@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace scfs.Data
+namespace ImportEntities
 {
     using System;
     
